@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -57,7 +56,6 @@ const ProfilePage = () => {
     
     setLoading(true);
     try {
-      // Fix: type the update properly for TypeScript
       const { error } = await supabase
         .from('profiles')
         .update({
