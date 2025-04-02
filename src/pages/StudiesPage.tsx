@@ -4,68 +4,74 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import LessonCard from "@/components/study/LessonCard";
 import { Input } from "@/components/ui/input";
-import { Search, Filter } from "lucide-react";
+import { Search } from "lucide-react";
 
-// Dados fictícios para as lições
-const lessons = [
+// Dados para os dias da semana
+const weekDays = [
   {
-    id: "1",
-    title: "O Propósito da Vida",
-    description: "Descubra o que a Bíblia diz sobre o propósito de Deus para sua vida e como você pode viver esse propósito diariamente.",
+    id: "domingo",
+    title: "Domingo",
+    description: "A origem do mal e o grande conflito: por que existe o sofrimento?",
     duration: "20 min",
     points: 100,
     progress: 0,
   },
   {
-    id: "2",
-    title: "Fé e Obras",
-    description: "Um estudo sobre a relação entre fé e obras na vida cristã, baseado nas cartas de Tiago e Paulo.",
+    id: "segunda",
+    title: "Segunda-feira",
+    description: "O plano da salvação: como Deus resolveu o problema do pecado através de Jesus.",
     duration: "15 min",
     points: 80,
     progress: 65,
   },
   {
-    id: "3",
-    title: "O Poder da Oração",
-    description: "Aprenda princípios bíblicos sobre oração eficaz e como desenvolver uma vida de intimidade com Deus através da oração.",
+    id: "terca",
+    title: "Terça-feira",
+    description: "A lei de Deus e o seu amor: como os mandamentos revelam o caráter divino.",
     duration: "25 min",
     points: 120,
     progress: 0,
   },
   {
-    id: "4",
-    title: "Os Dons Espirituais",
-    description: "Entenda o que são os dons espirituais, como descobrir seus dons e usá-los para edificação da igreja e glória de Deus.",
+    id: "quarta",
+    title: "Quarta-feira",
+    description: "O sábado e sua importância na adoração a Deus e descanso do ser humano.",
     duration: "30 min",
     points: 150,
     progress: 100,
   },
   {
-    id: "5",
-    title: "Criação vs. Evolução",
-    description: "Uma análise crítica e bíblica sobre o debate entre criacionismo e evolucionismo, e como defender nossa fé.",
+    id: "quinta",
+    title: "Quinta-feira",
+    description: "A oração e o estudo da Bíblia: como desenvolver um relacionamento com Deus.",
     duration: "40 min",
     points: 200,
     progress: 25,
   },
   {
-    id: "6",
-    title: "O Santuário",
-    description: "Explore o significado e a importância do santuário bíblico e suas lições para a vida cristã hoje.",
+    id: "sexta",
+    title: "Sexta-feira",
+    description: "Vida cristã e testemunho: como viver e compartilhar a fé no dia a dia.",
     duration: "35 min",
     points: 180,
     progress: 0,
   },
+  {
+    id: "sabado",
+    title: "Sábado",
+    description: "Resumo da semana: revisão e aplicação prática das lições aprendidas.",
+    duration: "45 min",
+    points: 220,
+    progress: 0,
+  },
 ];
-
-const categories = ["Todas", "Doutrinas", "Profecias", "Vida Cristã", "Testemunho", "Família"];
 
 const StudiesPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("Todas");
 
-  const filteredLessons = lessons.filter(lesson => 
-    lesson.title.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredLessons = weekDays.filter(lesson => 
+    lesson.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    lesson.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -74,9 +80,9 @@ const StudiesPage = () => {
       <main className="flex-grow py-8">
         <div className="seven-container">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold mb-2">Lições para Estudo</h1>
+            <h1 className="text-3xl font-bold mb-2">Lição da Semana</h1>
             <p className="text-muted-foreground">
-              Explore nossas lições interativas e cresça em seu conhecimento bíblico
+              Escolha o dia da semana para estudar a lição correspondente
             </p>
           </div>
 
@@ -91,44 +97,26 @@ const StudiesPage = () => {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
-
-            {/* Categorias */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0">
-              <Filter className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-              {categories.map((category) => (
-                <button
-                  key={category}
-                  className={`px-3 py-1 rounded-full text-sm whitespace-nowrap ${
-                    selectedCategory === category
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-muted hover:bg-muted/80"
-                  }`}
-                  onClick={() => setSelectedCategory(category)}
-                >
-                  {category}
-                </button>
-              ))}
-            </div>
           </div>
 
-          {/* Lista de lições */}
+          {/* Lista de lições por dia da semana */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredLessons.length > 0 ? (
-              filteredLessons.map((lesson) => (
+              filteredLessons.map((day) => (
                 <LessonCard
-                  key={lesson.id}
-                  id={lesson.id}
-                  title={lesson.title}
-                  description={lesson.description}
-                  duration={lesson.duration}
-                  points={lesson.points}
-                  progress={lesson.progress}
+                  key={day.id}
+                  id={day.id}
+                  title={day.title}
+                  description={day.description}
+                  duration={day.duration}
+                  points={day.points}
+                  progress={day.progress}
                 />
               ))
             ) : (
               <div className="col-span-full text-center py-16">
                 <p className="text-muted-foreground">
-                  Nenhuma lição encontrada para "{searchTerm}"
+                  Nenhum dia da semana encontrado para "{searchTerm}"
                 </p>
               </div>
             )}

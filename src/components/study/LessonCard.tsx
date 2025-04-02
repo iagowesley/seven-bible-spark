@@ -24,14 +24,30 @@ const LessonCard: React.FC<LessonCardProps> = ({
   progress = 0,
   image,
 }) => {
+  // Cores personalizadas para cada dia da semana
+  const getDayColor = (dayId: string): string => {
+    switch (dayId) {
+      case "domingo": return "from-red-500 to-orange-500";
+      case "segunda": return "from-yellow-500 to-amber-500";
+      case "terca": return "from-green-500 to-emerald-500";
+      case "quarta": return "from-cyan-500 to-blue-500";
+      case "quinta": return "from-blue-500 to-indigo-500";
+      case "sexta": return "from-indigo-500 to-violet-500";
+      case "sabado": return "from-purple-500 to-pink-500";
+      default: return "from-seven-blue to-seven-purple";
+    }
+  };
+
+  const bgGradient = getDayColor(id);
+
   return (
     <Card className="overflow-hidden card-hover">
       <div 
-        className="h-40 bg-muted bg-cover bg-center"
+        className={`h-40 bg-muted bg-cover bg-center`}
         style={image ? { backgroundImage: `url(${image})` } : {}}
       >
         {!image && (
-          <div className="h-full flex items-center justify-center bg-gradient-to-r from-seven-blue to-seven-purple">
+          <div className={`h-full flex items-center justify-center bg-gradient-to-r ${bgGradient}`}>
             <BookOpen className="h-12 w-12 text-white opacity-80" />
           </div>
         )}
@@ -70,7 +86,7 @@ const LessonCard: React.FC<LessonCardProps> = ({
       <CardFooter>
         <Button asChild className="w-full rounded-full" variant="default">
           <Link to={`/estudos/${id}`}>
-            {progress > 0 ? "Continuar Estudo" : "Iniciar Estudo"}
+            {progress > 0 ? "Continuar Estudo" : "Estudar Agora"}
           </Link>
         </Button>
       </CardFooter>

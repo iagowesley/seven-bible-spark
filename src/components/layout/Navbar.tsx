@@ -52,9 +52,11 @@ const Navbar = () => {
 
         {/* Menu de navegação - desktop */}
         <div className="hidden md:flex items-center space-x-6">
-          <Link to="/" className="animated-link font-medium">
-            Home
-          </Link>
+          {!user && (
+            <Link to="/" className="animated-link font-medium">
+              Home
+            </Link>
+          )}
           <Link to="/estudos" className="animated-link font-medium">
             Estudos
           </Link>
@@ -142,13 +144,15 @@ const Navbar = () => {
       {isMenuOpen && (
         <div className="md:hidden bg-background border-b border-border animate-fade-in">
           <div className="seven-container py-4 space-y-3">
-            <Link
-              to="/"
-              className="block px-3 py-2 rounded-lg hover:bg-muted"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Home
-            </Link>
+            {!user && (
+              <Link
+                to="/"
+                className="block px-3 py-2 rounded-lg hover:bg-muted"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Home
+              </Link>
+            )}
             <Link
               to="/estudos"
               className="block px-3 py-2 rounded-lg hover:bg-muted"
