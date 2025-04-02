@@ -57,8 +57,9 @@ const ProfilePage = () => {
     
     setLoading(true);
     try {
+      // Fix: type the update properly for TypeScript
       const { error } = await supabase
-        .from("profiles")
+        .from('profiles')
         .update({
           username: values.username,
           full_name: values.full_name,
