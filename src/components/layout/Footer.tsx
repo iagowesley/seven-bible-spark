@@ -1,6 +1,5 @@
-
 import React from "react";
-import { BookOpen, Facebook, Instagram, Twitter } from "lucide-react";
+import { Facebook, Instagram, Twitter } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -10,16 +9,11 @@ const Footer = () => {
     <footer className="bg-muted py-12 mt-16">
       <div className="seven-container">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Logo e Sobre */}
+          {/* Logo e Sobre - Updated */}
           <div className="col-span-1 md:col-span-1">
-            <div className="flex items-center space-x-2 mb-4">
-              <div className="w-10 h-10 rounded-circle bg-gradient-to-br from-seven-blue to-seven-purple flex items-center justify-center">
-                <BookOpen className="text-white h-5 w-5" />
-              </div>
+            <div className="mb-4">
               <span className="font-bold text-lg">
-                <span className="text-seven-purple">Lição</span>{" "}
-                <span className="text-seven-blue">Jovem</span>{" "}
-                <span className="text-seven-gold">Seven</span>
+                <span className="text-seven-gold">Lição Seven</span>
               </span>
             </div>
             <p className="text-sm text-muted-foreground">
@@ -113,7 +107,7 @@ const Footer = () => {
         
         <div className="border-t border-border mt-8 pt-8 text-center">
           <p className="text-sm text-muted-foreground">
-            &copy; {currentYear} Lição Jovem Seven. Todos os direitos reservados.
+            &copy; {currentYear} Lição Seven. Todos os direitos reservados.
           </p>
         </div>
       </div>

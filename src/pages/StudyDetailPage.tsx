@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -7,8 +7,45 @@ import QuizComponent from "@/components/study/QuizComponent";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
-import { BookOpen, CheckCircle, MessageSquare, Download, ArrowLeft } from "lucide-react";
+import { BookOpen, CheckCircle, MessageSquare, Download, ArrowLeft, Calendar } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+
+// Função para obter a data formatada em português
+const getFormattedDate = (dayOfWeek: string) => {
+  const today = new Date();
+  const daysMap: {[key: string]: number} = {
+    "domingo": 0,
+    "segunda": 1,
+    "terca": 2,
+    "quarta": 3,
+    "quinta": 4,
+    "sexta": 5,
+    "sabado": 6
+  };
+  
+  // Se não for um dia válido, retorna a data atual
+  if (!daysMap.hasOwnProperty(dayOfWeek)) {
+    return today.toLocaleDateString('pt-BR', { 
+      weekday: 'long', 
+      day: 'numeric', 
+      month: 'long', 
+      year: 'numeric' 
+    });
+  }
+  
+  // Ajusta para o dia da semana correspondente
+  const dayDiff = daysMap[dayOfWeek] - today.getDay();
+  const targetDate = new Date(today);
+  targetDate.setDate(today.getDate() + dayDiff);
+  
+  // Retorna data formatada em português
+  return targetDate.toLocaleDateString('pt-BR', { 
+    weekday: 'long', 
+    day: 'numeric', 
+    month: 'long', 
+    year: 'numeric' 
+  });
+};
 
 // Dados fictícios
 const lessonData = {
@@ -91,7 +128,15 @@ const StudyDetailPage = () => {
   const [activeTab, setActiveTab] = useState("content");
   const [progress, setProgress] = useState(lessonData.progress);
   const [isCompleted, setIsCompleted] = useState(false);
+  const [quizEnabled, setQuizEnabled] = useState(false);
+  const [formattedDate, setFormattedDate] = useState("");
   const { toast } = useToast();
+
+  useEffect(() => {
+    if (id) {
+      setFormattedDate(getFormattedDate(id));
+    }
+  }, [id]);
 
   const handleQuizComplete = (score: number) => {
     const percentage = Math.round((score / lessonData.questions.length) * 100);
@@ -111,37 +156,59 @@ const StudyDetailPage = () => {
     });
   };
 
+  const enableQuiz = () => {
+    setQuizEnabled(true);
+    setActiveTab("quiz");
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-grow py-8">
         <div className="seven-container">
-          {/* Cabeçalho */}
+          {/* Cabeçalho - Melhorado */}
           <div className="mb-6">
             <Link to="/estudos" className="flex items-center text-muted-foreground hover:text-foreground mb-4">
               <ArrowLeft className="h-4 w-4 mr-1" />
               Voltar para Estudos
             </Link>
             
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-              <div>
-                <h1 className="text-3xl font-bold mb-1">{lessonData.title}</h1>
-                <p className="text-muted-foreground">{lessonData.description}</p>
+            <div className="bg-card rounded-lg border border-border p-6 mb-6">
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                <div>
+                  <div className="flex items-center gap-2 mb-2 text-accent">
+                    <Calendar className="h-5 w-5" />
+                    <span className="font-medium capitalize">{formattedDate}</span>
+                  </div>
+                  <h1 className="text-3xl font-bold mb-3">{lessonData.title}</h1>
+                  <p className="text-muted-foreground mb-4">{lessonData.description}</p>
+                  
+                  <div className="flex items-center gap-4 text-sm text-muted-foreground mt-4">
+                    <div className="flex items-center gap-1">
+                      <BookOpen className="h-4 w-4" />
+                      <span>Lição Jovem</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <CheckCircle className="h-4 w-4" />
+                      <span>{lessonData.points} pontos</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="flex flex-col gap-3">
+                  <Button variant="outline" size="sm" onClick={handleDownload} className="rounded-full">
+                    <Download className="h-4 w-4 mr-1" /> Salvar Offline
+                  </Button>
+                </div>
               </div>
               
-              <div className="flex items-center gap-2">
-                <Button variant="outline" size="sm" onClick={handleDownload} className="rounded-full">
-                  <Download className="h-4 w-4 mr-1" /> Salvar Offline
-                </Button>
+              <div className="mt-6">
+                <div className="flex items-center justify-between mb-1 text-sm">
+                  <span>Progresso</span>
+                  <span>{isCompleted ? "Completo" : `${progress}%`}</span>
+                </div>
+                <Progress value={progress} className="h-2" />
               </div>
-            </div>
-            
-            <div className="mt-4">
-              <div className="flex items-center justify-between mb-1 text-sm">
-                <span>Progresso</span>
-                <span>{isCompleted ? "Completo" : `${progress}%`}</span>
-              </div>
-              <Progress value={progress} className="h-2" />
             </div>
           </div>
           
@@ -151,7 +218,11 @@ const StudyDetailPage = () => {
               <TabsTrigger value="content" className="flex items-center gap-1">
                 <BookOpen className="h-4 w-4" /> Conteúdo
               </TabsTrigger>
-              <TabsTrigger value="quiz" className="flex items-center gap-1">
+              <TabsTrigger 
+                value="quiz" 
+                disabled={!quizEnabled} 
+                className="flex items-center gap-1"
+              >
                 <CheckCircle className="h-4 w-4" /> Quiz
               </TabsTrigger>
               <TabsTrigger value="discussion" className="flex items-center gap-1">
@@ -160,14 +231,14 @@ const StudyDetailPage = () => {
             </TabsList>
             
             <TabsContent value="content">
-              <div className="bg-card p-6 rounded-lg shadow-sm">
+              <div className="bg-card p-6 rounded-lg shadow-sm border border-border">
                 <div 
                   className="prose prose-lg max-w-none dark:prose-invert"
                   dangerouslySetInnerHTML={{ __html: lessonData.content }}
                 />
                 
                 <div className="mt-8 flex justify-end">
-                  <Button onClick={() => setActiveTab("quiz")} className="rounded-full">
+                  <Button onClick={enableQuiz} className="rounded-full bg-accent hover:bg-accent/90 text-accent-foreground">
                     Continuar para o Quiz
                   </Button>
                 </div>
@@ -175,19 +246,30 @@ const StudyDetailPage = () => {
             </TabsContent>
             
             <TabsContent value="quiz">
-              <QuizComponent 
-                questions={lessonData.questions} 
-                onComplete={handleQuizComplete} 
-              />
+              {quizEnabled ? (
+                <QuizComponent 
+                  questions={lessonData.questions} 
+                  onComplete={handleQuizComplete} 
+                />
+              ) : (
+                <div className="bg-muted p-8 rounded-lg text-center">
+                  <p className="text-muted-foreground mb-4">
+                    Você precisa ler o conteúdo antes de acessar o quiz.
+                  </p>
+                  <Button onClick={() => setActiveTab("content")} className="rounded-full">
+                    Voltar para o Conteúdo
+                  </Button>
+                </div>
+              )}
             </TabsContent>
             
             <TabsContent value="discussion">
-              <div className="bg-card p-6 rounded-lg shadow-sm">
+              <div className="bg-card p-6 rounded-lg shadow-sm border border-border">
                 <h2 className="text-xl font-semibold mb-4">Discussão</h2>
                 
                 <div className="space-y-4 mb-6">
                   {lessonData.comments.map((comment, index) => (
-                    <div key={index} className="p-4 bg-muted/50 rounded-lg">
+                    <div key={index} className="p-4 bg-muted/50 rounded-lg border border-border">
                       <div className="flex justify-between mb-2">
                         <span className="font-medium">{comment.author}</span>
                         <span className="text-sm text-muted-foreground">{comment.date}</span>

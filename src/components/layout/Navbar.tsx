@@ -1,7 +1,6 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Moon, Sun, Menu, X, BookOpen, User, LogOut } from "lucide-react";
+import { Moon, Sun, Menu, X, User, LogOut } from "lucide-react";
 import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -38,15 +37,10 @@ const Navbar = () => {
   return (
     <nav className="sticky top-0 z-40 w-full bg-background/80 backdrop-blur-md border-b border-border">
       <div className="seven-container flex items-center justify-between h-16">
-        {/* Logo */}
+        {/* Logo - Updated */}
         <Link to="/" className="flex items-center space-x-2">
-          <div className="w-10 h-10 rounded-circle bg-gradient-to-br from-seven-blue to-seven-purple flex items-center justify-center">
-            <BookOpen className="text-white h-5 w-5" />
-          </div>
-          <span className="font-bold text-lg hidden sm:inline-block">
-            <span className="text-seven-purple">Lição</span>{" "}
-            <span className="text-seven-blue">Jovem</span>{" "}
-            <span className="text-seven-gold">Seven</span>
+          <span className="font-bold text-lg">
+            <span className="text-seven-gold">Lição Seven</span>
           </span>
         </Link>
 
