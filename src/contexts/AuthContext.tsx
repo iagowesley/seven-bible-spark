@@ -1,4 +1,3 @@
-
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { Session, User } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
@@ -52,21 +51,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     let mounted = true;
     console.log("AuthProvider useEffect running");
 
-    // Set up auth state listener FIRST to prevent missing auth events
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, currentSession) => {
+      (event, currentSession) => {
         console.log("Auth state change event:", event);
         
         if (!mounted) return;
 
-        // Handle specific auth events correctly
         if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
           console.log("Setting session from event:", event);
           setSession(currentSession);
           setUser(currentSession?.user ?? null);
           
           if (currentSession?.user) {
-            // Use setTimeout to avoid potential Supabase deadlock
             setTimeout(() => {
               if (mounted) fetchUserProfile(currentSession.user.id);
             }, 0);
@@ -79,33 +75,39 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         } else if (event === 'USER_UPDATED') {
           console.log("User updated");
           setUser(currentSession?.user ?? null);
+          setSession(currentSession);
         }
       }
     );
 
-    // THEN check for existing session
     const fetchInitialSession = async () => {
       try {
         console.log("Fetching initial session");
-        const { data: { session: currentSession } } = await supabase.auth.getSession();
+        
+        const { data } = await supabase.auth.getSession();
+        const currentSession = data.session;
         
         if (!mounted) return;
         
         if (currentSession) {
-          console.log("Initial session found");
+          console.log("Initial session found", currentSession);
           setSession(currentSession);
           setUser(currentSession.user);
           
-          fetchUserProfile(currentSession.user.id);
+          await fetchUserProfile(currentSession.user.id);
         } else {
           console.log("No initial session");
         }
       } catch (error: any) {
-        console.error('Erro ao buscar sessão:', error);
+        console.error('Erro ao buscar sessão:', error.message);
       } finally {
         if (mounted) setLoading(false);
       }
     };
+
+    supabase.auth.onAuthStateChange((event, session) => {
+      console.log("Global auth event:", event);
+    });
 
     fetchInitialSession();
 
