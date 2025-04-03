@@ -27,55 +27,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loadingProfile, setLoadingProfile] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // Set up auth state listener FIRST to prevent missing auth events
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, currentSession) => {
-        console.log("Auth state change event:", event);
-        
-        // Don't update state inside the callback directly for session-related events
-        if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'USER_UPDATED') {
-          setSession(currentSession);
-          setUser(currentSession?.user ?? null);
-          
-          if (currentSession?.user) {
-            // Use setTimeout to avoid potential Supabase deadlock
-            setTimeout(() => {
-              fetchUserProfile(currentSession.user.id);
-            }, 0);
-          }
-        } else if (event === 'SIGNED_OUT') {
-          setSession(null);
-          setUser(null);
-          setProfile(null);
-        }
-      }
-    );
-
-    // THEN check for existing session
-    const fetchSession = async () => {
-      try {
-        const { data: { session: currentSession } } = await supabase.auth.getSession();
-        setSession(currentSession);
-        setUser(currentSession?.user ?? null);
-        setLoading(false);
-        
-        if (currentSession?.user) {
-          fetchUserProfile(currentSession.user.id);
-        }
-      } catch (error) {
-        console.error('Erro ao buscar sessão:', error);
-        setLoading(false);
-      }
-    };
-
-    fetchSession();
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, []);
-
   const fetchUserProfile = async (userId: string) => {
     setLoadingProfile(true);
     try {
@@ -96,6 +47,73 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setLoadingProfile(false);
     }
   };
+
+  useEffect(() => {
+    let mounted = true;
+    console.log("AuthProvider useEffect running");
+
+    // Set up auth state listener FIRST to prevent missing auth events
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, currentSession) => {
+        console.log("Auth state change event:", event);
+        
+        if (!mounted) return;
+
+        // Handle specific auth events correctly
+        if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+          console.log("Setting session from event:", event);
+          setSession(currentSession);
+          setUser(currentSession?.user ?? null);
+          
+          if (currentSession?.user) {
+            // Use setTimeout to avoid potential Supabase deadlock
+            setTimeout(() => {
+              if (mounted) fetchUserProfile(currentSession.user.id);
+            }, 0);
+          }
+        } else if (event === 'SIGNED_OUT') {
+          console.log("User signed out");
+          setSession(null);
+          setUser(null);
+          setProfile(null);
+        } else if (event === 'USER_UPDATED') {
+          console.log("User updated");
+          setUser(currentSession?.user ?? null);
+        }
+      }
+    );
+
+    // THEN check for existing session
+    const fetchInitialSession = async () => {
+      try {
+        console.log("Fetching initial session");
+        const { data: { session: currentSession } } = await supabase.auth.getSession();
+        
+        if (!mounted) return;
+        
+        if (currentSession) {
+          console.log("Initial session found");
+          setSession(currentSession);
+          setUser(currentSession.user);
+          
+          fetchUserProfile(currentSession.user.id);
+        } else {
+          console.log("No initial session");
+        }
+      } catch (error: any) {
+        console.error('Erro ao buscar sessão:', error);
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    };
+
+    fetchInitialSession();
+
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
+  }, []);
 
   const signUp = async (email: string, password: string, userData?: { full_name: string }) => {
     try {
