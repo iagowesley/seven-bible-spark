@@ -1,6 +1,6 @@
 
-import React, { useEffect } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import React from "react";
+import { Navigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 
 interface ProtectedRouteProps {
@@ -8,15 +8,7 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  const { user, loading, session } = useAuth();
-  const navigate = useNavigate();
-  
-  useEffect(() => {
-    // Add additional check to redirect if session becomes null after loading
-    if (!loading && !session) {
-      console.log("No session in protected route, redirecting");
-    }
-  }, [session, loading, navigate]);
+  const { user, loading } = useAuth();
 
   if (loading) {
     return (
@@ -26,12 +18,10 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     );
   }
 
-  if (!user || !session) {
-    console.log("Protected route: unauthorized access, redirecting to auth page");
+  if (!user) {
     return <Navigate to="/auth" replace />;
   }
 
-  console.log("Protected route: authorized access");
   return <>{children}</>;
 };
 

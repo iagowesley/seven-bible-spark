@@ -27,6 +27,55 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loadingProfile, setLoadingProfile] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    // Set up auth state listener FIRST to prevent missing auth events
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, currentSession) => {
+        console.log("Auth state change event:", event);
+        
+        // Don't update state inside the callback directly for session-related events
+        if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'USER_UPDATED') {
+          setSession(currentSession);
+          setUser(currentSession?.user ?? null);
+          
+          if (currentSession?.user) {
+            // Use setTimeout to avoid potential Supabase deadlock
+            setTimeout(() => {
+              fetchUserProfile(currentSession.user.id);
+            }, 0);
+          }
+        } else if (event === 'SIGNED_OUT') {
+          setSession(null);
+          setUser(null);
+          setProfile(null);
+        }
+      }
+    );
+
+    // THEN check for existing session
+    const fetchSession = async () => {
+      try {
+        const { data: { session: currentSession } } = await supabase.auth.getSession();
+        setSession(currentSession);
+        setUser(currentSession?.user ?? null);
+        setLoading(false);
+        
+        if (currentSession?.user) {
+          fetchUserProfile(currentSession.user.id);
+        }
+      } catch (error) {
+        console.error('Erro ao buscar sessão:', error);
+        setLoading(false);
+      }
+    };
+
+    fetchSession();
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
+
   const fetchUserProfile = async (userId: string) => {
     setLoadingProfile(true);
     try {
@@ -47,89 +96,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setLoadingProfile(false);
     }
   };
-
-  useEffect(() => {
-    let mounted = true;
-    console.log("AuthProvider useEffect running");
-
-    // Handle auth state changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, currentSession) => {
-        console.log("Auth state change event:", event, "with session:", currentSession ? "exists" : "null");
-        
-        if (!mounted) return;
-
-        if (event === 'SIGNED_IN') {
-          console.log("User signed in - setting session");
-          setSession(currentSession);
-          setUser(currentSession?.user ?? null);
-          
-          if (currentSession?.user) {
-            // Use setTimeout to avoid potential Supabase deadlock
-            setTimeout(() => {
-              if (mounted) fetchUserProfile(currentSession.user.id);
-            }, 0);
-          }
-        } else if (event === 'TOKEN_REFRESHED') {
-          console.log("Token refreshed - updating session");
-          setSession(currentSession);
-          setUser(currentSession?.user ?? null);
-        } else if (event === 'SIGNED_OUT') {
-          console.log("User explicitly signed out");
-          setSession(null);
-          setUser(null);
-          setProfile(null);
-          navigate('/auth');
-        } else if (event === 'USER_UPDATED') {
-          console.log("User updated - updating user and session");
-          if (currentSession) {
-            setUser(currentSession.user);
-            setSession(currentSession);
-          }
-        }
-      }
-    );
-
-    // Initialize the session
-    const initializeSession = async () => {
-      try {
-        console.log("Initializing session");
-        const { data, error } = await supabase.auth.getSession();
-        
-        if (error) {
-          throw error;
-        }
-        
-        const currentSession = data.session;
-        
-        if (!mounted) return;
-        
-        if (currentSession) {
-          console.log("Initial session found", currentSession.user.id);
-          setSession(currentSession);
-          setUser(currentSession.user);
-          
-          if (currentSession.user) {
-            await fetchUserProfile(currentSession.user.id);
-          }
-        } else {
-          console.log("No initial session");
-        }
-      } catch (error: any) {
-        console.error('Error fetching session:', error.message);
-      } finally {
-        if (mounted) setLoading(false);
-      }
-    };
-
-    initializeSession();
-
-    return () => {
-      console.log("Cleanup auth provider");
-      mounted = false;
-      subscription.unsubscribe();
-    };
-  }, [navigate]);
 
   const signUp = async (email: string, password: string, userData?: { full_name: string }) => {
     try {
@@ -162,7 +128,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signIn = async (email: string, password: string) => {
     try {
-      console.log("Attempting sign in with:", email);
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password
@@ -172,8 +137,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         throw error;
       }
 
-      console.log("Sign in successful, session:", data.session ? "exists" : "null");
-
       toast({
         title: "Login bem-sucedido",
         description: "Bem-vindo de volta!",
@@ -181,7 +144,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       
       navigate('/dashboard');
     } catch (error: any) {
-      console.error("Sign in error:", error.message);
       toast({
         variant: "destructive",
         title: "Erro no login",
@@ -192,14 +154,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signOut = async () => {
     try {
-      console.log("Attempting sign out");
       const { error } = await supabase.auth.signOut();
       
       if (error) {
         throw error;
       }
       
-      console.log("Sign out successful");
       toast({
         title: "Desconectado",
         description: "Você saiu da sua conta com sucesso.",
@@ -207,7 +167,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       
       navigate('/');
     } catch (error: any) {
-      console.error("Sign out error:", error.message);
       toast({
         variant: "destructive",
         title: "Erro ao sair",
