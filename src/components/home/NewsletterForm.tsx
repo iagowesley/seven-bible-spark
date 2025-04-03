@@ -25,12 +25,31 @@ export default function NewsletterForm() {
     setIsSubmitting(true);
     
     try {
-      // Store the email in the newsletter_subscribers table
-      const { error } = await supabase
+      // Check if email already exists
+      const { data: existingSubscriber, error: checkError } = await supabase
+        .from('newsletter_subscribers')
+        .select('id')
+        .eq('email', email)
+        .single();
+
+      if (checkError && checkError.code !== 'PGRST116') {
+        throw checkError;
+      }
+
+      if (existingSubscriber) {
+        toast({
+          title: "E-mail já cadastrado",
+          description: "Você já está inscrito em nossa newsletter.",
+        });
+        return;
+      }
+      
+      // Store the email in newsletter_subscribers
+      const { error: insertError } = await supabase
         .from('newsletter_subscribers')
         .insert({ email });
         
-      if (error) throw error;
+      if (insertError) throw insertError;
       
       // Call the edge function to send a welcome email
       const { error: emailError } = await supabase.functions.invoke('send-newsletter-welcome', {
@@ -41,7 +60,7 @@ export default function NewsletterForm() {
       
       toast({
         title: "Inscrição confirmada!",
-        description: "Obrigado por se inscrever na nossa newsletter. Um e-mail de confirmação foi enviado.",
+        description: "Você receberá nossas novidades em breve. Verifique sua caixa de entrada.",
       });
       
       setEmail("");

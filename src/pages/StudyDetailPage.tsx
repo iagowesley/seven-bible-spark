@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import Navbar from "@/components/layout/Navbar";
@@ -13,7 +12,6 @@ import { useAuth } from "@/contexts/AuthContext";
 import { updateUserProgress, getUserProgress } from "@/models/userProgress";
 import { useQuery, useMutation } from "@tanstack/react-query";
 
-// Função para obter a data formatada em português
 const getFormattedDate = (dayOfWeek: string) => {
   const today = new Date();
   const daysMap: {[key: string]: number} = {
@@ -26,7 +24,6 @@ const getFormattedDate = (dayOfWeek: string) => {
     "sabado": 6
   };
   
-  // Se não for um dia válido, retorna a data atual
   if (!daysMap.hasOwnProperty(dayOfWeek)) {
     return today.toLocaleDateString('pt-BR', { 
       weekday: 'long', 
@@ -36,12 +33,10 @@ const getFormattedDate = (dayOfWeek: string) => {
     });
   }
   
-  // Ajusta para o dia da semana correspondente
   const dayDiff = daysMap[dayOfWeek] - today.getDay();
   const targetDate = new Date(today);
   targetDate.setDate(today.getDate() + dayDiff);
   
-  // Retorna data formatada em português
   return targetDate.toLocaleDateString('pt-BR', { 
     weekday: 'long', 
     day: 'numeric', 
@@ -50,7 +45,6 @@ const getFormattedDate = (dayOfWeek: string) => {
   });
 };
 
-// Dados fictícios
 const lessonData = {
   id: "2",
   title: "Fé e Obras",
@@ -181,7 +175,6 @@ const StudyDetailPage = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  // Fetch user progress for this lesson
   const { data: userProgressData, isLoading } = useQuery({
     queryKey: ['lessonProgress', id, user?.id],
     queryFn: async () => {
@@ -199,7 +192,6 @@ const StudyDetailPage = () => {
     enabled: !!user && !!id,
   });
 
-  // Update user progress mutation
   const updateProgressMutation = useMutation({
     mutationFn: async ({ progress, completed, pointsEarned }: { 
       progress: number; 
@@ -222,7 +214,6 @@ const StudyDetailPage = () => {
       setFormattedDate(getFormattedDate(id));
     }
     
-    // Set initial progress from user data
     if (userProgressData) {
       setProgress(userProgressData.progress);
       setIsCompleted(userProgressData.completed);
@@ -230,38 +221,65 @@ const StudyDetailPage = () => {
     }
   }, [id, userProgressData]);
   
-  // Track reading progress
   useEffect(() => {
     if (!user || !id) return;
     
+    const contentElement = document.getElementById('lesson-content');
+    if (!contentElement) return;
+
     const handleScroll = () => {
-      const contentElement = document.getElementById('lesson-content');
-      if (!contentElement) return;
-      
-      const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+      const { scrollTop, scrollHeight, clientHeight } = contentElement;
       const scrolled = (scrollTop / (scrollHeight - clientHeight)) * 100;
       
       const newProgress = Math.max(
         Math.min(Math.round(scrolled), 100),
-        isCompleted ? 100 : progress
+        isCompleted ? 100 : (progress < 50 ? 0 : progress)
       );
       
-      if (newProgress > progress && newProgress >= 50) {
+      if (newProgress > progress && !isCompleted) {
         setProgress(newProgress);
-        setQuizEnabled(true);
         
-        // Update progress in database if it improved
+        if (newProgress >= 50) {
+          setQuizEnabled(true);
+        }
+        
         updateProgressMutation.mutate({ 
           progress: newProgress, 
-          completed: isCompleted,
-          pointsEarned: isCompleted ? lessonData.points : 0
+          completed: false,
+          pointsEarned: 0
         });
       }
     };
     
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    contentElement.addEventListener('scroll', handleScroll);
+    return () => contentElement.removeEventListener('scroll', handleScroll);
   }, [user, id, progress, isCompleted, updateProgressMutation]);
+
+  const enhancedQuestions = [
+    ...lessonData.questions,
+    {
+      id: "q8",
+      text: "Como a fé e as obras se complementam na vida cristã?",
+      options: [
+        { id: "a", text: "As obras substituem completamente a fé" },
+        { id: "b", text: "A fé gera obras como fruto natural" },
+        { id: "c", text: "As obras são mais importantes que a fé" },
+        { id: "d", text: "Fé e obras não têm relação" },
+      ],
+      correctOptionId: "b",
+    },
+    {
+      id: "q9",
+      text: "Qual é o propósito principal das boas obras na vida de um cristão?",
+      options: [
+        { id: "a", text: "Ganhar salvação" },
+        { id: "b", text: "Impressionar outras pessoas" },
+        { id: "c", text: "Demonstrar a transformação interior" },
+        { id: "d", text: "Acumular recompensas" },
+      ],
+      correctOptionId: "c",
+    }
+  ];
 
   const handleQuizComplete = (score: number) => {
     const percentage = Math.round((score / lessonData.questions.length) * 100);
@@ -269,7 +287,6 @@ const StudyDetailPage = () => {
     setIsCompleted(completed);
     setProgress(100);
     
-    // Update progress in database
     if (user && id) {
       updateProgressMutation.mutate({
         progress: 100,
@@ -303,7 +320,6 @@ const StudyDetailPage = () => {
       <Navbar />
       <main className="flex-grow py-8">
         <div className="seven-container">
-          {/* Cabeçalho - Melhorado */}
           <div className="mb-6">
             <Link to="/estudos" className="flex items-center text-muted-foreground hover:text-foreground mb-4">
               <ArrowLeft className="h-4 w-4 mr-1" />
@@ -349,7 +365,6 @@ const StudyDetailPage = () => {
             </div>
           </div>
           
-          {/* Conteúdo em abas */}
           <Tabs defaultValue="content" value={activeTab} onValueChange={setActiveTab}>
             <TabsList className="grid grid-cols-3 mb-6">
               <TabsTrigger value="content" className="flex items-center gap-1">
@@ -368,7 +383,10 @@ const StudyDetailPage = () => {
             </TabsList>
             
             <TabsContent value="content">
-              <div id="lesson-content" className="bg-card p-6 rounded-lg shadow-sm border border-border">
+              <div 
+                id="lesson-content" 
+                className="bg-card p-6 rounded-lg shadow-sm border border-border overflow-y-auto max-h-[600px]"
+              >
                 <div 
                   className="prose prose-lg max-w-none dark:prose-invert"
                   dangerouslySetInnerHTML={{ __html: lessonData.content }}
@@ -385,7 +403,7 @@ const StudyDetailPage = () => {
             <TabsContent value="quiz">
               {quizEnabled ? (
                 <QuizComponent 
-                  questions={lessonData.questions} 
+                  questions={enhancedQuestions} 
                   onComplete={handleQuizComplete} 
                 />
               ) : (

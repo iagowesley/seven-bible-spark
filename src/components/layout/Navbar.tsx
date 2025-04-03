@@ -1,176 +1,74 @@
 
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Menu, X, User } from "lucide-react";
+import React from "react";
+import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
+import { Button } from "@/components/ui/button";
+import { 
+  UserIcon, 
+  LayoutDashboardIcon, 
+  BookOpenIcon, 
+  LogOutIcon 
+} from "lucide-react";
 
-const Navbar: React.FC = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const navigate = useNavigate();
-  const { user, signOut, profile } = useAuth();
+const Navbar = () => {
+  const { user, signOut } = useAuth();
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
-  const handleSignOut = async () => {
-    await signOut();
-    navigate("/");
-  };
-
-  const renderProfileMenu = () => {
-    return (
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon" className="rounded-full">
-            <User className="h-5 w-5" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuLabel>
-            {profile?.full_name || user?.email}
-          </DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => navigate("/dashboard")}>
-            Dashboard
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => navigate("/profile")}>
-            Meu Perfil
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => navigate("/estudos")}>
-            Estudos
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={handleSignOut}>Sair</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    );
-  };
+  const navLinks = user 
+    ? [
+        { 
+          icon: <BookOpenIcon className="h-4 w-4 mr-2" />, 
+          label: "Estudos", 
+          href: "/estudos" 
+        },
+        { 
+          icon: <LayoutDashboardIcon className="h-4 w-4 mr-2" />, 
+          label: "Dashboard", 
+          href: "/dashboard" 
+        },
+        { 
+          icon: <UserIcon className="h-4 w-4 mr-2" />, 
+          label: "Perfil", 
+          href: "/profile" 
+        }
+      ]
+    : [];
 
   return (
-    <header className="bg-background border-b border-border">
-      <div className="seven-container">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex items-center">
-            <Link to={user ? "/dashboard" : "/"} className="flex items-center">
-              <span className="text-xl font-bold text-seven-purple">Lição</span>{" "}
-              <span className="text-xl font-bold text-seven-blue ml-1">Seven</span>
-            </Link>
-          </div>
-
-          {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center space-x-4">
-            {!user && (
-              <Link
-                to="/"
-                className="text-muted-foreground hover:text-foreground transition-colors"
-              >
-                Home
-              </Link>
-            )}
-            <Link
-              to="/estudos"
-              className="text-muted-foreground hover:text-foreground transition-colors"
+    <nav className="bg-white dark:bg-gray-900 border-b">
+      <div className="seven-container flex items-center justify-between py-4">
+        <Link to={user ? "/estudos" : "/"} className="text-2xl font-bold text-seven-blue">
+          Lição Seven
+        </Link>
+        
+        <div className="flex items-center space-x-4">
+          {navLinks.map((link) => (
+            <Button 
+              key={link.href} 
+              variant="ghost" 
+              className="flex items-center"
+              asChild
             >
-              Estudos
-            </Link>
-            {user ? (
-              <>
-                <Link
-                  to="/dashboard"
-                  className="text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  Dashboard
-                </Link>
-                {renderProfileMenu()}
-              </>
-            ) : (
-              <Button asChild variant="default" className="rounded-full">
-                <Link to="/auth">Entrar</Link>
-              </Button>
-            )}
-          </nav>
-
-          {/* Mobile menu button */}
-          <button
-            className="md:hidden p-2 rounded-md text-muted-foreground hover:text-foreground"
-            onClick={toggleMenu}
-          >
-            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
-        </div>
-
-        {/* Mobile nav */}
-        {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-border">
-            <nav className="flex flex-col space-y-4">
-              {!user && (
-                <Link
-                  to="/"
-                  className="text-muted-foreground hover:text-foreground py-2 transition-colors"
-                  onClick={toggleMenu}
-                >
-                  Home
-                </Link>
-              )}
-              <Link
-                to="/estudos"
-                className="text-muted-foreground hover:text-foreground py-2 transition-colors"
-                onClick={toggleMenu}
-              >
-                Estudos
+              <Link to={link.href}>
+                {link.icon}
+                {link.label}
               </Link>
-              {user ? (
-                <>
-                  <Link
-                    to="/dashboard"
-                    className="text-muted-foreground hover:text-foreground py-2 transition-colors"
-                    onClick={toggleMenu}
-                  >
-                    Dashboard
-                  </Link>
-                  <Link
-                    to="/profile"
-                    className="text-muted-foreground hover:text-foreground py-2 transition-colors"
-                    onClick={toggleMenu}
-                  >
-                    Meu Perfil
-                  </Link>
-                  <Button
-                    variant="ghost"
-                    onClick={() => {
-                      handleSignOut();
-                      toggleMenu();
-                    }}
-                    className="justify-start px-0 hover:bg-transparent"
-                  >
-                    Sair
-                  </Button>
-                </>
-              ) : (
-                <Button
-                  asChild
-                  variant="default"
-                  className="rounded-full w-full"
-                  onClick={toggleMenu}
-                >
-                  <Link to="/auth">Entrar</Link>
-                </Button>
-              )}
-            </nav>
-          </div>
-        )}
+            </Button>
+          ))}
+          
+          {user && (
+            <Button 
+              variant="destructive" 
+              size="sm" 
+              onClick={signOut}
+              className="flex items-center"
+            >
+              <LogOutIcon className="h-4 w-4 mr-2" />
+              Sair
+            </Button>
+          )}
+        </div>
       </div>
-    </header>
+    </nav>
   );
 };
 
