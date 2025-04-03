@@ -30,7 +30,7 @@ export default function NewsletterForm() {
         .from('newsletter_subscribers')
         .select('id')
         .eq('email', email)
-        .single();
+        .maybeSingle();
 
       if (checkError && checkError.code !== 'PGRST116') {
         throw checkError;

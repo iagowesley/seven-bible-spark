@@ -9,8 +9,9 @@ import { Progress } from "@/components/ui/progress";
 import { BookOpen, CheckCircle, MessageSquare, Download, ArrowLeft, Calendar } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
-import { updateUserProgress, getUserProgress } from "@/models/userProgress";
+import { updateUserProgress } from "@/models/userProgress";
 import { useQuery, useMutation } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 const getFormattedDate = (dayOfWeek: string) => {
   const today = new Date();
@@ -180,14 +181,19 @@ const StudyDetailPage = () => {
     queryFn: async () => {
       if (!user || !id) return null;
       
-      const { data, error } = await getUserProgress(user.id);
+      const { data, error } = await supabase
+        .from("user_progress")
+        .select("*")
+        .eq("user_id", user.id)
+        .eq("lesson_id", id)
+        .maybeSingle();
       
       if (error) {
         console.error("Error fetching user progress:", error);
         return null;
       }
       
-      return data.find(p => p.lesson_id === id);
+      return data;
     },
     enabled: !!user && !!id,
   });
