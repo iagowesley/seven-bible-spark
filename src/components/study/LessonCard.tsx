@@ -4,6 +4,9 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Button } from "@/components/ui/button";
 import { BookOpen, Clock, Award, Calendar } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
+import { useQuery } from "@tanstack/react-query";
 
 type LessonCardProps = {
   id: string;
@@ -24,6 +27,34 @@ const LessonCard: React.FC<LessonCardProps> = ({
   progress = 0,
   image,
 }) => {
+  const { user } = useAuth();
+  
+  // Fetch user progress data for this lesson
+  const { data: userProgress } = useQuery({
+    queryKey: ['lessonProgress', id, user?.id],
+    queryFn: async () => {
+      if (!user) return { progress: 0 };
+      
+      const { data, error } = await supabase
+        .from('user_progress')
+        .select('progress')
+        .eq('user_id', user.id)
+        .eq('lesson_id', id)
+        .maybeSingle();
+      
+      if (error) {
+        console.error("Error fetching user progress:", error);
+        return { progress: 0 };
+      }
+      
+      return data || { progress: 0 };
+    },
+    enabled: !!user,
+  });
+  
+  // Use actual user progress data if available
+  const currentProgress = userProgress?.progress || progress;
+
   // Cores personalizadas para cada dia da semana
   const getDayColor = (dayId: string): string => {
     switch (dayId) {
@@ -75,13 +106,13 @@ const LessonCard: React.FC<LessonCardProps> = ({
         <div className="flex justify-between items-start">
           <CardTitle className="line-clamp-1">{title}</CardTitle>
         </div>
-        {progress > 0 && (
+        {currentProgress > 0 && (
           <div className="mt-2">
             <div className="progress-bar">
-              <div className="progress-fill" style={{ width: `${progress}%` }}></div>
+              <div className="progress-fill" style={{ width: `${currentProgress}%` }}></div>
             </div>
             <p className="text-xs text-muted-foreground mt-1">
-              {progress}% completo
+              {currentProgress}% completo
             </p>
           </div>
         )}
@@ -106,7 +137,7 @@ const LessonCard: React.FC<LessonCardProps> = ({
       <CardFooter>
         <Button asChild className="w-full rounded-full" variant="default">
           <Link to={`/estudos/${id}`}>
-            {progress > 0 ? "Continuar Estudo" : "Estudar Agora"}
+            {currentProgress > 0 ? "Continuar Estudo" : "Estudar Agora"}
           </Link>
         </Button>
       </CardFooter>

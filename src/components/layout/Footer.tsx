@@ -1,114 +1,76 @@
-import React from "react";
-import { Facebook, Instagram, Twitter } from "lucide-react";
-import { Link } from "react-router-dom";
 
-const Footer = () => {
-  const currentYear = new Date().getFullYear();
-  
+import React from "react";
+import { Link } from "react-router-dom";
+import NewsletterForm from "@/components/home/NewsletterForm";
+
+const Footer: React.FC = () => {
   return (
-    <footer className="bg-muted py-12 mt-16">
+    <footer className="bg-card border-t border-border py-12">
       <div className="seven-container">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Logo e Sobre - Updated */}
-          <div className="col-span-1 md:col-span-1">
-            <div className="mb-4">
-              <span className="font-bold text-lg">
-                <span className="text-seven-gold">Lição Seven</span>
-              </span>
-            </div>
-            <p className="text-sm text-muted-foreground">
-              Uma plataforma moderna para o estudo interativo da lição da Escola Sabatina Jovem.
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {/* Logo e descrição */}
+          <div className="flex flex-col">
+            <Link to="/" className="mb-4 inline-block">
+              <span className="text-2xl font-bold text-seven-purple">Lição</span>{" "}
+              <span className="text-2xl font-bold text-seven-blue">Seven</span>
+            </Link>
+            <p className="text-sm text-muted-foreground mb-4">
+              Estudos bíblicos para jovens adventistas do sétimo dia.
             </p>
           </div>
-          
-          {/* Links Rápidos */}
-          <div>
-            <h3 className="font-semibold text-lg mb-4">Links Rápidos</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link to="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link to="/estudos" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Estudos
-                </Link>
-              </li>
-              <li>
-                <Link to="/dashboard" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Dashboard
-                </Link>
-              </li>
-              <li>
-                <Link to="/sobre" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Sobre nós
-                </Link>
-              </li>
-            </ul>
-          </div>
-          
-          {/* Suporte */}
-          <div>
-            <h3 className="font-semibold text-lg mb-4">Suporte</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link to="/faq" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  FAQ
-                </Link>
-              </li>
-              <li>
-                <Link to="/contato" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Contato
-                </Link>
-              </li>
-              <li>
-                <Link to="/privacidade" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Política de Privacidade
-                </Link>
-              </li>
-              <li>
-                <Link to="/termos" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                  Termos de Uso
-                </Link>
-              </li>
-            </ul>
-          </div>
-          
-          {/* Redes Sociais */}
-          <div>
-            <h3 className="font-semibold text-lg mb-4">Redes Sociais</h3>
-            <div className="flex space-x-4">
-              <a href="https://facebook.com" target="_blank" rel="noreferrer" className="w-9 h-9 circle-button bg-muted-foreground/10 hover:bg-muted-foreground/20">
-                <Facebook className="h-4 w-4" />
-              </a>
-              <a href="https://instagram.com" target="_blank" rel="noreferrer" className="w-9 h-9 circle-button bg-muted-foreground/10 hover:bg-muted-foreground/20">
-                <Instagram className="h-4 w-4" />
-              </a>
-              <a href="https://twitter.com" target="_blank" rel="noreferrer" className="w-9 h-9 circle-button bg-muted-foreground/10 hover:bg-muted-foreground/20">
-                <Twitter className="h-4 w-4" />
-              </a>
+
+          {/* Links rápidos */}
+          <div className="flex flex-col">
+            <h3 className="font-semibold mb-4">Links Rápidos</h3>
+            <div className="flex flex-col space-y-2">
+              <Link
+                to="/estudos"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Estudos
+              </Link>
+              <Link
+                to="/dashboard"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Dashboard
+              </Link>
+              <Link
+                to="/profile"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Meu Perfil
+              </Link>
             </div>
-            <p className="mt-4 text-sm text-muted-foreground">
-              Inscreva-se para receber atualizações
+          </div>
+
+          {/* Contato */}
+          <div className="flex flex-col">
+            <h3 className="font-semibold mb-4">Contato</h3>
+            <div className="flex flex-col space-y-2 text-muted-foreground">
+              <a
+                href="mailto:contato@licaoseven.com"
+                className="hover:text-foreground transition-colors"
+              >
+                contato@licaoseven.com
+              </a>
+              <span>Sábados: 9h às 10h30</span>
+              <span>Escola Sabatina Jovem</span>
+            </div>
+          </div>
+
+          {/* Newsletter */}
+          <div className="flex flex-col">
+            <h3 className="font-semibold mb-4">Newsletter</h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              Receba novos estudos e conteúdos exclusivos no seu e-mail
             </p>
-            <div className="mt-2 flex">
-              <input 
-                type="email" 
-                placeholder="Seu e-mail" 
-                className="rounded-l-full px-3 py-2 text-sm bg-background border border-border focus:outline-none focus:ring-1 focus:ring-primary" 
-              />
-              <button className="bg-primary text-white rounded-r-full px-4 py-2 text-sm">
-                Enviar
-              </button>
-            </div>
+            <NewsletterForm />
           </div>
         </div>
-        
-        <div className="border-t border-border mt-8 pt-8 text-center">
-          <p className="text-sm text-muted-foreground">
-            &copy; {currentYear} Lição Seven. Todos os direitos reservados.
-          </p>
+
+        <div className="border-t border-border mt-8 pt-8 text-center text-sm text-muted-foreground">
+          <p>© {new Date().getFullYear()} Lição Seven. Todos os direitos reservados.</p>
         </div>
       </div>
     </footer>

@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import QuizComponent from "@/components/study/QuizComponent";
@@ -9,6 +9,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { BookOpen, CheckCircle, MessageSquare, Download, ArrowLeft, Calendar } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
+import { updateUserProgress, getUserProgress } from "@/models/userProgress";
+import { useQuery, useMutation } from "@tanstack/react-query";
 
 // Função para obter a data formatada em português
 const getFormattedDate = (dayOfWeek: string) => {
@@ -108,6 +111,50 @@ const lessonData = {
       ],
       correctOptionId: "b",
     },
+    {
+      id: "q4",
+      text: "Qual livro da Bíblia contém a frase: 'Porque, assim como o corpo sem espírito está morto, assim também a fé sem obras é morta'?",
+      options: [
+        { id: "a", text: "Romanos" },
+        { id: "b", text: "Efésios" },
+        { id: "c", text: "Tiago" },
+        { id: "d", text: "Hebreus" },
+      ],
+      correctOptionId: "c",
+    },
+    {
+      id: "q5",
+      text: "O que Paulo combate em seus escritos sobre a fé e a salvação?",
+      options: [
+        { id: "a", text: "O antinomianismo" },
+        { id: "b", text: "O legalismo" },
+        { id: "c", text: "O ateísmo" },
+        { id: "d", text: "O gnosticismo" },
+      ],
+      correctOptionId: "b",
+    },
+    {
+      id: "q6",
+      text: "Como as obras funcionam na vida cristã?",
+      options: [
+        { id: "a", text: "Como base para a salvação" },
+        { id: "b", text: "Como forma de ganhar o favor de Deus" },
+        { id: "c", text: "Como evidências da fé genuína" },
+        { id: "d", text: "Como algo opcional na vida cristã" },
+      ],
+      correctOptionId: "c",
+    },
+    {
+      id: "q7",
+      text: "Qual é a metáfora usada para descrever a relação entre fé e obras na conclusão do estudo?",
+      options: [
+        { id: "a", text: "Cabeça e coração" },
+        { id: "b", text: "Raiz e fruto" },
+        { id: "c", text: "Porta e caminho" },
+        { id: "d", text: "Água e fogo" },
+      ],
+      correctOptionId: "b",
+    },
   ],
   comments: [
     {
@@ -126,26 +173,116 @@ const lessonData = {
 const StudyDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const [activeTab, setActiveTab] = useState("content");
-  const [progress, setProgress] = useState(lessonData.progress);
+  const [progress, setProgress] = useState(0);
   const [isCompleted, setIsCompleted] = useState(false);
   const [quizEnabled, setQuizEnabled] = useState(false);
   const [formattedDate, setFormattedDate] = useState("");
   const { toast } = useToast();
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
+  // Fetch user progress for this lesson
+  const { data: userProgressData, isLoading } = useQuery({
+    queryKey: ['lessonProgress', id, user?.id],
+    queryFn: async () => {
+      if (!user || !id) return null;
+      
+      const { data, error } = await getUserProgress(user.id);
+      
+      if (error) {
+        console.error("Error fetching user progress:", error);
+        return null;
+      }
+      
+      return data.find(p => p.lesson_id === id);
+    },
+    enabled: !!user && !!id,
+  });
+
+  // Update user progress mutation
+  const updateProgressMutation = useMutation({
+    mutationFn: async ({ progress, completed, pointsEarned }: { 
+      progress: number; 
+      completed: boolean;
+      pointsEarned: number;
+    }) => {
+      if (!user || !id) return;
+      return updateUserProgress(user.id, id, progress, completed, pointsEarned);
+    },
+    onSuccess: () => {
+      console.log("Progress updated successfully");
+    },
+    onError: (error) => {
+      console.error("Error updating progress:", error);
+    }
+  });
 
   useEffect(() => {
     if (id) {
       setFormattedDate(getFormattedDate(id));
     }
-  }, [id]);
+    
+    // Set initial progress from user data
+    if (userProgressData) {
+      setProgress(userProgressData.progress);
+      setIsCompleted(userProgressData.completed);
+      setQuizEnabled(userProgressData.progress >= 50);
+    }
+  }, [id, userProgressData]);
+  
+  // Track reading progress
+  useEffect(() => {
+    if (!user || !id) return;
+    
+    const handleScroll = () => {
+      const contentElement = document.getElementById('lesson-content');
+      if (!contentElement) return;
+      
+      const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+      const scrolled = (scrollTop / (scrollHeight - clientHeight)) * 100;
+      
+      const newProgress = Math.max(
+        Math.min(Math.round(scrolled), 100),
+        isCompleted ? 100 : progress
+      );
+      
+      if (newProgress > progress && newProgress >= 50) {
+        setProgress(newProgress);
+        setQuizEnabled(true);
+        
+        // Update progress in database if it improved
+        updateProgressMutation.mutate({ 
+          progress: newProgress, 
+          completed: isCompleted,
+          pointsEarned: isCompleted ? lessonData.points : 0
+        });
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [user, id, progress, isCompleted, updateProgressMutation]);
 
   const handleQuizComplete = (score: number) => {
     const percentage = Math.round((score / lessonData.questions.length) * 100);
-    setIsCompleted(true);
+    const completed = percentage >= 70;
+    setIsCompleted(completed);
     setProgress(100);
     
+    // Update progress in database
+    if (user && id) {
+      updateProgressMutation.mutate({
+        progress: 100,
+        completed,
+        pointsEarned: lessonData.points
+      });
+    }
+    
     toast({
-      title: "Lição concluída!",
-      description: `Você ganhou ${lessonData.points} pontos por completar esta lição.`,
+      title: completed ? "Lição concluída!" : "Quiz finalizado",
+      description: completed 
+        ? `Você ganhou ${lessonData.points} pontos por completar esta lição.` 
+        : `Você acertou ${score} de ${lessonData.questions.length} questões.`,
     });
   };
 
@@ -231,7 +368,7 @@ const StudyDetailPage = () => {
             </TabsList>
             
             <TabsContent value="content">
-              <div className="bg-card p-6 rounded-lg shadow-sm border border-border">
+              <div id="lesson-content" className="bg-card p-6 rounded-lg shadow-sm border border-border">
                 <div 
                   className="prose prose-lg max-w-none dark:prose-invert"
                   dangerouslySetInnerHTML={{ __html: lessonData.content }}

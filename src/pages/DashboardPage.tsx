@@ -7,65 +7,159 @@ import LessonCard from "@/components/study/LessonCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CalendarIcon, BookMarkedIcon, BookIcon, AwardIcon } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { useQuery } from "@tanstack/react-query";
+import { getUserProgress, getTotalPoints, getTotalCompletedLessons, getStreakDays } from "@/models/userProgress";
+import { supabase } from "@/integrations/supabase/client";
 
-// Dados fictícios
-const recentLessons = [
+// Dados fictícios de lições
+const weekDays = [
   {
-    id: "2",
-    title: "Fé e Obras",
-    description: "Um estudo sobre a relação entre fé e obras na vida cristã, baseado nas cartas de Tiago e Paulo.",
+    id: "domingo",
+    title: "Domingo",
+    description: "A origem do mal e o grande conflito: por que existe o sofrimento?",
+    duration: "20 min",
+    points: 100,
+  },
+  {
+    id: "segunda",
+    title: "Segunda-feira",
+    description: "O plano da salvação: como Deus resolveu o problema do pecado através de Jesus.",
     duration: "15 min",
     points: 80,
-    progress: 65,
   },
   {
-    id: "5",
-    title: "Criação vs. Evolução",
-    description: "Uma análise crítica e bíblica sobre o debate entre criacionismo e evolucionismo, e como defender nossa fé.",
-    duration: "40 min",
-    points: 200,
-    progress: 25,
+    id: "terca",
+    title: "Terça-feira",
+    description: "A lei de Deus e o seu amor: como os mandamentos revelam o caráter divino.",
+    duration: "25 min",
+    points: 120,
   },
-];
-
-const completedLessons = [
   {
-    id: "4",
-    title: "Os Dons Espirituais",
-    description: "Entenda o que são os dons espirituais, como descobrir seus dons e usá-los para edificação da igreja e glória de Deus.",
+    id: "quarta",
+    title: "Quarta-feira",
+    description: "O sábado e sua importância na adoração a Deus e descanso do ser humano.",
     duration: "30 min",
     points: 150,
-    progress: 100,
-  },
-];
-
-const achievements = [
-  {
-    title: "Primeiro Estudo",
-    description: "Complete sua primeira lição",
-    icon: <BookIcon className="h-6 w-6 text-seven-blue" />,
-    unlocked: true,
-    points: 50,
   },
   {
-    title: "Estudante Dedicado",
-    description: "Complete 5 lições",
-    icon: <BookMarkedIcon className="h-6 w-6 text-seven-purple" />,
-    unlocked: false,
-    progress: 20,
+    id: "quinta",
+    title: "Quinta-feira",
+    description: "A oração e o estudo da Bíblia: como desenvolver um relacionamento com Deus.",
+    duration: "40 min",
     points: 200,
   },
   {
-    title: "Assiduidade",
-    description: "Estude por 7 dias consecutivos",
-    icon: <CalendarIcon className="h-6 w-6 text-seven-gold" />,
-    unlocked: false,
-    progress: 43,
-    points: 300,
+    id: "sexta",
+    title: "Sexta-feira",
+    description: "Vida cristã e testemunho: como viver e compartilhar a fé no dia a dia.",
+    duration: "35 min",
+    points: 180,
+  },
+  {
+    id: "sabado",
+    title: "Sábado",
+    description: "Resumo da semana: revisão e aplicação prática das lições aprendidas.",
+    duration: "45 min",
+    points: 220,
   },
 ];
 
 const DashboardPage = () => {
+  const { user } = useAuth();
+
+  // Fetch user progress stats
+  const { data: totalPoints = 0, isLoading: loadingPoints } = useQuery({
+    queryKey: ['totalPoints', user?.id],
+    queryFn: () => user ? getTotalPoints(user.id) : Promise.resolve(0),
+    enabled: !!user
+  });
+
+  const { data: completedLessons = 0, isLoading: loadingCompleted } = useQuery({
+    queryKey: ['completedLessons', user?.id],
+    queryFn: () => user ? getTotalCompletedLessons(user.id) : Promise.resolve(0),
+    enabled: !!user
+  });
+
+  const { data: streakDays = 0, isLoading: loadingStreak } = useQuery({
+    queryKey: ['streakDays', user?.id],
+    queryFn: () => user ? getStreakDays(user.id) : Promise.resolve(0),
+    enabled: !!user
+  });
+
+  // Fetch user progress for all lessons
+  const { data: userProgress = [], isLoading: loadingProgress } = useQuery({
+    queryKey: ['userProgress', user?.id],
+    queryFn: async () => {
+      if (!user) return [];
+      
+      try {
+        return await getUserProgress(user.id);
+      } catch (error) {
+        console.error("Error fetching user progress:", error);
+        return [];
+      }
+    },
+    enabled: !!user
+  });
+
+  // Prepare lessons with progress information
+  const recentLessons = weekDays
+    .map(lesson => {
+      const progress = userProgress.find(p => p.lesson_id === lesson.id);
+      return {
+        ...lesson,
+        progress: progress?.progress || 0,
+      };
+    })
+    .filter(lesson => lesson.progress > 0 && lesson.progress < 100)
+    .sort((a, b) => b.progress - a.progress);
+
+  const completedLessonsList = weekDays
+    .map(lesson => {
+      const progress = userProgress.find(p => p.lesson_id === lesson.id);
+      return {
+        ...lesson,
+        progress: progress?.progress || 0,
+      };
+    })
+    .filter(lesson => lesson.progress >= 100)
+    .sort((a, b) => {
+      const progressA = userProgress.find(p => p.lesson_id === a.id);
+      const progressB = userProgress.find(p => p.lesson_id === b.id);
+      return new Date(progressB?.last_accessed || 0).getTime() - 
+             new Date(progressA?.last_accessed || 0).getTime();
+    });
+
+  // Achievement data
+  const achievements = [
+    {
+      title: "Primeiro Estudo",
+      description: "Complete sua primeira lição",
+      icon: <BookIcon className="h-6 w-6 text-seven-blue" />,
+      unlocked: completedLessons >= 1,
+      points: 50,
+    },
+    {
+      title: "Estudante Dedicado",
+      description: "Complete 5 lições",
+      icon: <BookMarkedIcon className="h-6 w-6 text-seven-purple" />,
+      unlocked: completedLessons >= 5,
+      progress: completedLessons < 5 ? (completedLessons / 5) * 100 : 100,
+      points: 200,
+    },
+    {
+      title: "Assiduidade",
+      description: "Estude por 7 dias consecutivos",
+      icon: <CalendarIcon className="h-6 w-6 text-seven-gold" />,
+      unlocked: streakDays >= 7,
+      progress: streakDays < 7 ? (streakDays / 7) * 100 : 100,
+      points: 300,
+    },
+  ];
+
+  const isLoading = loadingPoints || loadingCompleted || loadingStreak || loadingProgress;
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -81,11 +175,15 @@ const DashboardPage = () => {
           
           {/* Card de Progresso */}
           <div className="mb-8">
-            <ProgressCard 
-              totalPoints={350} 
-              completedLessons={1} 
-              streakDays={3} 
-            />
+            {isLoading ? (
+              <div className="h-24 bg-muted animate-pulse rounded-md"></div>
+            ) : (
+              <ProgressCard 
+                totalPoints={totalPoints} 
+                completedLessons={completedLessons} 
+                streakDays={streakDays} 
+              />
+            )}
           </div>
           
           {/* Conteúdo em abas */}
@@ -123,7 +221,7 @@ const DashboardPage = () => {
             <TabsContent value="completed">
               <h2 className="text-xl font-semibold mb-4">Lições Completadas</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {completedLessons.map((lesson) => (
+                {completedLessonsList.map((lesson) => (
                   <LessonCard
                     key={lesson.id}
                     id={lesson.id}
@@ -135,7 +233,7 @@ const DashboardPage = () => {
                   />
                 ))}
               </div>
-              {completedLessons.length === 0 && (
+              {completedLessonsList.length === 0 && (
                 <div className="text-center py-12">
                   <p className="text-muted-foreground">
                     Você ainda não completou nenhuma lição
@@ -188,7 +286,7 @@ const DashboardPage = () => {
                             ></div>
                           </div>
                           <p className="text-xs text-muted-foreground mt-1">
-                            {achievement.progress}% completo
+                            {Math.round(achievement.progress)}% completo
                           </p>
                         </div>
                       ) : (

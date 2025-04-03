@@ -1,9 +1,7 @@
+
 import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Moon, Sun, Menu, X, User, LogOut } from "lucide-react";
-import { useNavigate, Link } from "react-router-dom";
-import { useAuth } from "@/contexts/AuthContext";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,189 +10,167 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Menu, X, User } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 
-const Navbar = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
-  const { user, profile, signOut } = useAuth();
+  const { user, signOut, profile } = useAuth();
 
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    document.documentElement.classList.toggle("dark");
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
   };
 
-  const getInitials = (name?: string) => {
-    if (!name) return "U";
-    return name
-      .split(" ")
-      .map((n) => n[0])
-      .join("")
-      .toUpperCase()
-      .substring(0, 2);
+  const handleSignOut = async () => {
+    await signOut();
+    navigate("/");
+  };
+
+  const renderProfileMenu = () => {
+    return (
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" size="icon" className="rounded-full">
+            <User className="h-5 w-5" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuLabel>
+            {profile?.full_name || user?.email}
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={() => navigate("/dashboard")}>
+            Dashboard
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => navigate("/profile")}>
+            Meu Perfil
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => navigate("/estudos")}>
+            Estudos
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={handleSignOut}>Sair</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    );
   };
 
   return (
-    <nav className="sticky top-0 z-40 w-full bg-background/80 backdrop-blur-md border-b border-border">
-      <div className="seven-container flex items-center justify-between h-16">
-        {/* Logo - Updated */}
-        <Link to="/" className="flex items-center space-x-2">
-          <span className="font-bold text-lg">
-            <span className="text-seven-gold">Lição Seven</span>
-          </span>
-        </Link>
-
-        {/* Menu de navegação - desktop */}
-        <div className="hidden md:flex items-center space-x-6">
-          {!user && (
-            <Link to="/" className="animated-link font-medium">
-              Home
+    <header className="bg-background border-b border-border">
+      <div className="seven-container">
+        <div className="flex items-center justify-between h-16">
+          <div className="flex items-center">
+            <Link to={user ? "/dashboard" : "/"} className="flex items-center">
+              <span className="text-xl font-bold text-seven-purple">Lição</span>{" "}
+              <span className="text-xl font-bold text-seven-blue ml-1">Seven</span>
             </Link>
-          )}
-          <Link to="/estudos" className="animated-link font-medium">
-            Estudos
-          </Link>
-          <Link to="/dashboard" className="animated-link font-medium">
-            Dashboard
-          </Link>
-          <Link to="/sobre" className="animated-link font-medium">
-            Sobre
-          </Link>
-        </div>
+          </div>
 
-        {/* Ações */}
-        <div className="flex items-center space-x-2">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={toggleDarkMode}
-            className="rounded-circle"
-          >
-            {isDarkMode ? (
-              <Sun className="h-[1.2rem] w-[1.2rem]" />
-            ) : (
-              <Moon className="h-[1.2rem] w-[1.2rem]" />
-            )}
-            <span className="sr-only">Toggle dark mode</span>
-          </Button>
-
-          {user ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="rounded-full p-0">
-                  <Avatar className="h-8 w-8">
-                    <AvatarImage src={profile?.avatar_url} />
-                    <AvatarFallback>
-                      {getInitials(profile?.full_name)}
-                    </AvatarFallback>
-                  </Avatar>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>Minha Conta</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => navigate("/profile")}>
-                  <User className="mr-2 h-4 w-4" />
-                  Perfil
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigate("/dashboard")}>
-                  Dashboard
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={signOut}>
-                  <LogOut className="mr-2 h-4 w-4" />
-                  Sair
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : (
-            <Button
-              variant="outline"
-              className="hidden sm:flex items-center gap-1 rounded-full"
-              onClick={() => navigate("/auth")}
-            >
-              <User className="h-4 w-4" />
-              <span>Entrar</span>
-            </Button>
-          )}
-
-          {/* Menu mobile */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="md:hidden rounded-circle"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? (
-              <X className="h-6 w-6" />
-            ) : (
-              <Menu className="h-6 w-6" />
-            )}
-          </Button>
-        </div>
-      </div>
-
-      {/* Menu mobile dropdown */}
-      {isMenuOpen && (
-        <div className="md:hidden bg-background border-b border-border animate-fade-in">
-          <div className="seven-container py-4 space-y-3">
+          {/* Desktop Nav */}
+          <nav className="hidden md:flex items-center space-x-4">
             {!user && (
               <Link
                 to="/"
-                className="block px-3 py-2 rounded-lg hover:bg-muted"
-                onClick={() => setIsMenuOpen(false)}
+                className="text-muted-foreground hover:text-foreground transition-colors"
               >
                 Home
               </Link>
             )}
             <Link
               to="/estudos"
-              className="block px-3 py-2 rounded-lg hover:bg-muted"
-              onClick={() => setIsMenuOpen(false)}
+              className="text-muted-foreground hover:text-foreground transition-colors"
             >
               Estudos
             </Link>
-            <Link
-              to="/dashboard"
-              className="block px-3 py-2 rounded-lg hover:bg-muted"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Dashboard
-            </Link>
-            <Link
-              to="/sobre"
-              className="block px-3 py-2 rounded-lg hover:bg-muted"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Sobre
-            </Link>
-            {!user && (
-              <Button
-                className="w-full rounded-full mt-3"
-                onClick={() => {
-                  navigate("/auth");
-                  setIsMenuOpen(false);
-                }}
-              >
-                Entrar
+            {user ? (
+              <>
+                <Link
+                  to="/dashboard"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Dashboard
+                </Link>
+                {renderProfileMenu()}
+              </>
+            ) : (
+              <Button asChild variant="default" className="rounded-full">
+                <Link to="/auth">Entrar</Link>
               </Button>
             )}
-            {user && (
-              <Button
-                variant="destructive"
-                className="w-full mt-3"
-                onClick={() => {
-                  signOut();
-                  setIsMenuOpen(false);
-                }}
-              >
-                Sair
-              </Button>
-            )}
-          </div>
+          </nav>
+
+          {/* Mobile menu button */}
+          <button
+            className="md:hidden p-2 rounded-md text-muted-foreground hover:text-foreground"
+            onClick={toggleMenu}
+          >
+            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
         </div>
-      )}
-    </nav>
+
+        {/* Mobile nav */}
+        {isMenuOpen && (
+          <div className="md:hidden py-4 border-t border-border">
+            <nav className="flex flex-col space-y-4">
+              {!user && (
+                <Link
+                  to="/"
+                  className="text-muted-foreground hover:text-foreground py-2 transition-colors"
+                  onClick={toggleMenu}
+                >
+                  Home
+                </Link>
+              )}
+              <Link
+                to="/estudos"
+                className="text-muted-foreground hover:text-foreground py-2 transition-colors"
+                onClick={toggleMenu}
+              >
+                Estudos
+              </Link>
+              {user ? (
+                <>
+                  <Link
+                    to="/dashboard"
+                    className="text-muted-foreground hover:text-foreground py-2 transition-colors"
+                    onClick={toggleMenu}
+                  >
+                    Dashboard
+                  </Link>
+                  <Link
+                    to="/profile"
+                    className="text-muted-foreground hover:text-foreground py-2 transition-colors"
+                    onClick={toggleMenu}
+                  >
+                    Meu Perfil
+                  </Link>
+                  <Button
+                    variant="ghost"
+                    onClick={() => {
+                      handleSignOut();
+                      toggleMenu();
+                    }}
+                    className="justify-start px-0 hover:bg-transparent"
+                  >
+                    Sair
+                  </Button>
+                </>
+              ) : (
+                <Button
+                  asChild
+                  variant="default"
+                  className="rounded-full w-full"
+                  onClick={toggleMenu}
+                >
+                  <Link to="/auth">Entrar</Link>
+                </Button>
+              )}
+            </nav>
+          </div>
+        )}
+      </div>
+    </header>
   );
 };
 
