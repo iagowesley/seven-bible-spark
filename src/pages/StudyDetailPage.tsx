@@ -6,7 +6,7 @@ import QuizComponent from "@/components/study/QuizComponent";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
-import { BookOpen, CheckCircle, MessageSquare, Download, ArrowLeft, Calendar, X } from "lucide-react";
+import { BookOpen, CheckCircle, MessageSquare, Download, ArrowLeft, Calendar, X, ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { updateUserProgress, saveComment, getCommentsByLessonId, Comment } from "@/models/userProgress";
@@ -742,7 +742,7 @@ const StudyDetailPage = () => {
                     <div className="mb-6">
                       <p className="mb-4 font-sans">A partir da tirinha, do texto-chave e do título, anote suas primeiras impressões sobre o que trata a lição:</p>
                       <textarea 
-                        className="w-full p-3 border border-border rounded-lg bg-background focus:outline-none focus:ring-1 focus:ring-primary resize-none"
+                        className="w-full p-3 border-0 border-b-2 border-[#a37fb9]/30 bg-background/50 focus:outline-none focus:border-[#a37fb9] transition-colors duration-300 rounded-none resize-none"
                         rows={4}
                         placeholder="Digite suas impressões aqui..."
                         value={impressions}
@@ -789,6 +789,11 @@ const StudyDetailPage = () => {
                       <h3 className="text-xl font-semibold mb-2 font-serif">Pesquise em comentários bíblicos, livros denominacionais e de Ellen G. White sobre temas contidos neste texto:</h3>
                       <p className="p-4 bg-muted rounded-lg font-sans">Gn 3:16-24</p>
                     </div>
+                    
+                    <div className="bg-accent/15 p-6 rounded-lg mt-6 border-l-4 border-accent">
+                      <h3 className="text-xl font-bold mb-2 font-serif">Nosso resumo</h3>
+                      <p>A tirinha bíblica desta semana ilustra o momento crucial em que Deus providenciou a primeira cobertura para o pecado humano. A imagem retrata o contraste entre a tentativa humana de se cobrir com folhas de figueira (insuficiente) e a cobertura divina através do sacrifício. Este momento marca o início do sistema sacrificial na Bíblia, quando Deus estabeleceu o primeiro "altar" implícito ao matar um animal para vestir Adão e Eva. A tirinha nos ensina que desde o começo da história humana, Deus já demonstrava que o pecado exige um sacrifício, e que apenas uma cobertura providenciada por Ele seria suficiente - apontando para o futuro sacrifício de Cristo.</p>
+                    </div>
                   </div>
                 )}
                 {id === "domingo" && (
@@ -807,6 +812,11 @@ const StudyDetailPage = () => {
                       <div className="bg-muted p-4 rounded-lg mt-6">
                         <h3 className="text-xl font-semibold mb-2">Mergulhe + fundo</h3>
                         <p>Leia, de Ellen G. White, Patriarcas e Profetas, capítulo 4: "O plano da redenção"</p>
+                      </div>
+                      
+                      <div className="bg-accent/15 p-6 rounded-lg mt-6 border-l-4 border-accent">
+                        <h3 className="text-xl font-bold mb-2 font-serif">Nosso resumo</h3>
+                        <p>A lição de domingo ilustra, através da história do roubo das roupas no internato, como os seres humanos tentam se "cobrir" de maneiras inadequadas. Assim como o calouro roubou roupas para se vestir, Adão e Eva tentaram cobrir sua nudez com folhas de figueira após o pecado. Ambas as situações representam nossas tentativas inadequadas de esconder nossos erros e vergonha. O contraste é evidente quando Deus providencia "roupas de peles" para o casal, demonstrando que apenas um sacrifício pode adequadamente cobrir o pecado. Este ato de Deus introduz o primeiro altar implícito das Escrituras, onde a morte de um animal inocente prefigurava o sacrifício de Cristo para cobrir nossos pecados.</p>
                       </div>
                     </div>
                   </div>
@@ -828,6 +838,11 @@ const StudyDetailPage = () => {
                         <h3 className="text-xl font-semibold mb-2">Pense</h3>
                         <p>Qual é a conexão entre sacrifício e amor? Explique.</p>
                       </div>
+                      
+                      <div className="bg-accent/15 p-6 rounded-lg mt-6 border-l-4 border-accent">
+                        <h3 className="text-xl font-bold mb-2 font-serif">Nosso resumo</h3>
+                        <p>A lição de segunda-feira detalha as devastadoras consequências do pecado: vergonha, dor, trabalho árduo e morte. O relacionamento de Adão e Eva com Deus foi rompido, e eles perderam seu lar no Éden e o acesso à árvore da vida. Porém, no meio desta tragédia, Deus oferece esperança através das "roupas de pele" - um ato que exigiu a morte sacrificial de um animal. Este texto nos ensina o princípio fundamental de que "sem derramamento de sangue não há remissão de pecados" (Hebreus 9:22). O altar do Éden introduziu o conceito de expiação substitutiva que fundamentaria todo o sistema do santuário e apontaria para o sacrifício definitivo de Cristo - o único que remove completamente o pecado, não apenas o cobre temporariamente.</p>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -847,6 +862,11 @@ const StudyDetailPage = () => {
                       <div className="bg-muted p-4 rounded-lg mt-6">
                         <h3 className="text-xl font-semibold mb-2">Pense</h3>
                         <p>Deus planejou sua salvação muito antes de você nascer. Como saber disso muda sua vida?</p>
+                      </div>
+                      
+                      <div className="bg-accent/15 p-6 rounded-lg mt-6 border-l-4 border-accent">
+                        <h3 className="text-xl font-bold mb-2 font-serif">Nosso resumo</h3>
+                        <p>A lição de terça-feira revela a profundidade do plano divino de salvação, mostrando que o altar do Éden não foi uma solução improvisada após o pecado, mas parte de um "concerto eterno" planejado desde antes da criação. Embora a primeira menção explícita a um altar na Bíblia seja a de Noé após o dilúvio, o sacrifício implícito no Éden (quando Deus matou animais para vestir Adão e Eva) representa a primeira manifestação deste plano. As peles dos animais sacrificados evidenciam que desde o princípio, o "Cordeiro de Deus" já estava designado para morrer pelos pecadores. Esta lição nos ensina que a salvação não foi um plano de contingência, mas uma demonstração do amor eterno de Deus, planejado muito antes de nossa existência.</p>
                       </div>
                     </div>
                   </div>
@@ -886,6 +906,11 @@ const StudyDetailPage = () => {
                           </ul>
                         </div>
                       </div>
+                      
+                      <div className="bg-accent/15 p-6 rounded-lg mt-6 border-l-4 border-accent">
+                        <h3 className="text-xl font-bold mb-2 font-serif">Nosso resumo</h3>
+                        <p>A lição de quarta-feira examina o comportamento humano após o pecado, destacando nossa tendência de evitar responsabilidade e transferir culpa - atitudes presentes desde Adão e Eva. O texto mostra como Deus abordou os primeiros humanos sem abuso ou acusação, mas através de perguntas que os levaram à consciência. Mais importante, Deus imediatamente implementou o "evangelho eterno" através do altar do Éden. A expulsão do jardim, muitas vezes vista apenas como punição, foi na verdade um ato de misericórdia para impedir que os humanos se tornassem "pecadores eternos" ao comerem da árvore da vida em seu estado caído. Esta lição nos leva a examinar os altares bíblicos como expressões de adoração e como locais estabelecidos por ordem divina, revelando a sabedoria de Deus em Seu plano para nossa redenção.</p>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -909,6 +934,11 @@ const StudyDetailPage = () => {
                       <div className="bg-muted p-4 rounded-lg mt-6">
                         <h3 className="text-xl font-semibold mb-2">Pense</h3>
                         <p>O que Deus sacrificou para salvar você? Que tipos de sacrifícios devemos fazer em resposta?</p>
+                      </div>
+                      
+                      <div className="bg-accent/15 p-6 rounded-lg mt-6 border-l-4 border-accent">
+                        <h3 className="text-xl font-bold mb-2 font-serif">Nosso resumo</h3>
+                        <p>A lição de quinta-feira, através da história do pai ensinando o filho a limpar tênis sujos, ilustra como Deus não apenas nos resgata, mas nos dá exemplos a seguir. Assim como o pai estava transmitindo mais que uma habilidade doméstica, mas um modelo de vida, as ações de Deus no Éden tinham propósito didático. O altar do Éden revela que o amor e compromisso divinos exigiram um sacrifício doloroso: a morte de um animal inocente para cobrir o pecado humano. Esta lição desafia nossa compreensão de sacrifício, lembrando-nos do princípio expresso por Davi, que se recusou a oferecer a Deus algo que não lhe custasse nada (1Cr 21:24). O texto nos convida a refletir: do que estamos dispostos a abrir mão por Deus? Que atitudes precisam "morrer" em nós para vivermos em comunhão mais íntima com Ele?</p>
                       </div>
                     </div>
                   </div>
@@ -940,6 +970,11 @@ const StudyDetailPage = () => {
                           <li>Que esperança você pode compartilhar com os outros com base no estudo desta semana sobre o altar do Éden?</li>
                         </ol>
                       </div>
+                      
+                      <div className="bg-accent/15 p-6 rounded-lg mt-6 border-l-4 border-accent">
+                        <h3 className="text-xl font-bold mb-2 font-serif">Nosso resumo</h3>
+                        <p>A lição de sexta-feira, através dos escritos de Ellen White, contrasta as ineficazes "folhas de figueira" de nossos esforços humanos com o perfeito "manto da justiça de Cristo". O texto esclarece que o pecado, sendo transgressão da lei, exige punição dentro da justiça divina. Deus não ignorou a lei para nos salvar; em vez disso, em Cristo, Ele mesmo satisfez suas exigências. O sacrifício no Éden prefigurava esta verdade fundamental: apenas a justiça de Cristo - Sua perfeita obediência - pode cobrir adequadamente nossa "nudez espiritual". Quando Deus olha para o pecador arrependido, Ele vê não as folhas de figueira de nossos próprios méritos, mas a justiça imputada de Seu Filho. A lição conclui nos convidando a discutir os paralelos entre o animal sacrificado no Éden e Cristo, o Cordeiro de Deus, e como podemos confiar mais plenamente no sangue de Jesus para nossa salvação.</p>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -949,13 +984,34 @@ const StudyDetailPage = () => {
                   style={{ display: id === "sabado" || id === "domingo" || id === "segunda" || id === "terca" || id === "quarta" || id === "quinta" || id === "sexta" ? "none" : "block" }}
                 />
                 
-                {id !== "sabado" && (
-                <div className="mt-8 flex justify-end">
+                <div className="mt-8 flex justify-between">
+                  {id !== "sabado" && (
                     <Button onClick={enableQuiz} className="bg-accent hover:bg-accent/90 text-accent-foreground">
                     Continuar para o Quiz
                   </Button>
+                  )}
+                  
+                  {id && (
+                    (() => {
+                      const days = ["domingo", "segunda", "terca", "quarta", "quinta", "sexta", "sabado"];
+                      const currentIndex = days.indexOf(id);
+                      
+                      if (currentIndex >= 0 && currentIndex < days.length - 1) {
+                        const nextDay = days[currentIndex + 1];
+                        return (
+                          <Button 
+                            variant="outline"
+                            onClick={() => window.location.href = `/estudos/${nextDay}`}
+                            className={`flex items-center ${id !== "sabado" ? "ml-auto" : ""}`}
+                          >
+                            Próximo Dia <ArrowRight className="h-4 w-4 ml-2" />
+                          </Button>
+                        );
+                      }
+                      return null;
+                    })()
+                  )}
                 </div>
-                )}
               </div>
             </TabsContent>
             
@@ -1011,7 +1067,7 @@ const StudyDetailPage = () => {
                 <div>
                   <h3 className="text-lg font-medium mb-2">Adicionar comentário</h3>
                   <textarea 
-                      className="w-full p-3 border border-input bg-background focus:outline-none focus:ring-1 focus:ring-primary resize-none"
+                      className="w-full p-3 border-0 border-b-2 border-[#a37fb9]/30 bg-background/50 focus:outline-none focus:border-[#a37fb9] transition-colors duration-300 rounded-none resize-none"
                     rows={3}
                     placeholder="Compartilhe seus pensamentos sobre esta lição..."
                       value={newComment}

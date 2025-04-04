@@ -97,9 +97,9 @@ const QuizComponent: React.FC<QuizProps> = ({ questions, onComplete }) => {
             Você acertou {finalScore} de {questions.length} questões
           </p>
         </CardContent>
-        <CardFooter className="flex justify-center">
+        <CardFooter className="flex justify-center gap-3">
           <Button
-            variant="modern"
+            variant="outline"
             onClick={() => {
               // Reiniciar o quiz
               setCurrentQuestionIndex(0);
@@ -110,6 +110,26 @@ const QuizComponent: React.FC<QuizProps> = ({ questions, onComplete }) => {
             }}
           >
             Tentar Novamente
+          </Button>
+          <Button
+            variant="modern"
+            onClick={() => {
+              // Navegar para o próximo dia
+              const days = ["domingo", "segunda", "terca", "quarta", "quinta", "sexta", "sabado"];
+              const currentPath = window.location.pathname;
+              const currentDay = currentPath.split('/').pop();
+              
+              if (currentDay && days.includes(currentDay)) {
+                const currentIndex = days.indexOf(currentDay);
+                if (currentIndex < days.length - 1) {
+                  const nextDay = days[currentIndex + 1];
+                  window.location.href = `/estudos/${nextDay}`;
+                }
+              }
+            }}
+            className="flex items-center"
+          >
+            Próximo Dia <ArrowRight className="h-4 w-4 ml-2" />
           </Button>
         </CardFooter>
       </Card>

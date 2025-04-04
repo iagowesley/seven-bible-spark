@@ -87,42 +87,45 @@ const LessonCard: React.FC<LessonCardProps> = ({
 
   return (
     <Card className="overflow-hidden modern-card hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border-0">
-      <div 
-        className={`h-48 bg-muted bg-cover bg-center`}
-        style={image ? { backgroundImage: `url(${image})` } : {}}
-      >
-        {!image && (
-          <div className={`h-full flex items-center justify-center bg-gradient-to-r ${bgGradient}`}>
-            <div className="text-center">
-              <Calendar className="h-12 w-12 text-white opacity-90 mx-auto mb-1" />
-              <h3 className="text-white font-normal text-xl">{dayName}</h3>
-            </div>
+      <div className={`h-36 bg-gradient-to-r ${bgGradient} flex flex-col items-center justify-center text-white p-4`}>
+        <Calendar className="h-10 w-10 text-white opacity-90 mb-2" />
+        <h3 className="text-white font-medium text-xl mb-1">{dayName}</h3>
+        {currentProgress === 100 ? (
+          <div className="bg-white/20 rounded-full px-3 py-1 text-xs backdrop-blur-sm">
+            <span className="flex items-center gap-1">
+              <CheckCircle className="h-3 w-3" /> Concluído
+            </span>
+          </div>
+        ) : currentProgress > 0 ? (
+          <div className="bg-white/20 rounded-full px-3 py-1 text-xs backdrop-blur-sm">
+            <span>{currentProgress}% completo</span>
+          </div>
+        ) : (
+          <div className="bg-white/20 rounded-full px-3 py-1 text-xs backdrop-blur-sm">
+            <span className="flex items-center gap-1">
+              <BookOpen className="h-3 w-3" /> Novo
+            </span>
           </div>
         )}
       </div>
       
-      <CardHeader className="pb-2">
-        <div className="flex justify-between items-start">
-          <CardTitle className="line-clamp-1 text-xl font-normal">{title}</CardTitle>
-          {currentProgress > 0 && (
-            <CheckCircle className="h-5 w-5 text-green-500" />
-          )}
-        </div>
-      </CardHeader>
-      
-      <CardContent className="pb-2">
-        <p className="text-muted-foreground text-sm line-clamp-3 mb-3 font-light">
+      <CardContent className="pt-4 pb-2">
+        <p className="text-sm line-clamp-3 mb-4 font-light">
           {description}
         </p>
-        <div className="flex items-center text-xs text-muted-foreground">
+        <div className="flex items-center justify-between text-xs text-muted-foreground">
           <div className="flex items-center gap-1">
             <Clock className="h-3 w-3" />
             <span>{duration}</span>
           </div>
+          <div className="flex items-center gap-1">
+            <Award className="h-3 w-3" />
+            <span>{points} pontos</span>
+          </div>
         </div>
       </CardContent>
       
-      <CardFooter>
+      <CardFooter className="pt-2">
         <Button asChild className="w-full" variant="modern">
           <Link to={`/estudos/${id}`}>
             Estudar Agora

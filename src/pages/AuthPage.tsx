@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { BookOpen } from "lucide-react";
+import { BookOpen, LogInIcon, UserPlus } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 
 const loginSchema = z.object({
@@ -76,214 +76,243 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-[#a37fb9] p-4">
-      <div className="w-full max-w-md">
-        <div className="flex flex-col items-center mb-8">
+    <div className="min-h-screen flex">
+      {/* Lado esquerdo - Imagem da lição */}
+      <div className="hidden md:flex md:w-1/2 bg-gradient-to-br from-[#a37fb9] to-[#7957a0] items-center justify-center p-6 relative">
+        <div className="max-w-sm">
+          <div className="absolute top-4 left-4 bg-white/10 backdrop-blur-sm py-2 px-4 rounded-full text-white font-medium">
+            Lição Jovem 7
+          </div>
+          
           <img 
-            src="/LOGO_LIÇÃO_JOVEM-removebg-preview (1).png" 
-            alt="Lição Jovem" 
-            className="h-24 mb-4"
+            src="/cover.png" 
+            alt="Lição Jovem - Adoração" 
+            className="w-full object-contain rounded-lg z-10"
           />
+          
+         
         </div>
+      </div>
+      
+      {/* Lado direito - Formulários */}
+      <div className="w-full md:w-1/2 flex items-center justify-center bg-white p-6">
+        <div className="w-full max-w-md">
+          <div className="mb-8">
+            <h2 className="text-3xl font-bold text-gray-800 mb-2">
+              {activeTab === "login" ? "Bem-vindo de volta" : "Crie sua conta"}
+            </h2>
+            <p className="text-gray-600">
+              {activeTab === "login" 
+                ? "Entre com suas credenciais para continuar" 
+                : "Cadastre-se para começar sua jornada de estudos"
+              }
+            </p>
+          </div>
 
-        <Tabs
-          defaultValue="login"
-          value={activeTab}
-          onValueChange={setActiveTab}
-          className="w-full"
-        >
-          <TabsList className="grid w-full grid-cols-2 mb-6 bg-white">
-            <TabsTrigger 
-              value="login" 
-              className="data-[state=active]:bg-[#a37fb9] data-[state=active]:text-white"
-            >
-              Entrar
-            </TabsTrigger>
-            <TabsTrigger 
-              value="register"
-              className="data-[state=active]:bg-[#a37fb9] data-[state=active]:text-white"
-            >
-              Cadastrar
-            </TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="login">
-            <Card className="bg-white border-0 shadow-lg transition-all duration-300 hover:shadow-xl">
-              <CardHeader>
-                <CardTitle className="text-[#a37fb9] font-bold">Login</CardTitle>
-                <CardDescription className="text-gray-600">
-                  Entre com sua conta para acessar os estudos
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Form {...loginForm}>
-                  <form
-                    onSubmit={loginForm.handleSubmit(onLoginSubmit)}
-                    className="space-y-4"
-                  >
-                    <FormField
-                      control={loginForm.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-gray-800 font-medium">E-mail</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="email"
-                              placeholder="seu@email.com"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={loginForm.control}
-                      name="password"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-gray-800 font-medium">Senha</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="password"
-                              placeholder="******"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <Button 
-                      type="submit" 
-                      className="w-full bg-[#a37fb9] hover:bg-[#8a6aa0] text-white"
+          <Tabs
+            defaultValue="login"
+            value={activeTab}
+            onValueChange={setActiveTab}
+            className="w-full"
+          >
+            <TabsList className="grid w-full grid-cols-2 mb-6">
+              <TabsTrigger 
+                value="login" 
+                className="data-[state=active]:bg-[#a37fb9] data-[state=active]:text-white"
+              >
+                <LogInIcon className="h-4 w-4 mr-2" />
+                Entrar
+              </TabsTrigger>
+              <TabsTrigger 
+                value="register"
+                className="data-[state=active]:bg-[#a37fb9] data-[state=active]:text-white"
+              >
+                <UserPlus className="h-4 w-4 mr-2" />
+                Cadastrar
+              </TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="login">
+              <Card className="border-none shadow-none">
+                <CardContent className="p-0">
+                  <Form {...loginForm}>
+                    <form
+                      onSubmit={loginForm.handleSubmit(onLoginSubmit)}
+                      className="space-y-4"
                     >
-                      Entrar
-                    </Button>
-                  </form>
-                </Form>
-              </CardContent>
-              <CardFooter className="flex flex-col items-center">
-                <p className="text-sm text-muted-foreground">
-                  Não tem uma conta?{" "}
-                  <Button
-                    variant="link"
-                    className="p-0 text-[#a37fb9] hover:text-[#8a6aa0]"
-                    onClick={() => setActiveTab("register")}
-                  >
-                    Cadastre-se
-                  </Button>
-                </p>
-              </CardFooter>
-            </Card>
-          </TabsContent>
-          
-          <TabsContent value="register">
-            <Card className="bg-white border-0 shadow-lg transition-all duration-300 hover:shadow-xl">
-              <CardHeader>
-                <CardTitle className="text-[#a37fb9] font-bold">Cadastro</CardTitle>
-                <CardDescription className="text-gray-600">
-                  Crie uma nova conta para acessar os estudos
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Form {...registerForm}>
-                  <form
-                    onSubmit={registerForm.handleSubmit(onRegisterSubmit)}
-                    className="space-y-4"
-                  >
-                    <FormField
-                      control={registerForm.control}
-                      name="full_name"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-gray-800 font-medium">Nome completo</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="Seu nome completo"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={registerForm.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-gray-800 font-medium">E-mail</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="email"
-                              placeholder="seu@email.com"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={registerForm.control}
-                      name="password"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-gray-800 font-medium">Senha</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="password"
-                              placeholder="******"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={registerForm.control}
-                      name="confirmPassword"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-gray-800 font-medium">Confirmar senha</FormLabel>
-                          <FormControl>
-                            <Input
-                              type="password"
-                              placeholder="******"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <Button 
-                      type="submit" 
-                      className="w-full bg-[#a37fb9] hover:bg-[#8a6aa0] text-white"
+                      <FormField
+                        control={loginForm.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-gray-800 font-medium">E-mail</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="email"
+                                placeholder="seu@email.com"
+                                className="rounded-md border-gray-300 focus:border-[#a37fb9] focus:ring-[#a37fb9]"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={loginForm.control}
+                        name="password"
+                        render={({ field }) => (
+                          <FormItem>
+                            <div className="flex justify-between items-center">
+                              <FormLabel className="text-gray-800 font-medium">Senha</FormLabel>
+                              <Button
+                                variant="link"
+                                className="p-0 h-auto text-sm text-[#a37fb9] hover:text-[#8a6aa0]"
+                                type="button"
+                              >
+                                Esqueceu?
+                              </Button>
+                            </div>
+                            <FormControl>
+                              <Input
+                                type="password"
+                                placeholder="******"
+                                className="rounded-md border-gray-300 focus:border-[#a37fb9] focus:ring-[#a37fb9]"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <Button 
+                        type="submit" 
+                        className="w-full bg-[#a37fb9] hover:bg-[#8a6aa0] text-white h-11 rounded-md mt-6"
+                      >
+                        Entrar
+                      </Button>
+                    </form>
+                  </Form>
+                </CardContent>
+                <CardFooter className="flex flex-col items-center pt-6 pb-0 px-0">
+                  <p className="text-sm text-gray-600">
+                    Não tem uma conta?{" "}
+                    <Button
+                      variant="link"
+                      className="p-0 text-[#a37fb9] hover:text-[#8a6aa0]"
+                      onClick={() => setActiveTab("register")}
                     >
-                      Cadastrar
+                      Cadastre-se
                     </Button>
-                  </form>
-                </Form>
-              </CardContent>
-              <CardFooter className="flex flex-col items-center">
-                <p className="text-sm text-muted-foreground">
-                  Já tem uma conta?{" "}
-                  <Button
-                    variant="link"
-                    className="p-0 text-[#a37fb9] hover:text-[#8a6aa0]"
-                    onClick={() => setActiveTab("login")}
-                  >
-                    Entre aqui
-                  </Button>
-                </p>
-              </CardFooter>
-            </Card>
-          </TabsContent>
-        </Tabs>
+                  </p>
+                </CardFooter>
+              </Card>
+            </TabsContent>
+            
+            <TabsContent value="register">
+              <Card className="border-none shadow-none">
+                <CardContent className="p-0">
+                  <Form {...registerForm}>
+                    <form
+                      onSubmit={registerForm.handleSubmit(onRegisterSubmit)}
+                      className="space-y-4"
+                    >
+                      <FormField
+                        control={registerForm.control}
+                        name="full_name"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-gray-800 font-medium">Nome completo</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="Seu nome completo"
+                                className="rounded-md border-gray-300 focus:border-[#a37fb9] focus:ring-[#a37fb9]"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={registerForm.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-gray-800 font-medium">E-mail</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="email"
+                                placeholder="seu@email.com"
+                                className="rounded-md border-gray-300 focus:border-[#a37fb9] focus:ring-[#a37fb9]"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={registerForm.control}
+                        name="password"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-gray-800 font-medium">Senha</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="password"
+                                placeholder="******"
+                                className="rounded-md border-gray-300 focus:border-[#a37fb9] focus:ring-[#a37fb9]"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={registerForm.control}
+                        name="confirmPassword"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-gray-800 font-medium">Confirmar senha</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="password"
+                                placeholder="******"
+                                className="rounded-md border-gray-300 focus:border-[#a37fb9] focus:ring-[#a37fb9]"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <Button 
+                        type="submit" 
+                        className="w-full bg-[#a37fb9] hover:bg-[#8a6aa0] text-white h-11 rounded-md mt-6"
+                      >
+                        Criar conta
+                      </Button>
+                    </form>
+                  </Form>
+                </CardContent>
+                <CardFooter className="flex flex-col items-center pt-6 pb-0 px-0">
+                  <p className="text-sm text-gray-600">
+                    Já tem uma conta?{" "}
+                    <Button
+                      variant="link"
+                      className="p-0 text-[#a37fb9] hover:text-[#8a6aa0]"
+                      onClick={() => setActiveTab("login")}
+                    >
+                      Entre aqui
+                    </Button>
+                  </p>
+                </CardFooter>
+              </Card>
+            </TabsContent>
+          </Tabs>
+        </div>
       </div>
     </div>
   );

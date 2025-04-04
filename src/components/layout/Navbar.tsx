@@ -91,7 +91,7 @@ const Navbar = () => {
               <Button 
                 key={link.href} 
                 variant="ghost" 
-                className="flex items-center text-[#a37fb9] hover:bg-[#a37fb9]/10 font-light"
+                className="flex items-center text-[#a37fb9] hover:text-white hover:bg-[#a37fb9] font-medium text-base"
                 asChild
               >
                 <Link to={link.href}>
@@ -106,7 +106,7 @@ const Navbar = () => {
                 variant="default" 
                 size="sm" 
                 onClick={signOut}
-                className="flex items-center bg-[#a37fb9] hover:bg-[#8a6aa0] text-white font-light"
+                className="flex items-center bg-[#a37fb9] hover:bg-[#8a6aa0] text-white font-medium text-base"
               >
                 <LogOutIcon className="h-5 w-5 mr-2" />
                 Sair
@@ -115,7 +115,7 @@ const Navbar = () => {
               <Button 
                 variant="default" 
                 size="sm" 
-                className="flex items-center bg-[#a37fb9] hover:bg-[#8a6aa0] text-white font-light"
+                className="flex items-center bg-[#a37fb9] hover:bg-[#8a6aa0] text-white font-medium text-base"
                 asChild
               >
                 <Link to="/auth">
@@ -147,7 +147,7 @@ const Navbar = () => {
                 <Link 
                   key={link.href} 
                   to={link.href}
-                  className="flex items-center p-3 hover:bg-[#a37fb9]/10 text-[#a37fb9] font-light"
+                  className="flex items-center p-3 hover:bg-[#a37fb9] hover:text-white text-[#a37fb9] font-medium text-base"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {link.icon}
@@ -163,7 +163,7 @@ const Navbar = () => {
                     signOut();
                     setIsMenuOpen(false);
                   }}
-                  className="flex items-center mt-4 w-full justify-center bg-[#a37fb9] hover:bg-[#8a6aa0] text-white font-light"
+                  className="flex items-center mt-4 w-full justify-center bg-[#a37fb9] hover:bg-[#8a6aa0] text-white font-medium text-base"
                 >
                   <LogOutIcon className="h-5 w-5 mr-2" />
                   Sair
@@ -173,7 +173,7 @@ const Navbar = () => {
                   variant="default" 
                   size="sm" 
                   asChild
-                  className="flex items-center mt-4 w-full justify-center bg-[#a37fb9] hover:bg-[#8a6aa0] text-white font-light"
+                  className="flex items-center mt-4 w-full justify-center bg-[#a37fb9] hover:bg-[#8a6aa0] text-white font-medium text-base"
                 >
                   <Link 
                     to="/auth"

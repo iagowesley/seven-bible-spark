@@ -20,17 +20,17 @@ const DashboardPage = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-grow py-8">
-        <div className="seven-container px-4">
+        <div className="seven-container px-4 sm:px-6">
           {/* Cabeçalho */}
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold mb-2">Seu dashboard</h1>
-            <p className="text-muted-foreground">
+          <div className="mb-6 md:mb-8">
+            <h1 className="text-2xl md:text-3xl font-bold mb-2">Seu dashboard</h1>
+            <p className="text-sm md:text-base text-muted-foreground">
               Acompanhe seu progresso nos estudos
             </p>
           </div>
           
           {/* Card de Progresso */}
-          <div>
+          <div className="max-w-xl mx-auto">
             {isLoading ? (
               <div className="h-56 bg-muted animate-pulse rounded-md"></div>
             ) : (

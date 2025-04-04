@@ -24,9 +24,9 @@ const Footer = () => {
           </div>
           
           {/* Links Úteis */}
-          <div className="flex flex-col items-center">
+          <div className="flex flex-col items-center md:items-start">
             <h3 className="text-lg font-normal mb-4 text-[#a37fb9]">Links Úteis</h3>
-            <div className="flex flex-col space-y-2 items-center">
+            <div className="flex flex-col space-y-2 items-center md:items-start">
               <Link to="/estudos" className="text-sm text-muted-foreground hover:text-[#a37fb9] font-light">
                 Estudos
               </Link>
