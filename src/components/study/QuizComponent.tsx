@@ -1,11 +1,10 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
-import { CheckCircle, XCircle } from "lucide-react";
+import { CheckCircle, XCircle, ArrowLeft, ArrowRight, Check } from "lucide-react";
 
 type Question = {
   id: string;
@@ -81,9 +80,9 @@ const QuizComponent: React.FC<QuizProps> = ({ questions, onComplete }) => {
     const percentage = Math.round((finalScore / questions.length) * 100);
     
     return (
-      <Card className="animate-fade-in">
+      <Card className="modern-card animate-fade-in">
         <CardHeader>
-          <CardTitle className="text-center">Quiz Concluído!</CardTitle>
+          <CardTitle className="text-center font-normal">Quiz Concluído!</CardTitle>
         </CardHeader>
         <CardContent className="text-center">
           <div className="w-24 h-24 rounded-circle bg-muted flex items-center justify-center mx-auto mb-6">
@@ -93,14 +92,14 @@ const QuizComponent: React.FC<QuizProps> = ({ questions, onComplete }) => {
               <XCircle className="h-12 w-12 text-destructive" />
             )}
           </div>
-          <h3 className="text-2xl font-bold mb-2">Sua pontuação: {percentage}%</h3>
-          <p className="text-muted-foreground">
+          <h3 className="text-2xl font-normal mb-2">Sua pontuação: {percentage}%</h3>
+          <p className="text-muted-foreground font-light">
             Você acertou {finalScore} de {questions.length} questões
           </p>
         </CardContent>
         <CardFooter className="flex justify-center">
           <Button
-            className="rounded-full"
+            variant="modern"
             onClick={() => {
               // Reiniciar o quiz
               setCurrentQuestionIndex(0);
@@ -118,21 +117,21 @@ const QuizComponent: React.FC<QuizProps> = ({ questions, onComplete }) => {
   }
   
   return (
-    <Card className="animate-fade-in">
+    <Card className="modern-card animate-fade-in">
       <CardHeader>
-        <CardTitle>
+        <CardTitle className="font-normal">
           Questão {currentQuestionIndex + 1} de {questions.length}
         </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="mb-6">
-          <h3 className="text-lg font-medium mb-4">{currentQuestion.text}</h3>
+          <h3 className="text-lg font-normal mb-4">{currentQuestion.text}</h3>
           
           <RadioGroup value={selectedOption} className="space-y-3">
             {currentQuestion.options.map((option) => (
               <div
                 key={option.id}
-                className={`flex items-center space-x-2 border rounded-lg p-3 transition-colors ${
+                className={`flex items-center space-x-2 border p-3 transition-colors ${
                   selectedOption === option.id && answerChecked
                     ? option.id === currentQuestion.correctOptionId
                       ? "border-green-500 bg-green-50 dark:bg-green-900/10"
@@ -148,7 +147,7 @@ const QuizComponent: React.FC<QuizProps> = ({ questions, onComplete }) => {
                 />
                 <Label
                   htmlFor={option.id}
-                  className="flex-grow cursor-pointer py-1"
+                  className="flex-grow cursor-pointer py-1 font-light"
                 >
                   {option.text}
                 </Label>
@@ -167,20 +166,23 @@ const QuizComponent: React.FC<QuizProps> = ({ questions, onComplete }) => {
       </CardContent>
       <CardFooter className="flex justify-between">
         <Button
-          className="rounded-full"
           variant="outline"
           disabled={currentQuestionIndex === 0}
           onClick={() => setCurrentQuestionIndex(currentQuestionIndex - 1)}
+          className="flex items-center"
         >
+          <ArrowLeft className="h-4 w-4 mr-2" />
           Anterior
         </Button>
         {!answerChecked ? (
-          <Button className="rounded-full" onClick={checkAnswer}>
+          <Button variant="modern" onClick={checkAnswer} className="flex items-center">
+            <Check className="h-4 w-4 mr-2" />
             Verificar
           </Button>
         ) : (
-          <Button className="rounded-full" onClick={nextQuestion}>
+          <Button variant="modern" onClick={nextQuestion} className="flex items-center">
             {isLastQuestion ? "Finalizar" : "Próxima"}
+            {!isLastQuestion && <ArrowRight className="h-4 w-4 ml-2" />}
           </Button>
         )}
       </CardFooter>

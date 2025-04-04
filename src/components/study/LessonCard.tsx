@@ -86,32 +86,32 @@ const LessonCard: React.FC<LessonCardProps> = ({
   const bgGradient = getDayColor(id);
 
   return (
-    <Card className="overflow-hidden card-hover border-border">
+    <Card className="overflow-hidden modern-card hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border-0">
       <div 
-        className={`h-40 bg-muted bg-cover bg-center`}
+        className={`h-48 bg-muted bg-cover bg-center`}
         style={image ? { backgroundImage: `url(${image})` } : {}}
       >
         {!image && (
           <div className={`h-full flex items-center justify-center bg-gradient-to-r ${bgGradient}`}>
             <div className="text-center">
               <Calendar className="h-12 w-12 text-white opacity-90 mx-auto mb-1" />
-              <h3 className="text-white font-bold text-xl">{dayName}</h3>
+              <h3 className="text-white font-normal text-xl">{dayName}</h3>
             </div>
           </div>
         )}
       </div>
       
-      <CardHeader>
+      <CardHeader className="pb-2">
         <div className="flex justify-between items-start">
-          <CardTitle className="line-clamp-1">{title}</CardTitle>
+          <CardTitle className="line-clamp-1 text-xl font-normal">{title}</CardTitle>
           {currentProgress > 0 && (
             <CheckCircle className="h-5 w-5 text-green-500" />
           )}
         </div>
       </CardHeader>
       
-      <CardContent>
-        <p className="text-muted-foreground text-sm line-clamp-3 mb-3">
+      <CardContent className="pb-2">
+        <p className="text-muted-foreground text-sm line-clamp-3 mb-3 font-light">
           {description}
         </p>
         <div className="flex items-center text-xs text-muted-foreground">
@@ -123,9 +123,9 @@ const LessonCard: React.FC<LessonCardProps> = ({
       </CardContent>
       
       <CardFooter>
-        <Button asChild className="w-full rounded-full" variant="default">
+        <Button asChild className="w-full" variant="modern">
           <Link to={`/estudos/${id}`}>
-            {"Estudar Agora"}
+            Estudar Agora
           </Link>
         </Button>
       </CardFooter>

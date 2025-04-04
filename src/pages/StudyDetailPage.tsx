@@ -59,7 +59,7 @@ const getFormattedDate = (dayOfWeek: string) => {
 const lessonData = {
   id: "2",
   title: "O início do altar",
-  description: "Um estudo sobre as consequências do pecado e os primeiros passos da humanidade fora do Éden.",
+  description: "",
   content: ``,
   progress: 65,
   duration: "15 min",
@@ -486,6 +486,7 @@ const StudyDetailPage = () => {
   const [impressions, setImpressions] = useState("");
   const [isBibleTextOpen, setIsBibleTextOpen] = useState(false);
   const [newComment, setNewComment] = useState("");
+  const [description, setDescription] = useState("");
   const { toast } = useToast();
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -560,6 +561,7 @@ const StudyDetailPage = () => {
   useEffect(() => {
     if (id) {
       setFormattedDate(getFormattedDate(id));
+      setDescription(id === "sabado" ? "O início do altar" : "");
     }
     
     if (userProgressData) {
@@ -683,7 +685,7 @@ const StudyDetailPage = () => {
                     id === "sexta" ? "Um manto próprio" :
                     lessonData.title
                   }</h1>
-                  <p className="text-muted-foreground mb-4 font-sans">{lessonData.description}</p>
+                  <p className="text-muted-foreground mb-4 font-sans">{description}</p>
                   
                   <div className="flex items-center gap-4 text-sm text-muted-foreground mt-4">
                     <div className="flex items-center gap-1">
@@ -706,13 +708,13 @@ const StudyDetailPage = () => {
                 <BookOpen className="h-4 w-4" /> Conteúdo
               </TabsTrigger>
               {id !== "sabado" && (
-                <TabsTrigger 
-                  value="quiz" 
-                  disabled={!quizEnabled} 
-                  className="flex items-center gap-1"
-                >
-                  <CheckCircle className="h-4 w-4" /> Quiz
-                </TabsTrigger>
+              <TabsTrigger 
+                value="quiz" 
+                disabled={!quizEnabled} 
+                className="flex items-center gap-1"
+              >
+                <CheckCircle className="h-4 w-4" /> Quiz
+              </TabsTrigger>
               )}
               <TabsTrigger value="discussion" className="flex items-center gap-1">
                 <MessageSquare className="h-4 w-4" /> Discussão
@@ -948,11 +950,11 @@ const StudyDetailPage = () => {
                 />
                 
                 {id !== "sabado" && (
-                  <div className="mt-8 flex justify-end">
-                    <Button onClick={enableQuiz} className="rounded-full bg-accent hover:bg-accent/90 text-accent-foreground">
-                      Continuar para o Quiz
-                    </Button>
-                  </div>
+                <div className="mt-8 flex justify-end">
+                    <Button onClick={enableQuiz} className="bg-accent hover:bg-accent/90 text-accent-foreground">
+                    Continuar para o Quiz
+                  </Button>
+                </div>
                 )}
               </div>
             </TabsContent>
@@ -964,11 +966,11 @@ const StudyDetailPage = () => {
                   onComplete={handleQuizComplete} 
                 />
               ) : (
-                <div className="bg-muted p-8 rounded-lg text-center">
+                <div className="bg-muted p-8 text-center">
                   <p className="text-muted-foreground mb-4">
                     Você precisa ler o conteúdo antes de acessar o quiz.
                   </p>
-                  <Button onClick={() => setActiveTab("content")} className="rounded-full">
+                  <Button onClick={() => setActiveTab("content")} variant="modern">
                     Voltar para o conteúdo
                   </Button>
                 </div>
@@ -976,15 +978,15 @@ const StudyDetailPage = () => {
             </TabsContent>
             
             <TabsContent value="discussion">
-              <div className="bg-card p-6 rounded-lg shadow-sm border border-border">
+              <div className="bg-card p-6 shadow-sm border-0">
                 <h2 className="text-xl font-semibold mb-4">Discussão</h2>
                 
                 <div className="space-y-4 mb-6">
                   {lessonComments.length > 0 ? (
                     lessonComments.map((comment) => (
-                      <div key={comment.id} className="p-4 bg-muted/50 rounded-lg border border-border">
-                        <div className="flex justify-between mb-2">
-                          <span className="font-medium">{comment.author}</span>
+                      <div key={comment.id} className="p-4 bg-muted/50 border border-[#a37fb9]/20">
+                      <div className="flex justify-between mb-2">
+                        <span className="font-medium">{comment.author}</span>
                           <span className="text-sm text-muted-foreground">
                             {new Date(comment.created_at).toLocaleDateString('pt-BR', {
                               day: '2-digit',
@@ -999,25 +1001,25 @@ const StudyDetailPage = () => {
                       </div>
                     ))
                   ) : (
-                    <div className="text-center p-6 bg-muted/30 rounded-lg">
+                    <div className="text-center p-6 bg-muted/30">
                       <p className="text-muted-foreground">Nenhum comentário ainda. Seja o primeiro a compartilhar seus pensamentos!</p>
                     </div>
                   )}
                 </div>
                 
                 {user ? (
-                  <div>
-                    <h3 className="text-lg font-medium mb-2">Adicionar comentário</h3>
-                    <textarea 
-                      className="w-full p-3 border border-border rounded-lg bg-background focus:outline-none focus:ring-1 focus:ring-primary resize-none"
-                      rows={3}
-                      placeholder="Compartilhe seus pensamentos sobre esta lição..."
+                <div>
+                  <h3 className="text-lg font-medium mb-2">Adicionar comentário</h3>
+                  <textarea 
+                      className="w-full p-3 border border-input bg-background focus:outline-none focus:ring-1 focus:ring-primary resize-none"
+                    rows={3}
+                    placeholder="Compartilhe seus pensamentos sobre esta lição..."
                       value={newComment}
                       onChange={(e) => setNewComment(e.target.value)}
-                    ></textarea>
-                    <div className="mt-2 flex justify-end">
+                  ></textarea>
+                  <div className="mt-2 flex justify-end">
                       <Button 
-                        className="rounded-full" 
+                        variant="modern" 
                         onClick={handleSubmitComment}
                         disabled={!newComment.trim() || saveCommentMutation.isPending}
                       >
@@ -1026,12 +1028,12 @@ const StudyDetailPage = () => {
                     </div>
                   </div>
                 ) : (
-                  <div className="text-center p-4 bg-muted/30 rounded-lg">
+                  <div className="text-center p-4 bg-muted/30">
                     <p className="text-muted-foreground mb-2">Faça login para participar da discussão</p>
-                    <Button asChild>
+                    <Button asChild variant="modern">
                       <Link to="/login">Fazer Login</Link>
                     </Button>
-                  </div>
+                </div>
                 )}
               </div>
             </TabsContent>
