@@ -1,4 +1,3 @@
-
 import { supabase } from "@/integrations/supabase/client";
 
 export interface UserProgress {
@@ -84,7 +83,7 @@ export const getTotalCompletedLessons = async (userId: string) => {
     .from("user_progress")
     .select("*", { count: 'exact' })
     .eq("user_id", userId)
-    .eq("completed", true);
+    .gte("progress", 50);
     
   if (error) {
     throw new Error(error.message);
@@ -137,4 +136,43 @@ export const getStreakDays = async (userId: string) => {
   }
   
   return streak;
+};
+
+export interface Comment {
+  id?: string;
+  user_id: string;
+  lesson_id: string;
+  author: string;
+  text: string;
+  created_at: string;
+}
+
+export const saveComment = async (comment: Omit<Comment, 'id' | 'created_at'>) => {
+  const { data, error } = await supabase
+    .from("lesson_comments")
+    .insert({
+      ...comment,
+      created_at: new Date().toISOString(),
+    })
+    .select();
+    
+  if (error) {
+    throw new Error(error.message);
+  }
+  
+  return data[0] as Comment;
+};
+
+export const getCommentsByLessonId = async (lessonId: string) => {
+  const { data, error } = await supabase
+    .from("lesson_comments")
+    .select("*")
+    .eq("lesson_id", lessonId)
+    .order('created_at', { ascending: false });
+    
+  if (error) {
+    throw new Error(error.message);
+  }
+  
+  return data as Comment[];
 };

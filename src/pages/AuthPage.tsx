@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
@@ -77,17 +76,14 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-background via-background to-muted p-4">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-[#a37fb9] p-4">
       <div className="w-full max-w-md">
         <div className="flex flex-col items-center mb-8">
-          <div className="w-16 h-16 rounded-full bg-gradient-to-br from-seven-blue to-seven-purple flex items-center justify-center mb-4">
-            <BookOpen className="text-white h-8 w-8" />
-          </div>
-          <h1 className="text-3xl font-bold text-center">
-            <span className="text-seven-purple">Lição</span>{" "}
-            <span className="text-seven-blue">Jovem</span>{" "}
-            <span className="text-seven-gold">Seven</span>
-          </h1>
+          <img 
+            src="/LOGO_LIÇÃO_JOVEM-removebg-preview (1).png" 
+            alt="Lição Jovem" 
+            className="h-24 mb-4"
+          />
         </div>
 
         <Tabs
@@ -96,16 +92,26 @@ export default function AuthPage() {
           onValueChange={setActiveTab}
           className="w-full"
         >
-          <TabsList className="grid w-full grid-cols-2 mb-6">
-            <TabsTrigger value="login">Entrar</TabsTrigger>
-            <TabsTrigger value="register">Cadastrar</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2 mb-6 bg-white">
+            <TabsTrigger 
+              value="login" 
+              className="data-[state=active]:bg-[#a37fb9] data-[state=active]:text-white"
+            >
+              Entrar
+            </TabsTrigger>
+            <TabsTrigger 
+              value="register"
+              className="data-[state=active]:bg-[#a37fb9] data-[state=active]:text-white"
+            >
+              Cadastrar
+            </TabsTrigger>
           </TabsList>
           
           <TabsContent value="login">
-            <Card>
+            <Card className="bg-white border-0 shadow-lg transition-all duration-300 hover:shadow-xl">
               <CardHeader>
-                <CardTitle>Login</CardTitle>
-                <CardDescription>
+                <CardTitle className="text-[#a37fb9] font-bold">Login</CardTitle>
+                <CardDescription className="text-gray-600">
                   Entre com sua conta para acessar os estudos
                 </CardDescription>
               </CardHeader>
@@ -120,7 +126,7 @@ export default function AuthPage() {
                       name="email"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>E-mail</FormLabel>
+                          <FormLabel className="text-gray-800 font-medium">E-mail</FormLabel>
                           <FormControl>
                             <Input
                               type="email"
@@ -137,7 +143,7 @@ export default function AuthPage() {
                       name="password"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Senha</FormLabel>
+                          <FormLabel className="text-gray-800 font-medium">Senha</FormLabel>
                           <FormControl>
                             <Input
                               type="password"
@@ -149,7 +155,10 @@ export default function AuthPage() {
                         </FormItem>
                       )}
                     />
-                    <Button type="submit" className="w-full">
+                    <Button 
+                      type="submit" 
+                      className="w-full bg-[#a37fb9] hover:bg-[#8a6aa0] text-white"
+                    >
                       Entrar
                     </Button>
                   </form>
@@ -160,7 +169,7 @@ export default function AuthPage() {
                   Não tem uma conta?{" "}
                   <Button
                     variant="link"
-                    className="p-0"
+                    className="p-0 text-[#a37fb9] hover:text-[#8a6aa0]"
                     onClick={() => setActiveTab("register")}
                   >
                     Cadastre-se
@@ -171,10 +180,10 @@ export default function AuthPage() {
           </TabsContent>
           
           <TabsContent value="register">
-            <Card>
+            <Card className="bg-white border-0 shadow-lg transition-all duration-300 hover:shadow-xl">
               <CardHeader>
-                <CardTitle>Cadastro</CardTitle>
-                <CardDescription>
+                <CardTitle className="text-[#a37fb9] font-bold">Cadastro</CardTitle>
+                <CardDescription className="text-gray-600">
                   Crie uma nova conta para acessar os estudos
                 </CardDescription>
               </CardHeader>
@@ -189,7 +198,7 @@ export default function AuthPage() {
                       name="full_name"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Nome completo</FormLabel>
+                          <FormLabel className="text-gray-800 font-medium">Nome completo</FormLabel>
                           <FormControl>
                             <Input
                               placeholder="Seu nome completo"
@@ -205,7 +214,7 @@ export default function AuthPage() {
                       name="email"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>E-mail</FormLabel>
+                          <FormLabel className="text-gray-800 font-medium">E-mail</FormLabel>
                           <FormControl>
                             <Input
                               type="email"
@@ -222,7 +231,7 @@ export default function AuthPage() {
                       name="password"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Senha</FormLabel>
+                          <FormLabel className="text-gray-800 font-medium">Senha</FormLabel>
                           <FormControl>
                             <Input
                               type="password"
@@ -239,7 +248,7 @@ export default function AuthPage() {
                       name="confirmPassword"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Confirmar senha</FormLabel>
+                          <FormLabel className="text-gray-800 font-medium">Confirmar senha</FormLabel>
                           <FormControl>
                             <Input
                               type="password"
@@ -251,7 +260,10 @@ export default function AuthPage() {
                         </FormItem>
                       )}
                     />
-                    <Button type="submit" className="w-full">
+                    <Button 
+                      type="submit" 
+                      className="w-full bg-[#a37fb9] hover:bg-[#8a6aa0] text-white"
+                    >
                       Cadastrar
                     </Button>
                   </form>
@@ -262,7 +274,7 @@ export default function AuthPage() {
                   Já tem uma conta?{" "}
                   <Button
                     variant="link"
-                    className="p-0"
+                    className="p-0 text-[#a37fb9] hover:text-[#8a6aa0]"
                     onClick={() => setActiveTab("login")}
                   >
                     Entre aqui

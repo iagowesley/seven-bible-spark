@@ -1,8 +1,7 @@
-
 import React from "react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Clock, Award, Calendar } from "lucide-react";
+import { BookOpen, Clock, Award, Calendar, CheckCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -105,31 +104,20 @@ const LessonCard: React.FC<LessonCardProps> = ({
       <CardHeader>
         <div className="flex justify-between items-start">
           <CardTitle className="line-clamp-1">{title}</CardTitle>
+          {currentProgress > 0 && (
+            <CheckCircle className="h-5 w-5 text-green-500" />
+          )}
         </div>
-        {currentProgress > 0 && (
-          <div className="mt-2">
-            <div className="progress-bar">
-              <div className="progress-fill" style={{ width: `${currentProgress}%` }}></div>
-            </div>
-            <p className="text-xs text-muted-foreground mt-1">
-              {currentProgress}% completo
-            </p>
-          </div>
-        )}
       </CardHeader>
       
       <CardContent>
         <p className="text-muted-foreground text-sm line-clamp-3 mb-3">
           {description}
         </p>
-        <div className="flex items-center justify-between text-xs text-muted-foreground">
+        <div className="flex items-center text-xs text-muted-foreground">
           <div className="flex items-center gap-1">
             <Clock className="h-3 w-3" />
             <span>{duration}</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <Award className="h-3 w-3" />
-            <span>{points} pontos</span>
           </div>
         </div>
       </CardContent>
@@ -137,7 +125,7 @@ const LessonCard: React.FC<LessonCardProps> = ({
       <CardFooter>
         <Button asChild className="w-full rounded-full" variant="default">
           <Link to={`/estudos/${id}`}>
-            {currentProgress > 0 ? "Continuar Estudo" : "Estudar Agora"}
+            {"Estudar Agora"}
           </Link>
         </Button>
       </CardFooter>
