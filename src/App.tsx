@@ -26,7 +26,7 @@ const App = () => (
             <Route path="/auth" element={<AuthPage />} />
             <Route 
               path="/" 
-              element={<Navigate to="/auth" replace />}  
+              element={<Navigate to="/sobre" replace />}  
             />
             <Route path="/sobre" element={<AboutPage />} />
             <Route 

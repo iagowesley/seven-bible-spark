@@ -9,7 +9,8 @@ import {
   LogOutIcon,
   MenuIcon,
   XIcon,
-  InfoIcon
+  InfoIcon,
+  LogInIcon
 } from "lucide-react";
 
 const Navbar = () => {
@@ -100,7 +101,7 @@ const Navbar = () => {
               </Button>
             ))}
             
-            {user && (
+            {user ? (
               <Button 
                 variant="default" 
                 size="sm" 
@@ -110,22 +111,32 @@ const Navbar = () => {
                 <LogOutIcon className="h-5 w-5 mr-2" />
                 Sair
               </Button>
+            ) : (
+              <Button 
+                variant="default" 
+                size="sm" 
+                className="flex items-center bg-[#a37fb9] hover:bg-[#8a6aa0] text-white font-light"
+                asChild
+              >
+                <Link to="/auth">
+                  <LogInIcon className="h-5 w-5 mr-2" />
+                  Entrar
+                </Link>
+              </Button>
             )}
           </div>
 
           {/* Botão de menu mobile */}
-          {user && (
-            <button 
-              className="md:hidden p-2 rounded-none focus:outline-none text-[#a37fb9]"
-              onClick={toggleMenu}
-            >
-              {isMenuOpen ? (
-                <XIcon className="h-6 w-6" />
-              ) : (
-                <MenuIcon className="h-6 w-6" />
-              )}
-            </button>
-          )}
+          <button 
+            className="md:hidden p-2 rounded-none focus:outline-none text-[#a37fb9]"
+            onClick={toggleMenu}
+          >
+            {isMenuOpen ? (
+              <XIcon className="h-6 w-6" />
+            ) : (
+              <MenuIcon className="h-6 w-6" />
+            )}
+          </button>
         </div>
 
         {/* Menu mobile */}
@@ -144,7 +155,7 @@ const Navbar = () => {
                 </Link>
               ))}
               
-              {user && (
+              {user ? (
                 <Button 
                   variant="default" 
                   size="sm" 
@@ -156,6 +167,21 @@ const Navbar = () => {
                 >
                   <LogOutIcon className="h-5 w-5 mr-2" />
                   Sair
+                </Button>
+              ) : (
+                <Button 
+                  variant="default" 
+                  size="sm" 
+                  asChild
+                  className="flex items-center mt-4 w-full justify-center bg-[#a37fb9] hover:bg-[#8a6aa0] text-white font-light"
+                >
+                  <Link 
+                    to="/auth"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <LogInIcon className="h-5 w-5 mr-2" />
+                    Entrar
+                  </Link>
                 </Button>
               )}
             </div>
