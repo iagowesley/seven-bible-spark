@@ -1,4 +1,3 @@
-
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { Session, User } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
@@ -154,11 +153,38 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const signOut = async () => {
     try {
+      // Limpar o cache local antes de tentar sair
+      localStorage.removeItem('user_progress_cache');
+      
+      // Verificar se ainda há uma sessão válida
+      const { data: sessionData } = await supabase.auth.getSession();
+      
+      if (!sessionData.session) {
+        // Se não houver sessão, apenas limpe os estados e navegue
+        setSession(null);
+        setUser(null);
+        setProfile(null);
+        
+        toast({
+          title: "Desconectado",
+          description: "Você saiu da sua conta com sucesso.",
+        });
+        
+        navigate('/');
+        return;
+      }
+      
+      // Se houver sessão, realize o signOut normalmente
       const { error } = await supabase.auth.signOut();
       
       if (error) {
         throw error;
       }
+      
+      // Limpar estados explicitamente para garantir
+      setSession(null);
+      setUser(null);
+      setProfile(null);
       
       toast({
         title: "Desconectado",
@@ -167,11 +193,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       
       navigate('/');
     } catch (error: any) {
+      console.error("Erro ao sair:", error);
+      
+      // Mesmo com erro, limpar os estados locais e redirecionando
+      setSession(null);
+      setUser(null);
+      setProfile(null);
+      
       toast({
         variant: "destructive",
         title: "Erro ao sair",
-        description: error.message,
+        description: error.message || "Ocorreu um erro ao sair da conta, mas você foi desconectado localmente.",
       });
+      
+      // Redirecionar mesmo com erro
+      navigate('/');
     }
   };
 

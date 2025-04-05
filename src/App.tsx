@@ -12,7 +12,6 @@ import StudyDetailPage from "./pages/StudyDetailPage";
 import DashboardPage from "./pages/DashboardPage";
 import NotFound from "./pages/NotFound";
 import AboutPage from "./pages/AboutPage";
-import EmailConfirmPage from "./pages/EmailConfirmPage";
 
 const queryClient = new QueryClient();
 
@@ -25,7 +24,6 @@ const App = () => (
           <Sonner />
           <Routes>
             <Route path="/auth" element={<AuthPage />} />
-            <Route path="/email-confirmado" element={<EmailConfirmPage />} />
             <Route 
               path="/" 
               element={<Navigate to="/sobre" replace />}  
