@@ -1,5 +1,6 @@
+
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -165,13 +166,12 @@ export default function AuthPage() {
                           <FormItem>
                             <div className="flex justify-between items-center">
                               <FormLabel className="text-gray-800 font-medium">Senha</FormLabel>
-                              <Button
-                                variant="link"
-                                className="p-0 h-auto text-sm text-[#a37fb9] hover:text-[#8a6aa0]"
-                                type="button"
+                              <Link 
+                                to="/esqueci-senha" 
+                                className="text-sm text-[#a37fb9] hover:text-[#8a6aa0]"
                               >
                                 Esqueceu?
-                              </Button>
+                              </Link>
                             </div>
                             <FormControl>
                               <Input

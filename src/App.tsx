@@ -14,6 +14,8 @@ import DashboardPage from "./pages/DashboardPage";
 import NotFound from "./pages/NotFound";
 import AboutPage from "./pages/AboutPage";
 import EmailConfirmationPage from "./pages/EmailConfirmationPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +34,8 @@ const App = () => (
             />
             <Route path="/sobre" element={<AboutPage />} />
             <Route path="/confirmar-email" element={<EmailConfirmationPage />} />
+            <Route path="/esqueci-senha" element={<ForgotPasswordPage />} />
+            <Route path="/redefinir-senha" element={<ResetPasswordPage />} />
             <Route 
               path="/estudos" 
               element={
