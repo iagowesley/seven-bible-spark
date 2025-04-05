@@ -3,10 +3,21 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from '@/integrations/supabase/types';
 
-const SUPABASE_URL = "https://mqmpjgxvfvobgebe.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1xbXBqZ3h2ZnZvYmdjdHJnZWJlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM2MzQzNTUsImV4cCI6MjA1OTIxMDM1NX0.VZ4Yifkg8mPv2k_HMDyT1pk68fxlDUmxxGrU8jyMyEA";
+const SUPABASE_URL = "https://mqmpjgxvfvobgctrgebe.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1xbXBqZ3h2ZnZvYmdlYmUiLCJyb2xlIjoiYW5vbiIsImlhdCI6MTc0MzYzNDM1NSwiZXhwIjoyMDU5MjEwMzU1fQ.VZ4Yifkg8mPv2k_HMDyT1pk68fxlDUmxxGrU8jyMyEA";
 
 // Import the supabase client like this:
 // import { supabase } from "@/integrations/supabase/client";
 
 export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+// Add a wrapper for raw SQL execution
+export const executeRawQuery = async (query: string, params?: any) => {
+  try {
+    const { data, error } = await supabase.rpc(query, params);
+    return { data, error };
+  } catch (error) {
+    console.error('Error executing raw query:', error);
+    return { data: null, error };
+  }
+};

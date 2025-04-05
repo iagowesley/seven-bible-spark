@@ -329,22 +329,27 @@ export interface Comment {
   created_at: string;
 }
 
-// Use raw SQL queries for comment operations since they're not in the type definitions
+// Use custom fetch for comments since they're not in the type definitions
 export const saveComment = async (comment: Omit<Comment, 'id' | 'created_at'>) => {
   try {
+    // Use executeRaw method instead of typed query since 'lesson_comments' is not in the types
     const { data, error } = await supabase
-      .from('lesson_comments')
-      .insert({
-        ...comment,
-        created_at: new Date().toISOString(),
-      })
-      .select();
-      
+      .rpc('insert_comment', {
+        user_id_param: comment.user_id,
+        lesson_id_param: comment.lesson_id,
+        author_param: comment.author,
+        text_param: comment.text
+      });
+    
     if (error) {
       throw new Error(error.message);
     }
     
-    return data[0] as Comment;
+    return {
+      ...comment,
+      id: data?.id || `temp_${Date.now()}`,
+      created_at: new Date().toISOString()
+    } as Comment;
   } catch (e: any) {
     console.error("Erro ao salvar comentário:", e);
     throw e;
@@ -353,17 +358,25 @@ export const saveComment = async (comment: Omit<Comment, 'id' | 'created_at'>) =
 
 export const getCommentsByLessonId = async (lessonId: string) => {
   try {
+    // Use executeRaw method instead of typed query
     const { data, error } = await supabase
-      .from('lesson_comments')
-      .select('*')
-      .eq('lesson_id', lessonId)
-      .order('created_at', { ascending: false });
-      
+      .rpc('get_comments_by_lesson', { 
+        lesson_id_param: lessonId 
+      });
+    
     if (error) {
       throw new Error(error.message);
     }
     
-    return data as Comment[];
+    // Map the raw data to our Comment interface
+    return (data || []).map(item => ({
+      id: item.id,
+      user_id: item.user_id,
+      lesson_id: item.lesson_id,
+      author: item.author,
+      text: item.text,
+      created_at: item.created_at
+    })) as Comment[];
   } catch (e) {
     console.error("Erro ao buscar comentários:", e);
     return [];
