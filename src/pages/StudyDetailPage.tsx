@@ -496,6 +496,8 @@ const StudyDetailPage = () => {
     queryFn: async () => {
       if (!user || !id) return null;
       
+      try {
+        // Tentar obter dados do Supabase
       const { data, error } = await supabase
         .from("user_progress")
         .select("*")
@@ -505,10 +507,62 @@ const StudyDetailPage = () => {
       
       if (error) {
         console.error("Error fetching user progress:", error);
+          // Em caso de erro, buscar do localStorage
+          const cachedData = localStorage.getItem('user_progress_cache');
+          if (cachedData) {
+            try {
+              const cache = JSON.parse(cachedData);
+              const userCache = cache[user.id] || [];
+              const lessonProgress = userCache.find(p => p.lesson_id === id);
+              if (lessonProgress) {
+                return lessonProgress;
+              }
+            } catch (e) {
+              console.error("Erro ao processar cache:", e);
+            }
+          }
+          return null;
+        }
+        
+        // Se encontrou dados no Supabase, atualizar o cache local
+        if (data) {
+          try {
+            const cachedData = localStorage.getItem('user_progress_cache');
+            const cache = cachedData ? JSON.parse(cachedData) : {};
+            const userCache = cache[user.id] || [];
+            
+            // Atualizar ou adicionar este registro no cache
+            const existingIndex = userCache.findIndex(p => p.lesson_id === id);
+            if (existingIndex >= 0) {
+              userCache[existingIndex] = data;
+            } else {
+              userCache.push(data);
+            }
+            
+            cache[user.id] = userCache;
+            localStorage.setItem('user_progress_cache', JSON.stringify(cache));
+          } catch (e) {
+            console.error("Erro ao atualizar cache:", e);
+          }
+        }
+        
+        return data;
+      } catch (e) {
+        console.error("Erro ao conectar ao Supabase:", e);
+        
+        // Em caso de erro de conexão, tentar o localStorage
+        try {
+          const cachedData = localStorage.getItem('user_progress_cache');
+          if (cachedData) {
+            const cache = JSON.parse(cachedData);
+            const userCache = cache[user.id] || [];
+            return userCache.find(p => p.lesson_id === id) || null;
+          }
+        } catch (cacheError) {
+          console.error("Erro ao acessar cache:", cacheError);
+        }
         return null;
       }
-      
-      return data;
     },
     enabled: !!user && !!id,
   });
