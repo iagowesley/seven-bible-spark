@@ -40,8 +40,12 @@ export default function ForgotPasswordPage() {
   const onSubmit = async (values: ForgotPasswordFormValues) => {
     setIsSubmitting(true);
     try {
+      // Make sure we're using the absolute URL with the correct route
+      const resetPasswordURL = `${window.location.origin}/redefinir-senha`;
+      console.log("Reset password URL:", resetPasswordURL);
+      
       const { error } = await supabase.auth.resetPasswordForEmail(values.email, {
-        redirectTo: `${window.location.origin}/redefinir-senha`,
+        redirectTo: resetPasswordURL,
       });
 
       if (error) {

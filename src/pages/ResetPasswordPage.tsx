@@ -38,7 +38,11 @@ export default function ResetPasswordPage() {
   // Check if we have a valid session from the password reset link
   useEffect(() => {
     const checkSession = async () => {
+      console.log("Checking session...");
       const { data, error } = await supabase.auth.getSession();
+      console.log("Session data:", data);
+      console.log("Session error:", error);
+      
       if (error) {
         console.error("Erro ao verificar sessão:", error);
         toast({
@@ -51,8 +55,27 @@ export default function ResetPasswordPage() {
       }
 
       if (data.session) {
+        console.log("Valid session found");
         setIsValidSession(true);
       } else {
+        // Check for hash parameters indicating password reset
+        const hash = window.location.hash;
+        if (hash && hash.includes('type=recovery')) {
+          console.log("Recovery hash found:", hash);
+          // If hash exists, we're coming from a recovery email
+          // Supabase will handle this automatically, just wait for session
+          const unsubscribe = supabase.auth.onAuthStateChange((event, session) => {
+            console.log("Auth state change:", event);
+            if (event === 'PASSWORD_RECOVERY') {
+              console.log("Password recovery event detected");
+              setIsValidSession(true);
+              unsubscribe.data.subscription.unsubscribe();
+            }
+          });
+          return;
+        }
+        
+        console.log("No valid session found");
         toast({
           variant: "destructive",
           title: "Sessão inválida",
@@ -85,6 +108,7 @@ export default function ResetPasswordPage() {
 
     setIsSubmitting(true);
     try {
+      console.log("Updating password...");
       const { error } = await supabase.auth.updateUser({
         password: values.password,
       });
@@ -93,6 +117,7 @@ export default function ResetPasswordPage() {
         throw error;
       }
 
+      console.log("Password updated successfully");
       // Reset password successful
       setResetComplete(true);
       toast({
@@ -105,6 +130,7 @@ export default function ResetPasswordPage() {
         navigate("/auth");
       }, 3000);
     } catch (error: any) {
+      console.error("Error updating password:", error);
       toast({
         variant: "destructive",
         title: "Erro ao redefinir senha",
