@@ -125,6 +125,9 @@ export default function ResetPasswordPage() {
         description: "Sua senha foi alterada. Você será redirecionado para fazer login.",
       });
 
+      // Sign out the user after successful password reset
+      await supabase.auth.signOut();
+      
       // Redirect to login after a delay
       setTimeout(() => {
         navigate("/auth");
