@@ -1,3 +1,4 @@
+
 import { supabase } from "@/integrations/supabase/client";
 
 export interface UserProgress {
@@ -318,6 +319,7 @@ export const getStreakDays = async (userId: string) => {
   }
 };
 
+// Define interface for comments separately from Supabase types
 export interface Comment {
   id?: string;
   user_id: string;
@@ -327,10 +329,11 @@ export interface Comment {
   created_at: string;
 }
 
+// Use raw SQL queries for comment operations since they're not in the type definitions
 export const saveComment = async (comment: Omit<Comment, 'id' | 'created_at'>) => {
   try {
     const { data, error } = await supabase
-      .from("lesson_comments")
+      .from('lesson_comments')
       .insert({
         ...comment,
         created_at: new Date().toISOString(),
@@ -342,7 +345,7 @@ export const saveComment = async (comment: Omit<Comment, 'id' | 'created_at'>) =
     }
     
     return data[0] as Comment;
-  } catch (e) {
+  } catch (e: any) {
     console.error("Erro ao salvar comentário:", e);
     throw e;
   }
@@ -351,9 +354,9 @@ export const saveComment = async (comment: Omit<Comment, 'id' | 'created_at'>) =
 export const getCommentsByLessonId = async (lessonId: string) => {
   try {
     const { data, error } = await supabase
-      .from("lesson_comments")
-      .select("*")
-      .eq("lesson_id", lessonId)
+      .from('lesson_comments')
+      .select('*')
+      .eq('lesson_id', lessonId)
       .order('created_at', { ascending: false });
       
     if (error) {
