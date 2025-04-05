@@ -19,7 +19,7 @@ const Footer = () => {
               />
             </Link>
             <p className="text-sm text-muted-foreground font-light">
-              Estudos bíblicos para jovens adventistas
+              Estudos para jovens adventistas
             </p>
           </div>
           
