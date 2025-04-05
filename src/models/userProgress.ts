@@ -1,5 +1,5 @@
 
-import { supabase } from "@/integrations/supabase/client";
+import { supabase, executeRawQuery } from "@/integrations/supabase/client";
 
 export interface UserProgress {
   id: string;
@@ -332,22 +332,26 @@ export interface Comment {
 // Use custom fetch for comments since they're not in the type definitions
 export const saveComment = async (comment: Omit<Comment, 'id' | 'created_at'>) => {
   try {
-    // Use executeRaw method instead of typed query since 'lesson_comments' is not in the types
-    const { data, error } = await supabase
-      .rpc('insert_comment', {
-        user_id_param: comment.user_id,
-        lesson_id_param: comment.lesson_id,
-        author_param: comment.author,
-        text_param: comment.text
-      });
+    // Use executeRawQuery with any casting to bypass type checking
+    const result = await executeRawQuery('insert_comment', {
+      user_id_param: comment.user_id,
+      lesson_id_param: comment.lesson_id,
+      author_param: comment.author,
+      text_param: comment.text
+    });
     
-    if (error) {
-      throw new Error(error.message);
+    if (result.error) {
+      throw new Error(result.error.message);
     }
     
+    // Handle potentially null data safely
+    const commentId = result.data && typeof result.data === 'object' && 'id' in result.data 
+      ? result.data.id 
+      : `temp_${Date.now()}`;
+      
     return {
       ...comment,
-      id: data?.id || `temp_${Date.now()}`,
+      id: commentId,
       created_at: new Date().toISOString()
     } as Comment;
   } catch (e: any) {
@@ -358,18 +362,22 @@ export const saveComment = async (comment: Omit<Comment, 'id' | 'created_at'>) =
 
 export const getCommentsByLessonId = async (lessonId: string) => {
   try {
-    // Use executeRaw method instead of typed query
-    const { data, error } = await supabase
-      .rpc('get_comments_by_lesson', { 
-        lesson_id_param: lessonId 
-      });
+    // Use executeRawQuery with any casting to bypass type checking
+    const result = await executeRawQuery('get_comments_by_lesson', { 
+      lesson_id_param: lessonId 
+    });
     
-    if (error) {
-      throw new Error(error.message);
+    if (result.error) {
+      throw new Error(result.error.message);
+    }
+    
+    // Handle null data case
+    if (!result.data || !Array.isArray(result.data)) {
+      return [];
     }
     
     // Map the raw data to our Comment interface
-    return (data || []).map(item => ({
+    return result.data.map(item => ({
       id: item.id,
       user_id: item.user_id,
       lesson_id: item.lesson_id,
