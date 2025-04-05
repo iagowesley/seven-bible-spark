@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -12,6 +13,7 @@ import StudyDetailPage from "./pages/StudyDetailPage";
 import DashboardPage from "./pages/DashboardPage";
 import NotFound from "./pages/NotFound";
 import AboutPage from "./pages/AboutPage";
+import EmailConfirmationPage from "./pages/EmailConfirmationPage";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +31,7 @@ const App = () => (
               element={<Navigate to="/sobre" replace />}  
             />
             <Route path="/sobre" element={<AboutPage />} />
+            <Route path="/confirmar-email" element={<EmailConfirmationPage />} />
             <Route 
               path="/estudos" 
               element={
