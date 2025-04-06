@@ -1,20 +1,41 @@
-import React from "react";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
+import { LineChart, BarChart, Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { getTotalCompletedLessons, getTotalPoints, getStreakDays } from '../models/userProgress';
+import { getLessons, studies } from '../data/studies';
+import ProgressCard from '../components/study/ProgressCard';
+import Spinner from '../components/ui/Spinner';
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import ProgressCard from "@/components/study/ProgressCard";
-import { useAuth } from "@/contexts/AuthContext";
-import { useQuery } from "@tanstack/react-query";
-import { getTotalCompletedLessons } from "@/models/userProgress";
 
-const DashboardPage = () => {
-  const { user } = useAuth();
+const DashboardPage: React.FC = () => {
+  const [selectedYear] = useState<number>(new Date().getFullYear());
+  const [selectedMonth] = useState<number>(new Date().getMonth());
+  const currentDate = new Date();
+  const anonymousUserId = 'anonymous-user';
 
-  // Obter total de lições completadas
-  const { data: completedLessons = 0, isLoading } = useQuery({
-    queryKey: ['completedLessons', user?.id],
-    queryFn: () => user ? getTotalCompletedLessons(user.id) : Promise.resolve(0),
-    enabled: !!user
+  // Buscar dados de progresso
+  const { data: progressData, isLoading: isProgressLoading } = useQuery({
+    queryKey: ['dashboard-progress'],
+    queryFn: async () => {
+      try {
+        // Obter dados do localStorage
+        const allProgress = JSON.parse(localStorage.getItem('local_user_progress') || '[]');
+        return allProgress.filter(p => p.user_id === anonymousUserId);
+      } catch (e) {
+        console.error("Erro ao buscar progresso:", e);
+        return [];
+      }
+    }
   });
+
+  const completedLessons = progressData?.filter(lesson => lesson.completed) || [];
+  const totalCompletedLessons = completedLessons.length;
+  const streakDays = getStreakDays(anonymousUserId);
+  const totalPoints = getTotalPoints(anonymousUserId);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -31,11 +52,11 @@ const DashboardPage = () => {
           
           {/* Card de Progresso */}
           <div className="max-w-xl mx-auto">
-            {isLoading ? (
+            {isProgressLoading ? (
               <div className="h-56 bg-muted animate-pulse rounded-md"></div>
             ) : (
               <ProgressCard 
-                completedLessons={completedLessons} 
+                completedLessons={totalCompletedLessons} 
               />
             )}
           </div>

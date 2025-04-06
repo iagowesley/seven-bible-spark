@@ -488,83 +488,27 @@ const StudyDetailPage = () => {
   const [newComment, setNewComment] = useState("");
   const [description, setDescription] = useState("");
   const { toast } = useToast();
-  const { user } = useAuth();
   const navigate = useNavigate();
+  
+  // Usuário anônimo fixo
+  const anonymousUser = { id: 'anonymous-user' };
 
   const { data: userProgressData, isLoading } = useQuery({
-    queryKey: ['lessonProgress', id, user?.id],
+    queryKey: ['lessonProgress', id],
     queryFn: async () => {
-      if (!user || !id) return null;
+      if (!id) return null;
       
       try {
-        // Tentar obter dados do Supabase
-      const { data, error } = await supabase
-        .from("user_progress")
-        .select("*")
-        .eq("user_id", user.id)
-        .eq("lesson_id", id)
-        .maybeSingle();
-      
-      if (error) {
-        console.error("Error fetching user progress:", error);
-          // Em caso de erro, buscar do localStorage
-          const cachedData = localStorage.getItem('user_progress_cache');
-          if (cachedData) {
-            try {
-              const cache = JSON.parse(cachedData);
-              const userCache = cache[user.id] || [];
-              const lessonProgress = userCache.find(p => p.lesson_id === id);
-              if (lessonProgress) {
-                return lessonProgress;
-              }
-            } catch (e) {
-              console.error("Erro ao processar cache:", e);
-            }
-          }
-          return null;
-        }
-        
-        // Se encontrou dados no Supabase, atualizar o cache local
-        if (data) {
-          try {
-            const cachedData = localStorage.getItem('user_progress_cache');
-            const cache = cachedData ? JSON.parse(cachedData) : {};
-            const userCache = cache[user.id] || [];
-            
-            // Atualizar ou adicionar este registro no cache
-            const existingIndex = userCache.findIndex(p => p.lesson_id === id);
-            if (existingIndex >= 0) {
-              userCache[existingIndex] = data;
-            } else {
-              userCache.push(data);
-            }
-            
-            cache[user.id] = userCache;
-            localStorage.setItem('user_progress_cache', JSON.stringify(cache));
-          } catch (e) {
-            console.error("Erro ao atualizar cache:", e);
-          }
-        }
-        
-        return data;
+        // Obter progresso do localStorage
+        const allProgress = JSON.parse(localStorage.getItem('local_user_progress') || '[]');
+        const lessonProgress = allProgress.find(p => p.lesson_id === id && p.user_id === anonymousUser.id);
+        return lessonProgress || null;
       } catch (e) {
-        console.error("Erro ao conectar ao Supabase:", e);
-        
-        // Em caso de erro de conexão, tentar o localStorage
-        try {
-          const cachedData = localStorage.getItem('user_progress_cache');
-          if (cachedData) {
-            const cache = JSON.parse(cachedData);
-            const userCache = cache[user.id] || [];
-            return userCache.find(p => p.lesson_id === id) || null;
-          }
-        } catch (cacheError) {
-          console.error("Erro ao acessar cache:", cacheError);
-        }
+        console.error("Erro ao buscar progresso:", e);
         return null;
       }
     },
-    enabled: !!user && !!id,
+    enabled: !!id,
   });
 
   const { data: lessonComments = [], refetch: refetchComments } = useQuery({
@@ -579,8 +523,8 @@ const StudyDetailPage = () => {
       completed: boolean;
       pointsEarned: number;
     }) => {
-      if (!user || !id) return;
-      return updateUserProgress(user.id, id, progress, completed, pointsEarned);
+      if (!id) return;
+      return updateUserProgress(anonymousUser.id, id, progress, completed, pointsEarned);
     },
     onSuccess: () => {
       console.log("Progress updated successfully");
@@ -626,7 +570,7 @@ const StudyDetailPage = () => {
   }, [id, userProgressData]);
   
   useEffect(() => {
-    if (!user || !id) return;
+    if (!id) return;
     
     const contentElement = document.getElementById('lesson-content');
     if (!contentElement) return;
@@ -657,7 +601,7 @@ const StudyDetailPage = () => {
     
     contentElement.addEventListener('scroll', handleScroll);
     return () => contentElement.removeEventListener('scroll', handleScroll);
-  }, [user, id, progress, isCompleted, updateProgressMutation]);
+  }, [id, progress, isCompleted, updateProgressMutation]);
 
   const enhancedQuestions = id === "domingo" 
     ? lessonData.questions.filter(q => q.id.startsWith("domingo_"))
@@ -680,7 +624,7 @@ const StudyDetailPage = () => {
     setIsCompleted(completed);
     setProgress(100);
     
-    if (user && id) {
+    if (id) {
       updateProgressMutation.mutate({
         progress: 100,
         completed,
@@ -702,12 +646,12 @@ const StudyDetailPage = () => {
   };
 
   const handleSubmitComment = () => {
-    if (!user || !id || !newComment.trim()) return;
+    if (!id || !newComment.trim()) return;
     
     saveCommentMutation.mutate({
-      user_id: user.id,
+      user_id: anonymousUser.id,
       lesson_id: id,
-      author: user.email?.split('@')[0] || 'Usuário',
+      author: 'Visitante',
       text: newComment.trim()
     });
   };
@@ -1117,33 +1061,26 @@ const StudyDetailPage = () => {
                   )}
                 </div>
                 
-                {user ? (
-                <div>
-                  <h3 className="text-lg font-medium mb-2">Adicionar comentário</h3>
-                  <textarea 
-                      className="w-full p-3 border-0 border-b-2 border-[#a37fb9]/30 bg-background/50 focus:outline-none focus:border-[#a37fb9] transition-colors duration-300 rounded-none resize-none"
-                    rows={3}
-                    placeholder="Compartilhe seus pensamentos sobre esta lição..."
-                      value={newComment}
-                      onChange={(e) => setNewComment(e.target.value)}
-                  ></textarea>
-                  <div className="mt-2 flex justify-end">
-                      <Button 
-                        variant="modern" 
-                        onClick={handleSubmitComment}
-                        disabled={!newComment.trim() || saveCommentMutation.isPending}
-                      >
-                        {saveCommentMutation.isPending ? "Enviando..." : "Enviar"}
-                      </Button>
+                {id && (
+                  <div>
+                    <h3 className="text-lg font-medium mb-2">Adicionar comentário</h3>
+                    <textarea 
+                        className="w-full p-3 border-0 border-b-2 border-[#a37fb9]/30 bg-background/50 focus:outline-none focus:border-[#a37fb9] transition-colors duration-300 rounded-none resize-none"
+                      rows={3}
+                      placeholder="Compartilhe seus pensamentos sobre esta lição..."
+                        value={newComment}
+                        onChange={(e) => setNewComment(e.target.value)}
+                    ></textarea>
+                    <div className="mt-2 flex justify-end">
+                        <Button 
+                          variant="modern" 
+                          onClick={handleSubmitComment}
+                          disabled={!newComment.trim() || saveCommentMutation.isPending}
+                        >
+                          {saveCommentMutation.isPending ? "Enviando..." : "Enviar"}
+                        </Button>
+                      </div>
                     </div>
-                  </div>
-                ) : (
-                  <div className="text-center p-4 bg-muted/30">
-                    <p className="text-muted-foreground mb-2">Faça login para participar da discussão</p>
-                    <Button asChild variant="modern">
-                      <Link to="/login">Fazer Login</Link>
-                    </Button>
-                </div>
                 )}
               </div>
             </TabsContent>

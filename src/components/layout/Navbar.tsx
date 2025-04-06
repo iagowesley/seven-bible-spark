@@ -1,20 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useAuth } from "@/contexts/AuthContext";
-import { Button } from "@/components/ui/button";
 import { 
-  UserIcon, 
   LayoutDashboardIcon, 
   BookOpenIcon, 
-  LogOutIcon,
   MenuIcon,
   XIcon,
-  InfoIcon,
-  LogInIcon
+  InfoIcon
 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const Navbar = () => {
-  const { user, signOut } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -35,36 +30,24 @@ const Navbar = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  const navLinks = user 
-    ? [
-        { 
-          icon: <BookOpenIcon className="h-5 w-5 mr-2" />, 
-          label: "Estudos", 
-          href: "/estudos" 
-        },
-        { 
-          icon: <LayoutDashboardIcon className="h-5 w-5 mr-2" />, 
-          label: "Dashboard", 
-          href: "/dashboard" 
-        },
-        { 
-          icon: <InfoIcon className="h-5 w-5 mr-2" />, 
-          label: "Sobre", 
-          href: "/sobre" 
-        },
-        { 
-          icon: <UserIcon className="h-5 w-5 mr-2" />, 
-          label: "Perfil", 
-          href: "/profile" 
-        }
-      ]
-    : [
-        { 
-          icon: <InfoIcon className="h-5 w-5 mr-2" />, 
-          label: "Sobre", 
-          href: "/sobre" 
-        }
-      ];
+  // Links de navegação - agora disponíveis para todos
+  const navLinks = [
+    { 
+      icon: <BookOpenIcon className="h-5 w-5 mr-2" />, 
+      label: "Estudos", 
+      href: "/estudos" 
+    },
+    { 
+      icon: <LayoutDashboardIcon className="h-5 w-5 mr-2" />, 
+      label: "Dashboard", 
+      href: "/dashboard" 
+    },
+    { 
+      icon: <InfoIcon className="h-5 w-5 mr-2" />, 
+      label: "Sobre", 
+      href: "/sobre" 
+    }
+  ];
 
   const navbarClass = isScrolled
     ? "navbar-floating bg-white dark:bg-slate-900 border-b border-transparent"
@@ -77,7 +60,7 @@ const Navbar = () => {
       
       <nav className={navbarClass}>
         <div className="seven-container flex items-center justify-between py-4">
-          <Link to={user ? "/estudos" : "/"} className="flex items-center">
+          <Link to="/sobre" className="flex items-center">
             <img 
               src="/LOGO_LIÇÃO_JOVEM-removebg-preview (1).png" 
               alt="Lição Jovem" 
@@ -100,35 +83,13 @@ const Navbar = () => {
                 </Link>
               </Button>
             ))}
-            
-            {user ? (
-              <Button 
-                variant="default" 
-                size="sm" 
-                onClick={signOut}
-                className="flex items-center bg-[#a37fb9] hover:bg-[#8a6aa0] text-white font-medium text-base"
-              >
-                <LogOutIcon className="h-5 w-5 mr-2" />
-                Sair
-              </Button>
-            ) : (
-              <Button 
-                variant="default" 
-                size="sm" 
-                className="flex items-center bg-[#a37fb9] hover:bg-[#8a6aa0] text-white font-medium text-base"
-                asChild
-              >
-                <Link to="/auth">
-                  <LogInIcon className="h-5 w-5 mr-2" />
-                  Entrar
-                </Link>
-              </Button>
-            )}
           </div>
 
           {/* Botão de menu mobile */}
-          <button 
-            className="md:hidden p-2 rounded-none focus:outline-none text-[#a37fb9]"
+          <Button 
+            variant="ghost" 
+            size="icon"
+            className="md:hidden" 
             onClick={toggleMenu}
           >
             {isMenuOpen ? (
@@ -136,54 +97,29 @@ const Navbar = () => {
             ) : (
               <MenuIcon className="h-6 w-6" />
             )}
-          </button>
+          </Button>
         </div>
 
         {/* Menu mobile */}
         {isMenuOpen && (
-          <div className="md:hidden bg-white dark:bg-slate-900 border-t">
-            <div className="seven-container py-3 flex flex-col space-y-2">
+          <div className="md:hidden px-4 pb-4 bg-white dark:bg-slate-900 border-t">
+            <div className="flex flex-col space-y-2">
               {navLinks.map((link) => (
-                <Link 
-                  key={link.href} 
-                  to={link.href}
-                  className="flex items-center p-3 hover:bg-[#a37fb9] hover:text-white text-[#a37fb9] font-medium text-base"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {link.icon}
-                  {link.label}
-                </Link>
-              ))}
-              
-              {user ? (
-                <Button 
-                  variant="default" 
-                  size="sm" 
-                  onClick={() => {
-                    signOut();
-                    setIsMenuOpen(false);
-                  }}
-                  className="flex items-center mt-4 w-full justify-center bg-[#a37fb9] hover:bg-[#8a6aa0] text-white font-medium text-base"
-                >
-                  <LogOutIcon className="h-5 w-5 mr-2" />
-                  Sair
-                </Button>
-              ) : (
-                <Button 
-                  variant="default" 
-                  size="sm" 
+                <Button
+                  key={link.href}
+                  variant="ghost"
+                  className="flex items-center justify-start text-[#a37fb9] hover:text-white hover:bg-[#a37fb9] font-medium text-base"
                   asChild
-                  className="flex items-center mt-4 w-full justify-center bg-[#a37fb9] hover:bg-[#8a6aa0] text-white font-medium text-base"
                 >
                   <Link 
-                    to="/auth"
+                    to={link.href}
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    <LogInIcon className="h-5 w-5 mr-2" />
-                    Entrar
+                    {link.icon}
+                    {link.label}
                   </Link>
                 </Button>
-              )}
+              ))}
             </div>
           </div>
         )}

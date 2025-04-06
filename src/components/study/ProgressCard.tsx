@@ -12,7 +12,8 @@ type ProgressCardProps = {
 const ProgressCard: React.FC<ProgressCardProps> = ({
   completedLessons,
 }) => {
-  const { user } = useAuth();
+  // Usuário anônimo fixo
+  const anonymousUserId = 'anonymous-user';
   
   // Lista de dias da semana e seus IDs correspondentes
   const weekDays = [
@@ -25,65 +26,19 @@ const ProgressCard: React.FC<ProgressCardProps> = ({
     { abbr: "Sáb", id: "sabado" }
   ];
   
-  // Buscar progresso real do usuário
+  // Buscar progresso do usuário
   const { data: userProgress = [], isLoading: isProgressLoading } = useQuery({
-    queryKey: ['userProgressForDashboard', user?.id],
+    queryKey: ['userProgressForDashboard'],
     queryFn: async () => {
-      if (!user) return [];
-      
       try {
-        // Tentar buscar do Supabase primeiro
-        const { data, error } = await supabase
-          .from('user_progress')
-          .select('*')
-          .eq('user_id', user.id);
-        
-        if (error) {
-          console.error("Error fetching user progress:", error);
-          // Em caso de erro, tentar o cache local
-          const cachedData = localStorage.getItem('user_progress_cache');
-          if (cachedData) {
-            try {
-              const cache = JSON.parse(cachedData);
-              return cache[user.id] || [];
-            } catch (e) {
-              console.error("Error parsing cache:", e);
-            }
-          }
-          return [];
-        }
-        
-        // Se obteve dados do Supabase, atualizar o cache
-        if (data) {
-          try {
-            const cachedData = localStorage.getItem('user_progress_cache');
-            const cache = cachedData ? JSON.parse(cachedData) : {};
-            cache[user.id] = data;
-            localStorage.setItem('user_progress_cache', JSON.stringify(cache));
-          } catch (e) {
-            console.error("Error updating cache:", e);
-          }
-        }
-        
-        return data || [];
+        // Obter dados do localStorage
+        const allProgress = JSON.parse(localStorage.getItem('local_user_progress') || '[]');
+        return allProgress.filter(p => p.user_id === anonymousUserId);
       } catch (e) {
-        console.error("Error connecting to Supabase:", e);
-        
-        // Em caso de erro de conexão, usar o cache
-        try {
-          const cachedData = localStorage.getItem('user_progress_cache');
-          if (cachedData) {
-            const cache = JSON.parse(cachedData);
-            return cache[user.id] || [];
-          }
-        } catch (cacheError) {
-          console.error("Error accessing cache:", cacheError);
-        }
-        
+        console.error("Erro ao buscar progresso:", e);
         return [];
       }
-    },
-    enabled: !!user
+    }
   });
   
   // Determinar quais dias foram estudados (onde o progresso >= 50%)

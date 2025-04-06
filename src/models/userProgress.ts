@@ -1,6 +1,4 @@
-
-import { supabase, executeRawQuery } from "@/integrations/supabase/client";
-
+// Interface mantida para compatibilidade com componentes existentes
 export interface UserProgress {
   id: string;
   user_id: string;
@@ -11,317 +9,8 @@ export interface UserProgress {
   points_earned: number;
 }
 
-// Funções para gerenciar o cache local
-const CACHE_KEY = 'user_progress_cache';
-
-const saveToLocalStorage = (userId: string, progress: UserProgress[]) => {
-  try {
-    const cache = JSON.parse(localStorage.getItem(CACHE_KEY) || '{}');
-    cache[userId] = progress;
-    localStorage.setItem(CACHE_KEY, JSON.stringify(cache));
-  } catch (error) {
-    console.error('Erro ao salvar no localStorage:', error);
-  }
-};
-
-const getFromLocalStorage = (userId: string): UserProgress[] => {
-  try {
-    const cache = JSON.parse(localStorage.getItem(CACHE_KEY) || '{}');
-    return cache[userId] || [];
-  } catch (error) {
-    console.error('Erro ao ler do localStorage:', error);
-    return [];
-  }
-};
-
-export const getUserProgress = async (userId: string) => {
-  // Primeiro, tenta obter do cache local
-  const cachedProgress = getFromLocalStorage(userId);
-  
-  try {
-    // Tenta buscar do Supabase
-    const { data, error } = await supabase
-      .from("user_progress")
-      .select("*")
-      .eq("user_id", userId);
-      
-    if (error) {
-      console.error("Erro ao buscar progresso do Supabase:", error.message);
-      return cachedProgress; // Retorna o cache se houver erro
-    }
-    
-    // Atualiza o cache local com os dados mais recentes
-    const progressData = data as UserProgress[];
-    saveToLocalStorage(userId, progressData);
-    
-    return progressData;
-  } catch (e) {
-    console.error("Erro ao conectar ao Supabase:", e);
-    // Retorna o cache em caso de erro de conexão
-    return cachedProgress;
-  }
-};
-
-export const updateUserProgress = async (
-  userId: string,
-  lessonId: string,
-  progress: number,
-  completed: boolean = false,
-  pointsEarned: number = 0
-) => {
-  // Obter o progresso atual do cache
-  const cachedProgress = getFromLocalStorage(userId);
-  
-  // Encontrar o registro existente no cache
-  const existingIndex = cachedProgress.findIndex(
-    p => p.user_id === userId && p.lesson_id === lessonId
-  );
-  
-  // Criar objeto com os dados atualizados
-  const updatedProgressData = {
-    user_id: userId,
-    lesson_id: lessonId,
-    progress,
-    completed: existingIndex >= 0 ? completed || cachedProgress[existingIndex].completed : completed,
-    last_accessed: new Date().toISOString(),
-    points_earned: existingIndex >= 0 && !completed ? cachedProgress[existingIndex].points_earned : pointsEarned,
-  };
-  
-  // Atualizar no cache local primeiro
-  if (existingIndex >= 0) {
-    // Atualizar registro existente mantendo o ID
-    const id = cachedProgress[existingIndex].id;
-    cachedProgress[existingIndex] = { ...updatedProgressData, id };
-  } else {
-    // Criar um novo registro com ID temporário
-    cachedProgress.push({ 
-      ...updatedProgressData,
-      id: `temp_${Date.now()}_${Math.random().toString(36).substring(2)}` 
-    });
-  }
-  saveToLocalStorage(userId, cachedProgress);
-  
-  try {
-    // Tenta atualizar no Supabase
-    const { data: existingProgress } = await supabase
-      .from("user_progress")
-      .select("*")
-      .eq("user_id", userId)
-      .eq("lesson_id", lessonId)
-      .maybeSingle();
-      
-    if (existingProgress) {
-      // Atualizar registro existente
-      const { data, error } = await supabase
-        .from("user_progress")
-        .update({
-          progress,
-          completed: completed || existingProgress.completed,
-          last_accessed: new Date().toISOString(),
-          points_earned: completed ? pointsEarned : existingProgress.points_earned,
-        })
-        .eq("user_id", userId)
-        .eq("lesson_id", lessonId)
-        .select();
-        
-      if (error) {
-        console.error("Erro ao atualizar no Supabase:", error.message);
-        return cachedProgress.find(p => p.user_id === userId && p.lesson_id === lessonId);
-      }
-      
-      // Atualizar cache com os dados confirmados
-      const updatedCache = cachedProgress.map(p => {
-        if (p.user_id === userId && p.lesson_id === lessonId) {
-          return data[0];
-        }
-        return p;
-      });
-      saveToLocalStorage(userId, updatedCache);
-      
-      return data[0];
-    } else {
-      // Criar novo registro
-      const { data, error } = await supabase
-        .from("user_progress")
-        .insert({
-          user_id: userId,
-          lesson_id: lessonId,
-          progress,
-          completed,
-          last_accessed: new Date().toISOString(),
-          points_earned: completed ? pointsEarned : 0,
-        })
-        .select();
-        
-      if (error) {
-        console.error("Erro ao inserir no Supabase:", error.message);
-        return cachedProgress.find(p => p.user_id === userId && p.lesson_id === lessonId);
-      }
-      
-      // Atualizar cache com os dados confirmados
-      const updatedCache = cachedProgress.map(p => {
-        if (p.user_id === userId && p.lesson_id === lessonId) {
-          return data[0];
-        }
-        return p;
-      });
-      saveToLocalStorage(userId, updatedCache);
-      
-      return data[0];
-    }
-  } catch (e) {
-    console.error("Erro ao conectar ao Supabase:", e);
-    // Retornar os dados do cache em caso de erro
-    return cachedProgress.find(p => p.user_id === userId && p.lesson_id === lessonId);
-  }
-};
-
-export const getTotalCompletedLessons = async (userId: string) => {
-  // Obter dados do cache
-  const cachedProgress = getFromLocalStorage(userId);
-  const cachedCount = cachedProgress.filter(p => p.progress >= 50).length;
-  
-  try {
-    // Tentar buscar do Supabase
-    const { data, error, count } = await supabase
-      .from("user_progress")
-      .select("*", { count: 'exact' })
-      .eq("user_id", userId)
-      .gte("progress", 50);
-      
-    if (error) {
-      console.error("Erro ao buscar contagem do Supabase:", error.message);
-      return cachedCount;
-    }
-    
-    // Atualizar cache com os dados recentes
-    saveToLocalStorage(userId, data as UserProgress[]);
-    
-    return count || 0;
-  } catch (e) {
-    console.error("Erro ao conectar ao Supabase:", e);
-    return cachedCount;
-  }
-};
-
-export const getTotalPoints = async (userId: string) => {
-  // Calcular pontos do cache
-  const cachedProgress = getFromLocalStorage(userId);
-  const cachedPoints = cachedProgress.reduce((sum, item) => sum + (item.points_earned || 0), 0);
-  
-  try {
-    const { data, error } = await supabase
-      .from("user_progress")
-      .select("points_earned")
-      .eq("user_id", userId);
-      
-    if (error) {
-      console.error("Erro ao buscar pontos do Supabase:", error.message);
-      return cachedPoints;
-    }
-    
-    return data.reduce((sum, item) => sum + (item.points_earned || 0), 0);
-  } catch (e) {
-    console.error("Erro ao conectar ao Supabase:", e);
-    return cachedPoints;
-  }
-};
-
-export const getStreakDays = async (userId: string) => {
-  // Obter dados do cache
-  const cachedProgress = getFromLocalStorage(userId);
-  
-  try {
-    const { data, error } = await supabase
-      .from("user_progress")
-      .select("last_accessed")
-      .eq("user_id", userId)
-      .order("last_accessed", { ascending: false });
-      
-    if (error) {
-      console.error("Erro ao buscar streak do Supabase:", error.message);
-      
-      // Calcular streak do cache
-      if (!cachedProgress.length) return 0;
-      
-      // Ordenar por data de acesso mais recente
-      const sortedCache = [...cachedProgress].sort((a, b) => 
-        new Date(b.last_accessed).getTime() - new Date(a.last_accessed).getTime()
-      );
-      
-      let streak = 1;
-      let currentDate = new Date(sortedCache[0].last_accessed);
-      
-      for (let i = 1; i < sortedCache.length; i++) {
-        const prevDate = new Date(sortedCache[i].last_accessed);
-        const diffTime = Math.abs(currentDate.getTime() - prevDate.getTime());
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        
-        if (diffDays === 1) {
-          streak++;
-          currentDate = prevDate;
-        } else {
-          break;
-        }
-      }
-      
-      return streak;
-    }
-    
-    if (!data.length) return 0;
-    
-    // Calcular streak baseado em dias consecutivos
-    let streak = 1;
-    let currentDate = new Date(data[0].last_accessed);
-    
-    for (let i = 1; i < data.length; i++) {
-      const prevDate = new Date(data[i].last_accessed);
-      const diffTime = Math.abs(currentDate.getTime() - prevDate.getTime());
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      
-      if (diffDays === 1) {
-        streak++;
-        currentDate = prevDate;
-      } else {
-        break;
-      }
-    }
-    
-    return streak;
-  } catch (e) {
-    console.error("Erro ao conectar ao Supabase:", e);
-    
-    // Calcular streak do cache em caso de erro
-    if (!cachedProgress.length) return 0;
-    
-    // Ordenar por data de acesso mais recente
-    const sortedCache = [...cachedProgress].sort((a, b) => 
-      new Date(b.last_accessed).getTime() - new Date(a.last_accessed).getTime()
-    );
-    
-    let streak = 1;
-    let currentDate = new Date(sortedCache[0].last_accessed);
-    
-    for (let i = 1; i < sortedCache.length; i++) {
-      const prevDate = new Date(sortedCache[i].last_accessed);
-      const diffTime = Math.abs(currentDate.getTime() - prevDate.getTime());
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      
-      if (diffDays === 1) {
-        streak++;
-        currentDate = prevDate;
-      } else {
-        break;
-      }
-    }
-    
-    return streak;
-  }
-};
-
-// Define interface for comments separately from Supabase types
 export interface Comment {
-  id?: string;
+  id: string;
   user_id: string;
   lesson_id: string;
   author: string;
@@ -329,64 +18,166 @@ export interface Comment {
   created_at: string;
 }
 
-// Use custom fetch for comments since they're not in the type definitions
-export const saveComment = async (comment: Omit<Comment, 'id' | 'created_at'>) => {
+// Chaves do localStorage
+const PROGRESS_KEY = 'local_user_progress';
+const COMMENTS_KEY = 'local_comments';
+const DEFAULT_USER_ID = 'anonymous-user';
+
+// Funções para gerenciar o cache local
+const getLocalProgress = (): UserProgress[] => {
   try {
-    // Use executeRawQuery with any casting to bypass type checking
-    const result = await executeRawQuery('insert_comment', {
-      user_id_param: comment.user_id,
-      lesson_id_param: comment.lesson_id,
-      author_param: comment.author,
-      text_param: comment.text
-    });
-    
-    if (result.error) {
-      throw new Error(result.error.message);
-    }
-    
-    // Handle potentially null data safely
-    const commentId = result.data && typeof result.data === 'object' && 'id' in result.data 
-      ? result.data.id 
-      : `temp_${Date.now()}`;
-      
-    return {
-      ...comment,
-      id: commentId,
-      created_at: new Date().toISOString()
-    } as Comment;
-  } catch (e: any) {
-    console.error("Erro ao salvar comentário:", e);
-    throw e;
+    return JSON.parse(localStorage.getItem(PROGRESS_KEY) || '[]');
+  } catch (error) {
+    console.error('Erro ao ler progresso do localStorage:', error);
+    return [];
   }
 };
 
-export const getCommentsByLessonId = async (lessonId: string) => {
+const saveLocalProgress = (progress: UserProgress[]): void => {
   try {
-    // Use executeRawQuery with any casting to bypass type checking
-    const result = await executeRawQuery('get_comments_by_lesson', { 
-      lesson_id_param: lessonId 
-    });
-    
-    if (result.error) {
-      throw new Error(result.error.message);
-    }
-    
-    // Handle null data case
-    if (!result.data || !Array.isArray(result.data)) {
-      return [];
-    }
-    
-    // Map the raw data to our Comment interface
-    return result.data.map(item => ({
-      id: item.id,
-      user_id: item.user_id,
-      lesson_id: item.lesson_id,
-      author: item.author,
-      text: item.text,
-      created_at: item.created_at
-    })) as Comment[];
-  } catch (e) {
-    console.error("Erro ao buscar comentários:", e);
+    localStorage.setItem(PROGRESS_KEY, JSON.stringify(progress));
+  } catch (error) {
+    console.error('Erro ao salvar progresso no localStorage:', error);
+  }
+};
+
+const getLocalComments = (): Comment[] => {
+  try {
+    return JSON.parse(localStorage.getItem(COMMENTS_KEY) || '[]');
+  } catch (error) {
+    console.error('Erro ao ler comentários do localStorage:', error);
     return [];
   }
+};
+
+const saveLocalComments = (comments: Comment[]): void => {
+  try {
+    localStorage.setItem(COMMENTS_KEY, JSON.stringify(comments));
+  } catch (error) {
+    console.error('Erro ao salvar comentários no localStorage:', error);
+  }
+};
+
+// Função para obter progresso do usuário (agora sempre o usuário anônimo)
+export const getUserProgress = async (): Promise<UserProgress[]> => {
+  return getLocalProgress();
+};
+
+// Função para atualizar progresso
+export const updateUserProgress = async (
+  userId: string = DEFAULT_USER_ID,
+  lessonId: string,
+  progress: number,
+  completed: boolean = false,
+  pointsEarned: number = 0
+): Promise<UserProgress> => {
+  const allProgress = getLocalProgress();
+  const existingIndex = allProgress.findIndex(
+    p => p.user_id === userId && p.lesson_id === lessonId
+  );
+  
+  const now = new Date().toISOString();
+  
+  if (existingIndex >= 0) {
+    // Atualizar registro existente
+    const updatedProgress = {
+      ...allProgress[existingIndex],
+      progress,
+      completed: completed || allProgress[existingIndex].completed,
+      last_accessed: now,
+      points_earned: completed ? pointsEarned : allProgress[existingIndex].points_earned,
+    };
+    
+    allProgress[existingIndex] = updatedProgress;
+    saveLocalProgress(allProgress);
+    
+    return updatedProgress;
+  } else {
+    // Criar novo registro
+    const newProgress: UserProgress = {
+      id: `local_${Date.now()}`,
+      user_id: userId,
+      lesson_id: lessonId,
+      progress,
+      completed,
+      last_accessed: now,
+      points_earned: completed ? pointsEarned : 0
+    };
+    
+    allProgress.push(newProgress);
+    saveLocalProgress(allProgress);
+    
+    return newProgress;
+  }
+};
+
+// Função para obter total de lições completas
+export const getTotalCompletedLessons = async (userId: string = DEFAULT_USER_ID): Promise<number> => {
+  const allProgress = getLocalProgress();
+  return allProgress
+    .filter(p => p.user_id === userId && p.progress >= 50)
+    .length;
+};
+
+// Função para obter total de pontos
+export const getTotalPoints = async (userId: string = DEFAULT_USER_ID): Promise<number> => {
+  const allProgress = getLocalProgress();
+  return allProgress
+    .filter(p => p.user_id === userId)
+    .reduce((sum, item) => sum + (item.points_earned || 0), 0);
+};
+
+// Função para calcular dias consecutivos
+export const getStreakDays = async (userId: string = DEFAULT_USER_ID): Promise<number> => {
+  const allProgress = getLocalProgress();
+  const userProgress = allProgress.filter(p => p.user_id === userId);
+  
+  if (!userProgress.length) return 0;
+  
+  // Ordenar por data de acesso mais recente
+  const sortedProgress = [...userProgress].sort((a, b) => 
+    new Date(b.last_accessed).getTime() - new Date(a.last_accessed).getTime()
+  );
+  
+  let streak = 1;
+  let currentDate = new Date(sortedProgress[0].last_accessed);
+  
+  for (let i = 1; i < sortedProgress.length; i++) {
+    const prevDate = new Date(sortedProgress[i].last_accessed);
+    const diffTime = Math.abs(currentDate.getTime() - prevDate.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays === 1) {
+      streak++;
+      currentDate = prevDate;
+    } else {
+      break;
+    }
+  }
+  
+  return streak;
+};
+
+// Função para salvar comentário
+export const saveComment = async (comment: Omit<Comment, 'id' | 'created_at'>): Promise<Comment> => {
+  const allComments = getLocalComments();
+  
+  const newComment: Comment = {
+    id: `local_${Date.now()}`,
+    ...comment,
+    created_at: new Date().toISOString()
+  };
+  
+  allComments.push(newComment);
+  saveLocalComments(allComments);
+  
+  return newComment;
+};
+
+// Função para obter comentários por lição
+export const getCommentsByLessonId = async (lessonId: string): Promise<Comment[]> => {
+  const allComments = getLocalComments();
+  return allComments
+    .filter(c => c.lesson_id === lessonId)
+    .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 };
