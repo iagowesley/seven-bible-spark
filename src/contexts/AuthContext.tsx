@@ -6,6 +6,8 @@ interface SimplifiedContextProps {
   profile: any;
   loading: boolean;
   loadingProfile: boolean;
+  signIn: (email: string, password: string) => Promise<void>;
+  signUp: (email: string, password: string, userData: any) => Promise<void>;
 }
 
 // Criando um contexto simplificado
@@ -14,6 +16,8 @@ const SimplifiedContext = createContext<SimplifiedContextProps>({
   profile: { name: 'Visitante' },
   loading: false,
   loadingProfile: false,
+  signIn: async () => {},
+  signUp: async () => {},
 });
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -23,6 +27,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     profile: { name: 'Visitante' },
     loading: false,
     loadingProfile: false,
+    signIn: async (email: string, password: string) => {
+      console.log('Login simulado com:', email);
+      // Não faz nada, apenas simula
+    },
+    signUp: async (email: string, password: string, userData: any) => {
+      console.log('Cadastro simulado com:', email, userData);
+      // Não faz nada, apenas simula
+    },
   };
 
   return <SimplifiedContext.Provider value={value}>{children}</SimplifiedContext.Provider>;

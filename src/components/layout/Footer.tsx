@@ -33,9 +33,7 @@ const Footer = () => {
               <Link to="/sobre" className="text-sm text-muted-foreground hover:text-[#a37fb9] font-light">
                 Sobre
               </Link>
-              <Link to="/login" className="text-sm text-muted-foreground hover:text-[#a37fb9] font-light">
-                Login
-              </Link>
+              
             </div>
           </div>
           

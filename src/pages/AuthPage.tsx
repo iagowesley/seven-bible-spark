@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { z } from "zod";
@@ -44,7 +43,7 @@ export default function AuthPage() {
   
   useEffect(() => {
     if (user) {
-      navigate("/dashboard");
+      navigate("/estudos");
     }
   }, [user, navigate]);
 

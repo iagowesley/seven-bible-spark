@@ -995,12 +995,24 @@ const StudyDetailPage = () => {
                       const currentIndex = days.indexOf(id);
                       
                       if (currentIndex >= 0 && currentIndex < days.length - 1) {
+                        // Caso de domingo até sexta-feira, vai para o próximo dia
                         const nextDay = days[currentIndex + 1];
                         return (
                           <Button 
                             variant="outline"
                             onClick={() => window.location.href = `/estudos/${nextDay}`}
                             className={`flex items-center ${id !== "sabado" ? "ml-auto" : ""}`}
+                          >
+                            Próximo Dia <ArrowRight className="h-4 w-4 ml-2" />
+                          </Button>
+                        );
+                      } else if (id === "sabado") {
+                        // Caso especial para sábado - volta para domingo (primeiro dia)
+                        return (
+                          <Button 
+                            variant="outline"
+                            onClick={() => window.location.href = `/estudos/domingo`}
+                            className="flex items-center ml-auto"
                           >
                             Próximo Dia <ArrowRight className="h-4 w-4 ml-2" />
                           </Button>
@@ -1062,16 +1074,16 @@ const StudyDetailPage = () => {
                 </div>
                 
                 {id && (
-                  <div>
-                    <h3 className="text-lg font-medium mb-2">Adicionar comentário</h3>
-                    <textarea 
+                <div>
+                  <h3 className="text-lg font-medium mb-2">Adicionar comentário</h3>
+                  <textarea 
                         className="w-full p-3 border-0 border-b-2 border-[#a37fb9]/30 bg-background/50 focus:outline-none focus:border-[#a37fb9] transition-colors duration-300 rounded-none resize-none"
-                      rows={3}
-                      placeholder="Compartilhe seus pensamentos sobre esta lição..."
+                    rows={3}
+                    placeholder="Compartilhe seus pensamentos sobre esta lição..."
                         value={newComment}
                         onChange={(e) => setNewComment(e.target.value)}
-                    ></textarea>
-                    <div className="mt-2 flex justify-end">
+                  ></textarea>
+                  <div className="mt-2 flex justify-end">
                         <Button 
                           variant="modern" 
                           onClick={handleSubmitComment}
@@ -1079,8 +1091,8 @@ const StudyDetailPage = () => {
                         >
                           {saveCommentMutation.isPending ? "Enviando..." : "Enviar"}
                         </Button>
-                      </div>
-                    </div>
+                  </div>
+                </div>
                 )}
               </div>
             </TabsContent>

@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -86,10 +85,10 @@ const EmailConfirmationPage = () => {
           
           {status === "success" && (
             <Button 
-              onClick={() => navigate("/dashboard")} 
+              onClick={() => navigate("/estudos")} 
               className="w-full bg-[#a37fb9] hover:bg-[#8a6aa0] text-white"
             >
-              Ir para o Dashboard
+              Ir para os Estudos
             </Button>
           )}
           

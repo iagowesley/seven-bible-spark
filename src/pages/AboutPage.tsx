@@ -51,7 +51,7 @@ const AboutPage = () => {
                 </p>
                 <div className="flex items-center gap-4 flex-wrap">
                   <Button asChild size="lg" className="rounded-none font-medium bg-white text-[#a37fb9] hover:bg-white/90">
-                    <Link to="/auth">Comece agora</Link>
+                    <Link to="/estudos">Comece agora</Link>
                   </Button>
                   <Button asChild variant="outline" size="lg" className="rounded-none border-white text-white hover:bg-white/10 font-medium">
                     <a href="https://instagram.com/licaojovem7" target="_blank" rel="noopener noreferrer">
@@ -201,7 +201,7 @@ const AboutPage = () => {
             
             <div className="flex justify-center">
               <Button asChild size="lg" className="rounded-none bg-[#a37fb9] hover:bg-[#7957a0] font-medium">
-                <Link to="/auth">
+                <Link to="/estudos">
                   Começar a estudar
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
