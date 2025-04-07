@@ -1,8 +1,9 @@
-
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BookOpen, CalendarCheck, Calendar } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
 import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 type ProgressCardProps = {
   completedLessons: number;
@@ -42,7 +43,7 @@ const ProgressCard: React.FC<ProgressCardProps> = ({
   
   // Determinar quais dias foram estudados (onde o progresso >= 50%)
   const completedDayIds = userProgress
-    .filter(progress => progress.completed)
+    .filter(progress => progress.progress >= 50)
     .map(progress => progress.lesson_id);
   
   return (
