@@ -941,4 +941,122 @@ const StudyDetailPage = () => {
                     <div className="prose prose-lg max-w-none dark:prose-invert prose-headings:font-serif prose-p:font-sans">
                       <div className="bg-muted/40 p-5 rounded-lg border-l-4 border-[#a37fb9] mb-6">
                         <blockquote className="not-italic text-slate-700 dark:text-slate-300">
-                          <p className="font-serif">"O Senhor Jesus Cristo preparou uma vestimenta – o manto de Sua própria justiça – que Ele colocará sobre toda pessoa arrependida e crente que a receberá pela fé. Disse João: 'Eis o Cordeiro de Deus, que tira
+                          <p className="font-serif">"O Senhor Jesus Cristo preparou uma vestimenta – o manto de Sua própria justiça – que Ele colocará sobre toda pessoa arrependida e crente que a receberá pela fé. Disse João: 'Eis o Cordeiro de Deus, que tira o pecado do mundo' (Jo 1:29). [...] Quando o pecador contempla o inocente Cristo morrendo na cruz do Calvário em seu favor, olha em seu coração e odeia o pecado que crucificou o inocente. É contemplando Jesus, pela fé, que conhecemos 'a excelência do conhecimento de Cristo Jesus, meu Senhor', e desejamos ser como Ele. [...]</p>
+                          <p className="font-serif">Um abrigo de folhas de figueiras nunca cobrirá nossa nudez. [...] Toda pessoa que pela fé obedece aos mandamentos de Deus alcançará a condição de impecabilidade em que Adão vivia antes de sua transgressão. Cristo tomou sobre Si a forma humana, mantendo a integridade de Seu caráter, para mostrar que Satanás tinha mentido. [...] Quando Deus olha para o pecador arrependido, não vê a pecaminosidade que ele teve, mas a semelhança de Seu próprio Filho, no qual o pecador crente se acha revestido. A lei mantida em toda a sua santa dignidade não tem culpa a atribuir ao crente; pois Cristo cumpriu a lei e atribuiu Sua justiça a todos que creem nEle, de modo que possam obedecer-lhe."</p>
+                          <p className="text-right font-medium">(Ellen G. White, O Maior Discurso de Cristo [CPB, 2022], p. 84-87)</p>
+                        </blockquote>
+                      </div>
+                      
+                      <div className="bg-muted p-4 rounded-lg mt-6">
+                        <h3 className="text-xl font-semibold mb-2">Pense</h3>
+                        <p>Como você tem reagido às situações nas quais você peca e rompe seu relacionamento com Deus?</p>
+                      </div>
+                      
+                      <div className="mb-6 mt-6">
+                        <h3 className="text-xl font-semibold mb-2">Perguntas para discussão em classe</h3>
+                        <ol className="list-decimal pl-5 space-y-3">
+                          <li>Que paralelos você vê entre o animal morto por Deus no Éden e Jesus Cristo?</li>
+                          <li>Que outros símbolos bíblicos são usados para representar Jesus?</li>
+                          <li>Pense em como seu pecado foi exposto diante de Deus. Como isso deve influenciar seu próprio relacionamento com os outros?</li>
+                          <li>Aprofundem este pensamento: o conceito de pecado como deslealdade e transgressão da lei.</li>
+                          <li>A vestimenta só foi possível após um sacrifício. Qual é a importância disso para nossa salvação?</li>
+                        </ol>
+                      </div>
+                      
+                      <div className="bg-accent/15 p-6 rounded-lg mt-6 border-l-4 border-accent">
+                        <h3 className="text-xl font-bold mb-2 font-serif">Nosso resumo</h3>
+                        <p>A lição de sexta-feira, através da citação de Ellen G. White, revela a profundidade do plano de salvação manifestado no manto da justiça de Cristo. O texto enfatiza que assim como Deus cobriu Adão e Eva com peles de animais no Éden, Cristo agora nos cobre com Sua justiça perfeita. Este ato transformador não apenas perdoa o pecado, mas muda nossa natureza interior, permitindo que obedeçamos à lei de Deus. O texto destaca pontos cruciais: 1) Nossa tentativa de autojustificação (folhas de figueira) nunca é suficiente; 2) Deus vê apenas a justiça de Cristo quando olha para o crente; 3) O pecado é definido como deslealdade e transgressão da lei; 4) A lei de Deus permanece santa e inalterada no plano da salvação; 5) Cristo cumpriu perfeitamente a lei e nos ajuda a fazer o mesmo.</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </TabsContent>
+            
+            <TabsContent value="quiz">
+              {id && enhancedQuestions.length > 0 && (
+                <div className="bg-card p-6 rounded-lg shadow-sm border border-border">
+                  <QuizComponent 
+                    lessonId={id}
+                    questions={enhancedQuestions} 
+                    onComplete={handleQuizComplete} 
+                  />
+                </div>
+              )}
+            </TabsContent>
+            
+            <TabsContent value="discussion">
+              <div className="bg-card p-6 rounded-lg shadow-sm border border-border">
+                <h2 className="text-xl font-semibold mb-4">Discussão</h2>
+                
+                {lessonComments.length > 0 ? (
+                  <div className="space-y-4 mb-6">
+                    {lessonComments.map((comment) => (
+                      <div key={comment.id} className="bg-muted/30 p-4 rounded-lg">
+                        <div className="flex justify-between mb-2">
+                          <h3 className="font-medium">{comment.author}</h3>
+                          <span className="text-xs text-muted-foreground">
+                            {comment.created_at 
+                              ? new Date(comment.created_at).toLocaleDateString() 
+                              : 'Hoje'}
+                          </span>
+                        </div>
+                        <p className="text-muted-foreground">{comment.text}</p>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="bg-muted/30 p-4 rounded-lg mb-6 text-center">
+                    <p>Seja o primeiro a comentar nesta lição!</p>
+                  </div>
+                )}
+                
+                <div>
+                  <h3 className="text-lg font-medium mb-2">Deixe seu comentário</h3>
+                  <textarea
+                    className="w-full p-3 rounded-md border border-border bg-background focus:outline-none focus:ring-2 focus:ring-accent mb-3"
+                    rows={3}
+                    placeholder="Compartilhe seus pensamentos sobre esta lição..."
+                    value={newComment}
+                    onChange={(e) => setNewComment(e.target.value)}
+                  ></textarea>
+                  <Button 
+                    onClick={handleSubmitComment}
+                    disabled={!newComment.trim()}
+                  >
+                    Enviar comentário
+                  </Button>
+                </div>
+              </div>
+            </TabsContent>
+          </Tabs>
+          
+          <div className="flex justify-between items-center mt-8">
+            <Progress value={progress} className="w-full max-w-md" />
+            <div className="ml-4">
+              {id !== "sabado" && !quizEnabled && progress < 50 && (
+                <p className="text-sm text-muted-foreground mr-4">
+                  Continue lendo para desbloquear o quiz
+                </p>
+              )}
+              {id !== "sabado" && !quizEnabled && progress >= 50 && (
+                <Button onClick={enableQuiz}>
+                  Fazer quiz
+                </Button>
+              )}
+              {isCompleted && (
+                <div className="flex items-center text-green-500">
+                  <CheckCircle className="h-5 w-5 mr-1" />
+                  <span>Concluído</span>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </main>
+      <Footer />
+    </div>
+  );
+};
+
+export default StudyDetailPage;
