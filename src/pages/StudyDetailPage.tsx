@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import Navbar from "@/components/layout/Navbar";
@@ -725,3 +726,113 @@ const StudyDetailPage = () => {
                 className="bg-card p-6 rounded-lg shadow-sm border border-border overflow-y-auto max-h-[600px] font-sans"
               >
                 {id === "sabado" && (
+                  <p>Conteúdo da lição para o sábado.</p>
+                )}
+                {id === "domingo" && (
+                  <p>Conteúdo da lição para o domingo.</p>
+                )}
+                {id === "segunda" && (
+                  <p>Conteúdo da lição para a segunda-feira.</p>
+                )}
+                {id === "terca" && (
+                  <p>Conteúdo da lição para a terça-feira.</p>
+                )}
+                {id === "quarta" && (
+                  <p>Conteúdo da lição para a quarta-feira.</p>
+                )}
+                {id === "quinta" && (
+                  <p>Conteúdo da lição para a quinta-feira.</p>
+                )}
+                {id === "sexta" && (
+                  <p>Conteúdo da lição para a sexta-feira.</p>
+                )}
+              </div>
+              
+              {!isCompleted && id !== "sabado" && progress >= 50 && (
+                <div className="mt-6 text-center">
+                  <Button onClick={enableQuiz}>
+                    Responder o Quiz
+                  </Button>
+                </div>
+              )}
+              
+              {progress > 0 && (
+                <div className="mt-4">
+                  <div className="flex justify-between text-sm mb-1">
+                    <span>Progresso: {progress}%</span>
+                    {isCompleted && <span className="text-green-600">Completado!</span>}
+                  </div>
+                  <Progress value={progress} className="h-2" />
+                </div>
+              )}
+            </TabsContent>
+            
+            {id !== "sabado" && (
+              <TabsContent value="quiz" className="min-h-[400px]">
+                {quizEnabled ? (
+                  <QuizComponent 
+                    questions={enhancedQuestions} 
+                    lessonId={id || ""}
+                    onComplete={handleQuizComplete} 
+                  />
+                ) : (
+                  <div className="text-center py-10">
+                    <p className="text-muted-foreground mb-4">
+                      Leia pelo menos 50% do conteúdo para desbloquear o quiz.
+                    </p>
+                    <Button variant="outline" onClick={() => setActiveTab("content")}>
+                      Voltar para o conteúdo
+                    </Button>
+                  </div>
+                )}
+              </TabsContent>
+            )}
+            
+            <TabsContent value="discussion">
+              <div className="bg-card p-6 rounded-lg shadow-sm border border-border">
+                <h3 className="text-xl font-bold mb-4">Discussão</h3>
+                
+                <div className="mb-6">
+                  <textarea
+                    className="w-full border border-border rounded-md p-3 min-h-[100px]"
+                    placeholder="Compartilhe suas impressões ou faça perguntas sobre esta lição..."
+                    value={newComment}
+                    onChange={(e) => setNewComment(e.target.value)}
+                  />
+                  <div className="flex justify-end mt-2">
+                    <Button onClick={handleSubmitComment} disabled={!newComment.trim()}>
+                      Enviar Comentário
+                    </Button>
+                  </div>
+                </div>
+                
+                <div className="space-y-4">
+                  {lessonComments.length > 0 ? (
+                    lessonComments.map((comment) => (
+                      <div key={comment.id} className="border-b border-border pb-4">
+                        <div className="flex justify-between items-start">
+                          <div className="font-medium">{comment.author}</div>
+                          <div className="text-sm text-muted-foreground">
+                            {new Date(comment.created_at).toLocaleDateString('pt-BR')}
+                          </div>
+                        </div>
+                        <p className="mt-2 text-sm">{comment.text}</p>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-center text-muted-foreground py-6">
+                      Ainda não há comentários para esta lição. Seja o primeiro a comentar!
+                    </p>
+                  )}
+                </div>
+              </div>
+            </TabsContent>
+          </Tabs>
+        </div>
+      </main>
+      <Footer />
+    </div>
+  );
+};
+
+export default StudyDetailPage;
