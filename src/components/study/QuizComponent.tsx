@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -5,6 +6,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
 import { CheckCircle, XCircle, ArrowLeft, ArrowRight, Check } from "lucide-react";
+import { updateUserProgress } from "../models/userProgress";
 
 type Question = {
   id: string;
@@ -16,9 +18,10 @@ type Question = {
 type QuizProps = {
   questions: Question[];
   onComplete: (score: number) => void;
+  lessonId: string; // Adicionando lessonId para salvar o progresso
 };
 
-const QuizComponent: React.FC<QuizProps> = ({ questions, onComplete }) => {
+const QuizComponent: React.FC<QuizProps> = ({ questions, onComplete, lessonId }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string>("");
   const [score, setScore] = useState(0);
@@ -69,7 +72,18 @@ const QuizComponent: React.FC<QuizProps> = ({ questions, onComplete }) => {
     
     if (isLastQuestion) {
       setQuizCompleted(true);
-      onComplete(score + (selectedOption === currentQuestion.correctOptionId ? 1 : 0));
+      const finalScore = score + (selectedOption === currentQuestion.correctOptionId ? 1 : 0);
+      const percentage = Math.round((finalScore / questions.length) * 100);
+      
+      // Atualizar o progresso do usuário na lição
+      updateUserProgress('anonymous-user', lessonId, 100, percentage >= 50, finalScore * 10)
+        .then(() => {
+          console.log(`Progresso atualizado para a lição ${lessonId}: ${percentage}% de acerto`);
+          onComplete(finalScore);
+        })
+        .catch(error => {
+          console.error("Erro ao atualizar progresso:", error);
+        });
     } else {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     }

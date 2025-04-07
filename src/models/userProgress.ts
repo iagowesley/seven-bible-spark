@@ -112,15 +112,15 @@ export const updateUserProgress = async (
 };
 
 // Função para obter total de lições completas
-export const getTotalCompletedLessons = async (userId: string = DEFAULT_USER_ID): Promise<number> => {
+export const getTotalCompletedLessons = (userId: string = DEFAULT_USER_ID): number => {
   const allProgress = getLocalProgress();
   return allProgress
-    .filter(p => p.user_id === userId && p.progress >= 50)
+    .filter(p => p.user_id === userId && p.completed)
     .length;
 };
 
 // Função para obter total de pontos
-export const getTotalPoints = async (userId: string = DEFAULT_USER_ID): Promise<number> => {
+export const getTotalPoints = (userId: string = DEFAULT_USER_ID): number => {
   const allProgress = getLocalProgress();
   return allProgress
     .filter(p => p.user_id === userId)
@@ -128,7 +128,7 @@ export const getTotalPoints = async (userId: string = DEFAULT_USER_ID): Promise<
 };
 
 // Função para calcular dias consecutivos
-export const getStreakDays = async (userId: string = DEFAULT_USER_ID): Promise<number> => {
+export const getStreakDays = (userId: string = DEFAULT_USER_ID): number => {
   const allProgress = getLocalProgress();
   const userProgress = allProgress.filter(p => p.user_id === userId);
   
