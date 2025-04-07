@@ -22,22 +22,20 @@ import {
 } from "@/components/ui/dialog";
 
 const getFormattedDate = (dayOfWeek: string) => {
-  // Datas fixas para cada dia da semana
   const fixedDates: {[key: string]: Date} = {
-    "sabado": new Date(2024, 3, 5),  // 5 de abril de 2024
-    "domingo": new Date(2024, 3, 6), // 6 de abril de 2024
-    "segunda": new Date(2024, 3, 7), // 7 de abril de 2024
-    "terca": new Date(2024, 3, 8),   // 8 de abril de 2024
-    "quarta": new Date(2024, 3, 9),  // 9 de abril de 2024
-    "quinta": new Date(2024, 3, 10), // 10 de abril de 2024
-    "sexta": new Date(2024, 3, 11)   // 11 de abril de 2024
+    "sabado": new Date(2024, 3, 5),  
+    "domingo": new Date(2024, 3, 6), 
+    "segunda": new Date(2024, 3, 7), 
+    "terca": new Date(2024, 3, 8),   
+    "quarta": new Date(2024, 3, 9),  
+    "quinta": new Date(2024, 3, 10), 
+    "sexta": new Date(2024, 3, 11)  
   };
   
   if (!fixedDates.hasOwnProperty(dayOfWeek)) {
     return "";
   }
   
-  // Mapeamento para nomes dos dias da semana em português
   const dayNames: {[key: string]: string} = {
     "sabado": "sábado",
     "domingo": "domingo",
@@ -48,7 +46,6 @@ const getFormattedDate = (dayOfWeek: string) => {
     "sexta": "sexta-feira"
   };
   
-  // Data formatada como "6 de abril - domingo"
   const date = fixedDates[dayOfWeek];
   const day = date.getDate();
   const month = date.toLocaleDateString('pt-BR', { month: 'long' });
@@ -490,7 +487,6 @@ const StudyDetailPage = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   
-  // Usuário anônimo fixo
   const anonymousUser = { id: 'anonymous-user' };
 
   const { data: userProgressData, isLoading } = useQuery({
@@ -499,7 +495,6 @@ const StudyDetailPage = () => {
       if (!id) return null;
       
       try {
-        // Obter progresso do localStorage
         const allProgress = JSON.parse(localStorage.getItem('local_user_progress') || '[]');
         const lessonProgress = allProgress.find(p => p.lesson_id === id && p.user_id === anonymousUser.id);
         return lessonProgress || null;
@@ -618,7 +613,7 @@ const StudyDetailPage = () => {
     : [];
 
   const handleQuizComplete = (score: number) => {
-    const totalQuestions = 6; // Agora cada dia tem exatamente 6 perguntas
+    const totalQuestions = 6;
     const percentage = Math.round((score / totalQuestions) * 100);
     const completed = percentage >= 70;
     setIsCompleted(completed);
@@ -826,7 +821,7 @@ const StudyDetailPage = () => {
                       
                       <p>Gênesis 3:16-24 descreve o que Adão e Eva sofreriam como resultado da desobediência. A vida seria difícil e dolorosa. Por último, estavam destinados a retornar ao solo quando morressem. Os primeiros humanos perderiam seu lar, a comunhão face a face com Deus e o acesso à árvore da vida (Gn 3:22-24). Que bola de neve de sofrimento causado pelos prazeres momentâneos do pecado!</p>
                       
-                      <p>Em meio a esses efeitos devastadores, Deus ofereceu a Adão e Eva uma gigantesca esperança em Gênesis 3:21. Ele fez roupas de pele e os vestiu. As vestes de pele que Deus fez exigiam a morte de um animal. <span className="bg-yellow-100 p-1 rounded font-medium">Levítico 17:11 nos ajuda a entender por que essa morte era necessária: "Porque a vida da carne está no sangue. Eu o tenho dado a vocês sobre o altar, para fazer expiação pela vida de vocês, porque é o sangue que fará expiação pela vida." Sem o derramamento de sangue, o pecado não pode ser perdoado e removido (Hb 9:22).</span> Deus não estava cobrindo apenas a nudez de Adão e Eva, mas especialmente a pecaminosidade deles.</p>
+                      <p>Em meio a esses efeitos devastadores, Deus ofereceu a Adão e Eva uma gigantesca esperança em Gênesis 3:21. Ele fez roupas de pele e os vestiu. As vestes de pele que Deus fez exigiram a morte de um animal. <span className="bg-yellow-100 p-1 rounded font-medium">Levítico 17:11 nos ajuda a entender por que essa morte era necessária: "Porque a vida da carne está no sangue. Eu o tenho dado a vocês sobre o altar, para fazer expiação pela vida de vocês, porque é o sangue que fará expiação pela vida." Sem o derramamento de sangue, o pecado não pode ser perdoado e removido (Hb 9:22).</span> Deus não estava cobrindo apenas a nudez de Adão e Eva, mas especialmente a pecaminosidade deles.</p>
                       
                       <p>No Éden, Deus introduziu o primeiro altar no qual os animais seriam sacrificados em lugar do pecador, para fazer expiação por ele. <span className="bg-yellow-100 p-1 rounded font-medium">O conceito de expiação substitutiva mais tarde se tornou o fundamento de todo o sistema do santuário.</span> O altar do Éden, que deu origem às roupas de Adão e Eva, antecipava a morte de Jesus no altar da cruz – um sacrifício que deu a cada um de nós o manto da justiça de Cristo. O próprio Jesus, o Cordeiro de Deus (Jo 1:29), pagou o preço pelo pecado da humanidade (Mt 20:28) – não simplesmente para que nossos pecados fossem perdoados, mas para removê-los completamente. É por isso que a morte de Cristo é o sacrifício perfeito e definitivo, que substitui todos os outros (Hb 9:23-25).</p>
                       
@@ -936,7 +931,7 @@ const StudyDetailPage = () => {
                       
                       <div className="bg-accent/15 p-6 rounded-lg mt-6 border-l-4 border-accent">
                         <h3 className="text-xl font-bold mb-2 font-serif">Nosso resumo</h3>
-                        <p>A lição de quinta-feira, através da história do pai ensinando o filho a limpar tênis sujos, ilustra como Deus não apenas nos resgata, mas nos dá exemplos a seguir. Assim como o pai estava transmitindo mais que uma habilidade doméstica, mas um modelo de vida, as ações de Deus no Éden tinham propósito didático. O altar do Éden revela que o amor e compromisso divinos exigiram um sacrifício doloroso: a morte de um animal inocente para cobrir o pecado humano. Esta lição desafia nossa compreensão de sacrifício, lembrando-nos do princípio expresso por Davi, que se recusou a oferecer a Deus algo que não lhe custasse nada (1Cr 21:24). O texto nos convida a refletir: do que estamos dispostos a abrir mão por Deus? Que atitudes precisam "morrer" em nós para vivermos em comunhão mais íntima com Ele?</p>
+                        <p>A lição de quinta-feira, através da história do pai ensinando o filho a limpar tênis sujos, ilustra como Deus não apenas nos resgata, mas nos dá exemplos a seguir. Assim como o pai estava transmitindo mais que uma habilidade doméstica, mas um modelo de vida, as ações de Deus no Éden tinham propósito didático. O altar do Éden revela que o amor e compromisso divinos exigiram um sacrifício doloroso: a morte de um animal inocente para cobrir o pecado humano. Esta lição desafia nossa compreensão de sacrifício, lembrando-nos do princípio expresso por Davi, que se recusou a oferecer a Deus algo que não lhe custasse nada (1Cr 21:24). O texto nos convida a refletir: do que estamos disposto a abrir mão por Deus? Que atitudes precisam "morrer" em nós para vivermos em comunhão mais íntima com Ele?</p>
                       </div>
                     </div>
                   </div>
@@ -946,162 +941,4 @@ const StudyDetailPage = () => {
                     <div className="prose prose-lg max-w-none dark:prose-invert prose-headings:font-serif prose-p:font-sans">
                       <div className="bg-muted/40 p-5 rounded-lg border-l-4 border-[#a37fb9] mb-6">
                         <blockquote className="not-italic text-slate-700 dark:text-slate-300">
-                          <p className="font-serif">"O Senhor Jesus Cristo preparou uma vestimenta – o manto de Sua própria justiça – que Ele colocará sobre toda pessoa arrependida e crente que a receberá pela fé. Disse João: 'Eis o Cordeiro de Deus, que tira o pecado do mundo!' (Jo 1:29). O pecado é a transgressão da lei. Cristo morreu para tornar possível a todo ser humano ter seus pecados perdoados.</p>
-                          
-                          <p className="font-serif"><span className="bg-yellow-100 p-1 rounded font-medium">"Um abrigo de folhas de figueiras nunca cobrirá nossa nudez. O pecado deve ser removido, e o manto da justiça de Cristo deve cobrir o transgressor da lei de Deus. Então, quando o Senhor olha para o pecador arrependido, Ele vê, não as folhas de figueira que o cobrem, mas a própria justiça de Cristo, que é a perfeita obediência à lei de Jeová.</span> Temos nossa nudez oculta, não sob a cobertura das folhas de figueira, mas sob o manto da justiça de Cristo.</p>
-                          
-                          <p className="font-serif">"Cristo fez um sacrifício para satisfazer as exigências da justiça. Que preço o Céu teve de pagar pelo resgate do transgressor da lei de Jeová! [...] <span className="bg-yellow-100 p-1 rounded font-medium">Contudo, essa santa lei não podia ter preço inferior. Em lugar de se abolir a lei para que esta poupasse a humanidade caída em sua condição pecaminosa, ela foi mantida em toda sua santa dignidade. Em Seu Filho, Deus Se ofereceu para salvar da perdição eterna todos os que Nele creem.</span></p>
-                          
-                          <p className="font-serif">"O pecado é deslealdade para com Deus, e merece punição. As folhas da figueira têm sido utilizadas desde os dias de Adão, mas a nudez da alma do pecador não foi coberta. Todos os argumentos levantados por aqueles que estão interessados nesse manto de fina espessura se transformarão em nada. <span className="bg-yellow-100 p-1 rounded font-medium">O pecado é a transgressão da lei. Cristo Se manifestou em nosso mundo para remover a transgressão e o pecado, substituindo a cobertura das folhas de figueira pelo manto puríssimo de Sua justiça.</span> A lei de Deus é vindicada pelo sofrimento e morte do unigênito Filho do Deus infinito.</p>
-                          
-                          <p className="font-serif">"A transgressão da lei de Deus em qualquer caso, por menor que seja, representa pecado. E deixar de executar a penalidade estipulada para esse pecado seria um crime na administração divina. Deus é um juiz, o Aplicador da justiça, que é a morada e o fundamento de Seu trono. Ele não pode ignorar Sua lei; não pode passar por alto o mínimo item a fim de condescender com o pecado e perdoá-lo. A retidão, a justiça e a excelência moral da lei devem ser mantidas e vindicadas perante o Universo celestial e os mundos não caídos" (Ellen G. White, Olhando Para o Alto [CPB, 1982], 30 de dezembro).</p>
-                        </blockquote>
-                      </div>
-                      
-                      <div className="bg-muted p-6 rounded-lg mt-6">
-                        <h3 className="text-xl font-semibold mb-4 font-serif">Discuta em classe</h3>
-                        
-                        <ol className="list-decimal pl-5 space-y-4">
-                          <li>Que paralelos você vê entre o animal morto por Deus no Éden e Jesus Cristo, o Cordeiro de Deus?</li>
-                          <li>Por que Deus instituiu altares e sacrifícios de animais como um ato de adoração no Antigo Testamento?</li>
-                          <li>Como você pode confiar mais no sangue de Jesus para perdoar e remover seus pecados?</li>
-                          <li>Que esperança você pode compartilhar com os outros com base no estudo desta semana sobre o altar do Éden?</li>
-                        </ol>
-                      </div>
-                      
-                      <div className="bg-accent/15 p-6 rounded-lg mt-6 border-l-4 border-accent">
-                        <h3 className="text-xl font-bold mb-2 font-serif">Nosso resumo</h3>
-                        <p>A lição de sexta-feira, através dos escritos de Ellen White, contrasta as ineficazes "folhas de figueira" de nossos esforços humanos com o perfeito "manto da justiça de Cristo". O texto esclarece que o pecado, sendo transgressão da lei, exige punição dentro da justiça divina. Deus não ignorou a lei para nos salvar; em vez disso, em Cristo, Ele mesmo satisfez suas exigências. O sacrifício no Éden prefigurava esta verdade fundamental: apenas a justiça de Cristo - Sua perfeita obediência - pode cobrir adequadamente nossa "nudez espiritual". Quando Deus olha para o pecador arrependido, Ele vê não as folhas de figueira de nossos próprios méritos, mas a justiça imputada de Seu Filho. A lição conclui nos convidando a discutir os paralelos entre o animal sacrificado no Éden e Cristo, o Cordeiro de Deus, e como podemos confiar mais plenamente no sangue de Jesus para nossa salvação.</p>
-                      </div>
-                    </div>
-                  </div>
-                )}
-                <div 
-                  className="prose prose-lg max-w-none dark:prose-invert prose-headings:font-serif prose-p:font-sans"
-                  dangerouslySetInnerHTML={{ __html: lessonData.content }}
-                  style={{ display: id === "sabado" || id === "domingo" || id === "segunda" || id === "terca" || id === "quarta" || id === "quinta" || id === "sexta" ? "none" : "block" }}
-                />
-                
-                <div className="mt-8 flex justify-between">
-                  {id !== "sabado" && (
-                    <Button onClick={enableQuiz} className="bg-accent hover:bg-accent/90 text-accent-foreground">
-                    Continuar para o Quiz
-                  </Button>
-                  )}
-                  
-                  {id && (
-                    (() => {
-                      const days = ["domingo", "segunda", "terca", "quarta", "quinta", "sexta", "sabado"];
-                      const currentIndex = days.indexOf(id);
-                      
-                      if (currentIndex >= 0 && currentIndex < days.length - 1) {
-                        // Caso de domingo até sexta-feira, vai para o próximo dia
-                        const nextDay = days[currentIndex + 1];
-                        return (
-                          <Button 
-                            variant="outline"
-                            onClick={() => window.location.href = `/estudos/${nextDay}`}
-                            className={`flex items-center ${id !== "sabado" ? "ml-auto" : ""}`}
-                          >
-                            Próximo Dia <ArrowRight className="h-4 w-4 ml-2" />
-                          </Button>
-                        );
-                      } else if (id === "sabado") {
-                        // Caso especial para sábado - volta para domingo (primeiro dia)
-                        return (
-                          <Button 
-                            variant="outline"
-                            onClick={() => window.location.href = `/estudos/domingo`}
-                            className="flex items-center ml-auto"
-                          >
-                            Próximo Dia <ArrowRight className="h-4 w-4 ml-2" />
-                          </Button>
-                        );
-                      }
-                      return null;
-                    })()
-                  )}
-                </div>
-              </div>
-            </TabsContent>
-            
-            <TabsContent value="quiz">
-              {quizEnabled ? (
-                <QuizComponent 
-                  questions={enhancedQuestions} 
-                  onComplete={handleQuizComplete} 
-                />
-              ) : (
-                <div className="bg-muted p-8 text-center">
-                  <p className="text-muted-foreground mb-4">
-                    Você precisa ler o conteúdo antes de acessar o quiz.
-                  </p>
-                  <Button onClick={() => setActiveTab("content")} variant="modern">
-                    Voltar para o conteúdo
-                  </Button>
-                </div>
-              )}
-            </TabsContent>
-            
-            <TabsContent value="discussion">
-              <div className="bg-card p-6 shadow-sm border-0">
-                <h2 className="text-xl font-semibold mb-4">Discussão</h2>
-                
-                <div className="space-y-4 mb-6">
-                  {lessonComments.length > 0 ? (
-                    lessonComments.map((comment) => (
-                      <div key={comment.id} className="p-4 bg-muted/50 border border-[#a37fb9]/20">
-                      <div className="flex justify-between mb-2">
-                        <span className="font-medium">{comment.author}</span>
-                          <span className="text-sm text-muted-foreground">
-                            {new Date(comment.created_at).toLocaleDateString('pt-BR', {
-                              day: '2-digit',
-                              month: '2-digit',
-                              year: 'numeric',
-                              hour: '2-digit',
-                              minute: '2-digit'
-                            })}
-                          </span>
-                        </div>
-                        <p>{comment.text}</p>
-                      </div>
-                    ))
-                  ) : (
-                    <div className="text-center p-6 bg-muted/30">
-                      <p className="text-muted-foreground">Nenhum comentário ainda. Seja o primeiro a compartilhar seus pensamentos!</p>
-                    </div>
-                  )}
-                </div>
-                
-                {id && (
-                <div>
-                  <h3 className="text-lg font-medium mb-2">Adicionar comentário</h3>
-                  <textarea 
-                        className="w-full p-3 border-0 border-b-2 border-[#a37fb9]/30 bg-background/50 focus:outline-none focus:border-[#a37fb9] transition-colors duration-300 rounded-none resize-none"
-                    rows={3}
-                    placeholder="Compartilhe seus pensamentos sobre esta lição..."
-                        value={newComment}
-                        onChange={(e) => setNewComment(e.target.value)}
-                  ></textarea>
-                  <div className="mt-2 flex justify-end">
-                        <Button 
-                          variant="modern" 
-                          onClick={handleSubmitComment}
-                          disabled={!newComment.trim() || saveCommentMutation.isPending}
-                        >
-                          {saveCommentMutation.isPending ? "Enviando..." : "Enviar"}
-                        </Button>
-                  </div>
-                </div>
-                )}
-              </div>
-            </TabsContent>
-          </Tabs>
-        </div>
-      </main>
-      <Footer />
-    </div>
-  );
-};
-
-export default StudyDetailPage;
+                          <p className="font-serif">"O Senhor Jesus Cristo preparou uma vestimenta – o manto de Sua própria justiça – que Ele colocará sobre toda pessoa arrependida e crente que a receberá pela fé. Disse João: 'Eis o Cordeiro de Deus, que tira
