@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -196,7 +197,7 @@ const ProfilePage = () => {
                   <div className="flex flex-col gap-3">
                     <div className="flex items-center gap-2 text-muted-foreground break-all">
                       <Mail className="h-4 w-4 flex-shrink-0" />
-                      <span className="text-sm truncate">{user?.email}</span>
+                      <span className="text-sm truncate">{profile?.email || "Email não disponível"}</span>
                     </div>
                     {profile?.website && (
                       <div className="flex items-center gap-2 text-muted-foreground break-all">
