@@ -11,6 +11,8 @@ import ProgressCard from '../components/study/ProgressCard';
 import Spinner from "../components/ui/Spinner";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import { Button } from '@/components/ui/button';
+import { BookOpen, ArrowRight, CheckCircle } from 'lucide-react';
 
 const DashboardPage: React.FC = () => {
   const [selectedYear] = useState<number>(new Date().getFullYear());
@@ -36,6 +38,28 @@ const DashboardPage: React.FC = () => {
     queryFn: async () => getTotalCompletedLessons(anonymousUserId)
   });
 
+  // Determinar qual é a próxima lição para o usuário
+  const getNextLesson = () => {
+    const days = ["domingo", "segunda", "terca", "quarta", "quinta", "sexta", "sabado"];
+    
+    if (!progressData || progressData.length === 0) {
+      return days[0]; // Se não houver progresso, comece pelo domingo
+    }
+    
+    // Verificar a última lição concluída
+    const completedLessons = progressData
+      .filter((progress: any) => progress.completed)
+      .map((progress: any) => progress.lesson_id);
+    
+    for (let i = 0; i < days.length; i++) {
+      if (!completedLessons.includes(days[i])) {
+        return days[i]; // Retornar o primeiro dia não concluído
+      }
+    }
+    
+    return days[0]; // Se todas foram concluídas, voltar ao início
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -56,9 +80,30 @@ const DashboardPage: React.FC = () => {
                 <Spinner />
               </div>
             ) : (
-              <ProgressCard 
-                completedLessons={completedLessonsCount || 0} 
-              />
+              <>
+                <ProgressCard 
+                  completedLessons={completedLessonsCount || 0} 
+                />
+                
+                {/* Botões de navegação */}
+                <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:justify-center">
+                  <Link to={`/estudos/${getNextLesson()}`}>
+                    <Button variant="modern" className="w-full sm:w-auto flex items-center gap-2">
+                      <BookOpen size={18} />
+                      Continuar estudando
+                    </Button>
+                  </Link>
+                  
+                  {completedLessonsCount && completedLessonsCount > 0 && (
+                    <Link to={`/estudos/${getNextLesson()}#quiz`}>
+                      <Button variant="outline" className="w-full sm:w-auto flex items-center gap-2">
+                        <CheckCircle size={18} />
+                        Ir para quiz
+                      </Button>
+                    </Link>
+                  )}
+                </div>
+              </>
             )}
           </div>
         </div>

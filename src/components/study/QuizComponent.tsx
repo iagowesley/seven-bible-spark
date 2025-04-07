@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -94,6 +93,17 @@ const QuizComponent: React.FC<QuizProps> = ({ questions, onComplete, lessonId })
     }
   };
   
+  const handleNavigateToNextDay = () => {
+    // Navegar para o próximo dia
+    const days = ["domingo", "segunda", "terca", "quarta", "quinta", "sexta", "sabado"];
+    const currentIndex = days.indexOf(lessonId);
+    
+    if (currentIndex < days.length - 1) {
+      const nextDay = days[currentIndex + 1];
+      window.location.href = `/estudos/${nextDay}`;
+    }
+  };
+  
   if (quizCompleted) {
     const finalScore = score + (selectedOption === currentQuestion.correctOptionId ? 1 : 0);
     const percentage = Math.round((finalScore / questions.length) * 100);
@@ -132,20 +142,7 @@ const QuizComponent: React.FC<QuizProps> = ({ questions, onComplete, lessonId })
           </Button>
           <Button
             variant="modern"
-            onClick={() => {
-              // Navegar para o próximo dia
-              const days = ["domingo", "segunda", "terca", "quarta", "quinta", "sexta", "sabado"];
-              const currentPath = window.location.pathname;
-              const currentDay = currentPath.split('/').pop();
-              
-              if (currentDay && days.includes(currentDay)) {
-                const currentIndex = days.indexOf(currentDay);
-                if (currentIndex < days.length - 1) {
-                  const nextDay = days[currentIndex + 1];
-                  window.location.href = `/estudos/${nextDay}`;
-                }
-              }
-            }}
+            onClick={handleNavigateToNextDay}
             className="flex items-center"
           >
             Próximo Dia <ArrowRight className="h-4 w-4 ml-2" />
