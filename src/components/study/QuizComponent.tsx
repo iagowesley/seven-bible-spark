@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -5,6 +6,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
 import { CheckCircle, XCircle, ArrowLeft, ArrowRight, Check } from "lucide-react";
+import { updateUserProgress } from "@/models/userProgress";
 
 type Question = {
   id: string;
@@ -16,9 +18,10 @@ type Question = {
 type QuizProps = {
   questions: Question[];
   onComplete: (score: number) => void;
+  lessonId: string;
 };
 
-const QuizComponent: React.FC<QuizProps> = ({ questions, onComplete }) => {
+const QuizComponent: React.FC<QuizProps> = ({ questions, onComplete, lessonId }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedOption, setSelectedOption] = useState<string>("");
   const [score, setScore] = useState(0);
@@ -68,8 +71,24 @@ const QuizComponent: React.FC<QuizProps> = ({ questions, onComplete }) => {
     setAnswerChecked(false);
     
     if (isLastQuestion) {
+      // Calcular pontuação final
+      const finalScore = score + (selectedOption === currentQuestion.correctOptionId ? 1 : 0);
+      const percentage = Math.round((finalScore / questions.length) * 100);
+      
+      // Guardar o progresso do usuário quando o quiz for concluído
+      const isCompleted = percentage >= 50;
+      updateUserProgress(
+        'anonymous-user',
+        lessonId,
+        percentage,
+        isCompleted,
+        isCompleted ? 10 : 0
+      ).then(() => {
+        console.log(`Progresso da lição ${lessonId} salvo: ${percentage}%, completado: ${isCompleted}`);
+      });
+      
       setQuizCompleted(true);
-      onComplete(score + (selectedOption === currentQuestion.correctOptionId ? 1 : 0));
+      onComplete(finalScore);
     } else {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     }

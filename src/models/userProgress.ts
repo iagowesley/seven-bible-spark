@@ -1,3 +1,4 @@
+
 // Interface mantida para compatibilidade com componentes existentes
 export interface UserProgress {
   id: string;
@@ -59,8 +60,9 @@ const saveLocalComments = (comments: Comment[]): void => {
 };
 
 // Função para obter progresso do usuário (agora sempre o usuário anônimo)
-export const getUserProgress = async (): Promise<UserProgress[]> => {
-  return getLocalProgress();
+export const getUserProgress = async (userId: string = DEFAULT_USER_ID): Promise<UserProgress[]> => {
+  const allProgress = getLocalProgress();
+  return allProgress.filter(p => p.user_id === userId);
 };
 
 // Função para atualizar progresso
@@ -115,7 +117,7 @@ export const updateUserProgress = async (
 export const getTotalCompletedLessons = async (userId: string = DEFAULT_USER_ID): Promise<number> => {
   const allProgress = getLocalProgress();
   return allProgress
-    .filter(p => p.user_id === userId && p.progress >= 50)
+    .filter(p => p.user_id === userId && p.completed)
     .length;
 };
 

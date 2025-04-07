@@ -1,13 +1,14 @@
+
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { LineChart, BarChart, Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { getTotalCompletedLessons, getTotalPoints, getStreakDays } from '../models/userProgress';
-import { getLessons, studies } from '../data/studies';
+import { getTotalCompletedLessons, getTotalPoints, getStreakDays, getUserProgress } from '../models/userProgress';
+import { getLessons } from '../data/studies';
 import ProgressCard from '../components/study/ProgressCard';
-import Spinner from '../components/ui/Spinner';
+import Spinner from "../components/ui/Spinner";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 
@@ -22,9 +23,7 @@ const DashboardPage: React.FC = () => {
     queryKey: ['dashboard-progress'],
     queryFn: async () => {
       try {
-        // Obter dados do localStorage
-        const allProgress = JSON.parse(localStorage.getItem('local_user_progress') || '[]');
-        return allProgress.filter(p => p.user_id === anonymousUserId);
+        return getUserProgress();
       } catch (e) {
         console.error("Erro ao buscar progresso:", e);
         return [];
@@ -32,10 +31,10 @@ const DashboardPage: React.FC = () => {
     }
   });
 
-  const completedLessons = progressData?.filter(lesson => lesson.completed) || [];
-  const totalCompletedLessons = completedLessons.length;
-  const streakDays = getStreakDays(anonymousUserId);
-  const totalPoints = getTotalPoints(anonymousUserId);
+  const { data: completedLessonsCount, isLoading: isCompletedLoading } = useQuery({
+    queryKey: ['completed-lessons-count'],
+    queryFn: async () => getTotalCompletedLessons(anonymousUserId)
+  });
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -52,11 +51,13 @@ const DashboardPage: React.FC = () => {
           
           {/* Card de Progresso */}
           <div className="max-w-xl mx-auto">
-            {isProgressLoading ? (
-              <div className="h-56 bg-muted animate-pulse rounded-md"></div>
+            {isProgressLoading || isCompletedLoading ? (
+              <div className="h-56 flex items-center justify-center">
+                <Spinner />
+              </div>
             ) : (
               <ProgressCard 
-                completedLessons={totalCompletedLessons} 
+                completedLessons={completedLessonsCount || 0} 
               />
             )}
           </div>

@@ -1,9 +1,9 @@
+
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BookOpen, CalendarCheck, Calendar } from "lucide-react";
-import { useAuth } from "@/contexts/AuthContext";
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { getUserProgress } from "@/models/userProgress";
 
 type ProgressCardProps = {
   completedLessons: number;
@@ -31,9 +31,7 @@ const ProgressCard: React.FC<ProgressCardProps> = ({
     queryKey: ['userProgressForDashboard'],
     queryFn: async () => {
       try {
-        // Obter dados do localStorage
-        const allProgress = JSON.parse(localStorage.getItem('local_user_progress') || '[]');
-        return allProgress.filter(p => p.user_id === anonymousUserId);
+        return getUserProgress();
       } catch (e) {
         console.error("Erro ao buscar progresso:", e);
         return [];
@@ -43,7 +41,7 @@ const ProgressCard: React.FC<ProgressCardProps> = ({
   
   // Determinar quais dias foram estudados (onde o progresso >= 50%)
   const completedDayIds = userProgress
-    .filter(progress => progress.progress >= 50)
+    .filter(progress => progress.completed)
     .map(progress => progress.lesson_id);
   
   return (
