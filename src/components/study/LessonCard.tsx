@@ -100,13 +100,7 @@ const LessonCard: React.FC<LessonCardProps> = ({
           <div className="bg-white/20 rounded-full px-3 py-1 text-xs backdrop-blur-sm">
             <span>{currentProgress}% completo</span>
           </div>
-        ) : (
-          <div className="bg-white/20 rounded-full px-3 py-1 text-xs backdrop-blur-sm">
-            <span className="flex items-center gap-1">
-              <BookOpen className="h-3 w-3" /> Novo
-            </span>
-          </div>
-        )}
+        ) : null}
       </div>
       
       <CardContent className="pt-4 pb-2">
@@ -117,10 +111,6 @@ const LessonCard: React.FC<LessonCardProps> = ({
           <div className="flex items-center gap-1">
             <Clock className="h-3 w-3" />
             <span>{duration}</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <Award className="h-3 w-3" />
-            <span>{points} pontos</span>
           </div>
         </div>
       </CardContent>

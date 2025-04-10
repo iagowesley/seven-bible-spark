@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
@@ -93,15 +92,6 @@ const DashboardPage: React.FC = () => {
                       Continuar estudando
                     </Button>
                   </Link>
-                  
-                  {completedLessonsCount && completedLessonsCount > 0 && (
-                    <Link to={`/estudos/${getNextLesson()}#quiz`}>
-                      <Button variant="outline" className="w-full sm:w-auto flex items-center gap-2">
-                        <CheckCircle size={18} />
-                        Ir para quiz
-                      </Button>
-                    </Link>
-                  )}
                 </div>
               </>
             )}

@@ -709,7 +709,7 @@ const StudyDetailPage = () => {
                 <CheckCircle className="h-4 w-4" /> Quiz
               </TabsTrigger>
               )}
-              <TabsTrigger value="discussion" className="flex items-center gap-1">
+              <TabsTrigger value="comments" className="flex items-center gap-1">
                 <MessageSquare className="h-4 w-4" /> Discussão
               </TabsTrigger>
             </TabsList>
@@ -817,7 +817,7 @@ const StudyDetailPage = () => {
                 {id === "segunda" && (
                   <div className="mb-6">
                     <div className="prose prose-lg max-w-none dark:prose-invert prose-headings:font-serif prose-p:font-sans">
-                      <p>O pecado de Adão e Eva rompeu o relacionamento deles com Deus, roubando sua inocência e paz de espírito. Um sentimento imediato de vergonha os dominou, e eles se esconderam de Deus (Gn 3:8). <span className="bg-yellow-100 p-1 rounded font-medium">O pecado também adicionou a realidade da morte ao que até então era perfeito.</span> Deus tinha avisado Adão e Eva de que se comessem da árvore do conhecimento do bem e do mal, certamente morreriam, mas essa ideia era bastante abstrata para eles. Eles não conheciam por experiência própria o pecado e suas consequências.</p>
+                      <p>O pecado de Adão e Eva rompeu o relacionamento deles com Deus, roubando sua inocência e paz de espírito. Um sentimento imediato de vergonha os dominou, e eles se esconderam de Deus (Gn 3:8). <span className="bg-yellow-100 p-1 rounded font-medium">O pecado também adicionou a realidade da morte ao que até então era perfeita.</span> Deus tinha avisado Adão e Eva de que se comessem da árvore do conhecimento do bem e do mal, certamente morreriam, mas essa ideia era bastante abstrata para eles. Eles não conheciam por experiência própria o pecado e suas consequências.</p>
                       
                       <p>Gênesis 3:16-24 descreve o que Adão e Eva sofreriam como resultado da desobediência. A vida seria difícil e dolorosa. Por último, estavam destinados a retornar ao solo quando morressem. Os primeiros humanos perderiam seu lar, a comunhão face a face com Deus e o acesso à árvore da vida (Gn 3:22-24). Que bola de neve de sofrimento causado pelos prazeres momentâneos do pecado!</p>
                       
@@ -985,32 +985,8 @@ const StudyDetailPage = () => {
               )}
             </TabsContent>
             
-            <TabsContent value="discussion">
-              <div className="bg-card p-6 rounded-lg shadow-sm border border-border">
-                <h2 className="text-xl font-semibold mb-4">Discussão</h2>
-                
-                {lessonComments.length > 0 ? (
-                  <div className="space-y-4 mb-6">
-                    {lessonComments.map((comment) => (
-                      <div key={comment.id} className="bg-muted/30 p-4 rounded-lg">
-                        <div className="flex justify-between mb-2">
-                          <h3 className="font-medium">{comment.author}</h3>
-                          <span className="text-xs text-muted-foreground">
-                            {comment.created_at 
-                              ? new Date(comment.created_at).toLocaleDateString() 
-                              : 'Hoje'}
-                          </span>
-                        </div>
-                        <p className="text-muted-foreground">{comment.text}</p>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="bg-muted/30 p-4 rounded-lg mb-6 text-center">
-                    <p>Seja o primeiro a comentar nesta lição!</p>
-                  </div>
-                )}
-                
+            <TabsContent value="comments">
+              <div className="space-y-6">
                 <div>
                   <h3 className="text-lg font-medium mb-2">Deixe seu comentário</h3>
                   <textarea
@@ -1032,7 +1008,7 @@ const StudyDetailPage = () => {
           </Tabs>
           
           <div className="flex justify-between items-center mt-8">
-            <Progress value={progress} className="w-full max-w-md" />
+            <Progress value={progress} className="w-full max-w-3xl" />
             <div className="ml-4">
               {id !== "sabado" && !quizEnabled && progress < 50 && (
                 <p className="text-sm text-muted-foreground mr-4">
@@ -1052,6 +1028,20 @@ const StudyDetailPage = () => {
               )}
             </div>
           </div>
+
+          {/* Botão de ir para o quiz no final do estudo */}
+          {id !== "sabado" && progress >= 50 && (
+            <div className="mt-8 flex justify-center">
+              <Button 
+                variant="modern" 
+                size="lg"
+                onClick={enableQuiz}
+                className="w-full max-w-md"
+              >
+                Ir para o Quiz
+              </Button>
+            </div>
+          )}
         </div>
       </main>
       <Footer />
