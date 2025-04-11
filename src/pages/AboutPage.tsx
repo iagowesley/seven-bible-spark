@@ -3,7 +3,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Instagram, BookOpen, Award, MessageSquare, Calendar, ArrowRight } from "lucide-react";
+import { Instagram, BookOpen, Award, MessageSquare, Calendar, ArrowRight, Sparkles, Heart, Users, Bookmark, Clock, Target } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
@@ -63,15 +63,53 @@ const AboutPage = () => {
               </div>
               <div className="md:w-1/3 max-w-xs">
                 <div className="relative">
+                  {/* Elementos decorativos ao redor da imagem */}
+                  <div className="absolute -top-6 -left-6 w-12 h-12 border-t-4 border-l-4 border-yellow-400 z-20"></div>
+                  <div className="absolute -bottom-6 -right-6 w-12 h-12 border-b-4 border-r-4 border-yellow-400 z-20"></div>
+                  
+                  {/* Círculos decorativos */}
+                  <div className="absolute -top-4 -right-4 w-8 h-8 rounded-full bg-[#a37fb9] opacity-80 animate-pulse z-10"></div>
+                  <div className="absolute -bottom-4 -left-4 w-6 h-6 rounded-full bg-green-400 opacity-70 z-10"></div>
+                  
+                  {/* Estrelas decorativas */}
+                  <div className="absolute top-1/4 -left-3 text-yellow-400 animate-bounce z-30 text-lg">✦</div>
+                  <div className="absolute top-3/4 -right-3 text-yellow-400 animate-pulse z-30 text-lg">✦</div>
+                  <div className="absolute bottom-1/3 -left-5 text-purple-400 animate-pulse z-30 text-xl">★</div>
+                  
+                  {/* Linhas de conexão */}
+                  <div className="absolute top-0 right-1/4 w-1 h-10 bg-gradient-to-b from-[#a37fb9] to-transparent z-10"></div>
+                  <div className="absolute bottom-0 left-1/4 w-1 h-10 bg-gradient-to-t from-[#a37fb9] to-transparent z-10"></div>
+                  
+                  {/* Pontos decorativos */}
+                  <div className="absolute top-1/3 -right-2 w-2 h-2 rounded-full bg-yellow-400 z-30"></div>
+                  <div className="absolute top-2/3 -right-3 w-3 h-3 rounded-full bg-[#a37fb9] z-30"></div>
+                  <div className="absolute bottom-1/4 -left-2 w-2 h-2 rounded-full bg-yellow-400 z-30"></div>
+                  
+                  {/* Fundo de brilho */}
                   <div className="absolute inset-0 bg-gradient-to-tr from-[#a37fb9]/30 to-transparent blur-lg"></div>
-                  <img 
-                    src="/cover.png" 
-                    alt="Lição Jovem - Adoração" 
-                    className="w-full h-auto rounded-none shadow-2xl relative z-10 transform transition-all hover:scale-105 duration-300"
-                  />
-                  <div className="absolute -bottom-4 -right-4 bg-yellow-400 text-[#a37fb9] font-bold px-4 py-2 rounded-none shadow-lg z-20">
+                  
+                  {/* Marco decorativo animado */}
+                  <div className="absolute inset-0 border-4 border-dashed border-white/30 z-10 animate-[pulse_3s_ease-in-out_infinite]"></div>
+                  
+                  {/* Imagem com borda personalizada */}
+                  <div className="relative border-8 border-white shadow-2xl z-20 overflow-hidden transition-all duration-500 hover:shadow-[0_10px_40px_rgba(163,127,185,0.5)]">
+                    <img 
+                      src="/cover.png" 
+                      alt="Lição Jovem - Adoração" 
+                      className="w-full h-auto relative z-10 transform transition-all hover:scale-105 duration-300"
+                    />
+                    
+                    {/* Overlay de brilho no hover */}
+                    <div className="absolute inset-0 bg-gradient-to-tr from-[#a37fb9]/0 to-yellow-400/0 hover:from-[#a37fb9]/20 hover:to-yellow-400/20 transition-all duration-300 z-20"></div>
+                  </div>
+                  
+                  {/* Etiqueta de trimestre */}
+                  <div className="absolute -bottom-4 -right-4 bg-yellow-400 text-[#a37fb9] font-bold px-4 py-2 shadow-lg z-30 transform rotate-3 hover:rotate-0 transition-all duration-300 border-2 border-white">
                     2º Trimestre
                   </div>
+                  
+                  {/* Círculo pulsante */}
+                  <div className="absolute -bottom-10 -left-10 w-20 h-20 rounded-full bg-gradient-to-tr from-yellow-200 to-[#a37fb9]/30 opacity-50 blur-xl animate-pulse z-0"></div>
                 </div>
               </div>
             </div>
@@ -80,70 +118,155 @@ const AboutPage = () => {
 
         {/* Conteúdo principal */}
         <div className="seven-container px-4 sm:px-6 lg:px-8 py-16">
-          {/* O que é a Lição Jovem 7 */}
-          <div className="mb-16">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="h-1 w-16 bg-[#a37fb9]"></div>
-              <h2 className="text-sm font-medium text-[#a37fb9] uppercase tracking-wider">Nossa missão</h2>
-            </div>
-            <h2 className="text-3xl font-bold text-gray-800 mb-8">O que é a Lição Jovem 7?</h2>
+          {/* O que é a Lição Jovem 7 - Versão Moderna e Criativa */}
+          <div className="mb-20 relative">
+            {/* Elementos de fundo decorativos */}
+            <div className="absolute -top-10 -left-20 w-40 h-40 bg-gradient-to-br from-yellow-200 to-orange-300 rounded-full opacity-20 blur-2xl"></div>
+            <div className="absolute top-40 -right-10 w-60 h-60 bg-gradient-to-tr from-[#a37fb9] to-blue-400 rounded-full opacity-10 blur-3xl"></div>
+            <div className="absolute bottom-20 left-1/4 w-32 h-32 bg-gradient-to-tr from-green-300 to-blue-300 rounded-full opacity-20 blur-xl"></div>
             
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div className="space-y-6 text-gray-700">
-                <p className="text-lg">
-                  A <span className="font-semibold text-[#a37fb9]">Lição Jovem 7</span> é um projeto dedicado a oferecer estudos diários 
-                  interativos e relevantes para jovens adventistas do sétimo dia. Nosso objetivo é tornar o estudo da lição da escola sabatina
-                  mais acessível, envolvente e aplicável ao dia a dia dos jovens.
-                </p>
-                <p>
-                  Cada lição semanal é dividida em sete partes - uma para cada dia da semana - permitindo 
-                  um estudo aprofundado e consistente. O conteúdo é elaborado para conectar os ensinamentos
-                  bíblicos com os desafios contemporâneos enfrentados pelos jovens.
-                </p>
-                <p>
-                  <span className="font-semibold">Nossa presença no Instagram:</span> Diariamente, compartilhamos resumos 
-                  das lições em nossa página do Instagram, criando uma comunidade ativa que estuda e reflete
-                  juntos sobre os temas propostos.
-                </p>
-                <p>
-                  Este novo site foi desenvolvido para ajudar todos os jovens a manterem uma rotina de estudos
-                  bíblicos consistente, com ferramentas que facilitam a compreensão e a aplicação prática
-                  dos ensinamentos.
-                </p>
+            <div className="relative z-10">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="h-1 w-16 bg-[#a37fb9]"></div>
+                <h2 className="text-sm font-medium text-[#a37fb9] uppercase tracking-wider flex items-center">
+                  Nossa missão <Sparkles className="h-4 w-4 ml-2 text-yellow-400 animate-pulse" />
+                </h2>
               </div>
               
+              <div className="flex items-center mb-8">
+                <h2 className="text-4xl font-bold text-gray-800 relative">
+                  O que é a Lição Jovem 7?
+                  <span className="absolute -bottom-2 left-0 h-1 w-20 bg-gradient-to-r from-[#a37fb9] to-transparent"></span>
+                </h2>
+                <div className="ml-4 bg-purple-100 text-[#a37fb9] px-3 py-1 rounded-full text-xs font-medium animate-bounce">
+                  Novo!
+                </div>
+              </div>
+            </div>
+            
+            <div className="grid md:grid-cols-2 gap-12 items-center relative z-10">
+              {/* Texto com elementos interativos */}
+              <div className="space-y-6 text-gray-700 relative">
+                <div className="absolute -left-5 top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-[#a37fb9] to-transparent opacity-30"></div>
+                
+                <div className="transform transition-all hover:scale-105 duration-300 p-4 hover:bg-white hover:shadow-xl">
+                  <p className="text-lg relative z-10">
+                    A <span className="font-semibold text-[#a37fb9] text-xl">Lição Jovem 7</span> é um projeto dedicado a oferecer estudos diários 
+                    interativos e relevantes para jovens adventistas do sétimo dia. Nosso objetivo é tornar o estudo da lição da escola sabatina
+                    mais acessível, envolvente e aplicável ao dia a dia dos jovens.
+                  </p>
+                  <div className="flex items-center gap-2 mt-2 text-sm text-[#a37fb9]/70">
+                    <Heart className="h-4 w-4" /> <span>Criado por jovens para jovens</span>
+                  </div>
+                </div>
+                
+                <div className="transform transition-all hover:scale-105 duration-300 p-4 hover:bg-white hover:shadow-xl">
+                  <p className="relative z-10">
+                    Cada lição semanal é dividida em sete partes — uma para cada dia da semana — permitindo 
+                    um estudo aprofundado e consistente. O conteúdo é elaborado para conectar os ensinamentos
+                    bíblicos com os desafios contemporâneos enfrentados pelos jovens.
+                  </p>
+                  <div className="flex items-center gap-2 mt-2 text-sm text-[#a37fb9]/70">
+                    <Clock className="h-4 w-4" /> <span>7 dias, 7 estudos</span>
+                  </div>
+                </div>
+                
+                <div className="transform transition-all hover:scale-105 duration-300 p-4 hover:bg-white hover:shadow-xl">
+                  <p className="relative z-10">
+                    <span className="font-semibold">Nossa presença no Instagram:</span> Diariamente, compartilhamos resumos 
+                    das lições em nossa página do Instagram, criando uma comunidade ativa que estuda e reflete
+                    juntos sobre os temas propostos.
+                  </p>
+                  <div className="flex items-center gap-2 mt-2 text-sm text-[#a37fb9]/70">
+                    <Users className="h-4 w-4" /> <span>Comunidade em crescimento</span>
+                  </div>
+                </div>
+                
+                <div className="transform transition-all hover:scale-105 duration-300 p-4 hover:bg-white hover:shadow-xl">
+                  <p className="relative z-10">
+                    Este novo site foi desenvolvido para ajudar todos os jovens a manterem uma rotina de estudos
+                    bíblicos consistente, com ferramentas que facilitam a compreensão e a aplicação prática
+                    dos ensinamentos.
+                  </p>
+                  <div className="flex items-center gap-2 mt-2 text-sm text-[#a37fb9]/70">
+                    <Target className="h-4 w-4" /> <span>Foco na aplicação prática</span>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Cards com animações e interações */}
               <div className="grid grid-cols-2 gap-6">
-                <Card className="p-6 flex flex-col items-center text-center hover:shadow-lg transition-all hover:-translate-y-1 bg-gradient-to-b from-white to-purple-50/50 rounded-none">
-                  <div className="h-12 w-12 bg-purple-100 flex items-center justify-center mb-4 rounded-none">
-                    <BookOpen className="h-6 w-6 text-[#a37fb9]" />
+                <Card className="p-6 flex flex-col items-center text-center hover:shadow-xl transition-all hover:-translate-y-2 bg-gradient-to-b from-white to-purple-50/50 rounded-lg border-t-4 border-t-[#a37fb9] group">
+                  <div className="h-16 w-16 bg-purple-100 flex items-center justify-center mb-4 rounded-xl transform group-hover:rotate-6 transition-all">
+                    <BookOpen className="h-8 w-8 text-[#a37fb9]" />
                   </div>
-                  <h3 className="font-semibold mb-2">Estudos Diários</h3>
+                  <h3 className="font-semibold text-lg mb-2">Estudos Diários</h3>
                   <p className="text-sm text-gray-600">Conteúdo relevante para cada dia da semana</p>
+                  <div className="mt-4 border-t border-dashed border-purple-200 pt-3 w-full">
+                    <span className="text-xs text-[#a37fb9] font-medium flex items-center justify-center">
+                      <Bookmark className="h-3 w-3 mr-1" /> 7 dias por semana
+                    </span>
+                  </div>
                 </Card>
                 
-                <Card className="p-6 flex flex-col items-center text-center hover:shadow-lg transition-all hover:-translate-y-1 bg-gradient-to-b from-white to-purple-50/50 rounded-none">
-                  <div className="h-12 w-12 bg-purple-100 flex items-center justify-center mb-4 rounded-none">
-                    <Award className="h-6 w-6 text-[#a37fb9]" />
+                <Card className="p-6 flex flex-col items-center text-center hover:shadow-xl transition-all hover:-translate-y-2 bg-gradient-to-b from-white to-purple-50/50 rounded-lg border-t-4 border-t-[#a37fb9] group">
+                  <div className="h-16 w-16 bg-purple-100 flex items-center justify-center mb-4 rounded-xl transform group-hover:rotate-6 transition-all">
+                    <Award className="h-8 w-8 text-[#a37fb9]" />
                   </div>
-                  <h3 className="font-semibold mb-2">Quizzes</h3>
+                  <h3 className="font-semibold text-lg mb-2">Quizzes</h3>
                   <p className="text-sm text-gray-600">Teste seus conhecimentos e fixe o conteúdo</p>
+                  <div className="mt-4 border-t border-dashed border-purple-200 pt-3 w-full">
+                    <span className="text-xs text-[#a37fb9] font-medium flex items-center justify-center">
+                      <Bookmark className="h-3 w-3 mr-1" /> Testes interativos
+                    </span>
+                  </div>
                 </Card>
                 
-                <Card className="p-6 flex flex-col items-center text-center hover:shadow-lg transition-all hover:-translate-y-1 bg-gradient-to-b from-white to-purple-50/50 rounded-none">
-                  <div className="h-12 w-12 bg-purple-100 flex items-center justify-center mb-4 rounded-none">
-                    <MessageSquare className="h-6 w-6 text-[#a37fb9]" />
+                <Card className="p-6 flex flex-col items-center text-center hover:shadow-xl transition-all hover:-translate-y-2 bg-gradient-to-b from-white to-purple-50/50 rounded-lg border-t-4 border-t-[#a37fb9] group">
+                  <div className="h-16 w-16 bg-purple-100 flex items-center justify-center mb-4 rounded-xl transform group-hover:rotate-6 transition-all">
+                    <MessageSquare className="h-8 w-8 text-[#a37fb9]" />
                   </div>
-                  <h3 className="font-semibold mb-2">Discussões</h3>
+                  <h3 className="font-semibold text-lg mb-2">Discussões</h3>
                   <p className="text-sm text-gray-600">Compartilhe insights com outros jovens</p>
+                  <div className="mt-4 border-t border-dashed border-purple-200 pt-3 w-full">
+                    <span className="text-xs text-[#a37fb9] font-medium flex items-center justify-center">
+                      <Bookmark className="h-3 w-3 mr-1" /> Comunidade ativa
+                    </span>
+                  </div>
                 </Card>
                 
-                <Card className="p-6 flex flex-col items-center text-center hover:shadow-lg transition-all hover:-translate-y-1 bg-gradient-to-b from-white to-purple-50/50 rounded-none">
-                  <div className="h-12 w-12 bg-purple-100 flex items-center justify-center mb-4 rounded-none">
-                    <Calendar className="h-6 w-6 text-[#a37fb9]" />
+                <Card className="p-6 flex flex-col items-center text-center hover:shadow-xl transition-all hover:-translate-y-2 bg-gradient-to-b from-white to-purple-50/50 rounded-lg border-t-4 border-t-[#a37fb9] group">
+                  <div className="h-16 w-16 bg-purple-100 flex items-center justify-center mb-4 rounded-xl transform group-hover:rotate-6 transition-all">
+                    <Calendar className="h-8 w-8 text-[#a37fb9]" />
                   </div>
-                  <h3 className="font-semibold mb-2">Progresso</h3>
+                  <h3 className="font-semibold text-lg mb-2">Progresso</h3>
                   <p className="text-sm text-gray-600">Acompanhe sua jornada de estudos</p>
+                  <div className="mt-4 border-t border-dashed border-purple-200 pt-3 w-full">
+                    <span className="text-xs text-[#a37fb9] font-medium flex items-center justify-center">
+                      <Bookmark className="h-3 w-3 mr-1" /> Metas pessoais
+                    </span>
+                  </div>
                 </Card>
+              </div>
+            </div>
+            
+            {/* Indicadores numéricos com dados */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12 relative z-10">
+              <div className="bg-white p-6 rounded-lg shadow-lg border-l-4 border-l-[#a37fb9] transform transition-all hover:-translate-y-1 hover:shadow-xl">
+                <h4 className="text-3xl font-bold text-[#a37fb9]">7</h4>
+                <p className="text-sm text-gray-600">dias de estudo por semana</p>
+              </div>
+              <div className="bg-white p-6 rounded-lg shadow-lg border-l-4 border-l-[#a37fb9] transform transition-all hover:-translate-y-1 hover:shadow-xl">
+                <h4 className="text-3xl font-bold text-[#a37fb9]">100+</h4>
+                <p className="text-sm text-gray-600">quizzes interativos</p>
+              </div>
+              <div className="bg-white p-6 rounded-lg shadow-lg border-l-4 border-l-[#a37fb9] transform transition-all hover:-translate-y-1 hover:shadow-xl">
+                <h4 className="text-3xl font-bold text-[#a37fb9]">1000+</h4>
+                <p className="text-sm text-gray-600">jovens engajados</p>
+              </div>
+              <div className="bg-white p-6 rounded-lg shadow-lg border-l-4 border-l-[#a37fb9] transform transition-all hover:-translate-y-1 hover:shadow-xl">
+                <h4 className="text-3xl font-bold text-[#a37fb9]">24/7</h4>
+                <p className="text-sm text-gray-600">acesso ao conteúdo</p>
               </div>
             </div>
           </div>

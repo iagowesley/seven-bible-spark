@@ -86,28 +86,69 @@ const LessonCard: React.FC<LessonCardProps> = ({
   const bgGradient = getDayColor(id);
 
   return (
-    <Card className="overflow-hidden modern-card hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border-0">
-      <div className={`h-36 bg-gradient-to-r ${bgGradient} flex flex-col items-center justify-center text-white p-4`}>
-        <Calendar className="h-10 w-10 text-white opacity-90 mb-2" />
-        <h3 className="text-white font-medium text-xl mb-1">{dayName}</h3>
+    <Card className="overflow-hidden modern-card hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border-0 relative">
+      {/* Bordas criativas e cantos decorativos */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        {/* Cantos decorativos */}
+        <div className="absolute -top-1 -left-1 w-10 h-10">
+          <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-white opacity-70"></div>
+        </div>
+        <div className="absolute -top-1 -right-1 w-10 h-10">
+          <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-white opacity-70"></div>
+        </div>
+        <div className="absolute -bottom-1 -left-1 w-10 h-10">
+          <div className="absolute bottom-0 left-0 w-4 h-4 border-b-2 border-l-2 border-white opacity-70"></div>
+        </div>
+        <div className="absolute -bottom-1 -right-1 w-10 h-10">
+          <div className="absolute bottom-0 right-0 w-4 h-4 border-b-2 border-r-2 border-white opacity-70"></div>
+        </div>
+        
+        {/* Linha de borda lateral esquerda com gradiente */}
+        <div className="absolute left-0 top-1/4 bottom-1/4 w-0.5 bg-gradient-to-b from-transparent via-white to-transparent opacity-50"></div>
+        
+        {/* Linha de borda lateral direita com gradiente */}
+        <div className="absolute right-0 top-1/4 bottom-1/4 w-0.5 bg-gradient-to-b from-transparent via-white to-transparent opacity-50"></div>
+        
+        {/* Borda superior com gradiente */}
+        <div className="absolute top-0 left-1/4 right-1/4 h-0.5 bg-gradient-to-r from-transparent via-white to-transparent opacity-50"></div>
+        
+        {/* Borda inferior com gradiente */}
+        <div className="absolute bottom-0 left-1/4 right-1/4 h-0.5 bg-gradient-to-r from-transparent via-white to-transparent opacity-50"></div>
+      </div>
+      
+      <div className={`h-36 bg-gradient-to-r ${bgGradient} flex flex-col items-center justify-center text-white p-4 relative`}>
+        {/* Efeito de brilho/reflexo - simula uma borda iluminada */}
+        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
+        
+        {/* Linhas decorativas */}
+        <div className="absolute top-0 right-0 w-8 h-8">
+          <div className="absolute top-3 right-3 w-5 h-0.5 bg-white/40 rotate-45"></div>
+          <div className="absolute top-3 right-3 w-0.5 h-5 bg-white/40 rotate-45"></div>
+        </div>
+        
+        <Calendar className="h-10 w-10 text-white opacity-90 mb-2 drop-shadow-[0_0_2px_rgba(255,255,255,0.5)]" />
+        <h3 className="text-white font-medium text-xl mb-1 drop-shadow-[0_0_2px_rgba(0,0,0,0.3)]">{dayName}</h3>
         {currentProgress === 100 ? (
-          <div className="bg-white/20 rounded-full px-3 py-1 text-xs backdrop-blur-sm">
+          <div className="bg-white/20 rounded-full px-3 py-1 text-xs backdrop-blur-sm shadow-inner">
             <span className="flex items-center gap-1">
               <CheckCircle className="h-3 w-3" /> Concluído
             </span>
           </div>
         ) : currentProgress > 0 ? (
-          <div className="bg-white/20 rounded-full px-3 py-1 text-xs backdrop-blur-sm">
+          <div className="bg-white/20 rounded-full px-3 py-1 text-xs backdrop-blur-sm shadow-inner">
             <span>{currentProgress}% completo</span>
           </div>
         ) : null}
       </div>
       
-      <CardContent className="pt-4 pb-2">
-        <p className="text-sm line-clamp-3 mb-4 font-light">
+      <CardContent className="pt-4 pb-2 relative">
+        {/* Padrão sutil de fundo */}
+        <div className="absolute inset-0 opacity-5 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0iIzMzMyIgZmlsbC1ydWxlPSJldmVub2RkIj48Y2lyY2xlIGN4PSIxIiBjeT0iMSIgcj0iMSIvPjwvZz48L3N2Zz4=')]"></div>
+        
+        <p className="text-sm line-clamp-3 mb-4 font-light relative z-10">
           {description}
         </p>
-        <div className="flex items-center justify-between text-xs text-muted-foreground">
+        <div className="flex items-center justify-between text-xs text-muted-foreground relative z-10">
           <div className="flex items-center gap-1">
             <Clock className="h-3 w-3" />
             <span>{duration}</span>
@@ -115,10 +156,12 @@ const LessonCard: React.FC<LessonCardProps> = ({
         </div>
       </CardContent>
       
-      <CardFooter className="pt-2">
-        <Button asChild className="w-full" variant="modern">
+      <CardFooter className="pt-2 relative z-10">
+        <Button asChild className="w-full relative overflow-hidden group" variant="modern">
           <Link to={`/estudos/${id}`}>
-            Estudar Agora
+            <span className="relative z-10">Estudar Agora</span>
+            {/* Efeito de brilho no botão ao passar o mouse */}
+            <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-white/0 via-white/30 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></span>
           </Link>
         </Button>
       </CardFooter>

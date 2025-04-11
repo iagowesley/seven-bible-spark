@@ -41,7 +41,7 @@ const Footer = () => {
           <div className="flex flex-col items-center md:items-end">
             <h3 className="text-lg font-normal mb-4 text-[#a37fb9]">Nos Siga</h3>
             <a 
-              href="https://instagram.com" 
+              href="https://instagram.com/licaojovem7" 
               target="_blank" 
               rel="noopener noreferrer"
               className="flex items-center p-2 bg-[#a37fb9]/10 hover:bg-[#a37fb9] hover:text-white text-[#a37fb9] transition-colors duration-300 mb-4"
@@ -50,7 +50,7 @@ const Footer = () => {
               <span className="text-sm font-light">Instagram</span>
             </a>
             <p className="text-xs text-muted-foreground font-light mt-4">
-              © {currentYear} Lição Jovem. Todos os direitos reservados.
+              © {currentYear} Lição Jovem 7. Todos os direitos reservados.
             </p>
           </div>
         </div>

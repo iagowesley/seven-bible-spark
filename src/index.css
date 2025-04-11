@@ -49,23 +49,23 @@
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
+    --background: 222 47% 11%;
     --foreground: 210 40% 98%;
 
-    --card: 222.2 84% 4.9%;
+    --card: 222 47% 11%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 222.2 84% 4.9%;
+    --popover: 222 47% 11%;
     --popover-foreground: 210 40% 98%;
 
     --primary: 280 39% 61%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 280 39% 20%;
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 280 14% 25%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 280 39% 20%;
-    --muted-foreground: 280 10% 75%;
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
 
     --accent: 280 39% 61%;
     --accent-foreground: 0 0% 100%;
@@ -73,8 +73,8 @@
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 280 39% 30%;
-    --input: 280 39% 30%;
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
     --ring: 280 39% 61%;
 
     --sidebar-background: 220 15% 16%;
@@ -242,6 +242,15 @@
   margin-bottom: 1rem;
 }
 
+.dark .prose h1, 
+.dark .prose h2, 
+.dark .prose h3, 
+.dark .prose h4, 
+.dark .prose h5, 
+.dark .prose h6 {
+  color: #e1e1e1;
+}
+
 .prose p {
   margin-bottom: 1.2rem;
   line-height: 1.8;
@@ -260,6 +269,94 @@
   font-family: 'Noto Serif', serif;
 }
 
+.dark .prose blockquote {
+  color: #b0b0b0;
+}
+
 .prose blockquote p {
   font-family: 'Noto Serif', serif;
+}
+
+/* Melhorias para modo escuro */
+.dark .modern-card {
+  background-color: hsl(222 47% 11%);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+}
+
+.dark .card-hover:hover {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+}
+
+/* Ajustes para elementos de destaque no modo escuro */
+.dark .bg-yellow-100 {
+  background-color: rgba(146, 123, 50, 0.4) !important;
+  color: #f0f0f0 !important;
+}
+
+.dark .bg-blue-100 {
+  background-color: rgba(59, 130, 246, 0.3) !important;
+  color: #f0f0f0 !important;
+}
+
+.dark .bg-green-100 {
+  background-color: rgba(74, 222, 128, 0.25) !important;
+  color: #f0f0f0 !important;
+}
+
+.dark .bg-purple-100 {
+  background-color: rgba(168, 85, 247, 0.25) !important;
+  color: #f0f0f0 !important;
+}
+
+.dark .bg-red-100 {
+  background-color: rgba(248, 113, 113, 0.25) !important;
+  color: #f0f0f0 !important;
+}
+
+.dark .bg-pink-100 {
+  background-color: rgba(244, 114, 182, 0.25) !important;
+  color: #f0f0f0 !important;
+}
+
+.dark .bg-orange-100 {
+  background-color: rgba(251, 146, 60, 0.3) !important;
+  color: #f0f0f0 !important;
+}
+
+.dark .bg-gray-100 {
+  background-color: rgba(156, 163, 175, 0.2) !important;
+  color: #f0f0f0 !important;
+}
+
+/* Ajustes para textos destacados em geral */
+.dark [class*="bg-"][class*="-100"] {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@layer utilities {
+  .seven-container {
+    @apply container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  /* Animação de gradiente para a navbar */
+  .animate-gradient {
+    animation: gradient 8s linear infinite;
+  }
+  
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  /* Efeito de sombra para o troféu */
+  .drop-shadow-glow {
+    filter: drop-shadow(0 0 8px rgba(250, 204, 21, 0.7));
+  }
 }
