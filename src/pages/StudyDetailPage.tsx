@@ -857,8 +857,8 @@ const StudyDetailPage = () => {
                       <img 
                         src="/tirinhas/02.png" 
                         alt="Tirinha Bíblica da Semana" 
-                        className="w-full object-contain min-h-[680px] sm:min-h-[500px]"
-                        style={{ maxHeight: "auto" }}
+                        className="w-full object-cover sm:object-contain max-w-full h-auto sm:min-h-[500px] transform scale-130"
+                        style={{ transformOrigin: 'center' }}
                       />
                     </div>
 
