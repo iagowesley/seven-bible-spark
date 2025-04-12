@@ -145,7 +145,7 @@ const LessonCard: React.FC<LessonCardProps> = ({
         {/* Padrão sutil de fundo */}
         <div className="absolute inset-0 opacity-5 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0iIzMzMyIgZmlsbC1ydWxlPSJldmVub2RkIj48Y2lyY2xlIGN4PSIxIiBjeT0iMSIgcj0iMSIvPjwvZz48L3N2Zz4=')]"></div>
         
-        <p className="text-sm line-clamp-3 mb-4 font-light relative z-10">
+        <p className="text-sm line-clamp-3 mb-4 font-bold relative z-10">
           {description}
         </p>
         <div className="flex items-center justify-between text-xs text-muted-foreground relative z-10">

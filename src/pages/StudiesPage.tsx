@@ -15,28 +15,28 @@ const weekDays = [
   {
     id: "sabado",
     title: "Sábado",
-    description: "O início do altar",
+    description: "Altares para recordar",
     duration: "45 min",
     points: 220
   },
   {
     id: "domingo",
     title: "Domingo",
-    description: "Expostos",
+    description: "Mente distraída",
     duration: "20 min",
     points: 100
   },
   {
     id: "segunda",
     title: "Segunda-feira",
-    description: "Roupas para o pecado",
+    description: "Promessa para não esquecer",
     duration: "15 min",
     points: 80
   },
   {
     id: "terca",
     title: "Terça-feira",
-    description: "Tempo, pensamento e ação",
+    description: "Promessa ameaçada",
     duration: "25 min",
     points: 120
   },
@@ -50,14 +50,14 @@ const weekDays = [
   {
     id: "quinta",
     title: "Quinta-feira",
-    description: "comPARTILHE",
+    description: "Auxílio divino",
     duration: "40 min",
     points: 200
   },
   {
     id: "sexta",
     title: "Sexta-feira",
-    description: "Um manto próprio",
+    description: "Amigo de Deus",
     duration: "35 min",
     points: 180
   },
