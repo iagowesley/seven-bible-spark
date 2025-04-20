@@ -23,13 +23,13 @@ import {
 
 const getFormattedDate = (dayOfWeek: string) => {
   const fixedDates: {[key: string]: Date} = {
-    "sabado": new Date(2024, 3, 12),  
-    "domingo": new Date(2024, 3, 13), 
-    "segunda": new Date(2024, 3, 14), 
-    "terca": new Date(2024, 3, 15),   
-    "quarta": new Date(2024, 3, 16),  
-    "quinta": new Date(2024, 3, 17), 
-    "sexta": new Date(2024, 3, 18)  
+    "sabado": new Date(2024, 3, 19),  
+    "domingo": new Date(2024, 3, 20), 
+    "segunda": new Date(2024, 3, 21), 
+    "terca": new Date(2024, 3, 22),   
+    "quarta": new Date(2024, 3, 23),  
+    "quinta": new Date(2024, 3, 24), 
+    "sexta": new Date(2024, 3, 25)  
   };
   
   if (!fixedDates.hasOwnProperty(dayOfWeek)) {
@@ -55,7 +55,7 @@ const getFormattedDate = (dayOfWeek: string) => {
 
 const lessonData = {
   id: "2",
-  title: "Altares para recordar",
+  title: "Um lugar para Mim",
   description: "",
   content: ``,
   progress: 65,
@@ -76,529 +76,529 @@ const lessonData = {
   questions: [
     {
       id: "domingo_q1",
-      text: "Qual era o problema que o autor enfrentava ao tentar se lembrar de orar por Derwyn?",
+      text: "Na experiência do autor, o que fez com que ele e sua esposa percebessem que o apartamento alugado não era um verdadeiro lar?",
       options: [
-        { id: "a", text: "Falta de tempo" },
-        { id: "b", text: "Sua mente vivia distraída" },
-        { id: "c", text: "Não gostava de Derwyn" },
-        { id: "d", text: "Não acreditava que a oração funcionaria" },
+        { id: "a", text: "A falta de espaço" },
+        { id: "b", text: "Os problemas com o sistema de ar-condicionado compartilhado" },
+        { id: "c", text: "O preço do aluguel era muito alto" },
+        { id: "d", text: "A distância do trabalho" },
       ],
       correctOptionId: "b",
     },
     {
       id: "domingo_q2",
-      text: "Qual solução o autor encontrou para lembrar de orar por Derwyn?",
+      text: "O que o autor e sua esposa sentiam em sua nova casa própria, mesmo sem móveis ou cortinas?",
       options: [
-        { id: "a", text: "Pediu para alguém lembrá-lo" },
-        { id: "b", text: "Escreveu um bilhete em sua Bíblia" },
-        { id: "c", text: "Criou um lembrete no smartphone" },
-        { id: "d", text: "Amarrou um fio no dedo" },
+        { id: "a", text: "Preocupação com os gastos futuros" },
+        { id: "b", text: "Arrependimento pela mudança" },
+        { id: "c", text: "Alegria, pois estavam finalmente em casa" },
+        { id: "d", text: "Ansiedade por decorar o espaço" },
       ],
       correctOptionId: "c",
     },
     {
       id: "domingo_q3",
-      text: "Por quanto tempo o autor continuou orando por Derwyn?",
+      text: "Depois de libertar os israelitas do Egito, qual foi uma das primeiras providências que Deus tomou?",
       options: [
-        { id: "a", text: "Apenas durante uma semana" },
-        { id: "b", text: "Durante um mês" },
-        { id: "c", text: "Por vários anos" },
-        { id: "d", text: "Até hoje, mas em horários diferentes" },
+        { id: "a", text: "Ensinar-lhes a agricultura" },
+        { id: "b", text: "Construir uma casa para Si mesmo (o santuário)" },
+        { id: "c", text: "Estabelecer um sistema político" },
+        { id: "d", text: "Criar um exército" },
       ],
-      correctOptionId: "c",
+      correctOptionId: "b",
     },
     {
       id: "domingo_q4",
-      text: "O que as pessoas nos tempos bíblicos usavam para se lembrarem de coisas importantes?",
+      text: "Por quanto tempo os israelitas estiveram escravizados no Egito antes da libertação?",
       options: [
-        { id: "a", text: "Escreviam em papiros" },
-        { id: "b", text: "Altares de recordação" },
-        { id: "c", text: "Contavam para seus vizinhos" },
-        { id: "d", text: "Memorizavam canções" },
-      ],
-      correctOptionId: "b",
-    },
-    {
-      id: "domingo_q5",
-      text: "Segundo o texto, o que os altares representavam na Bíblia?",
-      options: [
-        { id: "a", text: "Locais de sacrifício somente" },
-        { id: "b", text: "Lugares de consagração e comemoração" },
-        { id: "c", text: "Simples pilhas de pedras sem significado" },
-        { id: "d", text: "Fronteiras territoriais" },
-      ],
-      correctOptionId: "b",
-    },
-    {
-      id: "domingo_q6",
-      text: "Quando as pessoas geralmente construíam altares, segundo o texto?",
-      options: [
-        { id: "a", text: "Apenas nos tempos de crise" },
-        { id: "b", text: "Como punição por seus pecados" },
-        { id: "c", text: "Quando Deus fazia algo sobrenatural ou muito especial" },
-        { id: "d", text: "Apenas em datas religiosas específicas" },
+        { id: "a", text: "40 anos" },
+        { id: "b", text: "100 anos" },
+        { id: "c", text: "400 anos" },
+        { id: "d", text: "1000 anos" },
       ],
       correctOptionId: "c",
     },
     {
-      id: "domingo_q7",
-      text: "Qual era a principal função dos altares como memória?",
+      id: "domingo_q5",
+      text: "Qual o paralelo que a lição estabelece entre a experiência do autor e a de Deus com os israelitas?",
       options: [
-        { id: "a", text: "Lugares para se recordar das vezes em que viram Deus agir" },
-        { id: "b", text: "Depósitos de ofertas e sacrifícios" },
-        { id: "c", text: "Símbolos de riqueza e prosperidade" },
-        { id: "d", text: "Locais de punição por pecados" },
+        { id: "a", text: "Ambos precisaram economizar recursos" },
+        { id: "b", text: "Ambos tiveram que viajar longas distâncias" },
+        { id: "c", text: "Ambos buscavam um lugar para chamar de lar" },
+        { id: "d", text: "Ambos enfrentaram oposição de vizinhos" },
       ],
-      correctOptionId: "a",
+      correctOptionId: "c",
+    },
+    {
+      id: "domingo_q6",
+      text: "Qual capítulo de Patriarcas e Profetas é recomendado para aprofundamento sobre o tema do santuário?",
+      options: [
+        { id: "a", text: "Capítulo 12: 'Abraão em Canaã'" },
+        { id: "b", text: "Capítulo 30: 'O tabernáculo e seus serviços'" },
+        { id: "c", text: "Capítulo 22: 'Moisés'" },
+        { id: "d", text: "Capítulo 35: 'A rebelião de Coré'" },
+      ],
+      correctOptionId: "b",
+    },
+    {
+      id: "domingo_q7",
+      text: "Qual necessidade humana a lição destaca tanto para as pessoas quanto para Deus?",
+      options: [
+        { id: "a", text: "Necessidade de acumulação de riquezas" },
+        { id: "b", text: "Necessidade de conexão e pertencimento" },
+        { id: "c", text: "Necessidade de poder e controle" },
+        { id: "d", text: "Necessidade de conhecimento" },
+      ],
+      correctOptionId: "b",
     },
     {
       id: "domingo_q8",
-      text: "Qual capítulo de Patriarcas e Profetas é recomendado para leitura adicional?",
+      text: "O que o santuário simbolizava além de uma estrutura física?",
       options: [
-        { id: "a", text: "Capítulo 10: 'A torre de Babel'" },
-        { id: "b", text: "Capítulo 13: 'A prova da fé'" },
-        { id: "c", text: "Capítulo 4: 'O plano da redenção'" },
-        { id: "d", text: "Capítulo 7: 'O dilúvio'" },
+        { id: "a", text: "O poder militar de Israel" },
+        { id: "b", text: "O desejo divino de estabelecer Sua presença permanente entre Seu povo" },
+        { id: "c", text: "A superioridade de Israel sobre outras nações" },
+        { id: "d", text: "A riqueza e prosperidade do povo" },
       ],
       correctOptionId: "b",
     },
     {
       id: "segunda_q1",
-      text: "Com qual pedido surpreendente Deus se dirigiu a Abrão em Gênesis 12?",
+      text: "Após libertar os israelitas, qual foi um dos primeiros atos de Deus para reconstruir a vida espiritual deles?",
       options: [
-        { id: "a", text: "Que oferecesse seu filho como sacrifício" },
-        { id: "b", text: "Que construísse uma arca" },
-        { id: "c", text: "Que arrumasse sua família e pertences para ir a um lugar desconhecido" },
-        { id: "d", text: "Que construísse um templo para adoração" },
-      ],
-      correctOptionId: "c",
-    },
-    {
-      id: "segunda_q2",
-      text: "Quantos anos Abrão tinha quando saiu de Harã?",
-      options: [
-        { id: "a", text: "60 anos" },
-        { id: "b", text: "75 anos" },
-        { id: "c", text: "90 anos" },
-        { id: "d", text: "100 anos" },
+        { id: "a", text: "Estabelecer um sistema tributário" },
+        { id: "b", text: "Entregar os Dez Mandamentos a Moisés" },
+        { id: "c", text: "Nomear Arão como sacerdote" },
+        { id: "d", text: "Dividir a terra entre as tribos" },
       ],
       correctOptionId: "b",
     },
     {
-      id: "segunda_q3",
-      text: "Qual foi a resposta de Abrão ao chamado de Deus?",
+      id: "segunda_q2",
+      text: "O que Deus pediu que fosse trazido para a construção do santuário?",
       options: [
-        { id: "a", text: "Obediência imediata" },
-        { id: "b", text: "Pediu para Deus reconsiderar" },
-        { id: "c", text: "Procrastinou por vários meses" },
-        { id: "d", text: "Obedeceu parcialmente, deixando familiares para trás" },
+        { id: "a", text: "Apenas ouro e prata" },
+        { id: "b", text: "Apenas materiais importados" },
+        { id: "c", text: "Ofertas voluntárias de todo coração" },
+        { id: "d", text: "Uma quantia específica de cada família" },
+      ],
+      correctOptionId: "c",
+    },
+    {
+      id: "segunda_q3",
+      text: "Qual era o propósito do santuário, segundo Êxodo 25:8?",
+      options: [
+        { id: "a", text: "Para que os sacerdotes tivessem um lugar para trabalhar" },
+        { id: "b", text: "Para que Deus pudesse habitar no meio do povo" },
+        { id: "c", text: "Para impressionar as nações vizinhas" },
+        { id: "d", text: "Para guardar a arca da aliança apenas" },
+      ],
+      correctOptionId: "b",
+    },
+    {
+      id: "segunda_q4",
+      text: "Segundo o texto, o que é surpreendente na decisão de Deus de viver entre os israelitas?",
+      options: [
+        { id: "a", text: "Que Ele escolheu habitar com pessoas espiritualmente infiéis" },
+        { id: "b", text: "Que Ele preferiu Israel em vez de outras nações" },
+        { id: "c", text: "Que Ele não exigiu um templo mais grandioso" },
+        { id: "d", text: "Que Ele aceitou materiais de baixo valor" },
       ],
       correctOptionId: "a",
     },
     {
-      id: "segunda_q4",
-      text: "O que Abrão fez ao chegar em Canaã, após Deus lhe prometer a terra?",
+      id: "segunda_q5",
+      text: "O que o posicionamento do santuário no centro do acampamento israelita simbolizava?",
       options: [
-        { id: "a", text: "Construiu uma casa" },
-        { id: "b", text: "Plantou uma árvore" },
-        { id: "c", text: "Construiu um altar" },
-        { id: "d", text: "Abriu um poço" },
+        { id: "a", text: "A proteção contra inimigos" },
+        { id: "b", text: "A acessibilidade para todas as tribos" },
+        { id: "c", text: "Que adorar a Deus deve ser o centro da vida" },
+        { id: "d", text: "A autoridade de Moisés e Arão" },
       ],
       correctOptionId: "c",
     },
     {
-      id: "segunda_q5",
-      text: "Segundo o texto, o que simbolizavam os altares que Abrão construiu?",
+      id: "segunda_q6",
+      text: "Que elemento especial Êxodo 40:34 menciona sobre a presença de Deus no santuário?",
       options: [
-        { id: "a", text: "Seu medo dos habitantes locais" },
-        { id: "b", text: "Seu compromisso de seguir a Deus onde quer que Ele o levasse" },
-        { id: "c", text: "Uma forma de marcar território" },
-        { id: "d", text: "Apenas um ritual religioso comum" },
+        { id: "a", text: "Anjos visíveis" },
+        { id: "b", text: "A presença visível do Deus invisível" },
+        { id: "c", text: "Altares de ouro" },
+        { id: "d", text: "Vozes celestiais" },
       ],
       correctOptionId: "b",
     },
     {
-      id: "segunda_q6",
-      text: "Que detalhe interessante a Bíblia menciona ao descrever o segundo altar de Abrão?",
-      options: [
-        { id: "a", text: "Era feito de pedras especiais" },
-        { id: "b", text: "Foi construído durante uma tempestade" },
-        { id: "c", text: "Abrão não apenas construiu o altar, mas invocou o nome do Senhor" },
-        { id: "d", text: "Era maior que o primeiro altar" },
-      ],
-      correctOptionId: "c",
-    },
-    {
       id: "segunda_q7",
-      text: "O que o segundo altar sugere sobre o relacionamento de Abrão com Deus?",
+      text: "Além de querer habitar entre os israelitas, o que mais Deus fez que demonstra Seu amor?",
       options: [
-        { id: "a", text: "Que Abrão tinha dúvidas sobre as promessas divinas" },
-        { id: "b", text: "Que Abrão buscava um relacionamento mais profundo com Deus" },
-        { id: "c", text: "Que Abrão queria impressionar os cananeus" },
-        { id: "d", text: "Que Abrão estava insatisfeito com o primeiro altar" },
+        { id: "a", text: "Deu-lhes todas as riquezas do Egito" },
+        { id: "b", text: "Convidou seres humanos pecadores para ajudarem na construção do santuário" },
+        { id: "c", text: "Revelou todos os segredos do universo" },
+        { id: "d", text: "Eliminou todos os seus inimigos" },
       ],
       correctOptionId: "b",
     },
     {
       id: "segunda_q8",
-      text: "Como é descrita a vida devocional de Abrão na conclusão do texto?",
+      text: "O que a casa de Deus (santuário) proporcionaria ao povo, segundo o texto?",
       options: [
-        { id: "a", text: "Estática e baseada em tradições" },
-        { id: "b", text: "Irregular e esporádica" },
-        { id: "c", text: "Crescendo a cada dia - um altar de adoração por vez" },
-        { id: "d", text: "Declinando devido às dificuldades" },
+        { id: "a", text: "Apenas proteção física contra inimigos" },
+        { id: "b", text: "Um lugar para reconciliação, perdão e experimentar vida plena" },
+        { id: "c", text: "Um local para comércio de sacrifícios" },
+        { id: "d", text: "Um portal para outras dimensões" },
       ],
-      correctOptionId: "c",
+      correctOptionId: "b",
     },
     {
       id: "terca_q1",
-      text: "O que Gênesis 12:6 relata sobre a situação da Terra Prometida?",
+      text: "De acordo com Hebreus 8:2, o que era o santuário terrestre?",
       options: [
-        { id: "a", text: "Era uma terra desabitada" },
-        { id: "b", text: "Os cananeus habitavam essa terra" },
-        { id: "c", text: "Era habitada por israelitas" },
-        { id: "d", text: "Era governada pelos egípcios" },
+        { id: "a", text: "Uma invenção humana" },
+        { id: "b", text: "Uma cópia do santuário celestial" },
+        { id: "c", text: "O local definitivo de adoração" },
+        { id: "d", text: "Apenas um local de reuniões" },
       ],
       correctOptionId: "b",
     },
     {
       id: "terca_q2",
-      text: "Como são descritos os cananeus no texto?",
+      text: "Qual era a função do altar de holocaustos no pátio externo do santuário?",
       options: [
-        { id: "a", text: "Um povo pacífico e hospitaleiro" },
-        { id: "b", text: "Um povo bastante cruel e perverso" },
-        { id: "c", text: "Um povo que adorava o mesmo Deus de Abrão" },
-        { id: "d", text: "Nômades que logo deixariam a terra" },
+        { id: "a", text: "Local para cozinhar alimentos" },
+        { id: "b", text: "Local para sacrifícios pelo pecado" },
+        { id: "c", text: "Local de reunião dos sacerdotes" },
+        { id: "d", text: "Local para guardar as ofertas" },
       ],
       correctOptionId: "b",
     },
     {
       id: "terca_q3",
-      text: "O que Abrão havia trocado ao deixar Harã?",
+      text: "O que simbolizava a bacia de bronze no santuário?",
       options: [
-        { id: "a", text: "Riquezas por sabedoria" },
-        { id: "b", text: "Família por fama" },
-        { id: "c", text: "Paz e segurança por uma terra cheia de problemas e ameaças" },
-        { id: "d", text: "Adoração a ídolos por adoração ao Deus verdadeiro" },
+        { id: "a", text: "A riqueza de Israel" },
+        { id: "b", text: "O cuidado com saúde física" },
+        { id: "c", text: "A purificação necessária para se aproximar de Deus (o batismo)" },
+        { id: "d", text: "A abundância de água no deserto" },
       ],
       correctOptionId: "c",
     },
     {
       id: "terca_q4",
-      text: "Qual garantia Deus deu a Abrão, segundo Gênesis 15:1?",
+      text: "O que representava a mesa dos pães da proposição no Lugar Santo?",
       options: [
-        { id: "a", text: "\"Eu derrotarei todos os seus inimigos\"" },
-        { id: "b", text: "\"Não tenha medo, Abrão, Eu sou o seu escudo\"" },
-        { id: "c", text: "\"Você terá muitas riquezas\"" },
-        { id: "d", text: "\"Os cananeus logo partirão desta terra\"" },
+        { id: "a", text: "As refeições comunais do povo" },
+        { id: "b", text: "A Palavra de Deus, pela qual devemos viver" },
+        { id: "c", text: "A abundância de alimentos" },
+        { id: "d", text: "Os doze tribos de Israel" },
       ],
       correctOptionId: "b",
     },
     {
       id: "terca_q5",
-      text: "De acordo com o texto, o que Deus sabe sobre nossa jornada de fé?",
+      text: "O que simbolizava o candelabro de ouro com seus sete castiçais?",
       options: [
-        { id: "a", text: "Que nunca enfrentaremos dificuldades" },
-        { id: "b", text: "Que devemos sempre depender de nossa própria força" },
-        { id: "c", text: "Que é difícil andar somente pela fé quando enfrentamos situações difíceis" },
-        { id: "d", text: "Que a fé é apenas um sentimento" },
+        { id: "a", text: "A luz da verdade compartilhada pelo poder do Espírito Santo" },
+        { id: "b", text: "Os sete dias da criação" },
+        { id: "c", text: "A necessidade de iluminação física" },
+        { id: "d", text: "As sete nações a serem conquistadas" },
       ],
-      correctOptionId: "c",
+      correctOptionId: "a",
     },
     {
       id: "terca_q6",
-      text: "Por que Abrão foi chamado de \"amigo de Deus\", segundo Tiago 2:23?",
+      text: "O que o altar de incenso representava no santuário?",
       options: [
-        { id: "a", text: "Por sua riqueza" },
-        { id: "b", text: "Por sua íntima conexão espiritual com Deus" },
-        { id: "c", text: "Porque Deus lhe deu muitos filhos" },
-        { id: "d", text: "Porque não questionou Deus" },
+        { id: "a", text: "A fragrância agradável das ofertas" },
+        { id: "b", text: "A intercessão de Cristo que se mistura com as orações do povo" },
+        { id: "c", text: "A purificação do ar no santuário" },
+        { id: "d", text: "A riqueza e luxo do tabernáculo" },
       ],
       correctOptionId: "b",
     },
     {
       id: "terca_q7",
-      text: "Segundo Ellen White, o que acontecia com os altares de Abrão quando ele removia sua tenda?",
+      text: "O que estava contido na arca da aliança no Lugar Santíssimo?",
       options: [
-        { id: "a", text: "Eram destruídos" },
-        { id: "b", text: "Eram levados com ele" },
-        { id: "c", text: "O altar ficava no local" },
-        { id: "d", text: "Eram entregues aos cananeus" },
+        { id: "a", text: "Os livros de Moisés" },
+        { id: "b", text: "As tábuas de pedra com os Dez Mandamentos" },
+        { id: "c", text: "O cajado de Arão" },
+        { id: "d", text: "Um pote de maná" },
       ],
-      correctOptionId: "c",
+      correctOptionId: "b",
     },
     {
       id: "terca_q8",
-      text: "O que os cananeus errantes faziam ao chegar aos altares deixados por Abrão?",
+      text: "Qual era a relação entre o propiciatório e as tábuas da lei na arca da aliança?",
       options: [
-        { id: "a", text: "Destruíam os altares" },
-        { id: "b", text: "Sabiam quem havia estado ali, consertavam o altar e adoravam o Deus vivo" },
-        { id: "c", text: "Ignoravam completamente" },
-        { id: "d", text: "Transformavam em monumentos para seus deuses" },
+        { id: "a", text: "Não havia relação entre eles" },
+        { id: "b", text: "O propiciatório escondia as tábuas dos olhos do povo" },
+        { id: "c", text: "Representavam a harmonia entre justiça (a lei) e misericórdia divinas" },
+        { id: "d", text: "Eram de materiais diferentes para mostrar seu contraste" },
       ],
-      correctOptionId: "b",
+      correctOptionId: "c",
     },
     {
       id: "quarta_q1",
-      text: "Segundo o texto, o que cada altar levantado por Abrão representava?",
+      text: "Segundo a lição de quarta-feira, o que o texto nos convida a imaginar?",
       options: [
-        { id: "a", text: "Uma forma de proteção contra inimigos" },
-        { id: "b", text: "Um memorial da bondade, cuidado e providência divinos" },
-        { id: "c", text: "Um local para sacrifícios apenas" },
-        { id: "d", text: "Uma marca territorial" },
+        { id: "a", text: "Jesus caminhando em Jerusalém" },
+        { id: "b", text: "A construção do tabernáculo" },
+        { id: "c", text: "Jesus comunicando que passará um tempo em nossa casa" },
+        { id: "d", text: "A criação do mundo" },
       ],
-      correctOptionId: "b",
+      correctOptionId: "c",
     },
     {
       id: "quarta_q2",
-      text: "Por que Deus ordenou a Moisés que registrasse os acontecimentos em um hino?",
+      text: "Qual afirmação importante o texto faz sobre a habitação de Deus?",
       options: [
-        { id: "a", text: "Para entretenimento do povo" },
-        { id: "b", text: "Para criar a primeira obra literária" },
-        { id: "c", text: "Para que os pais pudessem ensiná-lo aos filhos e não esquecessem a história" },
-        { id: "d", text: "Para demonstrar o talento musical de Moisés" },
-      ],
-      correctOptionId: "c",
-    },
-    {
-      id: "quarta_q3",
-      text: "De acordo com o texto de Ellen White citado, o que deveria ser conservado na lembrança?",
-      options: [
-        { id: "a", text: "As leis e mandamentos apenas" },
-        { id: "b", text: "As genealogias do povo" },
-        { id: "c", text: "O procedimento providencial de Deus, Sua bondade, misericórdia e cuidado" },
-        { id: "d", text: "Os nomes dos líderes e sacerdotes" },
-      ],
-      correctOptionId: "c",
-    },
-    {
-      id: "quarta_q4",
-      text: "Qual texto bíblico é citado para lembrarmos \"dos dias anteriores\"?",
-      options: [
-        { id: "a", text: "João 3:16" },
-        { id: "b", text: "Salmos 23:1" },
-        { id: "c", text: "Hebreus 10:32" },
-        { id: "d", text: "Apocalipse 1:8" },
-      ],
-      correctOptionId: "c",
-    },
-    {
-      id: "quarta_q5",
-      text: "Quais passagens bíblicas são mencionadas sobre os altares de Abrão?",
-      options: [
-        { id: "a", text: "Gênesis 13:4, 14-18; 22:9-14" },
-        { id: "b", text: "Êxodo, 20:1-17" },
-        { id: "c", text: "Levítico 1:1-7" },
-        { id: "d", text: "Deuteronômio 6:4-9" },
-      ],
-      correctOptionId: "a",
-    },
-    {
-      id: "quarta_q6",
-      text: "Quais textos bíblicos são citados em relação à promessa da aliança repetida a Abrão?",
-      options: [
-        { id: "a", text: "Gênesis 1:1-3; 2:1-3" },
-        { id: "b", text: "Gênesis 15:17-21; 17:1-8" },
-        { id: "c", text: "Êxodo 12:1-14" },
-        { id: "d", text: "Números 6:22-27" },
+        { id: "a", text: "Deus só pode habitar em templos" },
+        { id: "b", text: "Deus sempre quis habitar conosco e pode habitar em nós" },
+        { id: "c", text: "Deus habita apenas no céu" },
+        { id: "d", text: "Deus não habita mais entre os humanos" },
       ],
       correctOptionId: "b",
     },
     {
-      id: "quarta_q7",
-      text: "Qual texto em Romanos é citado em relação à fé de Abrão?",
+      id: "quarta_q3",
+      text: "Qual versículo em Êxodo 25 é citado como fundamental para entender o propósito do santuário?",
       options: [
-        { id: "a", text: "Romanos 1:16" },
-        { id: "b", text: "Romanos 3:23" },
-        { id: "c", text: "Romanos 4:20" },
-        { id: "d", text: "Romanos 6:23" },
+        { id: "a", text: "Êxodo 25:1" },
+        { id: "b", text: "Êxodo 25:22" },
+        { id: "c", text: "Êxodo 25:40" },
+        { id: "d", text: "Êxodo 25:30" },
+      ],
+      correctOptionId: "b",
+    },
+    {
+      id: "quarta_q4",
+      text: "Qual texto de Hebreus é mencionado em relação ao santuário celestial?",
+      options: [
+        { id: "a", text: "Hebreus 4:16" },
+        { id: "b", text: "Hebreus 8:1-2" },
+        { id: "c", text: "Hebreus 1:1-3" },
+        { id: "d", text: "Hebreus 13:8" },
+      ],
+      correctOptionId: "b",
+    },
+    {
+      id: "quarta_q5",
+      text: "Qual texto de João é citado em relação a Jesus sendo revelado no santuário?",
+      options: [
+        { id: "a", text: "João 3:16" },
+        { id: "b", text: "João 1:29" },
+        { id: "c", text: "João 14:6" },
+        { id: "d", text: "João 10:10" },
+      ],
+      correctOptionId: "b",
+    },
+    {
+      id: "quarta_q6",
+      text: "Qual pergunta reflexiva a lição faz sobre nossa relação com Deus?",
+      options: [
+        { id: "a", text: "Quanto tempo dedicamos à oração?" },
+        { id: "b", text: "Quantas vezes frequentamos a igreja?" },
+        { id: "c", text: "Que tipo de casa temos sido para Deus?" },
+        { id: "d", text: "Quanto conhecemos sobre o santuário?" },
       ],
       correctOptionId: "c",
     },
     {
-      id: "quarta_q8",
-      text: "Qual texto em Hebreus é referenciado sobre a fé de Abrão?",
+      id: "quarta_q7",
+      text: "Em que categorias os textos bíblicos sobre o santuário são agrupados na lição?",
       options: [
-        { id: "a", text: "Hebreus 11:8-11" },
-        { id: "b", text: "Hebreus 1:1-3" },
-        { id: "c", text: "Hebreus 4:12" },
-        { id: "d", text: "Hebreus 13:8" },
+        { id: "a", text: "Antigo e Novo Testamento" },
+        { id: "b", text: "As bênçãos do santuário, Jesus revelado no santuário e o santuário celestial" },
+        { id: "c", text: "Profetas maiores e menores" },
+        { id: "d", text: "Históricos e proféticos" },
       ],
-      correctOptionId: "a",
+      correctOptionId: "b",
+    },
+    {
+      id: "quarta_q8",
+      text: "Qual é a abordagem metodológica utilizada nesta lição para estudar o santuário?",
+      options: [
+        { id: "a", text: "Análise cronológica" },
+        { id: "b", text: "Estudo de caso" },
+        { id: "c", text: "Abordagem de 'hipertexto', conectando diversos textos bíblicos" },
+        { id: "d", text: "Comparação com outras religiões" },
+      ],
+      correctOptionId: "c",
     },
     {
       id: "quinta_q1",
-      text: "O que Gênesis 13:1-18 confirma sobre Abrão?",
+      text: "Segundo a lição de quinta-feira, qual outro significado pode ter a palavra 'santuário'?",
       options: [
-        { id: "a", text: "Que ele era o homem mais rico de Canaã" },
-        { id: "b", text: "Que ele tinha muitos inimigos" },
-        { id: "c", text: "Que a construção de altares se tornou a marca da sua vida" },
-        { id: "d", text: "Que ele estava arrependido de ter saído de Harã" },
+        { id: "a", text: "Hospital" },
+        { id: "b", text: "Escola" },
+        { id: "c", text: "Lugar de refúgio" },
+        { id: "d", text: "Centro de lazer" },
       ],
       correctOptionId: "c",
     },
     {
       id: "quinta_q2",
-      text: "Como Abrão resolveu o conflito com seu sobrinho Ló?",
+      text: "Qual exemplo de santuário pessoal é dado pelo autor?",
       options: [
-        { id: "a", text: "Expulsou Ló da terra" },
-        { id: "b", text: "Permitiu que Ló escolhesse onde morar, concordando em ficar com o que restasse" },
-        { id: "c", text: "Dividiu a terra em partes iguais" },
-        { id: "d", text: "Escolheu para si a melhor parte da terra" },
-      ],
-      correctOptionId: "b",
-    },
-    {
-      id: "quinta_q3",
-      text: "O que Abrão fez após resolver o conflito com Ló?",
-      options: [
-        { id: "a", text: "Partiu para outra terra" },
-        { id: "b", text: "Construiu uma cidade" },
-        { id: "c", text: "Construiu em Manre um altar celebrando a paz" },
-        { id: "d", text: "Enviou mensageiros para buscar mais familiares" },
+        { id: "a", text: "Um quarto de oração" },
+        { id: "b", text: "Uma igreja" },
+        { id: "c", text: "A casa de seus pais" },
+        { id: "d", text: "Um retiro espiritual" },
       ],
       correctOptionId: "c",
     },
     {
-      id: "quinta_q4",
-      text: "Qual foi a maior crise na vida de Abraão, mencionada em Gênesis 22?",
+      id: "quinta_q3",
+      text: "Além de um lugar de refúgio, o que mais o santuário de Deus era?",
       options: [
-        { id: "a", text: "A fome na terra de Canaã" },
-        { id: "b", text: "O pedido de Deus para sacrificar Isaque" },
-        { id: "c", text: "A separação de Ló" },
-        { id: "d", text: "A esterilidade de Sara" },
+        { id: "a", text: "Um lugar dedicado à adoração e comunhão íntima" },
+        { id: "b", text: "Um centro político e administrativo" },
+        { id: "c", text: "Um museu de artefatos sagrados" },
+        { id: "d", text: "Um local para comércio" },
       ],
-      correctOptionId: "b",
+      correctOptionId: "a",
+    },
+    {
+      id: "quinta_q4",
+      text: "Segundo o texto, que efeito a oração pode ter sobre pessoas com depressão e ansiedade?",
+      options: [
+        { id: "a", text: "Nenhum efeito significativo" },
+        { id: "b", text: "Pode piorar os sintomas" },
+        { id: "c", text: "Pode melhorar significativamente os sintomas" },
+        { id: "d", text: "Só funciona com acompanhamento médico" },
+      ],
+      correctOptionId: "c",
     },
     {
       id: "quinta_q5",
-      text: "O que Deus providenciou no lugar de Isaque?",
+      text: "O que a lição indica sobre pessoas que frequentam regularmente reuniões religiosas?",
       options: [
-        { id: "a", text: "Uma visão" },
-        { id: "b", text: "Um carneiro" },
-        { id: "c", text: "Um anjo" },
-        { id: "d", text: "Outro filho" },
+        { id: "a", text: "Têm mais problemas financeiros" },
+        { id: "b", text: "Têm menores taxas de mortalidade e níveis menores de depressão" },
+        { id: "c", text: "Não apresentam diferenças em relação aos não frequentadores" },
+        { id: "d", text: "Têm mais problemas de relacionamento" },
       ],
       correctOptionId: "b",
     },
     {
       id: "quinta_q6",
-      text: "Como Abraão chamou o lugar onde Deus providenciou o substituto para Isaque?",
+      text: "Que resposta fisiológica a adoração pode diminuir, segundo os especialistas citados?",
       options: [
-        { id: "a", text: "Betel - Casa de Deus" },
-        { id: "b", text: "Peniel - Face de Deus" },
-        { id: "c", text: "Yahweh Iré - O Senhor Proverá" },
-        { id: "d", text: "Eben-Ezer - Pedra de Ajuda" },
+        { id: "a", text: "Resposta imunológica" },
+        { id: "b", text: "Resposta digestiva" },
+        { id: "c", text: "Resposta de luta ou fuga" },
+        { id: "d", text: "Resposta hormonal de crescimento" },
       ],
       correctOptionId: "c",
     },
     {
       id: "quinta_q7",
-      text: "Segundo o texto, qual é uma das melhores maneiras de manter a bondade de Deus em mente?",
+      text: "Para que fomos projetados, segundo a lição?",
       options: [
-        { id: "a", text: "Fazer peregrinações anuais" },
-        { id: "b", text: "Dar um nome ao lugar em que Deus fez algo especial por você" },
-        { id: "c", text: "Usar roupas especiais" },
-        { id: "d", text: "Fazer longas orações" },
+        { id: "a", text: "Para o trabalho" },
+        { id: "b", text: "Para a adoração" },
+        { id: "c", text: "Para o estudo" },
+        { id: "d", text: "Para o lazer" },
       ],
       correctOptionId: "b",
     },
     {
       id: "quinta_q8",
-      text: "De acordo com o texto, o que aprofunda a memória da bondade de Deus em nossa mente?",
+      text: "O que a lição sugere que façamos para criar nosso próprio santuário?",
       options: [
-        { id: "a", text: "Ler a Bíblia diariamente" },
-        { id: "b", text: "Verbalizar nossa gratidão" },
-        { id: "c", text: "Memorizar versículos" },
-        { id: "d", text: "Fazer penitências" },
+        { id: "a", text: "Construir um espaço físico dedicado" },
+        { id: "b", text: "Estabelecer diariamente um tempo para se encontrar com Deus" },
+        { id: "c", text: "Frequentar apenas igrejas bonitas" },
+        { id: "d", text: "Comprar objetos religiosos" },
       ],
       correctOptionId: "b",
     },
     {
       id: "sexta_q1",
-      text: "Onde Abraão morava quando recebeu o primeiro chamado do Céu?",
+      text: "Segundo a citação de Ellen White, quantos compartimentos tinha o santuário terrestre?",
       options: [
-        { id: "a", text: "Ur dos Caldeus" },
-        { id: "b", text: "Harã" },
-        { id: "c", text: "Canaã" },
-        { id: "d", text: "Betel" },
+        { id: "a", text: "Um" },
+        { id: "b", text: "Dois" },
+        { id: "c", text: "Três" },
+        { id: "d", text: "Quatro" },
       ],
-      correctOptionId: "a",
+      correctOptionId: "b",
     },
     {
       id: "sexta_q2",
-      text: "Quem acompanhou Abraão em sua jornada até Harã?",
+      text: "De acordo com o texto citado, qual a relação entre o santuário terrestre e o celestial?",
       options: [
-        { id: "a", text: "Apenas Sara" },
-        { id: "b", text: "Apenas Ló" },
-        { id: "c", text: "A família de seu pai" },
-        { id: "d", text: "Ninguém, ele viajou sozinho" },
+        { id: "a", text: "Não há relação entre eles" },
+        { id: "b", text: "O terrestre era uma figura (representação) do celestial" },
+        { id: "c", text: "O celestial é menor que o terrestre" },
+        { id: "d", text: "O celestial foi construído depois do terrestre" },
       ],
-      correctOptionId: "c",
+      correctOptionId: "b",
     },
     {
       id: "sexta_q3",
-      text: "Qual evento motivou Abraão a seguir de Harã para Canaã?",
+      text: "Com que frequência o sacerdote entrava no Lugar Santíssimo do santuário terrestre?",
       options: [
-        { id: "a", text: "A fome severa em Harã" },
-        { id: "b", text: "A morte de seu pai Terá" },
-        { id: "c", text: "Um conflito com habitantes locais" },
-        { id: "d", text: "O nascimento de Isaque" },
+        { id: "a", text: "Diariamente" },
+        { id: "b", text: "Semanalmente" },
+        { id: "c", text: "Mensalmente" },
+        { id: "d", text: "Uma vez ao ano" },
       ],
-      correctOptionId: "b",
+      correctOptionId: "d",
     },
     {
       id: "sexta_q4",
-      text: "Além de Sara, quem mais preferiu partilhar da vida peregrina de Abraão?",
+      text: "O que Jesus ofereceu ao entrar no santuário celestial, segundo Ellen White?",
       options: [
-        { id: "a", text: "Seu irmão Naor" },
-        { id: "b", text: "Seus servos apenas" },
-        { id: "c", text: "Ló, filho de Harã" },
-        { id: "d", text: "Ismael" },
-      ],
-      correctOptionId: "c",
-    },
-    {
-      id: "sexta_q5",
-      text: "Como é descrito o território onde Abraão montou seu primeiro acampamento em Canaã?",
-      options: [
-        { id: "a", text: "Terra árida e improdutiva" },
-        { id: "b", text: "Terra de ribeiros de água, fontes, trigo, cevada, vides..." },
-        { id: "c", text: "Uma região desértica" },
-        { id: "d", text: "Um local montanhoso de difícil acesso" },
+        { id: "a", text: "Ouro e prata" },
+        { id: "b", text: "Seu próprio sangue" },
+        { id: "c", text: "As orações dos santos" },
+        { id: "d", text: "Incenso aromático" },
       ],
       correctOptionId: "b",
     },
     {
-      id: "sexta_q6",
-      text: "Qual era a \"densa sombra\" que estava sobre a terra prometida?",
+      id: "sexta_q5",
+      text: "O que aconteceu com o véu do templo quando Jesus morreu?",
       options: [
-        { id: "a", text: "Uma tempestade se aproximando" },
-        { id: "b", text: "A presença de animais selvagens" },
-        { id: "c", text: "Os cananeus habitavam essa terra" },
-        { id: "d", text: "As montanhas bloqueavam o sol" },
+        { id: "a", text: "Foi retirado pelos sacerdotes" },
+        { id: "b", text: "Foi roubado pelos romanos" },
+        { id: "c", text: "Se partiu de alto a baixo" },
+        { id: "d", text: "Foi preservado como relíquia" },
       ],
       correctOptionId: "c",
     },
     {
-      id: "sexta_q7",
-      text: "O que fortaleceu a fé de Abraão quando estava em Canaã?",
+      id: "sexta_q6",
+      text: "Segundo Ellen White, quando Jesus entrou no Lugar Santíssimo do santuário celestial?",
       options: [
-        { id: "a", text: "A certeza de que a presença divina estava com ele" },
-        { id: "b", text: "A descoberta de ouro na região" },
-        { id: "c", text: "O apoio dos habitantes locais" },
-        { id: "d", text: "A chegada de mais familiares" },
+        { id: "a", text: "No dia de Sua ascensão" },
+        { id: "b", text: "No fim dos 2.300 dias de Daniel 8, em 1844" },
+        { id: "c", text: "No Pentecostes" },
+        { id: "d", text: "No momento da crucificação" },
       ],
-      correctOptionId: "a",
+      correctOptionId: "b",
+    },
+    {
+      id: "sexta_q7",
+      text: "Para que Jesus entrou no Lugar Santíssimo celestial, segundo o texto?",
+      options: [
+        { id: "a", text: "Para descansar de Seu ministério" },
+        { id: "b", text: "Para fazer uma expiação final e purificar o santuário" },
+        { id: "c", text: "Para preparar novos mundos" },
+        { id: "d", text: "Para recriar o universo" },
+      ],
+      correctOptionId: "b",
     },
     {
       id: "sexta_q8",
-      text: "Como Ellen White descreve a vida de oração de Abraão?",
+      text: "Qual é uma das perguntas para discussão em classe sugeridas ao final da lição?",
       options: [
-        { id: "a", text: "Esporádica e inconsistente" },
-        { id: "b", text: "Onde armasse a tenda, construía o altar para sacrifícios matinais e vespertinos" },
-        { id: "c", text: "Apenas em momentos de crise" },
-        { id: "d", text: "Focada apenas em pedidos e súplicas" },
+        { id: "a", text: "Quando Jesus retornará à Terra?" },
+        { id: "b", text: "Qual objeto do santuário mais fala ao seu coração e por quê?" },
+        { id: "c", text: "Quanto tempo durará o milênio?" },
+        { id: "d", text: "Qual a data exata da criação do mundo?" },
       ],
       correctOptionId: "b",
     },
@@ -686,7 +686,7 @@ const StudyDetailPage = () => {
   useEffect(() => {
     if (id) {
       setFormattedDate(getFormattedDate(id));
-      setDescription(id === "sabado" ? "Altares para recordar" : "");
+      setDescription(id === "sabado" ? "Um lugar para Mim" : "");
     }
     
     if (userProgressData) {
@@ -802,12 +802,12 @@ const StudyDetailPage = () => {
                     <span className="font-medium capitalize">{formattedDate}</span>
                   </div>
                   <h1 className="text-3xl font-bold mb-3 font-serif">{
-                    id === "domingo" ? "Mente distraída" : 
-                    id === "segunda" ? "Promessa para não esquecer" :
-                    id === "terca" ? "Promessa ameaçada" :
+                    id === "domingo" ? "Encontrando um lar" : 
+                    id === "segunda" ? "Quero morar com vocês" :
+                    id === "terca" ? "Adoração em tipos e símbolos" :
                     id === "quarta" ? "Momento hipertexto" :
-                    id === "quinta" ? "Auxílio divino" :
-                    id === "sexta" ? "Amigo de Deus" :
+                    id === "quinta" ? "Cura na adoração" :
+                    id === "sexta" ? "No santuário celestial" :
                     lessonData.title
                   }</h1>
                   <p className="text-muted-foreground mb-4 font-sans">{description}</p>
@@ -862,7 +862,6 @@ const StudyDetailPage = () => {
                       />
                     </div>
 
-                    <h2 className="text-2xl font-bold mb-4 font-serif">Altares para recordar</h2>
                     
                     <div className="mb-6">
                       <p className="mb-4 font-sans">A partir da tirinha, do texto-chave e do título, anote suas primeiras impressões sobre o que trata a lição:</p>
@@ -882,26 +881,57 @@ const StudyDetailPage = () => {
                         className="p-4 bg-muted rounded-lg w-full text-left flex justify-between items-center"
                         onClick={() => setIsBibleTextOpen(true)}
                       >
-                        <span>Gn 12:1-9</span>
+                        <span>Êx 25</span>
                         <span className="text-sm text-muted-foreground">Clique para ler</span>
                       </Button>
                       
                       <Dialog open={isBibleTextOpen} onOpenChange={setIsBibleTextOpen}>
                         <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
                           <DialogHeader>
-                            <DialogTitle className="text-2xl font-bold">Gênesis 12:1-9</DialogTitle>
+                            <DialogTitle className="text-2xl font-bold">Êxodo 25</DialogTitle>
                             <DialogDescription>Versão Almeida Revista e Atualizada</DialogDescription>
                           </DialogHeader>
                           <div className="mt-4 text-lg space-y-4">
-                            <p><strong>1</strong> Ora, disse o SENHOR a Abrão: Sai da tua terra, da tua parentela e da casa de teu pai e vai para a terra que te mostrarei;</p>
-                            <p><strong>2</strong> de ti farei uma grande nação, e te abençoarei, e te engrandecerei o nome. Sê tu uma bênção!</p>
-                            <p><strong>3</strong> Abençoarei os que te abençoarem e amaldiçoarei os que te amaldiçoarem; em ti serão benditas todas as famílias da terra.</p>
-                            <p><strong>4</strong> Partiu, pois, Abrão, como lho ordenara o SENHOR, e Ló foi com ele. Tinha Abrão setenta e cinco anos quando saiu de Harã.</p>
-                            <p><strong>5</strong> Levou Abrão consigo a Sarai, sua mulher, e a Ló, filho de seu irmão, e todos os bens que haviam adquirido, e as pessoas que lhes acresceram em Harã. Partiram para a terra de Canaã; e à terra de Canaã chegaram.</p>
-                            <p><strong>6</strong> Atravessou Abrão a terra até Siquém, até ao carvalho de Moré. Nesse tempo os cananeus habitavam essa terra.</p>
-                            <p><strong>7</strong> Apareceu o SENHOR a Abrão e lhe disse: Darei à tua descendência esta terra. Ali edificou Abrão um altar ao SENHOR, que lhe aparecera.</p>
-                            <p><strong>8</strong> Passando dali para o monte ao oriente de Betel, armou a sua tenda, ficando Betel ao ocidente e Ai ao oriente; ali edificou um altar ao SENHOR e invocou o nome do SENHOR.</p>
-                            <p><strong>9</strong> Depois, seguiu Abrão dali, indo sempre para o Neguebe.</p>
+                            <p><strong>1</strong> Disse o SENHOR a Moisés:</p>
+                            <p><strong>2</strong> Dize aos filhos de Israel que me tragam oferta; de todo homem cujo coração o mover para isso, dele recebereis a minha oferta.</p>
+                            <p><strong>3</strong> Esta é a oferta que recebereis deles: ouro, prata, bronze,</p>
+                            <p><strong>4</strong> azul-celeste, púrpura, carmesim, linho fino, pêlos de cabras,</p>
+                            <p><strong>5</strong> peles de carneiros tingidas de vermelho, peles finas, madeira de acácia,</p>
+                            <p><strong>6</strong> azeite para a luz, especiarias para o óleo da unção e para o incenso aromático,</p>
+                            <p><strong>7</strong> pedras de ônix e pedras de engaste para o éfode e para o peitoral.</p>
+                            <p><strong>8</strong> E me farão um santuário, para que eu possa habitar no meio deles.</p>
+                            <p><strong>9</strong> Segundo tudo o que eu te mostrar para modelo do tabernáculo e para modelo de todos os seus móveis, assim mesmo o fareis.</p>
+                            <p><strong>10</strong> Também farão uma arca de madeira de acácia; o seu comprimento será de dois côvados e meio, e a sua largura, de um côvado e meio, e de um côvado e meio, a sua altura.</p>
+                            <p><strong>11</strong> Com ouro puro a cobrirás, por dentro e por fora a cobrirás; e farás sobre ela uma moldura de ouro ao redor.</p>
+                            <p><strong>12</strong> Fundirás para ela quatro argolas de ouro e as porás nos seus quatro cantos; duas argolas num lado dela e duas argolas no outro lado.</p>
+                            <p><strong>13</strong> Farás também varais de madeira de acácia e os cobrirás com ouro.</p>
+                            <p><strong>14</strong> Meterás os varais nas argolas, nos lados da arca, para se levar por eles a arca.</p>
+                            <p><strong>15</strong> Os varais estarão nas argolas da arca, não se tirarão dela.</p>
+                            <p><strong>16</strong> E porás na arca o Testemunho, que eu te darei.</p>
+                            <p><strong>17</strong> Também farás um propiciatório de ouro puro; o seu comprimento será de dois côvados e meio, e a sua largura, de um côvado e meio.</p>
+                            <p><strong>18</strong> Farás também dois querubins de ouro; de ouro batido os farás, nas duas extremidades do propiciatório.</p>
+                            <p><strong>19</strong> Farás um querubim na extremidade de uma parte e o outro querubim na extremidade da outra parte; de uma só peça com o propiciatório, fareis os querubins nas duas extremidades dele.</p>
+                            <p><strong>20</strong> Os querubins estenderão as asas por cima, cobrindo com elas o propiciatório; as faces deles, uma defronte da outra; as faces dos querubins estarão voltadas para o propiciatório.</p>
+                            <p><strong>21</strong> Porás o propiciatório em cima da arca, depois de haver posto na arca o Testemunho que eu te darei.</p>
+                            <p><strong>22</strong> Ali, virei a ti e, de cima do propiciatório, do meio dos dois querubins que estão sobre a arca do Testemunho, falarei contigo acerca de tudo o que eu te ordenar para os filhos de Israel.</p>
+                            <p><strong>23</strong> Também farás uma mesa de madeira de acácia; o seu comprimento será de dois côvados, a sua largura, de um côvado, e a sua altura, de um côvado e meio.</p>
+                            <p><strong>24</strong> Com ouro puro a cobrirás e lhe farás uma moldura de ouro ao redor.</p>
+                            <p><strong>25</strong> Far-lhe-ás também ao redor uma guarnição da largura de quatro dedos; também farás uma moldura de ouro ao redor da guarnição.</p>
+                            <p><strong>26</strong> Também lhe farás quatro argolas de ouro e as porás nos quatro cantos, que estão nos seus quatro pés.</p>
+                            <p><strong>27</strong> As argolas estarão juntas à guarnição, como lugares para os varais que hão de sustentar a mesa.</p>
+                            <p><strong>28</strong> Farás os varais de madeira de acácia e os cobrirás com ouro; e será, por eles, conduzida a mesa.</p>
+                            <p><strong>29</strong> Também farás os seus pratos, e as suas colheres, e os seus copos, e as suas bacias com que se hão de oferecer libações; de ouro puro os farás.</p>
+                            <p><strong>30</strong> E sobre a mesa porás o pão da Presença perante mim perpetuamente.</p>
+                            <p><strong>31</strong> Também farás um candelabro de ouro puro; de ouro batido se fará este candelabro; o seu pedestal, a sua haste, os seus cálices, as suas maçanetas e as suas flores formarão com ele uma só peça.</p>
+                            <p><strong>32</strong> Seis hastes sairão dos seus lados; três hastes do candelabro, de um lado, e três hastes do candelabro, do outro lado.</p>
+                            <p><strong>33</strong> Três cálices a modo de flor de amêndoa, uma maçaneta e uma flor numa haste; e três cálices a modo de flor de amêndoa na outra haste, com maçaneta e uma flor; assim serão as seis hastes que saem do candelabro.</p>
+                            <p><strong>34</strong> No candelabro mesmo, haverá quatro cálices a modo de flor de amêndoa, com as suas maçanetas e com as suas flores.</p>
+                            <p><strong>35</strong> Haverá uma maçaneta embaixo de duas hastes saídas dele; outra maçaneta, embaixo de duas hastes, saídas dele; mais uma maçaneta, embaixo de duas hastes, saídas dele; assim se fará com as seis hastes que saem do candelabro.</p>
+                            <p><strong>36</strong> As suas maçanetas e as suas hastes serão do mesmo; tudo será de ouro puro batido.</p>
+                            <p><strong>37</strong> Também lhe farás sete lâmpadas e as acenderás para que iluminem defronte dele.</p>
+                            <p><strong>38</strong> Os seus espevitadores e os seus apagadores serão de ouro puro.</p>
+                            <p><strong>39</strong> De um talento de ouro puro se fará, com todos estes utensílios.</p>
+                            <p><strong>40</strong> Atenta, pois, que as faças segundo o seu modelo, que te foi mostrado no monte.</p>
                           </div>
                           <DialogClose asChild>
                             <Button variant="outline" className="mt-4">Fechar</Button>
@@ -912,36 +942,36 @@ const StudyDetailPage = () => {
                     
                     <div className="mb-6">
                       <h3 className="text-xl font-semibold mb-2 font-serif">Pesquise em comentários bíblicos, livros denominacionais e de Ellen G. White sobre temas contidos neste texto:</h3>
-                      <p className="p-4 bg-muted rounded-lg font-sans">Gênesis 12:1-9                      </p>
+                      <p className="p-4 bg-muted rounded-lg font-sans">Êxodo 25</p>
                     </div>
                     
                     <div className="bg-accent/15 p-6 rounded-lg mt-6 border-l-4 border-accent">
                       <h3 className="text-xl font-bold mb-2 font-serif">Nosso resumo</h3>
-                      <p>A tirinha bíblica desta semana ilustra um momento crucial na jornada de Abraão, que atendeu ao chamado de Deus para deixar sua terra natal e seguir para um território desconhecido, confiando apenas na promessa divina. Gênesis 12:1-9 marca o início da aliança de Deus com Abraão, através da qual todas as nações seriam abençoadas. O texto destaca que, ao chegar em Canaã, Abraão não apenas ocupou o território, mas ergueu altares para adorar a Deus (versículos 7 e 8), estabelecendo marcos de sua fé e gratidão. Estes altares representavam seu compromisso com Deus e serviam como memória das promessas divinas. O título "Altares para recordar" nos ensina que, assim como Abraão, devemos construir "altares espirituais" em nossa jornada de fé - momentos e lugares onde reconhecemos a presença e as promessas de Deus em nossa vida.</p>
+                      <p>A tirinha bíblica desta semana ilustra o desejo de Deus de habitar entre Seu povo através do santuário. Êxodo 25 revela a instrução divina a Moisés para construir um lugar santo onde Deus pudesse morar no meio dos israelitas. O texto destaca que a construção deste santuário deveria ser financiada por ofertas voluntárias do povo, demonstrando que a adoração genuína envolve generosidade e sacrifício pessoal. O versículo 8 contém a promessa central: "E me farão um santuário, para que eu possa habitar no meio deles." O capítulo descreve em detalhes os mobiliários do santuário, incluindo a arca da aliança, o propiciatório, a mesa dos pães da presença e o candelabro, cada um com significado simbólico. O título "Um lugar para Mim" enfatiza o desejo divino de proximidade e comunhão com Seu povo. Esta passagem nos convida a refletir sobre como podemos preparar um lugar para Deus em nossa vida, não apenas em templos físicos, mas em nosso coração, permitindo que Ele habite em nossa vida cotidiana.</p>
                     </div>
                   </div>
                 )}
                 {id === "domingo" && (
                   <div className="mb-6">
                     <div className="prose prose-lg max-w-none dark:prose-invert prose-headings:font-serif prose-p:font-sans">
-                      <h2 className="text-2xl font-bold mb-4 font-serif">Mente distraída</h2>
+                      <h2 className="text-2xl font-bold mb-4 font-serif">Encontrando um lar</h2>
                       
-                      <p>Certo sábado, o pastor associado de minha igreja fez um apelo especial. Ele pediu que todos tirassem uma selfie com alguém, se comprometessem a orar juntos todos os dias da semana seguinte e depois postassem esse compromisso nas redes sociais – marcando a página da igreja. Fiz parceria com um adolescente chamado Derwyn. Mas havia um problema: minha mente vivia distraída.</p>
+                      <p>Quando minha esposa e eu nos casamos, compramos alguns jornais e começamos a procurar o lugar mais barato que pudéssemos encontrar para alugar. Planejamos economizar ao máximo para comprar uma casa o quanto antes. Nosso plano estava avançando com sucesso quando encontramos um apartamento com um quarto totalmente mobiliado por um preço bastante acessível. Assinamos o contrato de aluguel e nos preparamos para a mudança.</p>
                       
-                      <p>Com uma infinidade de coisas passando pela minha cabeça a qualquer momento, eu não confiava em mim mesmo para me lembrar de orar por Derwyn todos os dias. Quando voltei para meu banco, fiz algo que sabia que me ajudaria a não me esquecer do compromisso diário com Derwyn: peguei meu smartphone e criei um lembrete. Todos os dias, às 5 horas da manhã, ele me lembraria de orar por Derwyn. Vários anos se passaram e ainda oro por Derwyn no mesmo horário, porque meu celular me ajuda a não esquecer.</p>
+                      <p>Não demorou muito para entendermos que "totalmente mobiliado" não significava necessariamente que a mobília fosse boa. Os sofás eram velhos e gastos, a cama afundava e todos os apartamentos do prédio compartilhavam o mesmo sistema de arcondicionado central. Isso pode parecer insignificante, mas era incrivelmente incômodo. Podíamos sentir o cheiro de cigarro e até mesmo de algumas refeições. Logo percebemos que aquele apartamento não era nosso lar.</p>
                       
-                      <p>Embora as pessoas nos tempos bíblicos não tivessem dispositivos eletrônicos para ajudá-las a se lembrarem das coisas, elas tinham outras maneiras de fazer isso. Naquela cultura, quando as informações eram passadas oralmente, as pessoas eram melhores do que nós em lembrar eventos importantes, mas também tinham recursos que as ajudavam a se lembrar daquilo que não queriam esquecer. <span className="bg-yellow-100 p-1 rounded font-medium">Elas tinham altares de recordação.</span></p>
+                      <p>Morar naquele pequeno apartamento imperfeito nos ajudou a economizar mais. Em apenas seis meses, Deus nos ajudou a comprar nossa primeira casa. Um novo empreendimento surgiu, e tivemos a sorte de conseguir uma das pequenas casas iniciais do bairro. Nunca esquecerei o dia em que nos mudamos. Não tínhamos muito, então a mudança foi fácil. Ao contrário do apartamento, nossa nova casa não tinha móveis, nem cortinas para cobrir as janelas, nem comida na geladeira, mas nosso coração saltava de alegria. <span className="bg-yellow-100 p-1 rounded font-medium">Tudo o que tínhamos eram nossas roupas e um colchão, mas estávamos em casa.</span></p>
                       
-                      <p><span className="bg-yellow-100 p-1 rounded font-medium">Na Bíblia, os altares a Deus representam lugares de consagração e comemoração. Eram símbolos externos da experiência pessoal com Ele, do reconhecimento e da adoração do Deus vivo e verdadeiro.</span> Eles eram frequentemente construídos para comemorar encontros com Deus que tinham profundo impacto na vida de alguém. Quando o Senhor fazia algo sobrenatural ou muito especial, quem tinha vivido esses atos poderosos construía altares para lembrar e celebrar essas experiências. Eram lugares para se recordar das vezes em que viram Deus agir e ouviram Sua voz.</p>
+                      <p><span className="bg-yellow-100 p-1 rounded font-medium">Após 400 anos de escravidão no Egito, Deus ansiava por tornar livres os filhos de Abraão e levá-los para casa. No entanto, uma das primeiras coisas que Ele fez depois de libertar os israelitas foi construir uma habitação. Sim, Deus encomendou uma casa para Si mesmo.</span></p>
                       
                       <div className="bg-muted p-4 rounded-lg mt-6">
                         <h3 className="text-xl font-semibold mb-2">Mergulhe + fundo</h3>
-                        <p>Leia, de Ellen G. White, Patriarcas e Profetas, capítulo 13: "A prova da fé".</p>
+                        <p>Leia, de Ellen G. White, Patriarcas e Profetas, capítulo 30: "O tabernáculo e seus serviços".</p>
                       </div>
                       
                       <div className="bg-accent/15 p-6 rounded-lg mt-6 border-l-4 border-accent">
                         <h3 className="text-xl font-bold mb-2 font-serif">Nosso resumo</h3>
-                        <p>A lição de domingo aborda nossa tendência à distração e esquecimento, contrastando com a necessidade de recordar o que Deus faz em nossa vida. Através da história do autor criando um lembrete digital para orar por Derwyn, o texto introduz o conceito de "altares de recordação" usados no tempo bíblico. Estes altares serviam como símbolos externos das experiências pessoais com Deus, marcos físicos que ajudavam as pessoas a lembrar e celebrar encontros significativos com o Divino. Mais do que simples estruturas de pedra, os altares representavam lugares de consagração, reconhecimento e adoração, funcionando como memoriais dos momentos em que viram Deus agir ou ouviram Sua voz. Esta lição nos convida a criar nossos próprios "altares" - práticas ou símbolos que nos ajudem a recordar e celebrar a presença de Deus em nossa jornada.</p>
+                        <p>A lição de domingo introduz o tema do santuário através de uma experiência pessoal do autor sobre encontrar um verdadeiro lar. Assim como o casal descobriu que um apartamento alugado e mobiliado não era realmente seu lar, e depois experimentou a alegria de ter uma casa própria mesmo sem móveis, Deus também desejava um lugar que pudesse chamar de Seu entre o povo que havia libertado. Após 400 anos de escravidão no Egito, uma das primeiras providências divinas foi estabelecer uma habitação no meio do Seu povo. O paralelo entre a experiência humana de ter um lar e o desejo divino de habitar entre os israelitas ilustra a profunda necessidade de conexão e pertencimento tanto para nós quanto para Deus em Sua relação conosco. Esta lição nos convida a refletir sobre o significado do tabernáculo não apenas como uma estrutura física, mas como o símbolo do desejo divino de estabelecer Sua presença permanente entre Seu povo.</p>
                       </div>
                     </div>
                   </div>
@@ -949,26 +979,26 @@ const StudyDetailPage = () => {
                 {id === "segunda" && (
                   <div className="mb-6">
                     <div className="prose prose-lg max-w-none dark:prose-invert prose-headings:font-serif prose-p:font-sans">
-                      <h2 className="text-2xl font-bold mb-4 font-serif">Promessa para não esquecer</h2>
+                      <h2 className="text-2xl font-bold mb-4 font-serif">Quero morar com vocês</h2>
                       
-                      <p>Gênesis 12 começa com um pedido surpreendente de Deus a Abrão: "Arrume sua família e tudo o que você possui, e vá para um lugar que Eu lhe mostrarei." Gênesis 11 nos informa que Abrão era filho de Terá, um homem que havia começado uma jornada para Canaã. Mas ele acabou se estabelecendo, com sua família, a mais de 600 quilômetros de distância de sua cidade de origem, em um lugar chamado Harã. <span className="bg-yellow-100 p-1 rounded font-medium">Algum tempo depois da morte de Terá, Deus apareceu a Abrão (mais tarde chamado Abraão) para fazer uma aliança com ele. O Senhor prometeu fazer de seus descendentes uma grande nação.</span> Além disso, iria engrandecer o nome de Abrão (Gn 12:2) e torná-lo uma bênção para o mundo inteiro.</p>
+                      <p>Depois que os israelitas foram libertados da escravidão do Egito, Deus sabia que tinha muito a fazer para reconstruir a vida espiritual de Seu povo. Para começar, Ele convocou Moisés ao Monte Sinai e lhe entregou os Dez Mandamentos, que continham as instruções que deveriam guiar a vida deles (Êx 20). Além disso, deu leis sobre senhores e servos, violência e animais (Êx 21). O Senhor descreveu como lidar com a propriedade (Êx 22), como administrar justiça e como guardar os sábados e dias de festas religiosas (Êx 23) – e apresentou as bênçãos que aguardavam aqueles que fossem fiéis à aliança. Êxodo 24 descreve que Moisés construiu um altar, no qual Israel confirmou solenemente a aliança com Deus.</p>
                       
-                      <p>Abrão, aos 75 anos de idade, vivendo confortavelmente da herança deixada por seu pai, imediatamente fez as malas, e, com sua esposa Sara, toda a sua família, a família de seu sobrinho Ló e todas as suas posses partiu para a terra de Canaã (Gn 12:4-6). <span className="bg-yellow-100 p-1 rounded font-medium">A resposta de Abrão foi obediência imediata!</span> E, quando chegou a Canaã, Deus disse: "Darei esta terra à sua descendência" (v. 7).</p>
+                      <p><span className="bg-yellow-100 p-1 rounded font-medium">Depois de estabelecer um relacionamento de aliança com Israel, Deus fez algo inesperado: encomendou um projeto de construção no meio daquela jornada pelo deserto (Êx 25). Ele disse a Moisés que os israelitas deveriam trazer ofertas, mas apenas aqueles que fizessem isso de todo o coração (Êx 25:2). Então deu instruções específicas sobre as ofertas que seriam aceitáveis (v. 3-7). Depois disso, declarou: "E farão para Mim um santuário, para que Eu possa habitar no meio deles" (v. 8).</span></p>
                       
-                      <p>Abrão ficou tão comovido pela graça e pela bênção surpreendente de Deus para com ele, um simples andarilho do deserto, que seu próximo ato foi construir um altar para lembrar o local em que havia se encontrado com Deus. Esse altar indicava o local no qual Deus lhe havia aparecido (e para onde ele retornaria mais tarde, em Gênesis 13:4). Quando Abrão partiu daquele local e armou sua tenda perto de Betel, construiu outro altar.</p>
+                      <p>O primeiro e mais surpreendente elemento dessa instrução de Deus é Sua decisão de viver entre pessoas que eram espiritualmente infiéis. A "grande multidão de estrangeiros" (Êx 12:38, NVI) que saiu do Egito com os israelitas não conhecia Deus nem sabia como viver em relacionamento com Ele. O que Deus anunciou em Êxodo 25:8 e 9 era um tipo diferente de presença. <span className="bg-yellow-100 p-1 rounded font-medium">Ele iria armar Sua tenda no meio das tendas israelitas para que a presença visível do Deus invisível estivesse com eles (Êx 40:34).</span></p>
                       
-                      <p><span className="bg-yellow-100 p-1 rounded font-medium">Pense por um momento sobre esses dois altares que ele construiu em um período relativamente curto depois que Deus havia falado com ele. Esses altares simbolizavam o compromisso de Abrão de seguir a Deus aonde quer que Ele o levasse, mesmo longe da família e dos amigos.</span> A Bíblia menciona um detalhe interessante ao descrever o segundo altar de Abrão: ele não apenas foi construído em "nome do Senhor", mas Abrão "invocou o nome do Senhor" (Gn 12:8).</p>
+                      <p>Quando Deus escolheu viver entre os israelitas, Sua presença garantiu que teriam Sua proteção e provisão. O fato de que o santuário estava no centro do acampamento israelita transmitia uma mensagem inconfundível: adorar a Deus é o centro da vida. A casa de Deus seria um lugar para reconciliar relacionamentos com Ele, receber perdão de pecados e experimentar uma vida plena.</p>
                       
-                      <p>Talvez a importância da promessa de Deus tenha começado a pesar sobre Abrão enquanto ele viajava por Canaã. O segundo altar sugere que Abrão buscava um relacionamento mais profundo com Deus. O patriarca queria viver uma vida completamente dedicada a Ele. Queria se lembrar de Deus, de Suas promessas e de Sua presença em todos os lugares que fosse. Se Abrão passasse por ali novamente, queria ter um lembrete de tudo o que Deus tinha feito e estava fazendo por ele. <span className="bg-yellow-100 p-1 rounded font-medium">A vida devocional de Abrão estava crescendo a cada dia enquanto ele viajava com Deus – um altar de adoração por vez.</span></p>
+                      <p><span className="bg-yellow-100 p-1 rounded font-medium">Ao inaugurar esse projeto de construção sagrada, Deus fez outra coisa incrível: Ele convidou seres humanos pecadores e imperfeitos para ajudá-Lo a construir Seu santuário. Deus queria que os israelitas soubessem que sempre seriam bem-vindos em Sua casa, não importa o que tivessem feito. Que Deus maravilhoso!</span></p>
                       
                       <div className="bg-muted p-4 rounded-lg mt-6">
                         <h3 className="text-xl font-semibold mb-2">Pense</h3>
-                        <p>De que maneiras práticas você pode construir "altares" para recordar as promessas de Deus?</p>
+                        <p>Como você acha que era viver tendo Deus constantemente no meio do acampamento? Desenvolva essa ideia.</p>
                       </div>
                       
                       <div className="bg-accent/15 p-6 rounded-lg mt-6 border-l-4 border-accent">
                         <h3 className="text-xl font-bold mb-2 font-serif">Nosso resumo</h3>
-                        <p>A lição de segunda-feira explora o início da jornada de fé de Abrão, destacando sua obediência imediata ao chamado divino para deixar Harã aos 75 anos e partir para uma terra desconhecida. O texto revela como Abrão, movido pela graça de Deus, construiu altares como marcos de sua experiência com o Senhor, começando em Siquém e depois perto de Betel. Estes altares não eram meras estruturas físicas, mas símbolos do compromisso do patriarca de seguir a Deus, independentemente do custo pessoal. O detalhe de que Abrão não apenas construiu um altar, mas "invocou o nome do Senhor" demonstra sua busca por um relacionamento mais profundo com Deus. Os altares representavam memórias tangíveis das promessas divinas e serviam como pontos de referência espirituais em sua jornada. Esta prática de Abrão nos ensina a importância de criar marcos espirituais que nos ajudem a lembrar e celebrar a fidelidade de Deus em nossa vida.</p>
+                        <p>A lição de segunda-feira descreve como, após libertar os israelitas do Egito e estabelecer Sua aliança com eles, Deus tomou uma decisão surpreendente: habitar no meio deles através de um santuário. Este pedido inesperado demonstra o profundo desejo de Deus de manter uma presença visível e constante entre Seu povo, mesmo sabendo de suas infidelidades espirituais. O texto destaca três aspectos importantes desse projeto: 1) a solicitação de ofertas voluntárias para a construção, indicando a importância de uma adoração sincera; 2) o posicionamento do santuário no centro do acampamento, simbolizando que Deus deve estar no centro de nossa vida; e 3) o convite para que os próprios israelitas participassem da construção, revelando que Deus quer incluir seres humanos imperfeitos em Seus planos divinos. Esta lição nos ensina que Deus não apenas deseja estar presente em nossa vida, mas quer que participemos ativamente na construção de um relacionamento com Ele, garantindo-nos Sua proteção, provisão e a reconciliação necessária para uma vida plena.</p>
                       </div>
                     </div>
                   </div>
@@ -976,30 +1006,28 @@ const StudyDetailPage = () => {
                 {id === "terca" && (
                   <div className="mb-6">
                     <div className="prose prose-lg max-w-none dark:prose-invert prose-headings:font-serif prose-p:font-sans">
-                      <h2 className="text-2xl font-bold mb-4 font-serif">Promessa ameaçada</h2>
+                      <h2 className="text-2xl font-bold mb-4 font-serif">Adoração em tipos e símbolos</h2>
                       
-                      <p>Gênesis 12:6 relata que quando Abrão chegou perto da Terra Prometida, <span className="bg-yellow-100 p-1 rounded font-medium">"nesse tempo os cananeus habitavam essa terra"</span>. Esse fato por si só deve ter enchido Abrão de pavor. Os cananeus eram um povo bastante cruel e perverso. Mesmo com a promessa que Deus havia feito, Abrão havia trocado a paz e a segurança de Harã por uma terra cheia de problemas e ameaças.</p>
+                      <p><span className="bg-yellow-100 p-1 rounded font-medium">O santuário terrestre que Deus encomendou continha vários itens bastante valiosos, e cada um deles tinha um significado especial. O tabernáculo terrestre deveria ser uma cópia do santuário celestial (Hb 8:2), apontando para Jesus Cristo e Seu ministério de salvar seres humanos perdidos.</span> Cada objeto do santuário ilustra um aspecto diferente de adoração e devoção a Deus.</p>
                       
-                      <p>Esse lugar no qual Deus havia prometido conceder bênçãos espirituais estava cheio de problemas que Abrão seria incapaz de resolver. Mas nessa terra de perigo Abrão aprenderia a confiar nas promessas de Deus. Ao longo do caminho, no entanto, o Senhor sabia que Abrão precisava de uma garantia, então Ele disse: "Não tenha medo, Abrão, Eu sou o seu escudo" (Gn 15:1). Essa declaração simples e poderosa revela a disposição de Deus de nos encontrar exatamente onde estamos.</p>
+                      <p>O pátio externo do santuário continha o altar de holocaustos, onde eram realizados os sacrifícios pelo pecado (Êx 27:1-8).</p>
                       
-                      <p><span className="bg-yellow-100 p-1 rounded font-medium">Os planos de Deus para o futuro são certos, mas Ele sabe o quão difícil pode ser andar somente pela fé quando encontramos coisas com as quais sabemos que não podemos lidar com nossas próprias forças.</span> Ele quer nos dar o encorajamento e a capacitação necessária de que precisamos.</p>
+                      <p>Logo depois havia a bacia de bronze, que era usada pelos sacerdotes para lavar as mãos e os pés antes de entrar no tabernáculo (Êx 30:17-21). <span className="bg-yellow-100 p-1 rounded font-medium">Nós também devemos ser batizados pela água e pelo Espírito se desejamos entrar no reino do céu (Jo 3:5).</span></p>
                       
-                      <p>Abrão não entendia completamente tudo o que estaria envolvido nessa aliança, mas sabia que precisava de um relacionamento mais próximo com Deus. Ao olhar para o mundo corrompido ao seu redor, ele decidiu passar mais tempo em oração, mais tempo em adoração – mais tempo com Deus. As pessoas ao seu redor perceberam a íntima conexão espiritual que ele cultivava. Por isso, Abrão "foi chamado amigo de Deus" (Tg 2:23).</p>
+                      <p>Ao entrar no Lugar Santo, a primeira "sala" do santuário, o que se via era a mesa dos pães da proposição (Êx 25:23-30), que representavam a Palavra de Deus, pela qual devemos viver todos os dias (Mt 4:4). O Lugar Santo também continha o candelabro de ouro com seus sete castiçais (Êx 25:31-40), que simbolizava a luz da verdade compartilhada pelo povo de Deus pelo poder do Espírito Santo (Zc 4:2-6). Mais próximo do Lugar Santíssimo, o espaço mais sagrado do tabernáculo, estava o altar de incenso (Êx 30:1-10), representando a intercessão de Cristo que se mistura com as orações do povo de Deus (Ef 5:1; Ap 8:3). <span className="bg-yellow-100 p-1 rounded font-medium">A fumaça do incenso queimado seria levada para o Lugar Santíssimo – a própria presença de Deus.</span></p>
                       
-                      <p><span className="bg-yellow-100 p-1 rounded font-medium">"A vida de Abraão, o amigo de Deus, era de oração. Onde quer que armasse sua tenda, junto dela construía um altar sobre o qual oferecia os sacrifícios da manhã e da tarde. Ao remover sua tenda, o altar ficava. E o cananeu errante, ao chegar àquele altar, sabia quem havia estado ali; e quando armou sua tenda, consertou o altar e adorou o Deus vivo"</span> (Testemunhos Para a Igreja [CPB, 2021], v. 7, p. 40).</p>
+                      <p>Por último, o Lugar Santíssimo abrigava a arca da aliança, que continha a santa lei de Deus – as tábuas de pedra nas quais Ele escreveu os Dez Mandamentos (Êx 34:1). O propiciatório, sobre o qual a presença de Deus se revelava, era uma espécie de trono e cobria essas tábuas. <span className="bg-yellow-100 p-1 rounded font-medium">Aqueles que desenvolvem um relacionamento de amor com Deus observam Seus mandamentos (as tábuas da lei) e recebem Sua misericórdia quando vão até Ele em arrependimento (o propiciatório).</span></p>
                       
-                      <p>Os altares de Abrão eram uma das maneiras de Deus evangelizar o povo do qual Abrão tinha medo. Nossa caminhada devocional com Deus deve levar outras pessoas a adorá-Lo.</p>
-                      
-                      <p>Talvez Abrão fosse tentado a esconder seus altares para que pudesse se misturar melhor com seus vizinhos cananeus, mas, em vez disso, ele tornou esses altares sinais visíveis de que era fiel ao Deus do Céu, mesmo que a idolatria fosse tão popular em Canaã.</p>
+                      <p>Observe que cada objeto do santuário representa um aspecto da adoração a Deus: aceitar o sacrifício de Jesus, ser purificado, alimentar-se da Palavra de Deus, compartilhar a luz da verdade, orar e observar os mandamentos. Quando Deus pediu a construção do santuário terrestre, Ele deu um modelo de como os pecadores podem se reconciliar e construir um relacionamento íntimo com Ele.</p>
                       
                       <div className="bg-muted p-4 rounded-lg mt-6">
                         <h3 className="text-xl font-semibold mb-2">Pense</h3>
-                        <p>Você já foi impactado pela vida devocional de outras pessoas? Como?</p>
+                        <p>Qual objeto do santuário simboliza algo que você deseja fortalecer em sua vida? Quais são algumas maneiras de começar?</p>
                       </div>
                       
                       <div className="bg-accent/15 p-6 rounded-lg mt-6 border-l-4 border-accent">
                         <h3 className="text-xl font-bold mb-2 font-serif">Nosso resumo</h3>
-                        <p>A lição de terça-feira aborda as dificuldades que Abrão enfrentou ao chegar em Canaã, uma terra habitada por povos cruéis e perversos. O texto destaca que, mesmo diante de circunstâncias ameaçadoras, Deus fortaleceu Abrão com Sua promessa: "Não tenha medo, Eu sou o seu escudo". Esta experiência nos ensina que os planos divinos não nos isentam de desafios, mas nos equipam para enfrentá-los pela fé. Em vez de se esconder ou tentar se misturar com os cananeus idólatras, Abrão construía altares que serviam não apenas para sua adoração pessoal, mas também como testemunho público de sua fé no Deus verdadeiro. Segundo Ellen White, esses altares permaneciam mesmo quando Abrão seguia viagem, tornando-se pontos de referência espiritual para os nômades cananeus, que reconheciam quem havia estado naquele lugar e, por vezes, até restauravam os altares para adorar o mesmo Deus. Esta prática nos ensina que nossa devoção pessoal pode ter um impacto evangelístico muito além do que imaginamos.</p>
+                        <p>A lição de terça-feira explora o significado simbólico do santuário terrestre e seus objetos, revelando como cada elemento representa um aspecto da adoração e do relacionamento com Deus. O texto destaca que o tabernáculo foi projetado como uma cópia do santuário celestial, apontando para o ministério salvífico de Jesus. Cada objeto tem um propósito espiritual: o altar de holocaustos simboliza o sacrifício expiatório, a bacia de bronze representa a purificação pelo batismo, a mesa dos pães da proposição nos lembra da Palavra de Deus que sustenta nossa vida espiritual, o candelabro representa a luz da verdade compartilhada pelo Espírito Santo, o altar de incenso reflete a intercessão de Cristo unida às nossas orações, e a arca da aliança com o propiciatório demonstra a harmonia entre a justiça (a lei) e a misericórdia divinas. Este estudo nos ajuda a compreender como Deus estabeleceu um sistema visual completo para ensinar aos israelitas (e a nós) o caminho de reconciliação e relacionamento íntimo com Ele, convidando-nos a fortalecer os aspectos de nossa adoração simbolizados por esses objetos sagrados.</p>
                       </div>
                     </div>
                   </div>
@@ -1009,38 +1037,43 @@ const StudyDetailPage = () => {
                     <div className="prose prose-lg max-w-none dark:prose-invert prose-headings:font-serif prose-p:font-sans">
                       <h2 className="text-2xl font-bold mb-4 font-serif">Momento hipertexto</h2>
                       
-                      <p><span className="bg-yellow-100 p-1 rounded font-medium">Cada altar levantado por Abrão era um memorial da bondade, do cuidado e da providência divinos. Do mesmo modo, não podemos deixar cair no esquecimento todas as etapas em que Deus nos tem conduzido desde que começou Sua obra em nós.</span> Preste atenção no trecho a seguir:</p>
+                      <p><span className="bg-yellow-100 p-1 rounded font-medium">Imagine agora Jesus comunicando você e sua família de que passará um tempo na sua casa. Imaginou? O que você faria para recebê-Lo? Que tipo de rotina e hábitos deveria manter ou abandonar a fim de que Seu hóspede fosse bem recebido?</span></p>
                       
-                      <div className="bg-muted/40 p-5 rounded-lg border-l-4 border-[#a37fb9] mb-6">
-                        <blockquote className="not-italic text-slate-700 dark:text-slate-300">
-                          <p className="font-serif">"O procedimento de Deus com Seu povo deve ser lembrado frequentemente. Como são frequentes as provas de Sua providência em relação ao Israel antigo! Para que este não esquecesse a história do passado, Deus ordenou a Moisés que pusesse esses acontecimentos em um hino, para que os pais pudessem ensiná-lo aos filhos. Deveriam reunir memórias e conservá-las bem vívidas, para que, quando os filhos perguntassem a respeito, toda a história lhes fosse repetida. Desse modo, o procedimento providencial de Deus para com Seu povo, Sua bondade, misericórdia e Seu cuidado, deveriam ser conservados na lembrança. Somos exortados a lembrar "dos dias anteriores, em que, depois de iluminados, sustentastes grande luta e sofrimentos" (Hb 10:32). "Necessitamos rememorar frequentemente a bondade do Senhor e louvá-Lo por Suas maravilhas"</p>
-                          <p className="text-right font-medium">(Ellen G. White, Testemunhos Para a Igreja [CPB, 2021], v. 6, p. 289)</p>
-                        </blockquote>
-                      </div>
+                      <p>Normalmente, criamos um cenário caprichado quando esperamos visitas que vão passar algumas horas apenas, ou quem sabe dias, semanas.</p>
                       
-                      <p><span className="bg-yellow-100 p-1 rounded font-medium">Como os versículos a seguir se relacionam com a promessa da aliança de Deus e a resposta de Abrão em Gênesis 12:1-9?</span></p>
+                      <p>Procuramos ser uma versão melhor de nós mesmos a fim de deixar uma boa impressão. Até arrumamos tempo para interagir com o hóspede.</p>
+                      
+                      <p>Por mais que esse texto pareça fictício, isso é real. Ainda que não tenhamos o sentido necessário para ver o invisível, sabemos que dividimos espaço com outros seres e realidades.</p>
+                      
+                      <p><span className="bg-yellow-100 p-1 rounded font-medium">Acima de tudo, sabemos que Deus sempre quis habitar conosco. Mais do que isso, Ele pode habitar em nós.</span></p>
+                      
+                      <p>Que tipo de casa temos sido?</p>
+                      
+                      <p><span className="bg-yellow-100 p-1 rounded font-medium">Como os versículos a seguir ajudam você a entender por que o santuário é tão importante?</span></p>
                       
                       <div className="mt-4 space-y-4">
                         <div>
-                          <h4 className="font-semibold">Os altares de Abrão:</h4>
-                          <p>Gn 13:4, 14-18; 22:9-14</p>
+                          <h4 className="font-semibold">As bênçãos do santuário:</h4>
+                          <p>Êx 15:17; 25:22</p>
+                          <p>Sl 20:2; 63:1, 2</p>
                         </div>
                         
                         <div>
-                          <h4 className="font-semibold">A promessa da aliança é repetida:</h4>
-                          <p>Gn 15:17-21; 17:1-8</p>
+                          <h4 className="font-semibold">Jesus revelado no santuário:</h4>
+                          <p>Is 53:6, 7, 10-12</p>
+                          <p>Jo 1:29; 6:35; 8:12</p>
                         </div>
                         
                         <div>
-                          <h4 className="font-semibold">A fé de Abrão:</h4>
-                          <p>Rm 4:20</p>
-                          <p>Hb 11:8-11</p>
+                          <h4 className="font-semibold">O santuário celestial:</h4>
+                          <p>Sl 102:19</p>
+                          <p>Hb 8:1, 2; 9:23-25</p>
                         </div>
                       </div>
                       
                       <div className="bg-accent/15 p-6 rounded-lg mt-6 border-l-4 border-accent">
                         <h3 className="text-xl font-bold mb-2 font-serif">Nosso resumo</h3>
-                        <p>A lição de quarta-feira desenvolve o conceito dos altares de Abraão como memoriais permanentes da bondade e providência divinas. O texto enfatiza a importância de recordar as intervenções de Deus em nossa história, citando como Ellen White destaca que Deus orientou Israel a preservar essas memórias vívidas através de hinos e narrativas transmitidas de geração a geração. A lição nos convida a fazer conexões entre diversas passagens bíblicas - os altares construídos por Abraão em diferentes momentos (Gn 13:4, 14-18; 22:9-14), as repetições da aliança divina (Gn 15:17-21; 17:1-8) e os testemunhos sobre a fé do patriarca (Rm 4:20; Hb 11:8-11). Este exercício de "hipertexto" nos ajuda a perceber como cada altar construído por Abraão estava conectado à promessa original de Gênesis 12:1-9, formando um testemunho contínuo da fidelidade divina através da sua jornada. A lição nos ensina a importância de construir nossos próprios memoriais e de estudar as Escrituras de forma interconectada, reconhecendo os padrões da atuação de Deus.</p>
+                        <p>A lição de quarta-feira nos convida a uma reflexão pessoal sobre como receberíamos Jesus em nossa casa, fazendo um paralelo com a realidade espiritual de Deus habitando em nós. O texto usa a metáfora de preparar nossa casa para uma visita especial para nos fazer pensar sobre o tipo de "casa espiritual" que temos sido para Deus. Através de uma série de referências bíblicas organizadas em três categorias - as bênçãos do santuário, Jesus revelado no santuário e o santuário celestial - somos convidados a explorar a importância deste tema em diferentes perspectivas. Esta abordagem de "hipertexto" nos permite conectar diversos textos bíblicos para formar uma compreensão mais completa do significado do santuário: um lugar de bênção e encontro com Deus (Êx 25:22), uma revelação do ministério sacrificial e salvador de Jesus (Jo 1:29), e um modelo do santuário celestial onde Cristo ministra em nosso favor (Hb 8:1, 2). A lição nos desafia a considerar que tipo de "santuário" nosso coração tem sido para a habitação de Deus.</p>
                       </div>
                     </div>
                   </div>
@@ -1048,23 +1081,26 @@ const StudyDetailPage = () => {
                 {id === "quinta" && (
                   <div className="mb-6">
                     <div className="prose prose-lg max-w-none dark:prose-invert prose-headings:font-serif prose-p:font-sans">
-                      <h2 className="text-2xl font-bold mb-4 font-serif">Auxílio divino</h2>
+                      <h2 className="text-2xl font-bold mb-4 font-serif">Cura na adoração</h2>
                       
-                      <p>Gênesis 13:1-18 confirma que a construção de altares se tornou a marca da vida de Abrão. Diante do crescente conflito entre seus pastores e os de seu sobrinho Ló, Abrão permitiu que Ló escolhesse onde iria morar, concordando em ficar com o que restasse (Gn 13:9). <span className="bg-yellow-100 p-1 rounded font-medium">Quando a questão foi resolvida, Abrão construiu em Manre um altar celebrando a paz que Deus restaurou (v. 18). O altar de Abrão se tornou um memorial de como Deus o havia ajudado.</span></p>
+                      <p><span className="bg-yellow-100 p-1 rounded font-medium">Existe um santuário que adoro visitar. Não consigo ir lá com a frequência que gostaria, mas, quando vou, o tempo parece parar. Parece que tudo no mundo está perfeito. Posso comer meus alimentos favoritos, e todos lá me amam. Eles sempre ficam felizes em me ver, e tristes em me ver partir. Esse lugar especial é a casa dos meus pais.</span></p>
                       
-                      <p>Em Gênesis 22, Abraão enfrentou a maior crise de sua vida. O Senhor pediu que ele sacrificasse Isaque – exatamente o filho por meio do qual a promessa se realizaria. Surpreendentemente, Abraão respondeu a esse teste extremo de fé com extrema obediência. Ele construiu um altar e colocou seu filho nele. Quando o anjo do Senhor interrompeu Abraão, <span className="bg-yellow-100 p-1 rounded font-medium">Deus providenciou um carneiro para ser sacrificado no lugar de Isaque (Gn 22:13) – prefigurando Jesus, o Cordeiro de Deus, que daria Sua vida por seres humanos pecadores</span> (Jo 1:29).</p>
+                      <p>A palavra "santuário" pode ter vários significados; um deles é lugar de refúgio. Por exemplo, um santuário ecológico protege o habitat natural das ameaças da civilização humana e preserva sua beleza nativa.</p>
                       
-                      <p>Abraão chamou o lugar de Yahweh Iré, "O Senhor Proverá" (Gn 22:14), pois Deus havia feito novamente uma provisão miraculosa para ele. Abraão aprendeu a confiar em Deus como seu Ajudador em tempos de terrível crise. O altar no Monte Moriá lembraria Abraão para sempre de como, no momento certo, Deus havia providenciado um sacrifício como substituto para Isaque.</p>
+                      <p>O santuário de Deus também é um lugar de refúgio, mas é muito mais do que isso; é um lugar dedicado à adoração. <span className="bg-yellow-100 p-1 rounded font-medium">Deus queria que Israel construísse um santuário de segurança, adoração e comunhão íntima com Ele.</span></p>
                       
-                      <p><span className="bg-yellow-100 p-1 rounded font-medium">Muitas vezes, adoramos a Deus sem realmente pensar em tudo o que Ele fez e está fazendo por nós</span> (Sl 103:2). Uma das melhores maneiras de manter a bondade de Deus sempre em mente é dar um nome ao lugar em que Deus fez algo especial por você. Aqueles que possuem talentos musicais ou poéticos escrevem canções para comemorar a bondade de Deus. Minha mãe, uma excelente cozinheira, prepara pratos saborosos para pessoas necessitadas sempre que Deus a abençoa.</p>
+                      <p>Adorar a Deus tem incríveis efeitos benéficos. Pesquisas científicas mostram que a oração pode melhorar significativamente os sintomas de depressão e ansiedade. Pessoas que frequentam regularmente reuniões religiosas têm menores taxas de mortalidade e níveis menores de depressão. <span className="bg-yellow-100 p-1 rounded font-medium">Estudos mostram que a adoração diminui o que os especialistas chamam de "resposta de luta ou fuga", reduzindo assim a frequência cardíaca, pressão arterial, níveis de glicose, depressão, ansiedade e dor crônica. Você não quer adorar agora mesmo?</span></p>
                       
-                      <p>Muitas pessoas registram suas experiências com Deus ou testemunham delas a fim de manterem na memória os atos poderosos que Ele realizou em favor delas.</p>
+                      <p>Deus nos projetou para a adoração. Mesmo depois da devastação causada pelo pecado, Ele tem um lugar de refúgio para nós. Deus construiu um santuário, e nós também devemos fazer isso. Estabeleça diariamente um tempo para se encontrar com Ele. O lugar não precisa ser sempre o mesmo, mas uma coisa é certa: quando você entrar na presença do Senhor, Ele o encontrará lá, e esse lugar se tornará seu santuário – um lugar de proteção, cura e bênção.</p>
                       
-                      <p>Quando verbalizamos nossa gratidão, isso aprofunda a memória da bondade de Deus em nossa própria mente. Os métodos podem variar, mas a chave para desenvolver uma amizade vibrante com Deus é sempre recordar aquilo que Ele fez por nós.</p>
+                      <div className="bg-muted p-4 rounded-lg mt-6">
+                        <h3 className="text-xl font-semibold mb-2">Pense</h3>
+                        <p>Como você entende que será o cidadão do Céu? Como já ser parte disso hoje?</p>
+                      </div>
                       
                       <div className="bg-accent/15 p-6 rounded-lg mt-6 border-l-4 border-accent">
                         <h3 className="text-xl font-bold mb-2 font-serif">Nosso resumo</h3>
-                        <p>A lição de quinta-feira demonstra como os altares de Abraão serviam como testemunhos da intervenção divina em momentos críticos. Dois episódios marcantes são destacados: o altar em Manre, construído após a resolução pacífica do conflito com Ló, e o altar no Monte Moriá, onde Deus providenciou um carneiro em substituição a Isaque. Este último altar recebeu um nome especial - "Yahweh Iré" (O Senhor Proverá) - marcando para sempre o local onde Deus demonstrou Sua providência nos momentos de maior provação. A lição nos convida a desenvolver práticas pessoais para recordar as intervenções divinas em nossa vida: alguns compõem músicas, outros preparam refeições para os necessitados, muitos registram testemunhos por escrito. O texto enfatiza que, independentemente do método escolhido, verbalizar nossa gratidão aprofunda a memória da bondade de Deus e fortalece nossa amizade com Ele. O carneiro providenciado no Monte Moriá prefigura o sacrifício de Jesus, o Cordeiro de Deus, revelando o padrão divino de provisão e cuidado que continua se manifestando em nossa vida hoje.</p>
+                        <p>A lição de quinta-feira explora o conceito de santuário como um lugar de refúgio, adoração e cura. O texto começa com a metáfora pessoal da casa dos pais como um santuário de amor e segurança, passando então para uma análise mais ampla do significado de santuário como refúgio. A aplicação espiritual revela que o santuário de Deus vai além de apenas um refúgio - é um lugar dedicado à adoração e comunhão íntima. Um aspecto fascinante destacado é a conexão entre adoração e bem-estar físico e mental, apresentando evidências científicas de como a prática religiosa regular pode reduzir sintomas de depressão, ansiedade, e melhorar indicadores físicos como pressão arterial e níveis de glicose. A lição conclui com um convite prático para estabelecermos nosso próprio "santuário" diário para encontros com Deus, independentemente do local físico, enfatizando que o encontro com o Senhor transforma qualquer espaço em um lugar de proteção, cura e bênção. Esta perspectiva nos ajuda a entender o santuário não apenas como um conceito histórico-bíblico, mas como uma realidade terapêutica e restauradora para nossa vida hoje.</p>
                       </div>
                     </div>
                   </div>
@@ -1072,39 +1108,31 @@ const StudyDetailPage = () => {
                 {id === "sexta" && (
                   <div className="mb-6">
                     <div className="prose prose-lg max-w-none dark:prose-invert prose-headings:font-serif prose-p:font-sans">
-                      <h2 className="text-2xl font-bold mb-4 font-serif">Amigo de Deus</h2>
+                      <h2 className="text-2xl font-bold mb-4 font-serif">No santuário celestial</h2>
                       
                       <div className="bg-muted/40 p-5 rounded-lg border-l-4 border-[#a37fb9] mb-6">
                         <blockquote className="not-italic text-slate-700 dark:text-slate-300">
-                          <p className="font-serif"><span className="bg-yellow-100 p-1 rounded font-medium">"A primeira vez que o chamado do Céu veio a Abraão foi enquanto ele morava em 'Ur dos Caldeus' (Gn 11:31). Em obediência a esse chamado, ele se mudou para Harã. Até ali a família de seu pai o acompanhou, pois, juntamente com sua idolatria, participavam do culto ao verdadeiro Deus. E ali Abraão permaneceu até a morte de Terá. Após o sepultamento de seu pai, a voz divina mandou que ele prosseguisse.</span> Seu irmão Naor, com a família, apegaram-se ao seu lar e seus ídolos. Além de Sara, mulher de Abraão, apenas Ló, filho de Harã – falecido muito tempo antes –, preferiu partilhar da vida peregrina do patriarca.</p>
+                          <p className="font-serif"><span className="bg-yellow-100 p-1 rounded font-medium">"Foi-me também mostrado um santuário sobre a terra contendo dois compartimentos. Parecia-se com o do Céu, e foi-me dito que era uma figura do celestial. Os objetos do primeiro compartimento do santuário terrestre eram semelhantes aos do primeiro compartimento do celestial. O véu ergueu-se e eu olhei para o santo dos santos, e vi que a mobília era a mesma do lugar santíssimo do santuário celestial. O sacerdote ministrava em ambos os compartimentos do terrestre. Ia diariamente ao primeiro compartimento, mas entrava no lugar santíssimo apenas uma vez ao ano, para purificá-lo dos pecados que tinham sido levados ali.</span></p>
                           
-                          <p className="font-serif">Mesmo assim, foi grande a multidão que partiu da Mesopotâmia. Abraão já possuía extensos rebanhos e gado – o que representava riqueza no Oriente – e estava cercado de numeroso grupo de servos e agregados. Estava saindo da terra de seus pais para nunca mais retornar, por isso levou consigo tudo o que tinha, 'todos os bens que haviam adquirido, e as pessoas que lhe acresceram em Harã'. Entre essas pessoas estavam muitos por razões superiores ao trabalho ou interesse particular. Durante sua permanência em Harã, tanto Abraão quanto Sara haviam levado outros à adoração e ao culto ao verdadeiro Deus. [...]</p>
+                          <p className="font-serif">"Vi que Jesus ministrava em ambos os compartimentos do santuário celestial. Os sacerdotes entravam no terrestre com sangue de um animal como oferta para o pecado. Cristo entrou no santuário celestial oferecendo Seu sangue. Os sacerdotes terrestres eram removidos pela morte, portanto não podiam continuar por muito tempo; mas Jesus foi Sacerdote para sempre. Mediante os sacrifícios e ofertas trazidas ao santuário terrestre, os filhos de Israel deveriam apossar-se dos méritos de um Salvador que havia de vir. E na sabedoria de Deus os pormenores dessa obra nos foram dados para que pudéssemos, volvendo um olhar para eles, compreender a obra de Jesus no santuário celestial.</p>
                           
-                          <p className="font-serif">O lugar em que se detiveram a princípio foi Siquém. À sombra dos carvalhos de Moré, em um vale extenso, coberto de relva, com seus bosques de oliveiras e fontes a jorrar, entre o monte Ebal de um lado e o monte Gerizim do outro, Abraão montou seu acampamento. O patriarca havia entrado em um ótimo território – 'terra de ribeiros de água, de fontes, de mananciais profundos, que saem dos vales e das montanhas; terra de trigo cevada, de vides, figueiras e romeiras; terra oliveiras, de azeite e mel' (Dt 8:7, 8). No entanto, para o adorador de Jeová, uma densa sombra estava sobre a colina coberta de árvores e fértil planície. 'Nesse tempo os cananeus habitavam essa terra' (Gn 12:6).</p>
-                          
-                          <p className="font-serif">Abraão atingira o alvo de suas esperanças de encontrar um país ocupado por uma raça estranha, entre a qual estava propagada a idolatria. Os altares dos deuses falsos estavam erigidos nos bosques, e sacrifícios humanos eram oferecidos nos lugares altos que ficavam próximos. Conquanto ele se apegasse à promessa divina, não foi sem angustiantes pressentimentos que armou sua tenda.</p>
-                          
-                          <p className="font-serif">Então 'apareceu o Senhor a Abrão e lhe disse: Darei à tua descendência esta terra (Gn 12:7). Sua fé se fortaleceu pela certeza de que a presença divina estava com ele, de que não fora abandonado nas mãos dos ímpios. 'Ali edificou Abraão um altar ao Senhor, que lhe aparecera' (Gn 12:7). Como um peregrino, logo se mudou para um local próximo de Betel, e de novo construiu um altar e invocou o nome do Senhor.</p>
-                          
-                          <p className="font-serif"><span className="bg-yellow-100 p-1 rounded font-medium">Abraão, o amigo de Deus, nos dá um digno exemplo. Sua vida foi uma vida de oração. Onde quer que ele armasse a tenda, junto construía o altar, convocando todos os que faziam parte de seu acampamento para o sacrifício da manhã e da tarde"</span></p>
-                          <p className="text-right font-medium">(Ellen G. White, Patriarcas e Profetas [CPB, 2022], p. 97, 98)</p>
+                          <p className="font-serif"><span className="bg-yellow-100 p-1 rounded font-medium">"Ao morrer Jesus no Calvário, clamou: 'Está consumado!' (Jo 19:30), e o véu do templo partiu-se de alto a baixo. Isso deveria mostrar que o serviço no santuário terrestre estava para sempre concluído, e que Deus não mais Se encontraria com os sacerdotes em seu templo terrestre, para aceitar seus sacrifícios. O sangue de Jesus foi então derramado, o qual deveria ser oferecido por Ele mesmo no santuário nos Céus. Assim como o sacerdote entrava no lugar santíssimo uma vez ao ano para purificar o santuário terrestre, Jesus entrou no lugar santíssimo do celestial, no fim dos 2.300 dias de Daniel 8, em 1844, para fazer uma expiação final por todos os que pudessem ser beneficiados por Sua mediação, e assim purificar o santuário"</span> (Ellen G. White, Primeiros Escritos [CPB, 2022], p. 232, 233).</p>
                         </blockquote>
                       </div>
                       
                       <div className="mt-4 space-y-3">
                         <h3 className="text-xl font-semibold mb-2">Discuta em classe</h3>
                         <ol className="list-decimal pl-5 space-y-3">
-                          <li>Como você pode fortalecer sua conexão pessoal com Deus?</li>
-                          <li>O que lhe chama mais a atenção no compromisso de Abraão com a adoração?</li>
-                          <li>Que exemplo Abraão estava dando para sua família por meio de sua caminhada devocional com Deus?</li>
-                          <li>Quais práticas ajudam você a se lembrar do amor e da bondade de Deus?</li>
-                          <li>Como a adoração diária ajuda você a crescer em sua caminhada com Deus?</li>
+                          <li>Qual objeto do santuário mais fala ao seu coração? Por quê?</li>
+                          <li>Como Deus nos transforma quando O adoramos?</li>
+                          <li>Onde fica seu santuário para se encontrar com Deus? O que há de especial nesse lugar? Se você ainda não tem um santuário, como pode criar um?</li>
+                          <li>Como você compartilharia o que entende sobre o santuário com alguém que não sabe nada sobre ele?</li>
                         </ol>
                       </div>
                       
                       <div className="bg-accent/15 p-6 rounded-lg mt-6 border-l-4 border-accent">
                         <h3 className="text-xl font-bold mb-2 font-serif">Nosso resumo</h3>
-                        <p>A lição de sexta-feira, baseada em trechos de Patriarcas e Profetas, apresenta detalhes significativos da jornada de Abraão desde seu chamado em Ur dos Caldeus até seu estabelecimento em Canaã. O texto destaca três aspectos fundamentais da experiência de Abraão: 1) Sua obediência progressiva ao chamado divino - primeiro a Harã e depois a Canaã, mesmo após a morte de seu pai; 2) Os desafios encontrados na terra prometida - um território fértil, mas habitado pelos cananeus idólatras que praticavam até sacrifícios humanos; 3) Sua constante prática de construir altares e invocar o nome do Senhor. Ellen White enfatiza que Abraão era chamado "amigo de Deus" porque sua vida "foi uma vida de oração" - onde quer que armasse sua tenda, construía um altar para o sacrifício matinal e vespertino, convocando todo seu acampamento para a adoração. As perguntas para discussão nos convidam a refletir sobre como podemos, à semelhança de Abraão, fortalecer nossa conexão pessoal com Deus através de práticas devocionais regulares que influenciam não apenas nossa vida, mas também a de todos ao nosso redor.</p>
+                        <p>A lição de sexta-feira apresenta, através de uma citação de Ellen G. White, uma visão esclarecedora sobre a relação entre o santuário terrestre e o celestial. O texto explica que o santuário terrestre, com seus dois compartimentos, era uma representação exata do santuário celestial, onde Jesus Cristo ministra como nosso Sumo Sacerdote eterno. A autora destaca três aspectos fundamentais desta doutrina: 1) a continuidade entre o sistema sacrificial do Antigo Testamento e o sacrifício de Cristo; 2) a transição do ministério terrestre para o celestial, marcada pela morte de Jesus e o rasgar do véu do templo; e 3) o início do julgamento investigativo em 1844, quando Jesus entrou no Lugar Santíssimo celestial para a expiação final. As perguntas para discussão nos convidam a refletir sobre aplicações práticas deste tema, considerando como os objetos do santuário falam à nossa experiência pessoal, como a adoração nos transforma, e como podemos criar nossos próprios "santuários" para encontros com Deus. Esta compreensão mais profunda do ministério atual de Cristo no santuário celestial nos conecta com a realidade mais ampla do grande conflito e do plano da salvação, dando-nos segurança no processo de julgamento que ocorre agora no céu.</p>
                       </div>
                     </div>
                   </div>

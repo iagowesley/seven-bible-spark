@@ -15,28 +15,28 @@ const weekDays = [
   {
     id: "sabado",
     title: "Sábado",
-    description: "Altares para recordar",
+    description: "Um lugar para mim",
     duration: "45 min",
     points: 220
   },
   {
     id: "domingo",
     title: "Domingo",
-    description: "Mente distraída",
+    description: "Encontrando um lar",
     duration: "20 min",
     points: 100
   },
   {
     id: "segunda",
     title: "Segunda-feira",
-    description: "Promessa para não esquecer",
+    description: "Quero morar com vocês",
     duration: "15 min",
     points: 80
   },
   {
     id: "terca",
     title: "Terça-feira",
-    description: "Promessa ameaçada",
+    description: "Adoração em tipos e símbolos",
     duration: "25 min",
     points: 120
   },
