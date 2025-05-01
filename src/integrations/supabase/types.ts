@@ -87,6 +87,125 @@ export type Database = {
         }
         Relationships: []
       }
+      trimestres: {
+        Row: {
+          id: string
+          nome: string
+          ano: number
+          trimestre: string
+          created_at: string
+          img_url: string | null
+        }
+        Insert: {
+          id?: string
+          nome: string
+          ano: number
+          trimestre: string
+          created_at?: string
+          img_url?: string | null
+        }
+        Update: {
+          id?: string
+          nome?: string
+          ano?: number
+          trimestre?: string
+          created_at?: string
+          img_url?: string | null
+        }
+        Relationships: []
+      }
+      semanas: {
+        Row: {
+          id: string
+          trimestre_id: string
+          numero: number
+          titulo: string
+          texto_biblico_chave: string
+          resumo: string
+          img_sabado_url: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          trimestre_id: string
+          numero: number
+          titulo: string
+          texto_biblico_chave: string
+          resumo: string
+          img_sabado_url?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          trimestre_id?: string
+          numero?: number
+          titulo?: string
+          texto_biblico_chave?: string
+          resumo?: string
+          img_sabado_url?: string | null
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "semanas_trimestre_id_fkey"
+            columns: ["trimestre_id"]
+            referencedRelation: "trimestres"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      licoes: {
+        Row: {
+          id: string
+          semana_id: string
+          dia: string
+          texto1: string
+          texto2: string
+          resumo: string
+          hashtags: string
+          created_at: string
+          texto_biblico_chave: string | null
+          titulo_dia: string | null
+          subtitulo_dia: string | null
+          perguntas: string | null
+        }
+        Insert: {
+          id?: string
+          semana_id: string
+          dia: string
+          texto1: string
+          texto2: string
+          resumo: string
+          hashtags: string
+          created_at?: string
+          texto_biblico_chave?: string | null
+          titulo_dia?: string | null
+          subtitulo_dia?: string | null
+          perguntas?: string | null
+        }
+        Update: {
+          id?: string
+          semana_id?: string
+          dia?: string
+          texto1?: string
+          texto2?: string
+          resumo?: string
+          hashtags?: string
+          created_at?: string
+          texto_biblico_chave?: string | null
+          titulo_dia?: string | null
+          subtitulo_dia?: string | null
+          perguntas?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "licoes_semana_id_fkey"
+            columns: ["semana_id"]
+            referencedRelation: "semanas"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
     }
     Views: {
       [_ in never]: never

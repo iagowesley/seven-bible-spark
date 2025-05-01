@@ -81,18 +81,13 @@ const Navbar = () => {
         <div className="h-1 w-full bg-gradient-to-r from-[#a37fb9] via-blue-500 to-[#a37fb9] bg-[length:200%_auto] animate-gradient"></div>
         
         <div className="seven-container flex items-center justify-between py-4 relative">
-          {/* Elementos decorativos de fundo */}
-          <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            <div className="absolute -top-5 -left-5 w-20 h-20 bg-gradient-to-br from-purple-200 to-pink-200 rounded-full opacity-20 blur-xl dark:opacity-10"></div>
-            <div className="absolute top-1/2 right-1/4 w-10 h-10 bg-blue-200 rounded-full opacity-20 blur-lg dark:opacity-10"></div>
-          </div>
+          {/* Elementos decorativos de fundo removidos */}
           
-          <Link to="/sobre" className="flex items-center relative z-10 group">
-            <div className="absolute -inset-2 bg-gradient-to-r from-[#a37fb9]/20 to-purple-500/20 rounded-lg blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+          <Link to="/" className="flex items-center relative z-10">
             <img 
               src="/LOGO_LIÇÃO_JOVEM-removebg-preview (1).png" 
               alt="Lição Jovem" 
-              className="h-16 relative z-10 transition-transform duration-300 group-hover:scale-105"
+              className="h-16 relative z-10"
             />
           </Link>
           
@@ -111,7 +106,7 @@ const Navbar = () => {
                   {/* Ícone com transição */}
                   <span className="flex items-center justify-center overflow-hidden">
                     <span className="block group-hover:hidden transition-all duration-300">
-                      {link.icon}
+                  {link.icon}
                     </span>
                     <span className="hidden group-hover:block transition-all duration-300">
                       {link.hoverIcon}
@@ -157,24 +152,24 @@ const Navbar = () => {
               )}
             </button>
             
-            <Button 
-              variant="ghost" 
-              size="icon"
+          <Button 
+            variant="ghost" 
+            size="icon"
               className="relative z-10" 
-              onClick={toggleMenu}
-            >
-              {isMenuOpen ? (
-                <XIcon className="h-6 w-6" />
-              ) : (
-                <MenuIcon className="h-6 w-6" />
-              )}
-            </Button>
+            onClick={toggleMenu}
+          >
+            {isMenuOpen ? (
+              <XIcon className="h-6 w-6" />
+            ) : (
+              <MenuIcon className="h-6 w-6" />
+            )}
+          </Button>
           </div>
         </div>
 
         {/* Menu mobile */}
         <AnimatePresence>
-          {isMenuOpen && (
+        {isMenuOpen && (
             <motion.div 
               className="md:hidden px-4 pb-4 bg-white dark:bg-slate-900 border-t"
               initial={{ opacity: 0, height: 0 }}
@@ -182,37 +177,37 @@ const Navbar = () => {
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3 }}
             >
-              <div className="flex flex-col space-y-2">
-                {navLinks.map((link) => (
-                  <Button
-                    key={link.href}
-                    variant="ghost"
+            <div className="flex flex-col space-y-2">
+              {navLinks.map((link) => (
+                <Button
+                  key={link.href}
+                  variant="ghost"
                     className="flex items-center justify-start text-[#a37fb9] hover:text-white hover:bg-[#a37fb9] font-medium text-base relative overflow-hidden group dark:text-[#c4a6df]"
-                    asChild
-                  >
-                    <Link 
-                      to={link.href}
-                      onClick={() => setIsMenuOpen(false)}
+                  asChild
+                >
+                  <Link 
+                    to={link.href}
+                    onClick={() => setIsMenuOpen(false)}
                       className="relative z-10"
-                    >
+                  >
                       <span className="flex items-center">
                         <span className="block group-hover:hidden">
-                          {link.icon}
+                    {link.icon}
                         </span>
                         <span className="hidden group-hover:block">
                           {link.hoverIcon}
                         </span>
-                        {link.label}
+                    {link.label}
                       </span>
                       
                       {/* Onda decorativa animada */}
                       <div className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-hover:opacity-30 transition-opacity"></div>
-                    </Link>
-                  </Button>
-                ))}
-              </div>
+                  </Link>
+                </Button>
+              ))}
+            </div>
             </motion.div>
-          )}
+        )}
         </AnimatePresence>
       </nav>
     </>

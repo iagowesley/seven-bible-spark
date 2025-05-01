@@ -93,11 +93,11 @@ const AboutPage = () => {
                   
                   {/* Imagem com borda personalizada */}
                   <div className="relative border-8 border-white shadow-2xl z-20 overflow-hidden transition-all duration-500 hover:shadow-[0_10px_40px_rgba(163,127,185,0.5)]">
-                    <img 
-                      src="/cover.png" 
-                      alt="Lição Jovem - Adoração" 
+                  <img 
+                    src="/cover.png" 
+                    alt="Lição Jovem - Adoração" 
                       className="w-full h-auto relative z-10 transform transition-all hover:scale-105 duration-300"
-                    />
+                  />
                     
                     {/* Overlay de brilho no hover */}
                     <div className="absolute inset-0 bg-gradient-to-tr from-[#a37fb9]/0 to-yellow-400/0 hover:from-[#a37fb9]/20 hover:to-yellow-400/20 transition-all duration-300 z-20"></div>
@@ -126,8 +126,8 @@ const AboutPage = () => {
             <div className="absolute bottom-20 left-1/4 w-32 h-32 bg-gradient-to-tr from-green-300 to-blue-300 rounded-full opacity-20 blur-xl"></div>
             
             <div className="relative z-10">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="h-1 w-16 bg-[#a37fb9]"></div>
+            <div className="flex items-center gap-2 mb-4">
+              <div className="h-1 w-16 bg-[#a37fb9]"></div>
                 <h2 className="text-sm font-medium text-[#a37fb9] uppercase tracking-wider flex items-center">
                   Nossa missão <Sparkles className="h-4 w-4 ml-2 text-yellow-400 animate-pulse" />
                 </h2>
@@ -152,9 +152,9 @@ const AboutPage = () => {
                 <div className="transform transition-all hover:scale-105 duration-300 p-4 hover:bg-white hover:shadow-xl">
                   <p className="text-lg relative z-10">
                     A <span className="font-semibold text-[#a37fb9] text-xl">Lição Jovem 7</span> é um projeto dedicado a oferecer estudos diários 
-                    interativos e relevantes para jovens adventistas do sétimo dia. Nosso objetivo é tornar o estudo da lição da escola sabatina
-                    mais acessível, envolvente e aplicável ao dia a dia dos jovens.
-                  </p>
+                  interativos e relevantes para jovens adventistas do sétimo dia. Nosso objetivo é tornar o estudo da lição da escola sabatina
+                  mais acessível, envolvente e aplicável ao dia a dia dos jovens.
+                </p>
                   <div className="flex items-center gap-2 mt-2 text-sm text-[#a37fb9]/70">
                     <Heart className="h-4 w-4" /> <span>Criado por jovens para jovens</span>
                   </div>
@@ -163,9 +163,9 @@ const AboutPage = () => {
                 <div className="transform transition-all hover:scale-105 duration-300 p-4 hover:bg-white hover:shadow-xl">
                   <p className="relative z-10">
                     Cada lição semanal é dividida em sete partes — uma para cada dia da semana — permitindo 
-                    um estudo aprofundado e consistente. O conteúdo é elaborado para conectar os ensinamentos
-                    bíblicos com os desafios contemporâneos enfrentados pelos jovens.
-                  </p>
+                  um estudo aprofundado e consistente. O conteúdo é elaborado para conectar os ensinamentos
+                  bíblicos com os desafios contemporâneos enfrentados pelos jovens.
+                </p>
                   <div className="flex items-center gap-2 mt-2 text-sm text-[#a37fb9]/70">
                     <Clock className="h-4 w-4" /> <span>7 dias, 7 estudos</span>
                   </div>
@@ -173,10 +173,10 @@ const AboutPage = () => {
                 
                 <div className="transform transition-all hover:scale-105 duration-300 p-4 hover:bg-white hover:shadow-xl">
                   <p className="relative z-10">
-                    <span className="font-semibold">Nossa presença no Instagram:</span> Diariamente, compartilhamos resumos 
-                    das lições em nossa página do Instagram, criando uma comunidade ativa que estuda e reflete
-                    juntos sobre os temas propostos.
-                  </p>
+                  <span className="font-semibold">Nossa presença no Instagram:</span> Diariamente, compartilhamos resumos 
+                  das lições em nossa página do Instagram, criando uma comunidade ativa que estuda e reflete
+                  juntos sobre os temas propostos.
+                </p>
                   <div className="flex items-center gap-2 mt-2 text-sm text-[#a37fb9]/70">
                     <Users className="h-4 w-4" /> <span>Comunidade em crescimento</span>
                   </div>
@@ -184,10 +184,10 @@ const AboutPage = () => {
                 
                 <div className="transform transition-all hover:scale-105 duration-300 p-4 hover:bg-white hover:shadow-xl">
                   <p className="relative z-10">
-                    Este novo site foi desenvolvido para ajudar todos os jovens a manterem uma rotina de estudos
-                    bíblicos consistente, com ferramentas que facilitam a compreensão e a aplicação prática
-                    dos ensinamentos.
-                  </p>
+                  Este novo site foi desenvolvido para ajudar todos os jovens a manterem uma rotina de estudos
+                  bíblicos consistente, com ferramentas que facilitam a compreensão e a aplicação prática
+                  dos ensinamentos.
+                </p>
                   <div className="flex items-center gap-2 mt-2 text-sm text-[#a37fb9]/70">
                     <Target className="h-4 w-4" /> <span>Foco na aplicação prática</span>
                   </div>

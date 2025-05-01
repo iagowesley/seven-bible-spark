@@ -328,9 +328,30 @@
   color: #f0f0f0 !important;
 }
 
-/* Ajustes para textos destacados em geral */
+/* Melhorias para questionários em mobile */
 .dark [class*="bg-"][class*="-100"] {
   border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Melhorias para questionários em dispositivos móveis */
+@media (max-width: 640px) {
+  /* Aumentar a área clicável para botões e opções de questionário */
+  .radio-option, 
+  [role="radio"],
+  .quiz-option {
+    min-height: 44px; /* Tamanho mínimo recomendado para alvos de toque */
+  }
+  
+  /* Espaçamento maior entre itens do questionário */
+  .space-y-3 {
+    margin-top: 0.75rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+  
+  /* Melhora o toque em dispositivos móveis */
+  [role="radio"] {
+    touch-action: manipulation;
+  }
 }
 
 @layer utilities {
@@ -358,5 +379,83 @@
   /* Efeito de sombra para o troféu */
   .drop-shadow-glow {
     filter: drop-shadow(0 0 8px rgba(250, 204, 21, 0.7));
+  }
+}
+
+@import "./mobile-styles.css";
+
+/* Estilos para o card de livro */
+.book-cover-container {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  perspective: 1000px;
+  height: 380px; /* Altura fixa para todos os containers */
+}
+
+.book-wrapper {
+  position: relative;
+  width: 240px;
+  height: 340px; /* Proporção aproximada de um livro físico */
+  transform-style: preserve-3d;
+  transform: rotateY(-10deg);
+  transition: all 0.5s;
+  margin: 0 auto;
+}
+
+.book-wrapper:hover {
+  transform: rotateY(-15deg) translateZ(10px);
+  box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.2);
+}
+
+.book-cover {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 2px;
+  background-color: #fff;
+  box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+  transform: translateZ(10px);
+  overflow: hidden;
+  backface-visibility: hidden;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.book-spine {
+  position: absolute;
+  width: 20px;
+  height: 100%;
+  left: -15px;
+  top: 0;
+  transform: rotateY(-90deg) translateZ(10px);
+  background: linear-gradient(90deg, #a37fb9, #8a5a9b);
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Adicionar efeito de páginas no lado direito */
+.book-cover::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(to right, 
+    rgba(0,0,0,0.1), 
+    rgba(255,255,255,0.5), 
+    rgba(0,0,0,0.05)
+  );
+  transform: rotateY(5deg) translateZ(-1px);
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 768px) {
+  .book-wrapper {
+    width: 200px;
+    height: 280px;
+  }
+  
+  .book-cover-container {
+    height: 320px;
   }
 }

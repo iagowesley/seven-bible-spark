@@ -1,9 +1,10 @@
-
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { BookOpen, CalendarCheck, Calendar } from "lucide-react";
+import { BookOpen, CalendarCheck, Calendar, Trophy, Award, Sparkles } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { getUserProgress } from "@/models/userProgress";
+import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
 
 type ProgressCardProps = {
   completedLessons: number;
@@ -44,33 +45,58 @@ const ProgressCard: React.FC<ProgressCardProps> = ({
     .filter(progress => progress.completed)
     .map(progress => progress.lesson_id);
   
+  // Calcular o progresso geral (porcentagem de dias concluídos)
+  const calculaProgressoGeral = () => {
+    const totalDias = 7;
+    return Math.round((completedLessons / totalDias) * 100);
+  };
+  
   return (
-    <Card className="modern-card">
-      <CardHeader className="border-b border-muted/30">
-        <CardTitle className="text-xl font-normal tracking-wide">Seu Progresso</CardTitle>
+    <Card className="modern-card border-t-4 border-t-[#a37fb9] overflow-hidden relative">
+      {/* Elementos decorativos */}
+      <div className="absolute top-0 right-0 w-32 h-32 bg-[#a37fb9]/5 rounded-full -z-10 translate-x-1/2 -translate-y-1/2 blur-xl"></div>
+      <div className="absolute bottom-0 left-0 w-24 h-24 bg-[#8a63a8]/5 rounded-full -z-10 -translate-x-1/3 translate-y-1/3 blur-lg"></div>
+      
+      <CardHeader className="border-b border-muted/30 pb-3">
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-xl font-normal tracking-wide flex items-center gap-2">
+            <Trophy className="h-5 w-5 text-[#a37fb9]" />
+            Seu Progresso
+          </CardTitle>
+          {calculaProgressoGeral() >= 50 && (
+            <Badge variant="outline" className="bg-gradient-to-r from-amber-400 to-amber-500 text-white border-0 flex items-center gap-1">
+              <Sparkles className="h-3 w-3" /> 
+              <span>{calculaProgressoGeral() >= 100 ? "Concluído" : "Em andamento"}</span>
+            </Badge>
+          )}
+        </div>
       </CardHeader>
+      
       <CardContent className="pt-6">
-        <div className="flex flex-col gap-4 md:gap-6">
-          <div className="flex items-center gap-3 md:gap-4 p-3 md:p-4 bg-muted/30 border-l-4 border-[#a37fb9]">
-            <div className="w-10 h-10 md:w-12 md:h-12 bg-[#a37fb9]/10 flex items-center justify-center">
-              <BookOpen className="h-5 w-5 md:h-6 md:w-6 text-[#a37fb9]" />
+        <div className="flex flex-col gap-6">
+          {/* Barra de progresso geral */}
+          <div className="space-y-2">
+            <div className="flex justify-between items-center mb-1">
+              <span className="text-sm text-muted-foreground">Progresso total</span>
+              <span className="text-sm font-medium">{calculaProgressoGeral()}%</span>
             </div>
-            <div>
-              <p className="text-xs text-muted-foreground font-light">Lições Completas</p>
-              <p className="text-xl md:text-2xl font-light">{completedLessons}</p>
-            </div>
+            <Progress value={calculaProgressoGeral()} className="h-2" />
+            <p className="text-xs text-muted-foreground text-right">
+              {completedLessons} de 7 lições concluídas
+            </p>
           </div>
           
-          <div className="p-3 md:p-5 bg-muted/30">
-            <p className="text-xs md:text-sm font-normal mb-3 md:mb-4 uppercase tracking-wider text-muted-foreground">Esta Semana</p>
+          {/* Dias da semana */}
+          <div className="p-4 bg-muted/30 rounded-lg">
+            <p className="text-xs font-normal mb-4 uppercase tracking-wider text-muted-foreground">Esta Semana</p>
             <div className="grid grid-cols-7 gap-1 md:flex md:justify-between">
               {weekDays.map((day) => (
                 <div key={day.id} className="flex flex-col items-center">
                   <div 
-                    className={`w-8 h-8 md:w-10 md:h-10 flex items-center justify-center mb-1 ${
+                    className={`w-8 h-8 md:w-10 md:h-10 flex items-center justify-center mb-1 rounded-full transition-all ${
                       completedDayIds.includes(day.id) 
-                        ? 'bg-[#a37fb9] text-white' 
-                        : 'bg-muted/50 text-muted-foreground'
+                        ? 'bg-gradient-to-br from-[#a37fb9] to-[#8a63a8] text-white shadow-sm' 
+                        : 'bg-muted/50 text-muted-foreground hover:bg-muted'
                     }`}
                   >
                     {completedDayIds.includes(day.id) ? (
@@ -84,6 +110,19 @@ const ProgressCard: React.FC<ProgressCardProps> = ({
               ))}
             </div>
           </div>
+          
+          {/* Mensagem motivacional */}
+          {calculaProgressoGeral() < 100 && (
+            <div className="text-sm text-muted-foreground bg-[#a37fb9]/5 p-3 rounded-md border border-[#a37fb9]/20">
+              {calculaProgressoGeral() === 0 ? (
+                "Você ainda não começou. Inicie seu estudo!"
+              ) : calculaProgressoGeral() < 50 ? (
+                "Bom começo! Continue avançando em seus estudos."
+              ) : (
+                "Você está indo muito bem! Falta pouco para concluir."
+              )}
+            </div>
+          )}
         </div>
       </CardContent>
     </Card>

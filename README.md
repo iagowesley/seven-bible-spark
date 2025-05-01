@@ -1,4 +1,159 @@
-# Welcome to your Lovable project
+# Seven Bible Spark
+
+Aplicativo de estudo bíblico semanal com lições diárias e sistema de gestão de conteúdo integrado.
+
+## Funcionalidades
+
+- Estudos bíblicos organizados por trimestre, semana e dia
+- Sistema de administração completo para gerenciar conteúdo
+- Lições dinâmicas com textos principais, secundários, resumos e hashtags
+- Quizzes para testar o conhecimento
+- Interface moderna e responsiva usando Shadcn UI
+- Suporte completo a temas claro e escuro
+
+## Configuração do Supabase
+
+Este projeto utiliza o Supabase para armazenamento de dados e autenticação. Siga os passos abaixo para configurar o ambiente:
+
+### 1. Criar um projeto no Supabase
+
+1. Acesse [supabase.com](https://supabase.com) e crie uma conta
+2. Crie um novo projeto e anote a URL e a chave anon/public
+3. Configure as informações do projeto em `src/integrations/supabase/client.ts`
+
+### 2. Configurar tabelas no Supabase
+
+O projeto utiliza as seguintes tabelas:
+
+#### Tabela `trimestres`
+
+```sql
+create table trimestres (
+  id uuid default gen_random_uuid() primary key,
+  nome text not null,
+  ano integer not null,
+  created_at timestamp with time zone default now() not null
+);
+
+-- Permissões para usuários autenticados
+alter table trimestres enable row level security;
+create policy "Usuários autenticados podem ler trimestres" on trimestres
+  for select to authenticated using (true);
+create policy "Somente admins podem modificar trimestres" on trimestres
+  for all to authenticated using (auth.uid() in (select id from admins));
+```
+
+#### Tabela `semanas`
+
+```sql
+create table semanas (
+  id uuid default gen_random_uuid() primary key,
+  trimestre_id uuid references trimestres(id) on delete cascade not null,
+  numero integer not null,
+  titulo text not null,
+  subtitulo text not null,
+  img_sabado_url text,
+  created_at timestamp with time zone default now() not null
+);
+
+-- Permissões para usuários autenticados
+alter table semanas enable row level security;
+create policy "Usuários autenticados podem ler semanas" on semanas
+  for select to authenticated using (true);
+create policy "Somente admins podem modificar semanas" on semanas
+  for all to authenticated using (auth.uid() in (select id from admins));
+```
+
+#### Tabela `licoes`
+
+```sql
+create table licoes (
+  id uuid default gen_random_uuid() primary key,
+  semana_id uuid references semanas(id) on delete cascade not null,
+  dia text not null check (dia in ('domingo', 'segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado')),
+  texto1 text not null,
+  texto2 text not null,
+  resumo text not null,
+  hashtags text not null,
+  created_at timestamp with time zone default now() not null,
+  unique (semana_id, dia)
+);
+
+-- Permissões para usuários autenticados
+alter table licoes enable row level security;
+create policy "Usuários autenticados podem ler licoes" on licoes
+  for select to authenticated using (true);
+create policy "Somente admins podem modificar licoes" on licoes
+  for all to authenticated using (auth.uid() in (select id from admins));
+```
+
+### 3. Configurar Storage no Supabase
+
+1. Crie um bucket chamado `images` no Storage do Supabase
+2. Configure as permissões para permitir upload e download de imagens:
+
+```sql
+-- Permissões para imagens
+create policy "Usuários autenticados podem ver imagens" on storage.objects
+  for select to authenticated using (bucket_id = 'images');
+create policy "Somente admins podem fazer upload de imagens" on storage.objects
+  for insert to authenticated using (
+    bucket_id = 'images' AND 
+    auth.uid() in (select id from admins)
+  );
+create policy "Somente admins podem atualizar imagens" on storage.objects
+  for update to authenticated using (
+    bucket_id = 'images' AND 
+    auth.uid() in (select id from admins)
+  );
+create policy "Somente admins podem excluir imagens" on storage.objects
+  for delete to authenticated using (
+    bucket_id = 'images' AND 
+    auth.uid() in (select id from admins)
+  );
+```
+
+## Instalação e Execução
+
+```bash
+# Instalar dependências
+npm install
+
+# Executar em modo de desenvolvimento
+npm run dev
+
+# Compilar para produção
+npm run build
+
+# Executar build de produção
+npm run start
+```
+
+## Tecnologias Utilizadas
+
+- React.js
+- TypeScript
+- Vite
+- Tailwind CSS
+- Shadcn UI
+- Supabase (Banco de dados PostgreSQL e Storage)
+- React Query
+- React Router
+
+## Estrutura de Diretórios
+
+- `/src` - Código fonte da aplicação
+  - `/components` - Componentes React reutilizáveis
+  - `/contexts` - Contextos e providers
+  - `/hooks` - Hooks personalizados
+  - `/lib` - Bibliotecas e helpers
+  - `/models` - Serviços CRUD para o Supabase
+  - `/pages` - Páginas da aplicação
+  - `/integrations` - Integrações com serviços externos (Supabase)
+
+## Licença
+
+MIT
 
 ## Project info
 

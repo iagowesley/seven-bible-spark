@@ -17,6 +17,26 @@ type LessonCardProps = {
   image?: string;
 };
 
+// Função para processar o texto da descrição e aplicar destaques
+const processDescription = (text: string): React.ReactNode => {
+  // Processa marcações para textos em negrito usando **texto**
+  const boldPattern = /\*\*(.*?)\*\*/g;
+  
+  // Processa marcações para textos sublinhados usando __texto__
+  const underlinePattern = /__([^_]+)__/g;
+  
+  // Processa marcações para textos com fundo destacado usando ==texto==
+  const highlightPattern = /==(.*?)==/g;
+  
+  // Primeiro substitui marcações de destaque
+  let processedText = text
+    .replace(highlightPattern, '<span class="bg-yellow-200 dark:bg-yellow-900 px-1 rounded">$1</span>')
+    .replace(boldPattern, '<strong>$1</strong>')
+    .replace(underlinePattern, '<span class="underline decoration-2 underline-offset-2">$1</span>');
+  
+  return <p className="text-sm line-clamp-3 mb-4 font-bold relative z-10" dangerouslySetInnerHTML={{ __html: processedText }} />;
+};
+
 const LessonCard: React.FC<LessonCardProps> = ({
   id,
   title,
@@ -145,9 +165,9 @@ const LessonCard: React.FC<LessonCardProps> = ({
         {/* Padrão sutil de fundo */}
         <div className="absolute inset-0 opacity-5 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgZmlsbD0iIzMzMyIgZmlsbC1ydWxlPSJldmVub2RkIj48Y2lyY2xlIGN4PSIxIiBjeT0iMSIgcj0iMSIvPjwvZz48L3N2Zz4=')]"></div>
         
-        <p className="text-sm line-clamp-3 mb-4 font-bold relative z-10">
-          {description}
-        </p>
+        {/* Renderizar a descrição com destaques */}
+        {processDescription(description)}
+        
         <div className="flex items-center justify-between text-xs text-muted-foreground relative z-10">
           <div className="flex items-center gap-1">
             <Clock className="h-3 w-3" />

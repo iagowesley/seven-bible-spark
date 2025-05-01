@@ -1,268 +1,225 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { BookOpen, ChevronRight, AlertTriangle, Sparkles, Clock } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { listarTrimestres, Trimestre } from "@/models/trimestreService";
+import { obterSemanasDeTrimestre } from "@/models/licaoService";
+import { Semana } from "@/models/semanaService";
+import { toast } from "@/hooks/use-toast";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import LessonCard from "@/components/study/LessonCard";
-import { Trophy, CalendarDays, Sparkles, BookOpen, Clock, Star, Zap, Calendar, BookMarked, Heart, Gift, Flame, CheckCircle } from "lucide-react";
-import { useAuth } from "@/contexts/AuthContext";
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
 
-// Dados para os dias da semana
-const weekDays = [
-  {
-    id: "sabado",
-    title: "Sábado",
-    description: "Um lugar para mim",
-    duration: "45 min",
-    points: 220
-  },
-  {
-    id: "domingo",
-    title: "Domingo",
-    description: "Encontrando um lar",
-    duration: "20 min",
-    points: 100
-  },
-  {
-    id: "segunda",
-    title: "Segunda-feira",
-    description: "Quero morar com vocês",
-    duration: "15 min",
-    points: 80
-  },
-  {
-    id: "terca",
-    title: "Terça-feira",
-    description: "Adoração em tipos e símbolos",
-    duration: "25 min",
-    points: 120
-  },
-  {
-    id: "quarta",
-    title: "Quarta-feira",
-    description: "Momento hipertexto",
-    duration: "30 min",
-    points: 150
-  },
-  {
-    id: "quinta",
-    title: "Quinta-feira",
-    description: "Auxílio divino",
-    duration: "40 min",
-    points: 200
-  },
-  {
-    id: "sexta",
-    title: "Sexta-feira",
-    description: "Amigo de Deus",
-    duration: "35 min",
-    points: 180
-  },
-];
+// Interfaces
+type SemanaComStatus = {
+  id: string;
+  titulo: string;
+  completa: boolean;
+};
 
-const StudiesPage = () => {
-  const { user } = useAuth();
+type TrimestreComSemanas = Trimestre & {
+  semanas: SemanaComStatus[];
+};
 
-  // Fetch user progress for all lessons
-  const { data: userProgress = [], isLoading } = useQuery({
-    queryKey: ['userProgress', user?.id],
-    queryFn: async () => {
-      if (!user) return [];
+const StudiesPage: React.FC = () => {
+  const [trimestres, setTrimestres] = useState<TrimestreComSemanas[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  
+  const carregarDados = async () => {
+    try {
+      setLoading(true);
+      setError(null);
       
-      try {
-        const { data, error } = await supabase
-          .from("user_progress")
-          .select("*")
-          .eq("user_id", user.id);
-        
-        if (error) {
-          console.error("Error fetching user progress:", error);
-          return [];
-        }
-        
-        return data || [];
-      } catch (error) {
-        console.error("Error fetching user progress:", error);
-        return [];
-      }
-    },
-    enabled: !!user
-  });
-
-  // Prepare lessons with progress information
-  const lessonsWithProgress = weekDays.map(lesson => {
-    const progress = userProgress.find(p => p.lesson_id === lesson.id);
-    return {
-      ...lesson,
-      progress: progress?.progress || 0,
-      completed: progress?.completed || false
-    };
-  });
-
-  // Check if all lessons are completed
-  const allLessonsCompleted = lessonsWithProgress.every(lesson => lesson.completed);
-
-  const [animateBackground, setAnimateBackground] = useState(false);
-
-  // Efeito para animar o background após a página carregar
+      // Buscar todos os trimestres
+      const trimestresList = await listarTrimestres();
+      
+      // Para cada trimestre, buscar as semanas que têm lições completas
+      const trimestresComSemanas = await Promise.all(
+        trimestresList.map(async (trimestre) => {
+          const semanas = await obterSemanasDeTrimestre(trimestre.id);
+          return {
+            ...trimestre,
+            semanas,
+          };
+        })
+      );
+      
+      setTrimestres(trimestresComSemanas);
+    } catch (err) {
+      console.error("Erro ao carregar dados:", err);
+      setError("Não foi possível carregar os estudos. Tente novamente mais tarde.");
+      toast({
+        title: "Erro ao carregar estudos",
+        description: "Ocorreu um problema ao buscar os estudos. Tente novamente.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+  
   useEffect(() => {
-    setAnimateBackground(true);
+    carregarDados();
   }, []);
-
+  
+  if (loading) {
+    return (
+      <>
+        <Navbar />
+        <div className="container mx-auto py-16 px-4 max-w-6xl">
+          <div className="flex justify-center items-center py-32">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+          </div>
+        </div>
+        <Footer />
+      </>
+    );
+  }
+  
+  if (error) {
+    return (
+      <>
+        <Navbar />
+        <div className="container mx-auto py-16 px-4 max-w-6xl">
+          <Alert variant="destructive">
+            <AlertTriangle className="h-4 w-4" />
+            <AlertTitle>Erro</AlertTitle>
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        </div>
+        <Footer />
+      </>
+    );
+  }
+  
   return (
-    <div className="min-h-screen flex flex-col relative overflow-hidden">
-      {/* Elementos decorativos de fundo */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 -left-10 w-40 h-40 bg-gradient-to-br from-purple-200 to-pink-200 rounded-full opacity-20 blur-2xl"></div>
-        <div className="absolute bottom-40 -right-10 w-60 h-60 bg-gradient-to-tr from-[#a37fb9] to-blue-300 rounded-full opacity-10 blur-3xl"></div>
-        <div className="absolute top-1/2 left-1/4 w-32 h-32 bg-gradient-to-tr from-yellow-200 to-orange-200 rounded-full opacity-20 blur-xl"></div>
-        
-        {/* Estrelas decorativas */}
-        <div className="absolute top-1/4 right-10 text-yellow-400 animate-pulse z-30 text-lg">✦</div>
-        <div className="absolute top-3/4 left-10 text-yellow-400 animate-bounce z-30 text-lg">✦</div>
-        <div className="absolute bottom-1/3 right-1/4 text-purple-400 animate-pulse z-30 text-xl">★</div>
-      </div>
-      
+    <>
       <Navbar />
-      <main className="flex-grow py-8 relative z-10">
-        <div className="seven-container px-4 sm:px-6">
-          {/* Cabeçalho animado */}
-          <motion.div 
-            className="mb-8"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="flex items-center gap-3 mb-2">
-              <div className="bg-purple-100 p-2 rounded-full">
-                <BookMarked className="h-6 w-6 text-[#a37fb9]" />
+      <div className="min-h-screen bg-gradient-to-b from-[#f8f4ff] via-white to-[#f8f4ff] dark:from-gray-900 dark:via-gray-950 dark:to-gray-900 relative overflow-hidden">
+        {/* Elementos decorativos de fundo */}
+        <div className="absolute top-20 left-10 w-64 h-64 bg-[#a37fb9]/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-10 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/3 right-1/4 w-40 h-40 bg-purple-300/10 rounded-full blur-2xl"></div>
+        
+        {/* Partículas decorativas */}
+        <div className="absolute top-1/4 left-1/4 animate-pulse">
+          <Sparkles className="h-6 w-6 text-[#a37fb9]/30" />
+        </div>
+        <div className="absolute bottom-1/3 right-1/3 animate-bounce animation-delay-1000">
+          <Sparkles className="h-5 w-5 text-blue-400/30" />
+        </div>
+        
+        <div className="container mx-auto py-16 px-4 max-w-6xl relative z-10">
+          <div className="text-center mb-12 relative">
+            <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 w-20 h-1.5 rounded-full bg-gradient-to-r from-[#a37fb9] to-[#8a63a8]"></div>
+            <h1 className="text-5xl font-bold mb-5 text-transparent bg-clip-text bg-gradient-to-r from-[#a37fb9] to-[#8a63a8] inline-block">
+              Lições disponíveis
+            </h1>
+            <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed text-lg">
+              Explore nossos estudos bíblicos organizados por trimestre. Cada semana contém 7 lições diárias 
+              com resumos para aprofundar seu conhecimento espiritual.
+            </p>
+            
+            <div className="mt-8 flex justify-center gap-4 opacity-70">
+              <div className="flex items-center bg-white dark:bg-gray-800 px-4 py-2 rounded-full shadow-sm">
+                <Clock className="h-4 w-4 mr-2 text-[#a37fb9]" />
+                <span className="text-sm">7 dias de estudo por semana</span>
               </div>
-              <h1 className="text-2xl md:text-3xl font-bold">Lições da semana</h1>
-              <Sparkles className="h-5 w-5 text-yellow-400 animate-pulse" />
+              <div className="flex items-center bg-white dark:bg-gray-800 px-4 py-2 rounded-full shadow-sm">
+                <BookOpen className="h-4 w-4 mr-2 text-[#a37fb9]" />
+                <span className="text-sm">Conteúdo inspirador</span>
+              </div>
             </div>
-            <div className="flex items-center">
-              <div className="h-1 w-20 bg-gradient-to-r from-[#a37fb9] to-transparent mr-3"></div>
-              <p className="text-sm md:text-base text-muted-foreground">
-                Escolha o dia da semana para estudar a lição correspondente
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Feedback quando todos os estudos foram completados */}
-          {allLessonsCompleted && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-            >
-              <Card className="p-6 mb-8 bg-gradient-to-r from-[#a37fb9] to-[#7957a0] text-white text-center relative overflow-hidden">
-                {/* Elementos decorativos */}
-                <div className="absolute -top-6 -left-6 w-20 h-20 bg-white/10 rounded-full"></div>
-                <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-white/10 rounded-full"></div>
-                <div className="absolute top-1/2 left-1/3 transform -translate-y-1/2 w-16 h-16 bg-white/5 rounded-full"></div>
-                
-                <div className="relative z-10 flex flex-col items-center justify-center">
-                  <motion.div
-                    initial={{ scale: 0.8, rotate: -10 }}
-                    animate={{ scale: 1, rotate: 0 }}
-                    transition={{ 
-                      duration: 0.5, 
-                      delay: 0.6,
-                      type: "spring",
-                      stiffness: 260,
-                      damping: 20
-                    }}
-                  >
-                    <Trophy className="h-12 w-12 md:h-16 md:w-16 mb-4 text-yellow-300 drop-shadow-glow" />
-                  </motion.div>
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: 0.8 }}
-                  >
-                    <h2 className="text-xl md:text-2xl font-bold mb-2">Parabéns!</h2>
-                  </motion.div>
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5, delay: 1 }}
-                  >
-                    <p className="text-base md:text-lg mb-4">
-                      Você completou todos os estudos desta semana! Continue firme em sua jornada espiritual.
-                    </p>
-                  </motion.div>
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5, delay: 1.2 }}
-                  >
-                    <Button className="bg-white text-[#a37fb9] hover:bg-white/90">
-                      Compartilhar conquista <Gift className="h-4 w-4 ml-2" />
-                    </Button>
-                  </motion.div>
-                </div>
-              </Card>
-            </motion.div>
-          )}
-
-          {/* Lista de lições por dia da semana */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
-            {lessonsWithProgress.map((day, index) => (
-              <motion.div
-                key={day.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.1 * index }}
-                whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
-              >
-                <LessonCard
-                  id={day.id}
-                  title={day.title}
-                  description={day.description}
-                  duration={day.duration}
-                  points={day.points}
-                  progress={day.progress}
-                />
-              </motion.div>
-            ))}
           </div>
           
-          {/* Seção de dica do dia */}
-          <motion.div 
-            className="mt-12 bg-gradient-to-r from-yellow-50 to-orange-50 p-6 rounded-lg border border-yellow-100 relative overflow-hidden"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.7 }}
-          >
-            <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-yellow-200/20 rounded-full"></div>
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-yellow-400 to-orange-300"></div>
-            
-            <div className="flex items-start gap-4 relative z-10">
-              <div className="bg-gradient-to-br from-yellow-300 to-orange-300 p-3 rounded-full text-white shrink-0">
-                <Flame className="h-6 w-6" />
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold mb-2 flex items-center">
-                  Dica <Sparkles className="h-4 w-4 ml-2 text-yellow-400" />
-                </h3>
-                <p className="text-sm text-gray-600 mb-3">
-                  Reserve um momento especial do seu dia para se dedicar ao estudo da lição. 
-                  Consistência é a chave para um aprendizado efetivo e para manter uma conexão espiritual forte.
-                </p>
-                <div className="flex items-center text-sm text-yellow-600">
-                  <Heart className="h-4 w-4 mr-1" />
-                  <span>Compartilhado por nossa equipe</span>
-                </div>
-              </div>
-            </div>
-          </motion.div>
+          {/* Trimestres */}
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 mb-12 justify-items-center">
+            {trimestres.map((trimestre) => {
+              // Filtrar apenas semanas completas
+              const semanasCompletas = trimestre.semanas.filter((semana) => semana.completa);
+              
+              if (semanasCompletas.length === 0) {
+                return null; // Não exibir trimestres sem semanas completas
+              }
+              
+              return (
+                <Card 
+                  key={trimestre.id} 
+                  className="overflow-hidden border border-[#a37fb9]/20 hover:shadow-lg transition-all duration-500 hover:border-[#a37fb9]/40 w-full max-w-sm group hover:translate-y-[-5px] bg-white/70 backdrop-blur-sm dark:bg-gray-900/70"
+                >
+                  <div className="relative book-cover-container overflow-hidden">
+                    {trimestre.img_url ? (
+                      <div className="book-wrapper group-hover:scale-105 transition-transform duration-500">
+                        <div className="book-spine bg-[#8a63a8]"></div>
+                        <div className="book-cover relative">
+                          <img 
+                            src={trimestre.img_url} 
+                            alt={trimestre.nome} 
+                            className="w-full h-full object-cover"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-[#a37fb9]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="book-wrapper bg-gradient-to-br from-[#a37fb9]/20 to-purple-400/20 group-hover:scale-105 transition-transform duration-500">
+                        <div className="book-spine bg-[#8a63a8]"></div>
+                        <div className="book-cover flex items-center justify-center">
+                          <BookOpen className="h-16 w-16 text-[#a37fb9] group-hover:scale-110 transition-transform" />
+                        </div>
+                      </div>
+                    )}
+                    
+                    <div className="absolute top-4 right-4 bg-[#a37fb9] text-white text-xs px-3 py-1 rounded-full shadow-md">
+                      {trimestre.ano}
+                    </div>
+                  </div>
+                  <CardHeader className="border-b border-[#a37fb9]/10 bg-gradient-to-r from-[#a37fb9]/5 to-transparent">
+                    <CardTitle className="text-xl text-[#a37fb9] font-bold">{trimestre.nome}</CardTitle>
+                    <CardDescription className="flex items-center gap-1">
+                      <BookOpen className="h-3.5 w-3.5" />
+                      {semanasCompletas.length} semana(s) de estudo
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="p-6">
+                    <div className="space-y-4">
+                      <h3 className="font-medium flex items-center text-[#8a63a8]">
+                        <Sparkles className="h-4 w-4 mr-2" />
+                        Semanas disponíveis:
+                      </h3>
+                      <div className="grid grid-cols-1 gap-3">
+                        {semanasCompletas.map((semana, index) => (
+                          <Link 
+                            to={`/estudos/${semana.id}/licao`}
+                            key={semana.id}
+                            className="flex items-center justify-between p-3.5 bg-gradient-to-r from-[#a37fb9]/5 to-[#a37fb9]/10 hover:from-[#a37fb9]/10 hover:to-[#a37fb9]/20 rounded-md transition-all duration-300 group/link border border-transparent hover:border-[#a37fb9]/20 shadow-sm"
+                            style={{ animationDelay: `${index * 100}ms` }}
+                          >
+                            <span className="font-medium text-sm group-hover/link:text-[#8a63a8] transition-colors">{semana.titulo}</span>
+                            <ChevronRight className="h-4 w-4 text-[#a37fb9] group-hover/link:translate-x-1 transition-transform" />
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+          
+          {trimestres.filter(t => t.semanas.some(s => s.completa)).length === 0 && (
+            <Alert className="bg-white/80 backdrop-blur-sm shadow-md border-[#a37fb9]/20 max-w-2xl mx-auto">
+              <AlertTitle className="font-semibold text-[#a37fb9]">Nenhum estudo disponível</AlertTitle>
+              <AlertDescription className="mt-2">
+                Não há estudos disponíveis no momento. Por favor, volte mais tarde para novidades.
+              </AlertDescription>
+            </Alert>
+          )}
         </div>
-      </main>
+      </div>
       <Footer />
-    </div>
+    </>
   );
 };
 

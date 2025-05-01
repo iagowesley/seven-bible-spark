@@ -1,0 +1,58 @@
+/* Estilos específicos para melhorar a experiência em dispositivos móveis */
+
+/* Melhorar espaçamento e tamanho dos questionários */
+@media (max-width: 640px) {
+  /* Aumentar a área clicável para os rádios e opções */
+  [role="radio"],
+  [role="radio"] + label,
+  .radio-item,
+  .quiz-option {
+    min-height: 44px;
+  }
+  
+  /* Melhorar espaçamento em telas pequenas */
+  .question-text {
+    font-size: 16px;
+    line-height: 1.4;
+    margin-bottom: 1rem;
+  }
+  
+  /* Aumentar tamanho e espaçamento das opções */
+  .option-text {
+    font-size: 15px;
+    padding: 10px 0;
+  }
+  
+  /* Aumentar espaço entre as opções */
+  .option-container {
+    margin-bottom: 12px;
+  }
+  
+  /* Melhorar espaçamento dos botões */
+  .quiz-button {
+    width: 100%;
+    margin-top: 8px;
+    padding: 12px;
+    font-size: 16px;
+  }
+  
+  /* Estilizar cards para dispositivos móveis */
+  .modern-card {
+    padding: 12px !important;
+    margin-bottom: 16px;
+  }
+  
+  /* Aumentar o tamanho do texto para melhor leitura */
+  .card-title {
+    font-size: 18px;
+  }
+}
+
+/* Melhorar o suporte de toque em geral */
+button, 
+[role="button"],
+a,
+[role="radio"],
+[role="checkbox"] {
+  touch-action: manipulation;
+} 
