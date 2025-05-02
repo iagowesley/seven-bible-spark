@@ -30,6 +30,42 @@ const diasSemana = [
   { valor: "sabado", label: "Sábado" },
 ];
 
+// Função para obter a data formatada para cada dia da semana
+const obterDataDoDia = (diaValor: string): string => {
+  const hoje = new Date();
+  const diaDaSemanaHoje = hoje.getDay(); // 0 = domingo, 1 = segunda, ..., 6 = sábado
+  
+  // Mapear o valor do dia para o índice correspondente
+  const indicesDias: Record<string, number> = {
+    "domingo": 0,
+    "segunda": 1, 
+    "terca": 2,
+    "quarta": 3,
+    "quinta": 4,
+    "sexta": 5,
+    "sabado": 6
+  };
+  
+  const diaDaSemanaDesejado = indicesDias[diaValor];
+  
+  // Calcular a diferença de dias
+  let diferenca = diaDaSemanaDesejado - diaDaSemanaHoje;
+  
+  // Ajustar para obter o dia desta semana
+  if (diferenca < -3) {
+    diferenca += 7; // Próxima semana
+  } else if (diferenca > 3) {
+    diferenca -= 7; // Semana anterior
+  }
+  
+  // Calcular a data
+  const data = new Date(hoje);
+  data.setDate(hoje.getDate() + diferenca);
+  
+  // Formatar como DD/MM
+  return `${String(data.getDate()).padStart(2, '0')}/${String(data.getMonth() + 1).padStart(2, '0')}`;
+};
+
 type SemanaDetalhes = {
   id: string;
   titulo: string;
@@ -107,7 +143,8 @@ const DailyLessonPage: React.FC = () => {
 
   const getDiaLabel = (valor: string): string => {
     const diaInfo = diasSemana.find((d) => d.valor === valor);
-    return diaInfo ? diaInfo.label : valor;
+    const dataFormatada = obterDataDoDia(valor);
+    return diaInfo ? `${diaInfo.label}(${dataFormatada})` : valor;
   };
   
   const navegarParaProximoDia = () => {
@@ -282,14 +319,14 @@ const DailyLessonPage: React.FC = () => {
         <Navbar />
         <div className="container mx-auto py-10 px-4 max-w-6xl">
           <div className="flex justify-between items-center mb-6">
-            <Button variant="ghost" onClick={voltar}>
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Voltar para Estudos
+            <Button variant="ghost" onClick={voltar} className="text-xs sm:text-sm">
+              <ArrowLeft className="mr-1 h-3 w-3 sm:h-4 sm:w-4" />
+              Voltar
             </Button>
             
-            <div className="flex items-center gap-2">
-              <span className="text-muted-foreground">{getDiaLabel(dia)}</span>
-              <Calendar className="h-4 w-4 text-muted-foreground" />
+            <div className="flex items-center gap-1">
+              <span className="text-xs sm:text-sm text-muted-foreground">{getDiaLabel(dia)}</span>
+              <Calendar className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
             </div>
           </div>
 
@@ -394,10 +431,10 @@ const DailyLessonPage: React.FC = () => {
             <Button 
               onClick={() => navigate(`/estudos/${semanaId}/licao/${proximoDiaCadastrado}`)}
               size="default"
-              className="bg-[#a37fb9] hover:bg-[#8a63a8] text-white"
+              className="bg-[#a37fb9] hover:bg-[#8a63a8] text-white text-xs sm:text-sm"
             >
-              Próxima lição: {getDiaLabel(proximoDiaCadastrado)}
-              <ArrowRight className="ml-2 h-4 w-4" />
+              Próxima: {getDiaLabel(proximoDiaCadastrado).split('(')[0]}
+              <ArrowRight className="ml-1 h-3 w-3 sm:h-4 sm:w-4" />
             </Button>
           </div>
           
@@ -443,26 +480,26 @@ const DailyLessonPage: React.FC = () => {
       <Navbar />
       <div className="container mx-auto py-10 px-4 max-w-6xl">
         <div className="flex justify-between items-center mb-6">
-          <Button variant="ghost" onClick={navegarParaDiaAnterior} className="text-base">
-            <ArrowLeft className="mr-2 h-5 w-5" />
-            Dia anterior
+          <Button variant="ghost" onClick={navegarParaDiaAnterior} className="text-xs sm:text-sm">
+            <ArrowLeft className="mr-1 h-3 w-3 sm:h-4 sm:w-4" />
+            <span className="whitespace-nowrap">Anterior</span>
           </Button>
           
-          <div className="flex items-center gap-2">
-            <span className="font-bold text-xl">{getDiaLabel(dia)}</span>
-            <Calendar className="h-5 w-5" />
+          <div className="flex items-center gap-1">
+            <span className="font-bold text-xs sm:text-base">{getDiaLabel(dia)}</span>
+            <Calendar className="h-3 w-3 sm:h-4 sm:w-4" />
           </div>
           
-          <Button variant="ghost" onClick={navegarParaProximoDia} className="text-base">
+          <Button variant="ghost" onClick={navegarParaProximoDia} className="text-xs sm:text-sm">
             {dia === "sexta" ? (
               <>
-                Responder quiz da lição
-                <CheckSquare className="ml-2 h-5 w-5" />
+                <span className="whitespace-nowrap">Quiz</span>
+                <CheckSquare className="ml-1 h-3 w-3 sm:h-4 sm:w-4" />
               </>
             ) : (
               <>
-                Próximo dia
-                <ArrowRight className="ml-2 h-5 w-5" />
+                <span className="whitespace-nowrap">Próximo</span>
+                <ArrowRight className="ml-1 h-3 w-3 sm:h-4 sm:w-4" />
               </>
             )}
           </Button>

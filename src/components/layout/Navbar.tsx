@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { 
   LayoutDashboardIcon, 
@@ -24,6 +24,8 @@ const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const isDark = theme === 'dark';
+  const menuRef = useRef<HTMLDivElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,6 +39,26 @@ const Navbar = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    // Fechar o menu ao clicar fora dele
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        isMenuOpen && 
+        menuRef.current && 
+        !menuRef.current.contains(event.target as Node) &&
+        menuButtonRef.current &&
+        !menuButtonRef.current.contains(event.target as Node)
+      ) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isMenuOpen]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -153,9 +175,10 @@ const Navbar = () => {
             </button>
             
           <Button 
+            ref={menuButtonRef}
             variant="ghost" 
             size="icon"
-              className="relative z-10" 
+            className="relative z-10" 
             onClick={toggleMenu}
           >
             {isMenuOpen ? (
@@ -171,41 +194,45 @@ const Navbar = () => {
         <AnimatePresence>
         {isMenuOpen && (
             <motion.div 
-              className="md:hidden px-4 pb-4 bg-white dark:bg-slate-900 border-t"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
+              ref={menuRef}
+              className="md:hidden absolute right-4 top-[72px] w-64 bg-white dark:bg-slate-900 shadow-xl rounded-lg border border-gray-200 dark:border-gray-800 z-50 overflow-hidden"
+              initial={{ opacity: 0, scale: 0.9, y: -5, transformOrigin: "top right" }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: -5 }}
+              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
             >
-            <div className="flex flex-col space-y-2">
-              {navLinks.map((link) => (
-                <Button
-                  key={link.href}
-                  variant="ghost"
-                    className="flex items-center justify-start text-[#a37fb9] hover:text-white hover:bg-[#a37fb9] font-medium text-base relative overflow-hidden group dark:text-[#c4a6df]"
-                  asChild
-                >
-                  <Link 
-                    to={link.href}
-                    onClick={() => setIsMenuOpen(false)}
-                      className="relative z-10"
+              <div className="px-1 py-2">
+                {navLinks.map((link, index) => (
+                  <motion.div
+                    key={link.href}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.05, duration: 0.2 }}
                   >
-                      <span className="flex items-center">
-                        <span className="block group-hover:hidden">
-                    {link.icon}
+                    <Button
+                      variant="ghost"
+                      className="flex items-center justify-start text-[#a37fb9] hover:text-white hover:bg-[#a37fb9] font-medium text-base relative overflow-hidden group dark:text-[#c4a6df] rounded-md w-full my-1"
+                      asChild
+                    >
+                      <Link 
+                        to={link.href}
+                        onClick={() => setIsMenuOpen(false)}
+                        className="relative z-10 w-full px-4 py-2"
+                      >
+                        <span className="flex items-center">
+                          <span className="block group-hover:hidden">
+                            {link.icon}
+                          </span>
+                          <span className="hidden group-hover:block">
+                            {link.hoverIcon}
+                          </span>
+                          {link.label}
                         </span>
-                        <span className="hidden group-hover:block">
-                          {link.hoverIcon}
-                        </span>
-                    {link.label}
-                      </span>
-                      
-                      {/* Onda decorativa animada */}
-                      <div className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-white to-transparent opacity-0 group-hover:opacity-30 transition-opacity"></div>
-                  </Link>
-                </Button>
-              ))}
-            </div>
+                      </Link>
+                    </Button>
+                  </motion.div>
+                ))}
+              </div>
             </motion.div>
         )}
         </AnimatePresence>
