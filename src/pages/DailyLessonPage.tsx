@@ -465,8 +465,13 @@ const DailyLessonPage: React.FC = () => {
             </Card>
           )}
           
-          {/* Navegação para próximo dia */}
+          {/* Botão para marcar como concluído */}
           <div className="mt-8 flex justify-center">
+            <CompleteButton lessonId={dia} />
+          </div>
+          
+          {/* Navegação para próximo dia */}
+          <div className="mt-4 flex justify-center">
             <Button 
               onClick={() => navigate(`/estudos/${semanaId}/licao/${proximoDiaCadastrado}`)}
               size="default"
@@ -612,12 +617,10 @@ const DailyLessonPage: React.FC = () => {
           </CardContent>
         </Card>
 
-        {/* No final da seção para outros dias (não o sábado), vou adicionar o botão "Lição concluída" */}
-        {dia !== "sabado" && (
-          <div className="mt-6 flex justify-center">
-            <CompleteButton lessonId={dia} />
-          </div>
-        )}
+        {/* Botão "Lição concluída" para todos os dias */}
+        <div className="mt-6 flex justify-center">
+          <CompleteButton lessonId={dia} />
+        </div>
       </div>
       <Footer />
     </>
