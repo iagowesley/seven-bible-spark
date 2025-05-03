@@ -26,7 +26,8 @@ const diasSemana = [
 type SemanaDetalhes = {
   id: string;
   titulo: string;
-  subtitulo: string;
+  texto_biblico_chave: string;
+  resumo: string;
   img_sabado_url: string | null;
 };
 
@@ -96,7 +97,8 @@ const StudyDetailPage: React.FC = () => {
         setSemana({
           id: semanaData.id,
           titulo: semanaData.titulo,
-          subtitulo: semanaData.subtitulo,
+          texto_biblico_chave: semanaData.texto_biblico_chave,
+          resumo: semanaData.resumo,
           img_sabado_url: semanaData.img_sabado_url,
         });
         
@@ -201,7 +203,7 @@ const StudyDetailPage: React.FC = () => {
         <div className="flex flex-col md:flex-row gap-6 mb-8">
           <div className="flex-grow">
             <h1 className="text-3xl font-bold mb-2">{semana.titulo}</h1>
-            <p className="text-lg text-muted-foreground mb-4">{semana.subtitulo}</p>
+            <p className="text-lg text-muted-foreground mb-4">{semana.resumo}</p>
             
             <div className="flex flex-wrap gap-4 mt-4">
               <div className="flex items-center text-sm">
@@ -261,7 +263,7 @@ const StudyDetailPage: React.FC = () => {
                       {semana.titulo}
                     </CardTitle>
                     <CardDescription className="text-center text-base">
-                      {semana.subtitulo}
+                      {semana.texto_biblico_chave}
                     </CardDescription>
                   </CardHeader>
                   
@@ -292,7 +294,7 @@ const StudyDetailPage: React.FC = () => {
                     
                     {/* Resumo da Lição */}
                     <div className="max-w-2xl mx-auto">
-                      <h4 className="text-lg font-medium mb-3">Resumo da Semana</h4>
+                      <h4 className="text-lg font-medium mb-3">Nosso resumo</h4>
                       <div className="prose max-w-none">
                         <p className="text-base">
                           {licoes.find(l => l.dia === "sabado")?.resumo}

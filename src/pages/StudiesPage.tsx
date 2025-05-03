@@ -16,6 +16,7 @@ type SemanaComStatus = {
   id: string;
   titulo: string;
   completa: boolean;
+  numero: number;
 };
 
 type TrimestreComSemanas = Trimestre & {
@@ -39,9 +40,14 @@ const StudiesPage: React.FC = () => {
       const trimestresComSemanas = await Promise.all(
         trimestresList.map(async (trimestre) => {
           const semanas = await obterSemanasDeTrimestre(trimestre.id);
+          // Adicionar a propriedade numero para as semanas que não têm
+          const semanasComNumero = semanas.map(semana => ({
+            ...semana,
+            numero: semana.numero || 0
+          }));
           return {
             ...trimestre,
-            semanas,
+            semanas: semanasComNumero,
           };
         })
       );
@@ -161,6 +167,11 @@ const StudiesPage: React.FC = () => {
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-[#a37fb9]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                         </div>
+                        
+                        {/* Meses da lição em formato vertical */}
+                        <div className="absolute -left-6 top-1/2 transform -translate-y-1/2 bg-[#8a63a8] text-white text-xs py-2 px-1 rounded-l-md shadow-md origin-center -rotate-90 whitespace-nowrap">
+                          {getMesesDeTrimestre(trimestre.trimestre)}
+                        </div>
                       </div>
                     ) : (
                       <div className="book-wrapper bg-gradient-to-br from-[#a37fb9]/20 to-purple-400/20 group-hover:scale-105 transition-transform duration-500">
@@ -168,11 +179,16 @@ const StudiesPage: React.FC = () => {
                         <div className="book-cover flex items-center justify-center">
                           <BookOpen className="h-16 w-16 text-[#a37fb9] group-hover:scale-110 transition-transform" />
                         </div>
+                        
+                        {/* Meses da lição em formato vertical para o caso sem imagem */}
+                        <div className="absolute -left-6 top-1/2 transform -translate-y-1/2 bg-[#8a63a8] text-white text-xs py-2 px-1 rounded-l-md shadow-md origin-center -rotate-90 whitespace-nowrap">
+                          {getMesesDeTrimestre(trimestre.trimestre)}
+                        </div>
                       </div>
                     )}
                     
                     <div className="absolute top-4 right-4 bg-[#a37fb9] text-white text-xs px-3 py-1 rounded-full shadow-md">
-                      {trimestre.ano}
+                      {trimestre.ano} - {trimestre.trimestre}º Trim
                     </div>
                   </div>
                   <CardHeader className="border-b border-[#a37fb9]/10 bg-gradient-to-r from-[#a37fb9]/5 to-transparent">
@@ -181,6 +197,19 @@ const StudiesPage: React.FC = () => {
                       <BookOpen className="h-3.5 w-3.5" />
                       {semanasCompletas.length} semana(s) de estudo
                     </CardDescription>
+                    
+                    {/* Link para obter lição física */}
+                    <div className="mt-3 pt-3 border-t border-[#a37fb9]/10">
+                      <a 
+                        href="https://loja-dev.cpb.com.br/produto/5868/comtexto-biblico-jovens-aluno-avulsa-2-trimestre-2025-licao-da-escola-sabatina" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-xs flex items-center text-[#8a63a8] hover:text-[#a37fb9] transition-colors"
+                      >
+                        <BookOpen className="h-3 w-3 mr-1" />
+                        Obter lição física na CPB
+                      </a>
+                    </div>
                   </CardHeader>
                   <CardContent className="p-6">
                     <div className="space-y-4">
@@ -196,7 +225,9 @@ const StudiesPage: React.FC = () => {
                             className="flex items-center justify-between p-3.5 bg-gradient-to-r from-[#a37fb9]/5 to-[#a37fb9]/10 hover:from-[#a37fb9]/10 hover:to-[#a37fb9]/20 rounded-md transition-all duration-300 group/link border border-transparent hover:border-[#a37fb9]/20 shadow-sm"
                             style={{ animationDelay: `${index * 100}ms` }}
                           >
-                            <span className="font-medium text-sm group-hover/link:text-[#8a63a8] transition-colors">{semana.titulo}</span>
+                            <span className="font-medium text-sm group-hover/link:text-[#8a63a8] transition-colors">
+                              Semana {semana.numero}: {semana.titulo}
+                            </span>
                             <ChevronRight className="h-4 w-4 text-[#a37fb9] group-hover/link:translate-x-1 transition-transform" />
                           </Link>
                         ))}
@@ -221,6 +252,22 @@ const StudiesPage: React.FC = () => {
       <Footer />
     </>
   );
+};
+
+// Adicionar função para determinar os meses do trimestre
+const getMesesDeTrimestre = (trimestre: string): string => {
+  switch (trimestre) {
+    case "1":
+      return "Janeiro - Fevereiro - Março";
+    case "2":
+      return "Abril - Maio - Junho";
+    case "3":
+      return "Julho - Agosto - Setembro";
+    case "4":
+      return "Outubro - Novembro - Dezembro";
+    default:
+      return "";
+  }
 };
 
 export default StudiesPage;

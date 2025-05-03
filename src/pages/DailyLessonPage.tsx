@@ -420,7 +420,7 @@ const DailyLessonPage: React.FC = () => {
           
           {/* Resumo */}
           <div className="my-6 bg-gradient-to-br from-[#f8f4ff] to-white dark:from-gray-800 dark:to-gray-900 p-6 rounded-xl border border-[#a37fb9]/20 dark:border-purple-800/30 shadow-sm">
-            <h2 className="text-xl font-bold mb-4 text-[#8a63a8] dark:text-purple-300">Resumo da Semana</h2>
+            <h2 className="text-xl font-bold mb-4 text-[#8a63a8] dark:text-purple-300">Nosso resumo</h2>
             <div className="prose dark:prose-invert max-w-none dark:text-gray-200">
               {processText(semana.resumo)}
             </div>

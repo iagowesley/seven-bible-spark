@@ -164,7 +164,7 @@ export const verificarSemanaCompleta = async (semanaId: string): Promise<boolean
 };
 
 // Verificar se um trimestre tem semanas com lições cadastradas
-export const obterSemanasDeTrimestre = async (trimestreId: string): Promise<{ id: string, titulo: string, completa: boolean }[]> => {
+export const obterSemanasDeTrimestre = async (trimestreId: string): Promise<{ id: string, titulo: string, completa: boolean, numero: number }[]> => {
   const { data: semanas, error } = await supabase
     .from('semanas')
     .select('*')
@@ -187,6 +187,7 @@ export const obterSemanasDeTrimestre = async (trimestreId: string): Promise<{ id
       return {
         id: semana.id,
         titulo: semana.titulo,
+        numero: semana.numero,
         completa
       };
     })
