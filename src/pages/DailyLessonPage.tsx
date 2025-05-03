@@ -19,6 +19,7 @@ import { toast } from "@/hooks/use-toast";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { getUserProgress, updateUserProgress } from "@/models/userProgress";
+import { verificarConexaoSupabase } from "@/integrations/supabase/client";
 
 const diasSemana = [
   { valor: "domingo", label: "Domingo" },
@@ -32,10 +33,7 @@ const diasSemana = [
 
 // Função para obter a data formatada para cada dia da semana
 const obterDataDoDia = (diaValor: string): string => {
-  const hoje = new Date();
-  const diaDaSemanaHoje = hoje.getDay(); // 0 = domingo, 1 = segunda, ..., 6 = sábado
-  
-  // Mapear o valor do dia para o índice correspondente
+  // Mapear valores de dia para números (0 = domingo, 1 = segunda, etc.)
   const indicesDias: Record<string, number> = {
     "domingo": 0,
     "segunda": 1, 
@@ -46,24 +44,19 @@ const obterDataDoDia = (diaValor: string): string => {
     "sabado": 6
   };
   
-  const diaDaSemanaDesejado = indicesDias[diaValor];
+  // Datas fixas para a semana (maio de 2025)
+  const datasSemana: Record<string, string> = {
+    "sabado": "03/05/2025",
+    "domingo": "04/05/2025",
+    "segunda": "05/05/2025",
+    "terca": "06/05/2025",
+    "quarta": "07/05/2025",
+    "quinta": "08/05/2025",
+    "sexta": "09/05/2025"
+  };
   
-  // Calcular a diferença de dias
-  let diferenca = diaDaSemanaDesejado - diaDaSemanaHoje;
-  
-  // Ajustar para obter o dia desta semana
-  if (diferenca < -3) {
-    diferenca += 7; // Próxima semana
-  } else if (diferenca > 3) {
-    diferenca -= 7; // Semana anterior
-  }
-  
-  // Calcular a data
-  const data = new Date(hoje);
-  data.setDate(hoje.getDate() + diferenca);
-  
-  // Formatar como DD/MM
-  return `${String(data.getDate()).padStart(2, '0')}/${String(data.getMonth() + 1).padStart(2, '0')}`;
+  // Retorna a data fixa para o dia correspondente
+  return datasSemana[diaValor] || "";
 };
 
 type SemanaDetalhes = {
@@ -83,22 +76,53 @@ const DailyLessonPage: React.FC = () => {
   const [licao, setLicao] = useState<Licao | null>(null);
   const [todasLicoes, setTodasLicoes] = useState<Licao[]>([]);
   const [bibleModalOpen, setBibleModalOpen] = useState(false);
-  const [bibleText, setBibleText] = useState<{ reference: string; text: string } | null>(null);
+  const [bibleText, setBibleText] = useState<{ reference: string; text: string; version: string } | null>(null);
   const [loadingBibleText, setLoadingBibleText] = useState(false);
   
   useEffect(() => {
-    const carregarDados = async () => {
-      if (!semanaId) return;
+    const carregarDados = async (tentativas = 0) => {
+      if (!semanaId) {
+        setLoading(false);
+        setError("ID da semana não encontrado. Redirecionando para a página de estudos...");
+        // Redireciona para a página de estudos após um breve atraso
+        setTimeout(() => {
+          navigate("/estudos");
+        }, 1500);
+        return;
+      }
       
       try {
         setLoading(true);
         setError(null);
+        
+        // Verificar primeiro se a conexão com o Supabase está funcionando
+        const conexaoOk = await verificarConexaoSupabase();
+        if (!conexaoOk) {
+          console.error("Conexão com Supabase indisponível");
+          // Se for a última tentativa, mostra o erro
+          if (tentativas >= 2) {
+            setError("Não foi possível conectar ao banco de dados. Verifique sua conexão com a internet.");
+            setLoading(false);
+            return;
+          }
+          
+          // Caso contrário, tenta novamente
+          setTimeout(() => {
+            carregarDados(tentativas + 1);
+          }, 1500);
+          return;
+        }
         
         // Buscar detalhes da semana
         const semanaData = await obterSemana(semanaId);
         
         if (!semanaData) {
           setError("Semana não encontrada");
+          setLoading(false);
+          // Redireciona para a página de estudos após um breve atraso
+          setTimeout(() => {
+            navigate("/estudos");
+          }, 1500);
           return;
         }
         
@@ -120,26 +144,38 @@ const DailyLessonPage: React.FC = () => {
         // Tratamento especial para o sábado: se não existir lição, continua mesmo assim
         if (!licaoDia && dia !== "sabado") {
           setError("Lição não encontrada para este dia");
+          setLoading(false);
           return;
         }
         
         setLicao(licaoDia);
+        setLoading(false);
       } catch (err) {
         console.error("Erro ao carregar detalhes da lição:", err);
-        setError("Não foi possível carregar os detalhes desta lição");
+        
+        // Se houver erro de conexão e menos de 3 tentativas, tenta novamente
+        if (tentativas < 2) {
+          console.log(`Tentando reconectar... Tentativa ${tentativas + 1}`);
+          // Aguarda 1.5 segundos antes de tentar novamente
+          setTimeout(() => {
+            carregarDados(tentativas + 1);
+          }, 1500);
+          return;
+        }
+        
+        setError("Não foi possível carregar os detalhes desta lição. Verifique sua conexão com a internet.");
+        setLoading(false);
         
         toast({
           title: "Erro ao carregar lição",
           description: "Ocorreu um problema ao buscar as informações desta lição.",
           variant: "destructive",
         });
-      } finally {
-        setLoading(false);
       }
     };
     
     carregarDados();
-  }, [semanaId, dia]);
+  }, [semanaId, dia, navigate]);
 
   const getDiaLabel = (valor: string): string => {
     const diaInfo = diasSemana.find((d) => d.valor === valor);
@@ -199,8 +235,9 @@ const DailyLessonPage: React.FC = () => {
       // Limpar a referência para adequar à API
       const cleanReference = reference.trim().replace(/\s+/g, "+");
       
-      // Fazer requisição para a API da Bíblia (exemplo: Bible API)
-      const response = await fetch(`https://bible-api.com/${cleanReference}?translation=almeida`);
+      // Fazer requisição para a API da Bíblia 
+      // Usando versão NVT (Nova Versão Transformadora) - mais moderna e adequada para jovens
+      const response = await fetch(`https://bible-api.com/${cleanReference}?translation=nvi`);
       
       if (!response.ok) {
         throw new Error("Não foi possível carregar o texto bíblico");
@@ -210,7 +247,8 @@ const DailyLessonPage: React.FC = () => {
       
       setBibleText({
         reference: data.reference,
-        text: data.text
+        text: data.text,
+        version: "NVI - Nova Versão Internacional" // Versão mais moderna e adequada para jovens
       });
     } catch (error) {
       console.error("Erro ao buscar texto bíblico:", error);
@@ -223,7 +261,8 @@ const DailyLessonPage: React.FC = () => {
       // Definir um texto genérico em caso de erro
       setBibleText({
         reference: reference,
-        text: "Texto bíblico não disponível. Por favor, consulte sua Bíblia."
+        text: "Texto bíblico não disponível. Por favor, consulte sua Bíblia.",
+        version: "N/A"
       });
     } finally {
       setLoadingBibleText(false);
@@ -445,6 +484,9 @@ const DailyLessonPage: React.FC = () => {
                 <DialogTitle className="text-center text-xl text-[#8a63a8]">
                   {bibleText?.reference || "Texto Bíblico"}
                 </DialogTitle>
+                <p className="text-center text-sm text-muted-foreground">
+                  {bibleText?.version || "NVI - Nova Versão Internacional"}
+                </p>
               </DialogHeader>
               
               <div className="py-4 overflow-y-auto max-h-[50vh]">

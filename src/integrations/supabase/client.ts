@@ -21,3 +21,25 @@ export const executeRawQuery = async (functionName: string, params?: Record<stri
     return { data: null, error };
   }
 };
+
+// Verificar se o Supabase está acessível
+export const verificarConexaoSupabase = async (): Promise<boolean> => {
+  // Tempo máximo para esperar a resposta (3 segundos)
+  const timeoutPromise = new Promise<boolean>((resolve) => {
+    setTimeout(() => resolve(false), 3000);
+  });
+
+  try {
+    // Corrida entre o timeout e a requisição real
+    return await Promise.race([
+      timeoutPromise,
+      (async () => {
+        const { error } = await supabase.from('semanas').select('id').limit(1);
+        return !error;
+      })()
+    ]);
+  } catch (err) {
+    console.error('Erro ao verificar conexão com Supabase:', err);
+    return false;
+  }
+};
