@@ -236,8 +236,8 @@ const DailyLessonPage: React.FC = () => {
       const cleanReference = reference.trim().replace(/\s+/g, "+");
       
       // Fazer requisição para a API da Bíblia 
-      // Usando versão NVT (Nova Versão Transformadora) - mais moderna e adequada para jovens
-      const response = await fetch(`https://bible-api.com/${cleanReference}?translation=nvi`);
+      // Usando a versão Almeida que é suportada pela API
+      const response = await fetch(`https://bible-api.com/${cleanReference}?translation=almeida`);
       
       if (!response.ok) {
         throw new Error("Não foi possível carregar o texto bíblico");
@@ -248,7 +248,7 @@ const DailyLessonPage: React.FC = () => {
       setBibleText({
         reference: data.reference,
         text: data.text,
-        version: "NVI - Nova Versão Internacional" // Versão mais moderna e adequada para jovens
+        version: "Almeida Revista e Atualizada" // Versão disponível na API
       });
     } catch (error) {
       console.error("Erro ao buscar texto bíblico:", error);
@@ -485,7 +485,7 @@ const DailyLessonPage: React.FC = () => {
                   {bibleText?.reference || "Texto Bíblico"}
                 </DialogTitle>
                 <p className="text-center text-sm text-muted-foreground">
-                  {bibleText?.version || "NVI - Nova Versão Internacional"}
+                  {bibleText?.version || "Almeida Revista e Atualizada"}
                 </p>
               </DialogHeader>
               
