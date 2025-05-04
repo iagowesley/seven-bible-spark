@@ -462,13 +462,55 @@ const DailyLessonPage: React.FC = () => {
     
     const mensagem = `*${titulo}*\n\n${descricao}\n\nAcesse o desafio completo: ${link}`;
     
-    // Abrir WhatsApp em nova aba
-    window.open(`https://wa.me/?text=${mensagem}`, '_blank');
+    // Detectar se é dispositivo móvel
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     
-    toast({
-      title: "Link compartilhado",
-      description: "O desafio foi aberto no WhatsApp para compartilhamento.",
-    });
+    try {
+      if (isMobile) {
+        // Para dispositivos móveis usar o esquema URI do WhatsApp
+        window.location.href = `whatsapp://send?text=${mensagem}`;
+      } else {
+        // Para desktop, tentar abrir o compartilhamento nativo se disponível
+        if (navigator.share) {
+          navigator.share({
+            title: desafioSemanal.titulo,
+            text: `${desafioSemanal.descricao}\n\nAcesse o desafio completo:`,
+            url: `${window.location.origin}/estudos/${semanaId}/desafio`
+          }).catch(() => {
+            // Fallback se o compartilhamento falhar
+            window.open(`https://wa.me/?text=${mensagem}`, '_blank');
+          });
+        } else {
+          // Fallback para navegadores sem API de compartilhamento
+          window.open(`https://wa.me/?text=${mensagem}`, '_blank');
+        }
+      }
+      
+      toast({
+        title: "Preparando compartilhamento",
+        description: "O WhatsApp está sendo aberto para compartilhamento.",
+      });
+    } catch (error) {
+      console.error("Erro ao compartilhar:", error);
+      
+      // Última tentativa - copiar para área de transferência
+      try {
+        navigator.clipboard.writeText(
+          `${desafioSemanal.titulo}\n\n${desafioSemanal.descricao}\n\nAcesse o desafio completo: ${window.location.origin}/estudos/${semanaId}/desafio`
+        );
+        
+        toast({
+          title: "Link copiado!",
+          description: "Texto copiado para a área de transferência. Cole no WhatsApp para compartilhar.",
+        });
+      } catch (clipboardError) {
+        toast({
+          title: "Não foi possível compartilhar",
+          description: "Tente copiar o link manualmente e compartilhar no WhatsApp.",
+          variant: "destructive",
+        });
+      }
+    }
   };
   
   // Função para compartilhar via Facebook
@@ -578,11 +620,11 @@ const DailyLessonPage: React.FC = () => {
                 setDesafioSemanal(gerarDesafioSemanal());
                 setDesafioModalOpen(true);
               }}
-              className="absolute -top-6 right-4 sm:right-12 md:right-16 w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-[#a37fb9] to-[#8a63a8] shadow-lg flex flex-col items-center justify-center hover:scale-110 transition-all duration-300 z-10 animate-[pulse-beat_2s_infinite]"
+              className="absolute -top-6 right-4 sm:right-12 md:right-16 w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br from-[#a37fb9] to-[#8a63a8] shadow-lg flex flex-col items-center justify-center hover:scale-110 transition-all duration-300 z-10 animate-[pulse-beat_8s_infinite]"
               style={{ color: 'white' }}
             >
-              <Award className="h-6 w-6 sm:h-8 sm:w-8 mb-1 text-white" />
-              <span className="text-[10px] sm:text-xs font-bold text-white">DESAFIO!</span>
+              <Award className="h-8 w-8 sm:h-10 sm:w-10 mb-1 text-white" />
+              <span className="text-[8px] sm:text-[10px] font-bold text-white">DESAFIO!</span>
             </button>
             
             {/* Estilos para keyframes da animação */}
@@ -819,7 +861,7 @@ const DailyLessonPage: React.FC = () => {
           
           {/* Modal do Desafio Semanal */}
           <Dialog open={desafioModalOpen} onOpenChange={setDesafioModalOpen}>
-            <DialogContent className="sm:max-w-2xl">
+            <DialogContent className="sm:max-w-2xl w-[95%] max-h-[90vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle className="text-center text-xl text-[#a37fb9] flex items-center justify-center gap-2">
                   <Award className="h-5 w-5" />
@@ -832,15 +874,15 @@ const DailyLessonPage: React.FC = () => {
               
               <div className="py-4">
                 <div className="prose prose-lg max-w-none">
-                  <p className="text-gray-800 dark:text-gray-200">
+                  <p className="text-gray-800 dark:text-gray-200 text-sm sm:text-base">
                     {desafioSemanal?.descricao}
                   </p>
                   
-                  <div className="mt-4 bg-[#f8f4ff] dark:bg-[#a37fb9]/10 p-4 rounded-lg border border-[#a37fb9]/20 dark:border-[#a37fb9]/30">
-                    <h3 className="text-lg font-bold text-[#a37fb9] dark:text-[#a37fb9] mb-2">Como realizar este desafio:</h3>
+                  <div className="mt-4 bg-[#f8f4ff] dark:bg-[#a37fb9]/10 p-3 sm:p-4 rounded-lg border border-[#a37fb9]/20 dark:border-[#a37fb9]/30">
+                    <h3 className="text-base sm:text-lg font-bold text-[#a37fb9] dark:text-[#a37fb9] mb-2">Como realizar este desafio:</h3>
                     <ul className="space-y-2">
                       {desafioSemanal?.dicas.map((dica, index) => (
-                        <li key={index} className="flex items-start gap-2">
+                        <li key={index} className="flex items-start gap-2 text-sm sm:text-base">
                           <span className="text-[#a37fb9] dark:text-[#a37fb9] flex-shrink-0 mt-1">•</span>
                           <span>{dica}</span>
                         </li>
@@ -849,35 +891,35 @@ const DailyLessonPage: React.FC = () => {
                   </div>
                   
                   <div className="mt-6 text-center">
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-2">
                       Compartilhe este desafio com seus amigos:
                     </p>
-                    <div className="flex justify-center gap-3">
+                    <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
                       <Button 
                         variant="outline" 
                         size="sm" 
-                        className="gap-1.5 bg-[#a37fb9] hover:bg-[#8a63a8] text-white border-[#8a63a8]" 
+                        className="gap-1 sm:gap-1.5 bg-[#a37fb9] hover:bg-[#8a63a8] text-white border-[#8a63a8] text-xs sm:text-sm py-1 px-2 sm:py-2 sm:px-3 h-auto" 
                         onClick={compartilharWhatsApp}
                       >
-                        <Share2 className="h-4 w-4" />
+                        <Share2 className="h-3 w-3 sm:h-4 sm:w-4" />
                         WhatsApp
                       </Button>
                       <Button 
                         variant="outline" 
                         size="sm" 
-                        className="gap-1.5 bg-[#a37fb9] hover:bg-[#8a63a8] text-white border-[#8a63a8]" 
+                        className="gap-1 sm:gap-1.5 bg-[#a37fb9] hover:bg-[#8a63a8] text-white border-[#8a63a8] text-xs sm:text-sm py-1 px-2 sm:py-2 sm:px-3 h-auto" 
                         onClick={compartilharFacebook}
                       >
-                        <Share2 className="h-4 w-4" />
+                        <Share2 className="h-3 w-3 sm:h-4 sm:w-4" />
                         Facebook
                       </Button>
                       <Button 
                         variant="outline" 
                         size="sm" 
-                        className="gap-1.5 bg-[#a37fb9] hover:bg-[#8a63a8] text-white border-[#8a63a8]" 
+                        className="gap-1 sm:gap-1.5 bg-[#a37fb9] hover:bg-[#8a63a8] text-white border-[#8a63a8] text-xs sm:text-sm py-1 px-2 sm:py-2 sm:px-3 h-auto" 
                         onClick={compartilharTwitter}
                       >
-                        <Share2 className="h-4 w-4" />
+                        <Share2 className="h-3 w-3 sm:h-4 sm:w-4" />
                         Twitter
                       </Button>
                     </div>
@@ -885,13 +927,10 @@ const DailyLessonPage: React.FC = () => {
                 </div>
               </div>
               
-              <DialogFooter>
-                <DialogClose asChild>
-                  <Button variant="outline">Fechar</Button>
-                </DialogClose>
+              <DialogFooter className="flex-col sm:flex-row gap-2 sm:gap-0">
                 <Button 
                   onClick={() => setDesafioModalOpen(false)}
-                  className="bg-[#a37fb9] hover:bg-[#8a63a8] text-white"
+                  className="bg-[#a37fb9] hover:bg-[#8a63a8] text-white w-full sm:w-auto"
                 >
                   Aceitar Desafio
                 </Button>
