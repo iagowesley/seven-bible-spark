@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowLeft, ArrowRight, Calendar, BookOpen, CheckSquare, CheckCircle } from "lucide-react";
+import { ArrowLeft, ArrowRight, Calendar, BookOpen, CheckSquare, CheckCircle, Award, Share2, MessageSquare, Send } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { 
   Dialog, 
@@ -13,6 +13,9 @@ import {
   DialogFooter,
   DialogClose
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Separator } from "@/components/ui/separator";
 import { obterSemana } from "@/models/semanaService";
 import { Licao, listarLicoesPorSemana, obterLicaoPorDiaSemana } from "@/models/licaoService";
 import { toast } from "@/hooks/use-toast";
@@ -20,6 +23,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { getUserProgress, updateUserProgress } from "@/models/userProgress";
 import { verificarConexaoSupabase } from "@/integrations/supabase/client";
+import { listarComentarios, adicionarComentario } from "@/models/comentariosService";
 
 const diasSemana = [
   { valor: "domingo", label: "Domingo" },
@@ -78,6 +82,110 @@ const DailyLessonPage: React.FC = () => {
   const [bibleModalOpen, setBibleModalOpen] = useState(false);
   const [bibleText, setBibleText] = useState<{ reference: string; text: string; version: string } | null>(null);
   const [loadingBibleText, setLoadingBibleText] = useState(false);
+  const [desafioModalOpen, setDesafioModalOpen] = useState(false);
+  const [desafioSemanal, setDesafioSemanal] = useState<{titulo: string; descricao: string; dicas: string[]} | null>(null);
+  const [comentarios, setComentarios] = useState<{
+    id: string;
+    nome: string;
+    localidade: string;
+    texto: string;
+    data_criacao: string;
+  }[]>([]);
+  const [novoComentario, setNovoComentario] = useState({
+    nome: '',
+    localidade: '',
+    texto: ''
+  });
+  const [carregandoComentarios, setCarregandoComentarios] = useState(false);
+  const [enviandoComentario, setEnviandoComentario] = useState(false);
+  
+  // Função para carregar comentários
+  const carregarComentarios = async () => {
+    if (!semanaId || !dia) return;
+    
+    try {
+      setCarregandoComentarios(true);
+      const comentariosData = await listarComentarios(semanaId, dia);
+      setComentarios(comentariosData);
+    } catch (error) {
+      console.error("Erro ao carregar comentários:", error);
+    } finally {
+      setCarregandoComentarios(false);
+    }
+  };
+  
+  // Função para enviar um novo comentário
+  const enviarComentario = async () => {
+    if (!semanaId || !dia) return;
+    if (!novoComentario.nome.trim()) {
+      toast({
+        title: "Nome obrigatório",
+        description: "Por favor, informe seu nome para comentar.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    if (!novoComentario.localidade.trim()) {
+      toast({
+        title: "Localidade obrigatória",
+        description: "Por favor, informe sua cidade/estado para comentar.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    if (!novoComentario.texto.trim()) {
+      toast({
+        title: "Comentário vazio",
+        description: "Por favor, escreva seu comentário antes de enviar.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    try {
+      setEnviandoComentario(true);
+      
+      await adicionarComentario({
+        semana_id: semanaId,
+        licao_dia: dia,
+        nome: novoComentario.nome,
+        localidade: novoComentario.localidade,
+        texto: novoComentario.texto,
+      });
+      
+      // Limpar apenas o texto do comentário, mantendo nome e localidade
+      setNovoComentario({
+        ...novoComentario,
+        texto: ''
+      });
+      
+      // Recarregar comentários
+      await carregarComentarios();
+      
+      toast({
+        title: "Comentário enviado",
+        description: "Seu comentário foi adicionado com sucesso!",
+      });
+    } catch (error) {
+      console.error("Erro ao enviar comentário:", error);
+      toast({
+        title: "Erro ao enviar comentário",
+        description: "Não foi possível enviar seu comentário. Tente novamente.",
+        variant: "destructive",
+      });
+    } finally {
+      setEnviandoComentario(false);
+    }
+  };
+  
+  // Carregar comentários quando a lição mudar
+  useEffect(() => {
+    if (semanaId && dia && !loading) {
+      carregarComentarios();
+    }
+  }, [semanaId, dia, loading]);
   
   useEffect(() => {
     const carregarDados = async (tentativas = 0) => {
@@ -312,6 +420,85 @@ const DailyLessonPage: React.FC = () => {
     );
   };
   
+  // Função para gerar um desafio semanal baseado no conteúdo da lição
+  const gerarDesafioSemanal = () => {
+    if (!semana) return null;
+    
+    // Desafios baseados no título da lição e no texto bíblico
+    const tituloLicao = semana.titulo || "";
+    const textoBiblico = semana.texto_biblico_chave || "";
+    
+    // Estrutura básica do desafio
+    const desafio = {
+      titulo: `Desafio da semana: ${tituloLicao.split(':')[0]}`,
+      descricao: `Com base no estudo desta semana sobre "${tituloLicao}", seu desafio é aplicar os princípios bíblicos estudados na prática. Durante esta semana, dedique-se a viver intencionalmente o que aprendeu.`,
+      dicas: [
+        "Compartilhe suas reflexões com pelo menos uma pessoa",
+        "Faça uma pequena mudança em sua rotina baseada na lição",
+        "Memorize o versículo-chave da semana",
+        "Ore diariamente sobre como aplicar este princípio"
+      ]
+    };
+    
+    // Personaliza o desafio com base no texto bíblico ou título
+    if (textoBiblico.toLowerCase().includes("amor")) {
+      desafio.dicas.push("Pratique um ato de amor intencional para alguém necessitado");
+    } else if (textoBiblico.toLowerCase().includes("fé") || tituloLicao.toLowerCase().includes("fé")) {
+      desafio.dicas.push("Identifique uma área onde você precisa exercitar sua fé e dê um passo concreto");
+    } else if (tituloLicao.toLowerCase().includes("esperança")) {
+      desafio.dicas.push("Escreva uma carta de encorajamento para alguém que esteja passando por dificuldades");
+    }
+    
+    return desafio;
+  };
+  
+  // Função para compartilhar o desafio via WhatsApp
+  const compartilharWhatsApp = () => {
+    if (!desafioSemanal || !semanaId) return;
+    
+    const titulo = encodeURIComponent(desafioSemanal.titulo);
+    const descricao = encodeURIComponent(desafioSemanal.descricao);
+    const link = encodeURIComponent(`${window.location.origin}/estudos/${semanaId}/desafio`);
+    
+    const mensagem = `*${titulo}*\n\n${descricao}\n\nAcesse o desafio completo: ${link}`;
+    
+    // Abrir WhatsApp em nova aba
+    window.open(`https://wa.me/?text=${mensagem}`, '_blank');
+    
+    toast({
+      title: "Link compartilhado",
+      description: "O desafio foi aberto no WhatsApp para compartilhamento.",
+    });
+  };
+  
+  // Função para compartilhar via Facebook
+  const compartilharFacebook = () => {
+    if (!semanaId) return;
+    
+    const url = encodeURIComponent(`${window.location.origin}/estudos/${semanaId}/desafio`);
+    window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+    
+    toast({
+      title: "Compartilhando no Facebook",
+      description: "O desafio está sendo compartilhado no Facebook.",
+    });
+  };
+  
+  // Função para compartilhar via Twitter/X
+  const compartilharTwitter = () => {
+    if (!desafioSemanal || !semanaId) return;
+    
+    const titulo = encodeURIComponent(desafioSemanal.titulo);
+    const url = encodeURIComponent(`${window.location.origin}/estudos/${semanaId}/desafio`);
+    
+    window.open(`https://twitter.com/intent/tweet?text=${titulo}&url=${url}`, '_blank');
+    
+    toast({
+      title: "Compartilhando no Twitter",
+      description: "O desafio está sendo compartilhado no Twitter.",
+    });
+  };
+  
   if (loading) {
     return (
       <>
@@ -384,9 +571,31 @@ const DailyLessonPage: React.FC = () => {
             </div>
           </div>
           
-          {/* Tirinha do sábado */}
-          {semana.img_sabado_url && (
-            <div className="w-full my-6 flex justify-center">
+          {/* Botão do Desafio Semanal */}
+          <div className="relative w-full my-6 flex justify-center">
+            <button
+              onClick={() => {
+                setDesafioSemanal(gerarDesafioSemanal());
+                setDesafioModalOpen(true);
+              }}
+              className="absolute -top-6 right-4 sm:right-12 md:right-16 w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-br from-[#a37fb9] to-[#8a63a8] shadow-lg flex flex-col items-center justify-center hover:scale-110 transition-all duration-300 z-10 animate-[pulse-beat_2s_infinite]"
+              style={{ color: 'white' }}
+            >
+              <Award className="h-6 w-6 sm:h-8 sm:w-8 mb-1 text-white" />
+              <span className="text-[10px] sm:text-xs font-bold text-white">DESAFIO!</span>
+            </button>
+            
+            {/* Estilos para keyframes da animação */}
+            <style>{`
+              @keyframes pulse-beat {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.1); }
+                100% { transform: scale(1); }
+              }
+            `}</style>
+            
+            {/* Tirinha do sábado */}
+            {semana.img_sabado_url && (
               <div className="w-[88%]">
                 <img
                   src={semana.img_sabado_url}
@@ -394,8 +603,8 @@ const DailyLessonPage: React.FC = () => {
                   className="w-full h-auto object-contain rounded-lg shadow-md"
                 />
               </div>
-            </div>
-          )}
+            )}
+          </div>
           
           {/* Área para anotações - estilo caderno */}
           <div className="my-6">
@@ -482,6 +691,98 @@ const DailyLessonPage: React.FC = () => {
             </Button>
           </div>
           
+          {/* Seção de comentários */}
+          <div className="mt-10 pt-8 border-t border-gray-200 dark:border-gray-700">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-xl font-bold text-[#a37fb9] flex items-center">
+                <MessageSquare className="h-5 w-5 mr-2" />
+                Comentários da Comunidade
+              </h2>
+              
+              <div className="text-sm text-gray-500">
+                {comentarios.length} {comentarios.length === 1 ? 'comentário' : 'comentários'}
+              </div>
+            </div>
+            
+            {/* Lista de comentários */}
+            <div className="space-y-6 mb-8">
+              {carregandoComentarios ? (
+                <div className="flex justify-center py-8">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#a37fb9]"></div>
+                </div>
+              ) : comentarios.length === 0 ? (
+                <div className="text-center py-8 text-gray-500">
+                  <p>Seja o primeiro a comentar sobre esta lição!</p>
+                </div>
+              ) : (
+                comentarios.map((comentario) => (
+                  <div key={comentario.id} className="bg-gray-50 dark:bg-gray-800/60 p-4 rounded-lg">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="font-medium text-[#8a63a8]">{comentario.nome}</div>
+                      <div className="text-xs text-gray-500">{new Date(comentario.data_criacao).toLocaleDateString('pt-BR')}</div>
+                    </div>
+                    <div className="text-xs text-gray-500 mb-2">
+                      {comentario.localidade}
+                    </div>
+                    <p className="text-gray-700 dark:text-gray-300">{comentario.texto}</p>
+                  </div>
+                ))
+              )}
+            </div>
+            
+            {/* Formulário de novo comentário */}
+            <Card>
+              <CardContent className="pt-6">
+                <h3 className="text-lg font-medium mb-4 text-[#a37fb9]">Deixe seu comentário</h3>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Seu nome</label>
+                    <Input 
+                      placeholder="Digite seu nome" 
+                      value={novoComentario.nome}
+                      onChange={(e) => setNovoComentario({...novoComentario, nome: e.target.value})}
+                    />
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">De onde você é</label>
+                    <Input 
+                      placeholder="Ex: São Paulo/SP" 
+                      value={novoComentario.localidade}
+                      onChange={(e) => setNovoComentario({...novoComentario, localidade: e.target.value})}
+                    />
+                  </div>
+                </div>
+                
+                <div className="space-y-2 mb-4">
+                  <label className="text-sm font-medium">Seu comentário</label>
+                  <Textarea 
+                    placeholder="Compartilhe sua reflexão sobre esta lição..." 
+                    className="min-h-[100px]"
+                    value={novoComentario.texto}
+                    onChange={(e) => setNovoComentario({...novoComentario, texto: e.target.value})}
+                  />
+                </div>
+                
+                <div className="flex justify-end">
+                  <Button 
+                    onClick={enviarComentario}
+                    disabled={enviandoComentario}
+                    className="bg-[#a37fb9] hover:bg-[#8a63a8] text-white"
+                  >
+                    {enviandoComentario ? (
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                    ) : (
+                      <Send className="h-4 w-4 mr-2" />
+                    )}
+                    Enviar comentário
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+          
           {/* Modal do texto bíblico */}
           <Dialog open={bibleModalOpen} onOpenChange={setBibleModalOpen}>
             <DialogContent className="sm:max-w-2xl max-h-[80vh]">
@@ -512,6 +813,88 @@ const DailyLessonPage: React.FC = () => {
                 <DialogClose asChild>
                   <Button variant="outline">Fechar</Button>
                 </DialogClose>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+          
+          {/* Modal do Desafio Semanal */}
+          <Dialog open={desafioModalOpen} onOpenChange={setDesafioModalOpen}>
+            <DialogContent className="sm:max-w-2xl">
+              <DialogHeader>
+                <DialogTitle className="text-center text-xl text-[#a37fb9] flex items-center justify-center gap-2">
+                  <Award className="h-5 w-5" />
+                  {desafioSemanal?.titulo || "Desafio da Semana"}
+                </DialogTitle>
+                <DialogDescription className="text-center mt-1">
+                  Coloque em prática o que você aprendeu!
+                </DialogDescription>
+              </DialogHeader>
+              
+              <div className="py-4">
+                <div className="prose prose-lg max-w-none">
+                  <p className="text-gray-800 dark:text-gray-200">
+                    {desafioSemanal?.descricao}
+                  </p>
+                  
+                  <div className="mt-4 bg-[#f8f4ff] dark:bg-[#a37fb9]/10 p-4 rounded-lg border border-[#a37fb9]/20 dark:border-[#a37fb9]/30">
+                    <h3 className="text-lg font-bold text-[#a37fb9] dark:text-[#a37fb9] mb-2">Como realizar este desafio:</h3>
+                    <ul className="space-y-2">
+                      {desafioSemanal?.dicas.map((dica, index) => (
+                        <li key={index} className="flex items-start gap-2">
+                          <span className="text-[#a37fb9] dark:text-[#a37fb9] flex-shrink-0 mt-1">•</span>
+                          <span>{dica}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  
+                  <div className="mt-6 text-center">
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                      Compartilhe este desafio com seus amigos:
+                    </p>
+                    <div className="flex justify-center gap-3">
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="gap-1.5 bg-[#a37fb9] hover:bg-[#8a63a8] text-white border-[#8a63a8]" 
+                        onClick={compartilharWhatsApp}
+                      >
+                        <Share2 className="h-4 w-4" />
+                        WhatsApp
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="gap-1.5 bg-[#a37fb9] hover:bg-[#8a63a8] text-white border-[#8a63a8]" 
+                        onClick={compartilharFacebook}
+                      >
+                        <Share2 className="h-4 w-4" />
+                        Facebook
+                      </Button>
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="gap-1.5 bg-[#a37fb9] hover:bg-[#8a63a8] text-white border-[#8a63a8]" 
+                        onClick={compartilharTwitter}
+                      >
+                        <Share2 className="h-4 w-4" />
+                        Twitter
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <DialogFooter>
+                <DialogClose asChild>
+                  <Button variant="outline">Fechar</Button>
+                </DialogClose>
+                <Button 
+                  onClick={() => setDesafioModalOpen(false)}
+                  className="bg-[#a37fb9] hover:bg-[#8a63a8] text-white"
+                >
+                  Aceitar Desafio
+                </Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -620,6 +1003,98 @@ const DailyLessonPage: React.FC = () => {
         {/* Botão "Lição concluída" para todos os dias */}
         <div className="mt-6 flex justify-center">
           <CompleteButton lessonId={dia} />
+        </div>
+        
+        {/* Seção de comentários - também para dias normais */}
+        <div className="mt-10 pt-8 border-t border-gray-200 dark:border-gray-700">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-xl font-bold text-[#a37fb9] flex items-center">
+              <MessageSquare className="h-5 w-5 mr-2" />
+              Comentários da Comunidade
+            </h2>
+            
+            <div className="text-sm text-gray-500">
+              {comentarios.length} {comentarios.length === 1 ? 'comentário' : 'comentários'}
+            </div>
+          </div>
+          
+          {/* Lista de comentários */}
+          <div className="space-y-6 mb-8">
+            {carregandoComentarios ? (
+              <div className="flex justify-center py-8">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#a37fb9]"></div>
+              </div>
+            ) : comentarios.length === 0 ? (
+              <div className="text-center py-8 text-gray-500">
+                <p>Seja o primeiro a comentar sobre esta lição!</p>
+              </div>
+            ) : (
+              comentarios.map((comentario) => (
+                <div key={comentario.id} className="bg-gray-50 dark:bg-gray-800/60 p-4 rounded-lg">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="font-medium text-[#8a63a8]">{comentario.nome}</div>
+                    <div className="text-xs text-gray-500">{new Date(comentario.data_criacao).toLocaleDateString('pt-BR')}</div>
+                  </div>
+                  <div className="text-xs text-gray-500 mb-2">
+                    {comentario.localidade}
+                  </div>
+                  <p className="text-gray-700 dark:text-gray-300">{comentario.texto}</p>
+                </div>
+              ))
+            )}
+          </div>
+          
+          {/* Formulário de novo comentário */}
+          <Card>
+            <CardContent className="pt-6">
+              <h3 className="text-lg font-medium mb-4 text-[#a37fb9]">Deixe seu comentário</h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Seu nome</label>
+                  <Input 
+                    placeholder="Digite seu nome" 
+                    value={novoComentario.nome}
+                    onChange={(e) => setNovoComentario({...novoComentario, nome: e.target.value})}
+                  />
+                </div>
+                
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">De onde você é</label>
+                  <Input 
+                    placeholder="Ex: São Paulo/SP" 
+                    value={novoComentario.localidade}
+                    onChange={(e) => setNovoComentario({...novoComentario, localidade: e.target.value})}
+                  />
+                </div>
+              </div>
+              
+              <div className="space-y-2 mb-4">
+                <label className="text-sm font-medium">Seu comentário</label>
+                <Textarea 
+                  placeholder="Compartilhe sua reflexão sobre esta lição..." 
+                  className="min-h-[100px]"
+                  value={novoComentario.texto}
+                  onChange={(e) => setNovoComentario({...novoComentario, texto: e.target.value})}
+                />
+              </div>
+              
+              <div className="flex justify-end">
+                <Button 
+                  onClick={enviarComentario}
+                  disabled={enviandoComentario}
+                  className="bg-[#a37fb9] hover:bg-[#8a63a8] text-white"
+                >
+                  {enviandoComentario ? (
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                  ) : (
+                    <Send className="h-4 w-4 mr-2" />
+                  )}
+                  Enviar comentário
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
       <Footer />
