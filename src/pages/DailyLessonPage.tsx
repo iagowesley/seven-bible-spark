@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowLeft, ArrowRight, Calendar, BookOpen, CheckSquare, CheckCircle, Award, Share2, MessageSquare, Send } from "lucide-react";
+import { ArrowLeft, ArrowRight, Calendar, BookOpen, CheckSquare, CheckCircle, Award, Share2, MessageSquare, Send, ChevronLeft, ChevronRight, Volume2, Pause, Highlighter } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { 
   Dialog, 
@@ -24,6 +24,10 @@ import Footer from "@/components/layout/Footer";
 import { getUserProgress, updateUserProgress } from "@/models/userProgress";
 import { verificarConexaoSupabase } from "@/integrations/supabase/client";
 import { listarComentarios, adicionarComentario } from "@/models/comentariosService";
+
+// Importando a biblioteca AOS para animações de scroll
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 const diasSemana = [
   { valor: "domingo", label: "Domingo" },
@@ -98,6 +102,209 @@ const DailyLessonPage: React.FC = () => {
   });
   const [carregandoComentarios, setCarregandoComentarios] = useState(false);
   const [enviandoComentario, setEnviandoComentario] = useState(false);
+  
+  // Estados para o Text-to-Speech
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [speechUtterance, setSpeechUtterance] = useState<SpeechSynthesisUtterance | null>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  
+  // Estado para o Highlighter
+  const [highlighterActive, setHighlighterActive] = useState(false);
+  const [highlightColor, setHighlightColor] = useState('#ffeb3b'); // Amarelo por padrão
+  
+  // Inicializar AOS (Animate On Scroll)
+  useEffect(() => {
+    AOS.init({
+      duration: 800,
+      once: false,
+      mirror: true,
+      offset: 100,
+    });
+    
+    // Atualizar animações AOS quando a página rolar
+    const handleScroll = () => {
+      AOS.refresh();
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+  
+  // Atualizar AOS quando o conteúdo da página mudar
+  useEffect(() => {
+    if (!loading) {
+      setTimeout(() => {
+        AOS.refresh();
+      }, 200);
+    }
+  }, [loading, licao, semana]);
+  
+  // Função para extrair o texto puro da lição para o Text-to-Speech
+  const extractTextContent = (): string => {
+    if (!licao && !semana) return '';
+    
+    let textContent = '';
+    
+    // Adicionar título da lição
+    if (licao?.titulo_dia) {
+      textContent += `${licao.titulo_dia}. `;
+    }
+    
+    // Adicionar subtítulo
+    if (licao?.subtitulo_dia) {
+      textContent += `${licao.subtitulo_dia}. `;
+    }
+    
+    // Adicionar texto principal
+    if (licao?.texto1) {
+      // Remover marcações de formato como **texto** ou ==texto==
+      textContent += licao.texto1.replace(/\*\*(.*?)\*\*/g, '$1')
+                               .replace(/__([^_]+)__/g, '$1')
+                               .replace(/==(.*?)==/g, '$1') + '. ';
+    }
+    
+    if (licao?.texto2) {
+      textContent += licao.texto2.replace(/\*\*(.*?)\*\*/g, '$1')
+                               .replace(/__([^_]+)__/g, '$1')
+                               .replace(/==(.*?)==/g, '$1') + '. ';
+    }
+    
+    // Se for a página de sábado e não tiver licao
+    if (dia === 'sabado' && semana && !textContent) {
+      textContent = `${semana.titulo}. ${semana.resumo.replace(/\*\*(.*?)\*\*/g, '$1')
+                                                  .replace(/__([^_]+)__/g, '$1')
+                                                  .replace(/==(.*?)==/g, '$1')}`;
+    }
+    
+    return textContent;
+  };
+  
+  // Função para iniciar/pausar a leitura do texto
+  const toggleSpeech = () => {
+    if (!window.speechSynthesis) {
+      toast({
+        title: "Recurso não suportado",
+        description: "Seu navegador não suporta o recurso de leitura de texto.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    // Se já estiver falando, pausar
+    if (isSpeaking) {
+      window.speechSynthesis.cancel();
+      setIsSpeaking(false);
+      return;
+    }
+    
+    // Iniciar leitura
+    const text = extractTextContent();
+    if (!text) {
+      toast({
+        title: "Sem conteúdo para ler",
+        description: "Não há texto disponível para leitura.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'pt-BR';
+    utterance.rate = 1.0;
+    utterance.pitch = 1.0;
+    
+    // Evento para quando terminar de falar
+    utterance.onend = () => {
+      setIsSpeaking(false);
+    };
+    
+    // Evento para erros
+    utterance.onerror = (event) => {
+      console.error('Erro na síntese de fala:', event);
+      setIsSpeaking(false);
+      toast({
+        title: "Erro na leitura",
+        description: "Ocorreu um erro durante a leitura do texto.",
+        variant: "destructive",
+      });
+    };
+    
+    setSpeechUtterance(utterance);
+    window.speechSynthesis.speak(utterance);
+    setIsSpeaking(true);
+  };
+  
+  // Limpar a síntese de fala quando o componente for desmontado
+  useEffect(() => {
+    return () => {
+      if (window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, []);
+  
+  // Função para destacar texto selecionado
+  const handleTextHighlight = () => {
+    const selection = window.getSelection();
+    if (!selection || selection.rangeCount === 0 || selection.toString().trim() === '') return;
+    
+    const range = selection.getRangeAt(0);
+    const span = document.createElement('span');
+    span.style.backgroundColor = highlightColor;
+    span.style.padding = '0 2px';
+    span.style.borderRadius = '2px';
+    span.classList.add('highlighted-text');
+    
+    try {
+      range.surroundContents(span);
+      // Salvar o highlight na localStorage
+      const highlightData = JSON.parse(localStorage.getItem('highlightedTexts') || '[]');
+      highlightData.push({
+        text: selection.toString(),
+        color: highlightColor,
+        date: new Date().toISOString(),
+        licaoId: `${semanaId}-${dia}`
+      });
+      localStorage.setItem('highlightedTexts', JSON.stringify(highlightData));
+      
+      // Limpar a seleção
+      selection.removeAllRanges();
+      
+      toast({
+        title: "Texto destacado",
+        description: "O texto selecionado foi destacado com sucesso.",
+      });
+    } catch (e) {
+      console.error('Erro ao destacar texto:', e);
+      toast({
+        title: "Erro ao destacar",
+        description: "Não foi possível destacar o texto selecionado.",
+        variant: "destructive",
+      });
+    }
+  };
+  
+  // Alternar o modo highlighter
+  const toggleHighlighter = () => {
+    setHighlighterActive(!highlighterActive);
+    
+    toast({
+      title: !highlighterActive ? "Marcador ativado" : "Marcador desativado",
+      description: !highlighterActive ? "Selecione o texto que deseja destacar." : "Modo de destaque desativado.",
+    });
+  };
+  
+  // Escolher a cor do highlighter
+  const changeHighlightColor = (color: string) => {
+    setHighlightColor(color);
+    toast({
+      title: "Cor alterada",
+      description: "A cor do marcador foi alterada com sucesso.",
+    });
+  };
   
   // Função para carregar comentários
   const carregarComentarios = async () => {
@@ -561,8 +768,8 @@ const DailyLessonPage: React.FC = () => {
         <Navbar />
         <div className="container mx-auto py-10 px-4 max-w-6xl">
           <Button variant="ghost" onClick={voltar} className="mb-6">
-            <ArrowLeft className="mr-2 h-4 w-4" />
-            Voltar para Estudos
+            <ChevronLeft className="mr-1 h-3 w-3 sm:h-4 sm:w-4" />
+            Voltar
           </Button>
           
           <Alert variant="destructive">
@@ -585,10 +792,10 @@ const DailyLessonPage: React.FC = () => {
     return (
       <>
         <Navbar />
-        <div className="container mx-auto py-10 px-4 max-w-6xl">
+        <div className="container mx-auto py-10 px-4 max-w-6xl relative">
           <div className="flex justify-between items-center mb-6">
             <Button variant="ghost" onClick={voltar} className="text-xs sm:text-sm">
-              <ArrowLeft className="mr-1 h-3 w-3 sm:h-4 sm:w-4" />
+              <ChevronLeft className="mr-1 h-3 w-3 sm:h-4 sm:w-4" />
               Voltar
             </Button>
             
@@ -598,8 +805,19 @@ const DailyLessonPage: React.FC = () => {
             </div>
           </div>
 
+          {/* Botão de navegação lateral direita - apenas para sábado, não precisa do botão da esquerda pois é o primeiro dia */}
+          <div className="hidden md:block">
+            <button 
+              onClick={() => navigate(`/estudos/${semanaId}/licao/${proximoDiaCadastrado}`)}
+              className="fixed right-[calc((100%-1152px)/2-20px)] top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full bg-white dark:bg-gray-800 shadow-md hover:shadow-lg flex justify-center items-center hover:bg-gray-100 dark:hover:bg-gray-700 transition-all z-10"
+              aria-label="Próxima lição"
+            >
+              <ChevronRight className="h-6 w-6 text-[#a37fb9]" />
+            </button>
+          </div>
+
           {/* Cabeçalho com título e texto bíblico chave */}
-          <div className="mb-6">
+          <div className="mb-6" data-aos="fade-up">
             <h1 className="text-3xl font-bold text-center text-[#a37fb9] mb-4">{semana.titulo}</h1>
             <div className="text-center bg-[#a37fb9]/10 py-4 px-6 rounded-lg border border-[#a37fb9]/20">
               <h2 className="text-base font-medium text-[#a37fb9] mb-2">Texto bíblico chave</h2>
@@ -614,7 +832,7 @@ const DailyLessonPage: React.FC = () => {
           </div>
           
           {/* Botão do Desafio Semanal */}
-          <div className="relative w-full my-6 flex justify-center">
+          <div className="relative w-full my-6 flex justify-center" data-aos="zoom-in" data-aos-delay="200">
             <button
               onClick={() => {
                 setDesafioSemanal(gerarDesafioSemanal());
@@ -649,7 +867,7 @@ const DailyLessonPage: React.FC = () => {
           </div>
           
           {/* Área para anotações - estilo caderno */}
-          <div className="my-6">
+          <div className="my-6" data-aos="fade-up" data-aos-delay="300">
             <div className="mb-2">
               <p className="text-base font-medium text-[#8a63a8]">A partir da tirinha, do texto-chave e do título, anote suas primeiras impressões sobre o que trata a lição:</p>
             </div>
@@ -664,13 +882,13 @@ const DailyLessonPage: React.FC = () => {
           
           {/* Título do dia para o sábado, se existir */}
           {licao?.titulo_dia && (
-            <div className="my-6 text-center">
+            <div className="my-6 text-center" data-aos="fade-up" data-aos-delay="400">
               <h2 className="text-2xl font-bold text-[#8a63a8]">{licao.titulo_dia}</h2>
             </div>
           )}
           
           {/* Resumo */}
-          <div className="my-6 bg-gradient-to-br from-[#f8f4ff] to-white dark:from-gray-800 dark:to-gray-900 p-6 rounded-xl border border-[#a37fb9]/20 dark:border-purple-800/30 shadow-sm">
+          <div className="my-6 bg-gradient-to-br from-[#f8f4ff] to-white dark:from-gray-800 dark:to-gray-900 p-6 rounded-xl border border-[#a37fb9]/20 dark:border-purple-800/30 shadow-sm" data-aos="fade-up" data-aos-delay="500">
             <h2 className="text-xl font-bold mb-4 text-[#8a63a8] dark:text-purple-300">Nosso resumo</h2>
             <div className="prose dark:prose-invert max-w-none dark:text-gray-200">
               {processText(semana.resumo)}
@@ -680,10 +898,52 @@ const DailyLessonPage: React.FC = () => {
           {/* Conteúdo da lição, se existir */}
           {licao && (
             <Card className="mt-6 shadow-sm dark:bg-gray-900 dark:border-gray-800">
+              {/* Barra de ferramentas flutuante */}
+              <div className="sticky top-4 z-30 flex justify-end px-4 py-2">
+                <div className="bg-white dark:bg-gray-800 rounded-full shadow-md p-1 flex gap-1">
+                  {/* Botão Text-to-Speech */}
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className={`rounded-full h-9 w-9 ${isSpeaking ? 'bg-primary/20 text-primary' : ''}`}
+                    onClick={toggleSpeech}
+                    title={isSpeaking ? "Pausar leitura" : "Ler texto em voz alta"}
+                  >
+                    {isSpeaking ? <Pause className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+                  </Button>
+                  
+                  {/* Botão Highlighter */}
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className={`rounded-full h-9 w-9 ${highlighterActive ? 'bg-primary/20 text-primary' : ''}`}
+                    onClick={toggleHighlighter}
+                    title="Destacar texto"
+                  >
+                    <Highlighter className="h-4 w-4" />
+                  </Button>
+                  
+                  {/* Cores do highlighter - mostrar apenas quando o highlighter estiver ativo */}
+                  {highlighterActive && (
+                    <div className="flex gap-1 pl-1 items-center">
+                      {['#ffeb3b', '#4caf50', '#2196f3', '#f44336', '#9c27b0'].map((color) => (
+                        <button
+                          key={color}
+                          className={`w-5 h-5 rounded-full border-2 ${highlightColor === color ? 'border-black dark:border-white' : 'border-transparent'}`}
+                          style={{ backgroundColor: color }}
+                          onClick={() => changeHighlightColor(color)}
+                          title={`Cor ${color}`}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+              
               <CardContent className="pt-6 px-6">
-                <div className="prose max-w-none dark:prose-invert">
+                <div className="prose max-w-none dark:prose-invert" ref={contentRef} onClick={highlighterActive ? handleTextHighlight : undefined}>
                   {licao.texto1 && (
-                    <div className="mb-6">
+                    <div className="mb-6" data-aos="fade-up" data-aos-delay="100">
                       <div className="prose dark:prose-invert max-w-none dark:text-gray-200">
                         {processText(licao.texto1)}
                       </div>
@@ -691,7 +951,7 @@ const DailyLessonPage: React.FC = () => {
                   )}
                   
                   {licao.texto2 && (
-                    <div className="mt-6 pt-4 border-t dark:border-gray-700">
+                    <div className="mt-6 pt-4 border-t dark:border-gray-700" data-aos="fade-up" data-aos-delay="200">
                       <div className="prose dark:prose-invert max-w-none dark:text-gray-200">
                         {processText(licao.texto2)}
                       </div>
@@ -700,11 +960,11 @@ const DailyLessonPage: React.FC = () => {
                   
                   {/* Hashtags */}
                   {licao.hashtags && (
-                    <div className="mt-6 flex flex-wrap gap-2">
+                    <div className="mt-6 flex flex-wrap gap-2" data-aos="fade-up" data-aos-delay="500">
                       {licao.hashtags.split(' ').map((tag, i) => (
                         <span 
                           key={i} 
-                          className="px-3 py-1 bg-[#a37fb9]/10 dark:bg-purple-900/40 text-[#a37fb9] dark:text-purple-300 rounded-full text-xs font-medium"
+                          className="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-full text-xs font-medium"
                         >
                           #{tag}
                         </span>
@@ -717,19 +977,19 @@ const DailyLessonPage: React.FC = () => {
           )}
           
           {/* Botão para marcar como concluído */}
-          <div className="mt-8 flex justify-center">
+          <div className="mt-8 flex justify-center" data-aos="zoom-in" data-aos-delay="600">
             <CompleteButton lessonId={dia} />
           </div>
           
-          {/* Navegação para próximo dia */}
-          <div className="mt-4 flex justify-center">
+          {/* Navegação para próximo dia (apenas em dispositivos móveis) */}
+          <div className="mt-4 flex justify-center md:hidden" data-aos="fade-up" data-aos-delay="700">
             <Button 
               onClick={() => navigate(`/estudos/${semanaId}/licao/${proximoDiaCadastrado}`)}
               size="default"
               className="bg-[#a37fb9] hover:bg-[#8a63a8] text-white text-xs sm:text-sm"
             >
               Próxima: {getDiaLabel(proximoDiaCadastrado).split('(')[0]}
-              <ArrowRight className="ml-1 h-3 w-3 sm:h-4 sm:w-4" />
+              <ChevronRight className="ml-1 h-3 w-3 sm:h-4 sm:w-4" />
             </Button>
           </div>
           
@@ -947,10 +1207,10 @@ const DailyLessonPage: React.FC = () => {
   return (
     <>
       <Navbar />
-      <div className="container mx-auto py-10 px-4 max-w-6xl">
+      <div className="container mx-auto py-10 px-4 max-w-6xl relative">
         <div className="flex justify-between items-center mb-6">
           <Button variant="ghost" onClick={navegarParaDiaAnterior} className="text-xs sm:text-sm">
-            <ArrowLeft className="mr-1 h-3 w-3 sm:h-4 sm:w-4" />
+            <ChevronLeft className="mr-1 h-3 w-3 sm:h-4 sm:w-4" />
             <span className="whitespace-nowrap">Anterior</span>
           </Button>
           
@@ -968,10 +1228,33 @@ const DailyLessonPage: React.FC = () => {
             ) : (
               <>
                 <span className="whitespace-nowrap">Próximo</span>
-                <ArrowRight className="ml-1 h-3 w-3 sm:h-4 sm:w-4" />
+                <ChevronRight className="ml-1 h-3 w-3 sm:h-4 sm:w-4" />
               </>
             )}
           </Button>
+        </div>
+        
+        {/* Botões de navegação laterais */}
+        <div className="hidden md:block">
+          <button 
+            onClick={navegarParaDiaAnterior}
+            className="fixed left-[calc((100%-1152px)/2-20px)] top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full bg-white dark:bg-gray-800 shadow-md hover:shadow-lg flex justify-center items-center hover:bg-gray-100 dark:hover:bg-gray-700 transition-all z-10"
+            aria-label="Lição anterior"
+          >
+            <ChevronLeft className="h-6 w-6 text-[#a37fb9]" />
+          </button>
+          
+          <button 
+            onClick={navegarParaProximoDia}
+            className="fixed right-[calc((100%-1152px)/2-20px)] top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full bg-white dark:bg-gray-800 shadow-md hover:shadow-lg flex justify-center items-center hover:bg-gray-100 dark:hover:bg-gray-700 transition-all z-10"
+            aria-label={dia === "sexta" ? "Quiz" : "Próxima lição"}
+          >
+            {dia === "sexta" ? (
+              <CheckSquare className="h-6 w-6 text-[#a37fb9]" />
+            ) : (
+              <ChevronRight className="h-6 w-6 text-[#a37fb9]" />
+            )}
+          </button>
         </div>
         
         {/* Título e subtítulo do dia */}
@@ -986,18 +1269,60 @@ const DailyLessonPage: React.FC = () => {
         
         {/* Conteúdo da lição */}
         <Card className="mb-6 shadow-sm dark:bg-gray-900 dark:border-gray-800">
+          {/* Barra de ferramentas flutuante */}
+          <div className="sticky top-4 z-30 flex justify-end px-4 py-2">
+            <div className="bg-white dark:bg-gray-800 rounded-full shadow-md p-1 flex gap-1">
+              {/* Botão Text-to-Speech */}
+              <Button
+                variant="ghost"
+                size="icon"
+                className={`rounded-full h-9 w-9 ${isSpeaking ? 'bg-primary/20 text-primary' : ''}`}
+                onClick={toggleSpeech}
+                title={isSpeaking ? "Pausar leitura" : "Ler texto em voz alta"}
+              >
+                {isSpeaking ? <Pause className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
+              </Button>
+              
+              {/* Botão Highlighter */}
+              <Button
+                variant="ghost"
+                size="icon"
+                className={`rounded-full h-9 w-9 ${highlighterActive ? 'bg-primary/20 text-primary' : ''}`}
+                onClick={toggleHighlighter}
+                title="Destacar texto"
+              >
+                <Highlighter className="h-4 w-4" />
+              </Button>
+              
+              {/* Cores do highlighter - mostrar apenas quando o highlighter estiver ativo */}
+              {highlighterActive && (
+                <div className="flex gap-1 pl-1 items-center">
+                  {['#ffeb3b', '#4caf50', '#2196f3', '#f44336', '#9c27b0'].map((color) => (
+                    <button
+                      key={color}
+                      className={`w-5 h-5 rounded-full border-2 ${highlightColor === color ? 'border-black dark:border-white' : 'border-transparent'}`}
+                      style={{ backgroundColor: color }}
+                      onClick={() => changeHighlightColor(color)}
+                      title={`Cor ${color}`}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+          
           <CardContent className="pt-5 px-6">
-            <div className="prose max-w-none dark:prose-invert">
+            <div className="prose max-w-none dark:prose-invert" ref={contentRef} onClick={highlighterActive ? handleTextHighlight : undefined}>
               {licao.texto1 && (
-                <div className="mb-6">
-                  <div className="prose dark:prose-invert max-w-none mb-6 dark:text-gray-200">
+                <div className="mb-6" data-aos="fade-up" data-aos-delay="100">
+                  <div className="prose dark:prose-invert max-w-none dark:text-gray-200">
                     {processText(licao.texto1)}
                   </div>
                 </div>
               )}
               
               {licao.texto2 && (
-                <div className="mt-6 pt-4 border-t dark:border-gray-700">
+                <div className="mt-6 pt-4 border-t dark:border-gray-700" data-aos="fade-up" data-aos-delay="200">
                   <div className="prose dark:prose-invert max-w-none dark:text-gray-200">
                     {processText(licao.texto2)}
                   </div>
@@ -1006,7 +1331,7 @@ const DailyLessonPage: React.FC = () => {
 
               {/* Perguntas - apenas para dias diferentes de sábado */}
               {licao.perguntas && dia !== "sabado" && (
-                <div className="mt-6 p-4 bg-[#a37fb9]/5 dark:bg-purple-900/20 rounded-lg border border-[#a37fb9]/20 dark:border-purple-800/30">
+                <div className="mt-6 p-4 bg-[#a37fb9]/5 dark:bg-purple-900/20 rounded-lg border border-[#a37fb9]/20 dark:border-purple-800/30" data-aos="fade-up" data-aos-delay="300">
                   <h3 className="text-lg font-bold mb-3 text-[#8a63a8] dark:text-purple-300">Para refletir</h3>
                   <p className="text-base whitespace-pre-line dark:text-gray-300">{licao.perguntas}</p>
                 </div>
@@ -1014,7 +1339,7 @@ const DailyLessonPage: React.FC = () => {
               
               {/* Resumo - movido para depois das perguntas */}
               {licao.resumo && (
-                <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border dark:border-gray-700">
+                <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border dark:border-gray-700" data-aos="fade-up" data-aos-delay="400">
                   <h3 className="text-lg font-bold mb-3 dark:text-gray-200">Resumo</h3>
                   <div className="prose dark:prose-invert max-w-none dark:text-gray-200">
                     {processText(licao.resumo)}
@@ -1024,7 +1349,7 @@ const DailyLessonPage: React.FC = () => {
               
               {/* Hashtags */}
               {licao.hashtags && (
-                <div className="mt-6 flex flex-wrap gap-2">
+                <div className="mt-6 flex flex-wrap gap-2" data-aos="fade-up" data-aos-delay="500">
                   {licao.hashtags.split(' ').map((tag, i) => (
                     <span 
                       key={i} 
@@ -1040,8 +1365,39 @@ const DailyLessonPage: React.FC = () => {
         </Card>
 
         {/* Botão "Lição concluída" para todos os dias */}
-        <div className="mt-6 flex justify-center">
+        <div className="mt-6 flex justify-center" data-aos="zoom-in" data-aos-delay="300">
           <CompleteButton lessonId={dia} />
+        </div>
+        
+        {/* Navegação para dias anteriores/próximos (apenas em dispositivos móveis) */}
+        <div className="mt-4 flex justify-between md:hidden" data-aos="fade-up" data-aos-delay="400">
+          <Button 
+            onClick={navegarParaDiaAnterior}
+            size="sm"
+            variant="outline"
+            className="text-xs sm:text-sm"
+          >
+            <ChevronLeft className="mr-1 h-3 w-3 sm:h-4 sm:w-4" />
+            Anterior
+          </Button>
+          
+          <Button 
+            onClick={navegarParaProximoDia}
+            size="sm"
+            className="bg-[#a37fb9] hover:bg-[#8a63a8] text-white text-xs sm:text-sm"
+          >
+            {dia === "sexta" ? (
+              <>
+                Quiz
+                <CheckSquare className="ml-1 h-3 w-3 sm:h-4 sm:w-4" />
+              </>
+            ) : (
+              <>
+                Próximo
+                <ChevronRight className="ml-1 h-3 w-3 sm:h-4 sm:w-4" />
+              </>
+            )}
+          </Button>
         </div>
         
         {/* Seção de comentários - também para dias normais */}
