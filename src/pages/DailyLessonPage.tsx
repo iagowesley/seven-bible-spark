@@ -805,16 +805,14 @@ const DailyLessonPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Botão de navegação lateral direita - apenas para sábado, não precisa do botão da esquerda pois é o primeiro dia */}
-          <div className="hidden md:block">
-            <button 
-              onClick={() => navigate(`/estudos/${semanaId}/licao/${proximoDiaCadastrado}`)}
-              className="fixed right-[calc((100%-1152px)/2-20px)] top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full bg-white dark:bg-gray-800 shadow-md hover:shadow-lg flex justify-center items-center hover:bg-gray-100 dark:hover:bg-gray-700 transition-all z-10"
-              aria-label="Próxima lição"
-            >
-              <ChevronRight className="h-6 w-6 text-[#a37fb9]" />
-            </button>
-          </div>
+          {/* Botão de navegação lateral direita - destaque para o próximo dia */}
+          <button 
+            onClick={() => navigate(`/estudos/${semanaId}/licao/${proximoDiaCadastrado}`)}
+            className="hidden md:flex fixed right-[calc((100%-1152px)/2-20px)] top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full bg-white dark:bg-gray-800 shadow-md hover:shadow-lg justify-center items-center hover:bg-gray-100 dark:hover:bg-gray-700 transition-all z-10"
+            aria-label="Próxima lição"
+          >
+            <ChevronRight className="h-6 w-6 text-[#a37fb9]" />
+          </button>
 
           {/* Cabeçalho com título e texto bíblico chave */}
           <div className="mb-6" data-aos="fade-up">
@@ -986,10 +984,10 @@ const DailyLessonPage: React.FC = () => {
             <Button 
               onClick={() => navigate(`/estudos/${semanaId}/licao/${proximoDiaCadastrado}`)}
               size="default"
-              className="bg-[#a37fb9] hover:bg-[#8a63a8] text-white text-xs sm:text-sm"
+              className="bg-[#a37fb9] hover:bg-[#8a63a8] text-white text-base sm:text-lg py-6 px-8 rounded-lg shadow-lg animate-pulse w-full max-w-xs font-bold"
             >
               Próxima: {getDiaLabel(proximoDiaCadastrado).split('(')[0]}
-              <ChevronRight className="ml-1 h-3 w-3 sm:h-4 sm:w-4" />
+              <ChevronRight className="ml-2 h-5 w-5" />
             </Button>
           </div>
           
