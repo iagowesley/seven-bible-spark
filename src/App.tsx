@@ -68,6 +68,7 @@ const StudyDetailPage = lazy(() => import("./pages/StudyDetailPage"));
 const DailyLessonPage = lazy(() => import("./pages/DailyLessonPage"));
 const QuizPage = lazy(() => import("./pages/QuizPage"));
 const DashboardPage = lazy(() => import("./pages/DashboardPage"));
+const SemanasTrimestrePage = lazy(() => import("./pages/SemanasTrimestrePage"));
 
 // Importar páginas de administração
 const AdminPage = lazy(() => import("./pages/admin/AdminPage"));
@@ -102,6 +103,13 @@ const App = () => (
                 <Route path="/" element={<Navigate to="/sobre" replace />} />
                 <Route path="/sobre" element={<AboutPage />} />
                 <Route path="/estudos" element={<StudiesPage />} />
+                
+                {/* Nova rota para página de semanas do trimestre */}
+                <Route path="/trimestre/:trimestreId/semanas" element={
+                  <Suspense fallback={<LoadingFallback />}>
+                    <SemanasTrimestrePage />
+                  </Suspense>
+                } />
                 
                 {/* Rotas de estudos */}
                 <Route path="/estudos/:id" element={

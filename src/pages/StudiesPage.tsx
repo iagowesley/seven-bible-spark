@@ -106,7 +106,7 @@ const StudiesPage: React.FC = () => {
       <main className="min-h-screen bg-neutral-50 dark:bg-neutral-900">
         {/* Cabeçalho */}
         <section className="w-full py-24 bg-white dark:bg-neutral-800">
-          <div className="container mx-auto px-4 md:px-6 max-w-5xl">
+          <div className="container mx-auto px-4 md:px-6 max-w-7xl">
             <div className="flex flex-col items-center text-center space-y-6">
               <Badge className="bg-[#a37fb9] hover:bg-[#a37fb9]/90 text-white px-3 py-1 text-xs">
                 Estudos Bíblicos
@@ -139,8 +139,8 @@ const StudiesPage: React.FC = () => {
         
         {/* Lista de trimestres */}
         <section className="py-20">
-          <div className="container mx-auto px-4 md:px-6 max-w-6xl">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+          <div className="container mx-auto px-4 md:px-6 max-w-7xl">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
               {trimestres.map((trimestre) => {
                 // Filtrar apenas semanas completas
                 const semanasCompletas = trimestre.semanas.filter((semana) => semana.completa);
@@ -153,88 +153,42 @@ const StudiesPage: React.FC = () => {
                   <div key={trimestre.id} className="flex flex-col">
                     {/* Card no formato de livro */}
                     <div className="book-card relative mx-auto">
-                      {/* Sombra do livro */}
-                      <div className="absolute -right-2 top-2 bottom-4 w-[calc(100%-10px)] bg-black/20 rounded-r-sm dark:bg-black/40 z-0"></div>
+                      {/* Badge do trimestre */}
+                      <div className="mb-2 text-center">
+                        <Badge className="bg-[#a37fb9] shadow-md">
+                          {trimestre.ano} - {trimestre.trimestre}º Trim
+                        </Badge>
+                      </div>
                       
-                      {/* Livro */}
-                      <div className="book relative bg-white dark:bg-neutral-800 shadow-md hover:shadow-lg transition-all duration-500 rounded-sm z-10 overflow-hidden transform hover:-translate-y-1 hover:translate-x-1">
-                        {/* Lombada do livro */}
-                        <div className="absolute left-0 top-0 bottom-0 w-[12px] bg-[#a37fb9] dark:bg-[#8a63a8] rounded-l-sm shadow-inner z-20">
-                          <div className="absolute top-0 bottom-0 left-0 w-[3px] bg-white/10"></div>
-                        </div>
-                        
-                        {/* Capa do livro */}
-                        <div className="ml-[12px]">
-                          <div className="aspect-[3/4] relative overflow-hidden">
-                            {trimestre.img_url ? (
-                              <img 
-                                src={trimestre.img_url} 
-                                alt={trimestre.nome} 
-                                className="w-full h-full object-cover"
-                              />
-                            ) : (
-                              <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#a37fb9]/20 to-[#a37fb9]/5">
-                                <BookMarked className="h-16 w-16 text-[#a37fb9]/60" />
-                              </div>
-                            )}
-                            
-                            {/* Overlay para garantir que o texto seja legível */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30"></div>
-                            
-                            {/* Badge do trimestre */}
-                            <div className="absolute top-3 right-3">
-                              <Badge className="bg-[#a37fb9] shadow-md">
-                                {trimestre.ano} - {trimestre.trimestre}º Trim
-                              </Badge>
+                      {/* Imagem da lição */}
+                      <div className="aspect-[3/4] overflow-hidden shadow-md">
+                        <Link to={`/trimestre/${trimestre.id}/semanas`}>
+                          {trimestre.img_url ? (
+                            <img 
+                              src={trimestre.img_url} 
+                              alt={trimestre.nome} 
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center bg-neutral-100 dark:bg-neutral-800">
+                              <BookMarked className="h-16 w-16 text-[#a37fb9]/60" />
                             </div>
-                            
-                            {/* Título do livro */}
-                            <div className="absolute bottom-0 left-0 right-0 p-4 text-center">
-                              <h2 className="text-white font-bold text-lg leading-tight shadow-text">
-                                {trimestre.nome}
-                              </h2>
-                              <p className="text-white/90 text-xs mt-1 font-medium shadow-text">
-                                {getMesesDeTrimestre(trimestre.trimestre)}
-                              </p>
-                            </div>
-                          </div>
-                        </div>
+                          )}
+                        </Link>
                       </div>
                     </div>
                     
                     {/* Conteúdo do trimestre */}
                     <Card className="mt-4 bg-white dark:bg-neutral-800 border-none shadow-sm">
                       <CardHeader className="pb-2">
-                        <CardTitle className="text-lg text-neutral-900 dark:text-white">{trimestre.nome}</CardTitle>
-                        <CardDescription className="flex items-center gap-1 text-neutral-500 dark:text-neutral-400">
-                          <BookOpen className="h-3.5 w-3.5" />
-                          {semanasCompletas.length} semana(s) de estudo
+                        <CardTitle className="text-xl font-bold text-[#a37fb9] dark:text-[#a37fb9]">{trimestre.nome}</CardTitle>
+                        <CardDescription className="text-neutral-600 dark:text-neutral-400 text-sm">
+                          {getMesesDeTrimestre(trimestre.trimestre)}
                         </CardDescription>
                       </CardHeader>
                       
                       <CardContent className="space-y-4">
                         <Separator className="bg-neutral-200 dark:bg-neutral-700" />
-                        
-                        <div className="space-y-3">
-                          <h3 className="text-sm font-medium text-neutral-500 dark:text-neutral-400">
-                            Semanas disponíveis:
-                          </h3>
-                          
-                          <div className="space-y-2">
-                            {semanasCompletas.map((semana) => (
-                              <Link 
-                                to={`/estudos/${semana.id}/licao`}
-                                key={semana.id}
-                                className="group flex items-center justify-between p-3 bg-neutral-50 dark:bg-neutral-900 rounded-md hover:bg-[#a37fb9]/10 transition-colors"
-                              >
-                                <span className="text-sm text-neutral-700 dark:text-neutral-300 group-hover:text-[#a37fb9] transition-colors">
-                                  Semana {semana.numero}: {semana.titulo}
-                                </span>
-                                <ChevronRight className="h-4 w-4 text-neutral-400 dark:text-neutral-500 group-hover:text-[#a37fb9] group-hover:translate-x-1 transition-all" />
-                              </Link>
-                            ))}
-                          </div>
-                        </div>
                         
                         <div className="pt-2">
                           <a 

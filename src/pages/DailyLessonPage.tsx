@@ -802,7 +802,7 @@ const DailyLessonPage: React.FC = () => {
     return (
       <>
         <Navbar />
-        <div className="container mx-auto py-12 px-4 max-w-5xl">
+        <div className="container mx-auto py-12 px-4 max-w-7xl">
           <Button 
             variant="ghost" 
             onClick={voltar} 
@@ -845,7 +845,7 @@ const DailyLessonPage: React.FC = () => {
     return (
       <>
         <Navbar />
-        <div className="container mx-auto py-12 px-4 max-w-5xl relative">
+        <div className="container mx-auto py-12 px-4 max-w-7xl relative">
           <div className="flex justify-between items-center mb-10">
             <Button variant="ghost" onClick={voltar} className="text-xs sm:text-sm hover:bg-[#a37fb9]/10 transition-colors">
               <ChevronLeft className="mr-1 h-3 w-3 sm:h-4 sm:w-4" />
@@ -861,10 +861,19 @@ const DailyLessonPage: React.FC = () => {
           {/* Botão de navegação lateral direita - destaque para o próximo dia */}
           <button 
             onClick={() => navigate(`/estudos/${semanaId}/licao/${proximoDiaCadastrado}`)}
-            className="hidden md:flex fixed right-[calc((100%-1000px)/2-28px)] top-1/2 transform -translate-y-1/2 w-14 h-14 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl justify-center items-center hover:bg-[#f8f4ff] dark:hover:bg-gray-700 transition-all z-10"
+            className="hidden md:flex fixed right-[calc((100%-1400px)/2-28px)] top-1/2 transform -translate-y-1/2 w-14 h-14 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl justify-center items-center hover:bg-[#f8f4ff] dark:hover:bg-gray-700 transition-all z-10"
             aria-label="Próxima lição"
           >
             <ChevronRight className="h-7 w-7 text-[#a37fb9]" />
+          </button>
+
+          {/* Botão de navegação lateral esquerda - para o dia anterior */}
+          <button 
+            onClick={navegarParaDiaAnterior}
+            className="hidden md:flex fixed left-[calc((100%-1400px)/2-28px)] top-1/2 transform -translate-y-1/2 w-14 h-14 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl justify-center items-center hover:bg-[#f8f4ff] dark:hover:bg-gray-700 transition-all z-10"
+            aria-label="Lição anterior"
+          >
+            <ChevronLeft className="h-7 w-7 text-[#a37fb9]" />
           </button>
 
           {/* Cabeçalho com título e texto bíblico chave */}
@@ -907,11 +916,11 @@ const DailyLessonPage: React.FC = () => {
             
             {/* Tirinha do sábado */}
             {semana.img_sabado_url && (
-              <div className="w-[90%] max-w-2xl">
+              <div className="w-full max-w-3xl mx-auto">
                 <img
                   src={semana.img_sabado_url}
                   alt={semana.titulo}
-                  className="w-full h-auto object-contain rounded-xl shadow-md hover:shadow-lg transition-shadow"
+                  className="w-full h-auto object-contain rounded-xl shadow-md hover:shadow-lg transition-shadow transform scale-110"
                 />
               </div>
             )}
@@ -1293,7 +1302,7 @@ const DailyLessonPage: React.FC = () => {
   return (
     <>
       <Navbar />
-      <div className="container mx-auto py-12 px-4 max-w-5xl relative">
+      <div className="container mx-auto py-12 px-4 max-w-7xl relative">
         <div className="flex justify-between items-center mb-10">
           <Button 
             variant="ghost" 
@@ -1332,7 +1341,7 @@ const DailyLessonPage: React.FC = () => {
         <div className="hidden md:block">
           <button 
             onClick={navegarParaDiaAnterior}
-            className="fixed left-[calc((100%-1000px)/2-28px)] top-1/2 transform -translate-y-1/2 w-14 h-14 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl flex justify-center items-center hover:bg-[#f8f4ff] dark:hover:bg-gray-700 transition-all z-10"
+            className="fixed left-[calc((100%-1400px)/2-28px)] top-1/2 transform -translate-y-1/2 w-14 h-14 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl flex justify-center items-center hover:bg-[#f8f4ff] dark:hover:bg-gray-700 transition-all z-10"
             aria-label="Lição anterior"
           >
             <ChevronLeft className="h-7 w-7 text-[#a37fb9]" />
@@ -1340,7 +1349,7 @@ const DailyLessonPage: React.FC = () => {
           
           <button 
             onClick={navegarParaProximoDia}
-            className="fixed right-[calc((100%-1000px)/2-28px)] top-1/2 transform -translate-y-1/2 w-14 h-14 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl flex justify-center items-center hover:bg-[#f8f4ff] dark:hover:bg-gray-700 transition-all z-10"
+            className="fixed right-[calc((100%-1400px)/2-28px)] top-1/2 transform -translate-y-1/2 w-14 h-14 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl flex justify-center items-center hover:bg-[#f8f4ff] dark:hover:bg-gray-700 transition-all z-10"
             aria-label={dia === "sexta" ? "Quiz" : "Próxima lição"}
           >
             {dia === "sexta" ? (
