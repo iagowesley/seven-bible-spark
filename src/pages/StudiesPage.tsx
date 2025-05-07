@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BookOpen, ChevronRight, AlertTriangle, Sparkles, Clock } from "lucide-react";
+import { BookOpen, ChevronRight, AlertTriangle, Clock, BookMarked } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { listarTrimestres, Trimestre } from "@/models/trimestreService";
@@ -10,6 +10,8 @@ import { Semana } from "@/models/semanaService";
 import { toast } from "@/hooks/use-toast";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
 
 // Interfaces
 type SemanaComStatus = {
@@ -74,10 +76,8 @@ const StudiesPage: React.FC = () => {
     return (
       <>
         <Navbar />
-        <div className="container mx-auto py-16 px-4 max-w-6xl">
-          <div className="flex justify-center items-center py-32">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-          </div>
+        <div className="min-h-screen flex items-center justify-center bg-neutral-50 dark:bg-neutral-900">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#a37fb9]"></div>
         </div>
         <Footer />
       </>
@@ -88,8 +88,8 @@ const StudiesPage: React.FC = () => {
     return (
       <>
         <Navbar />
-        <div className="container mx-auto py-16 px-4 max-w-6xl">
-          <Alert variant="destructive">
+        <div className="min-h-screen flex items-center justify-center bg-neutral-50 dark:bg-neutral-900">
+          <Alert variant="destructive" className="max-w-md">
             <AlertTriangle className="h-4 w-4" />
             <AlertTitle>Erro</AlertTitle>
             <AlertDescription>{error}</AlertDescription>
@@ -103,152 +103,170 @@ const StudiesPage: React.FC = () => {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-gradient-to-b from-[#f8f4ff] via-white to-[#f8f4ff] dark:from-gray-900 dark:via-gray-950 dark:to-gray-900 relative overflow-hidden">
-        {/* Elementos decorativos de fundo */}
-        <div className="absolute top-20 left-10 w-64 h-64 bg-[#a37fb9]/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-10 w-80 h-80 bg-blue-500/5 rounded-full blur-3xl"></div>
-        <div className="absolute top-1/3 right-1/4 w-40 h-40 bg-purple-300/10 rounded-full blur-2xl"></div>
-        
-        {/* Partículas decorativas */}
-        <div className="absolute top-1/4 left-1/4 animate-pulse">
-          <Sparkles className="h-6 w-6 text-[#a37fb9]/30" />
-        </div>
-        <div className="absolute bottom-1/3 right-1/3 animate-bounce animation-delay-1000">
-          <Sparkles className="h-5 w-5 text-blue-400/30" />
-        </div>
-        
-        <div className="container mx-auto py-16 px-4 max-w-6xl relative z-10">
-          <div className="text-center mb-12 relative">
-            <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 w-20 h-1.5 rounded-full bg-gradient-to-r from-[#a37fb9] to-[#8a63a8]"></div>
-            <h1 className="text-5xl font-bold mb-5 text-transparent bg-clip-text bg-gradient-to-r from-[#a37fb9] to-[#8a63a8] inline-block">
-              Lições disponíveis
-            </h1>
-            <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed text-lg">
-              Explore nossos estudos bíblicos organizados por trimestre. Cada semana contém 7 lições diárias 
-              com resumos para aprofundar seu conhecimento espiritual.
-            </p>
-            
-            <div className="mt-8 flex justify-center gap-4 opacity-70">
-              <div className="flex items-center bg-white dark:bg-gray-800 px-4 py-2 rounded-full shadow-sm">
-                <Clock className="h-4 w-4 mr-2 text-[#a37fb9]" />
-                <span className="text-sm">7 dias de estudo por semana</span>
-              </div>
-              <div className="flex items-center bg-white dark:bg-gray-800 px-4 py-2 rounded-full shadow-sm">
-                <BookOpen className="h-4 w-4 mr-2 text-[#a37fb9]" />
-                <span className="text-sm">Conteúdo inspirador</span>
+      <main className="min-h-screen bg-neutral-50 dark:bg-neutral-900">
+        {/* Cabeçalho */}
+        <section className="w-full py-24 bg-white dark:bg-neutral-800">
+          <div className="container mx-auto px-4 md:px-6 max-w-5xl">
+            <div className="flex flex-col items-center text-center space-y-6">
+              <Badge className="bg-[#a37fb9] hover:bg-[#a37fb9]/90 text-white px-3 py-1 text-xs">
+                Estudos Bíblicos
+              </Badge>
+              
+              <h1 className="text-4xl md:text-5xl font-serif font-medium text-neutral-900 dark:text-white max-w-2xl leading-tight">
+                Lições <span className="text-[#a37fb9]">disponíveis</span>
+              </h1>
+              
+              <p className="text-neutral-600 dark:text-neutral-300 max-w-xl text-lg font-light leading-relaxed">
+                Explore nossos estudos bíblicos organizados por trimestre. Cada semana contém 7 lições diárias 
+                para aprofundar seu conhecimento espiritual.
+              </p>
+              
+              <Separator className="w-12 bg-[#a37fb9] h-0.5 mt-4" />
+              
+              <div className="flex flex-wrap justify-center gap-4 pt-4">
+                <div className="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400">
+                  <Clock className="h-4 w-4 text-[#a37fb9]" />
+                  <span>7 dias de estudo por semana</span>
+                </div>
+                <div className="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400">
+                  <BookOpen className="h-4 w-4 text-[#a37fb9]" />
+                  <span>Conteúdo inspirador</span>
+                </div>
               </div>
             </div>
           </div>
-          
-          {/* Trimestres */}
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-12 mb-12 justify-items-center">
-            {trimestres.map((trimestre) => {
-              // Filtrar apenas semanas completas
-              const semanasCompletas = trimestre.semanas.filter((semana) => semana.completa);
-              
-              if (semanasCompletas.length === 0) {
-                return null; // Não exibir trimestres sem semanas completas
-              }
-              
-              return (
-                <Card 
-                  key={trimestre.id} 
-                  className="overflow-hidden border border-[#a37fb9]/20 hover:shadow-lg transition-all duration-500 hover:border-[#a37fb9]/40 w-full max-w-sm group hover:translate-y-[-5px] bg-white/70 backdrop-blur-sm dark:bg-gray-900/70"
-                >
-                  <div className="relative book-cover-container overflow-hidden">
-                    {trimestre.img_url ? (
-                      <div className="book-wrapper group-hover:scale-105 transition-transform duration-500">
-                        <div className="book-spine bg-[#8a63a8]"></div>
-                        <div className="book-cover relative">
-                          <img 
-                            src={trimestre.img_url} 
-                            alt={trimestre.nome} 
-                            className="w-full h-full object-cover"
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-[#a37fb9]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+        </section>
+        
+        {/* Lista de trimestres */}
+        <section className="py-20">
+          <div className="container mx-auto px-4 md:px-6 max-w-6xl">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+              {trimestres.map((trimestre) => {
+                // Filtrar apenas semanas completas
+                const semanasCompletas = trimestre.semanas.filter((semana) => semana.completa);
+                
+                if (semanasCompletas.length === 0) {
+                  return null; // Não exibir trimestres sem semanas completas
+                }
+                
+                return (
+                  <div key={trimestre.id} className="flex flex-col">
+                    {/* Card no formato de livro */}
+                    <div className="book-card relative mx-auto">
+                      {/* Sombra do livro */}
+                      <div className="absolute -right-2 top-2 bottom-4 w-[calc(100%-10px)] bg-black/20 rounded-r-sm dark:bg-black/40 z-0"></div>
+                      
+                      {/* Livro */}
+                      <div className="book relative bg-white dark:bg-neutral-800 shadow-md hover:shadow-lg transition-all duration-500 rounded-sm z-10 overflow-hidden transform hover:-translate-y-1 hover:translate-x-1">
+                        {/* Lombada do livro */}
+                        <div className="absolute left-0 top-0 bottom-0 w-[12px] bg-[#a37fb9] dark:bg-[#8a63a8] rounded-l-sm shadow-inner z-20">
+                          <div className="absolute top-0 bottom-0 left-0 w-[3px] bg-white/10"></div>
                         </div>
                         
-                        {/* Meses da lição em formato vertical */}
-                        <div className="absolute -left-6 top-1/2 transform -translate-y-1/2 bg-[#8a63a8] text-white text-xs py-2 px-1 rounded-l-md shadow-md origin-center -rotate-90 whitespace-nowrap">
-                          {getMesesDeTrimestre(trimestre.trimestre)}
+                        {/* Capa do livro */}
+                        <div className="ml-[12px]">
+                          <div className="aspect-[3/4] relative overflow-hidden">
+                            {trimestre.img_url ? (
+                              <img 
+                                src={trimestre.img_url} 
+                                alt={trimestre.nome} 
+                                className="w-full h-full object-cover"
+                              />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-[#a37fb9]/20 to-[#a37fb9]/5">
+                                <BookMarked className="h-16 w-16 text-[#a37fb9]/60" />
+                              </div>
+                            )}
+                            
+                            {/* Overlay para garantir que o texto seja legível */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30"></div>
+                            
+                            {/* Badge do trimestre */}
+                            <div className="absolute top-3 right-3">
+                              <Badge className="bg-[#a37fb9] shadow-md">
+                                {trimestre.ano} - {trimestre.trimestre}º Trim
+                              </Badge>
+                            </div>
+                            
+                            {/* Título do livro */}
+                            <div className="absolute bottom-0 left-0 right-0 p-4 text-center">
+                              <h2 className="text-white font-bold text-lg leading-tight shadow-text">
+                                {trimestre.nome}
+                              </h2>
+                              <p className="text-white/90 text-xs mt-1 font-medium shadow-text">
+                                {getMesesDeTrimestre(trimestre.trimestre)}
+                              </p>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    ) : (
-                      <div className="book-wrapper bg-gradient-to-br from-[#a37fb9]/20 to-purple-400/20 group-hover:scale-105 transition-transform duration-500">
-                        <div className="book-spine bg-[#8a63a8]"></div>
-                        <div className="book-cover flex items-center justify-center">
-                          <BookOpen className="h-16 w-16 text-[#a37fb9] group-hover:scale-110 transition-transform" />
+                    </div>
+                    
+                    {/* Conteúdo do trimestre */}
+                    <Card className="mt-4 bg-white dark:bg-neutral-800 border-none shadow-sm">
+                      <CardHeader className="pb-2">
+                        <CardTitle className="text-lg text-neutral-900 dark:text-white">{trimestre.nome}</CardTitle>
+                        <CardDescription className="flex items-center gap-1 text-neutral-500 dark:text-neutral-400">
+                          <BookOpen className="h-3.5 w-3.5" />
+                          {semanasCompletas.length} semana(s) de estudo
+                        </CardDescription>
+                      </CardHeader>
+                      
+                      <CardContent className="space-y-4">
+                        <Separator className="bg-neutral-200 dark:bg-neutral-700" />
+                        
+                        <div className="space-y-3">
+                          <h3 className="text-sm font-medium text-neutral-500 dark:text-neutral-400">
+                            Semanas disponíveis:
+                          </h3>
+                          
+                          <div className="space-y-2">
+                            {semanasCompletas.map((semana) => (
+                              <Link 
+                                to={`/estudos/${semana.id}/licao`}
+                                key={semana.id}
+                                className="group flex items-center justify-between p-3 bg-neutral-50 dark:bg-neutral-900 rounded-md hover:bg-[#a37fb9]/10 transition-colors"
+                              >
+                                <span className="text-sm text-neutral-700 dark:text-neutral-300 group-hover:text-[#a37fb9] transition-colors">
+                                  Semana {semana.numero}: {semana.titulo}
+                                </span>
+                                <ChevronRight className="h-4 w-4 text-neutral-400 dark:text-neutral-500 group-hover:text-[#a37fb9] group-hover:translate-x-1 transition-all" />
+                              </Link>
+                            ))}
+                          </div>
                         </div>
                         
-                        {/* Meses da lição em formato vertical para o caso sem imagem */}
-                        <div className="absolute -left-6 top-1/2 transform -translate-y-1/2 bg-[#8a63a8] text-white text-xs py-2 px-1 rounded-l-md shadow-md origin-center -rotate-90 whitespace-nowrap">
-                          {getMesesDeTrimestre(trimestre.trimestre)}
-                        </div>
-                      </div>
-                    )}
-                    
-                    <div className="absolute top-4 right-4 bg-[#a37fb9] text-white text-xs px-3 py-1 rounded-full shadow-md">
-                      {trimestre.ano} - {trimestre.trimestre}º Trim
-                    </div>
-                  </div>
-                  <CardHeader className="border-b border-[#a37fb9]/10 bg-gradient-to-r from-[#a37fb9]/5 to-transparent">
-                    <CardTitle className="text-xl text-[#a37fb9] font-bold">{trimestre.nome}</CardTitle>
-                    <CardDescription className="flex items-center gap-1">
-                      <BookOpen className="h-3.5 w-3.5" />
-                      {semanasCompletas.length} semana(s) de estudo
-                    </CardDescription>
-                    
-                    {/* Link para obter lição física */}
-                    <div className="mt-3 pt-3 border-t border-[#a37fb9]/10">
-                      <a 
-                        href="https://loja-dev.cpb.com.br/produto/5868/comtexto-biblico-jovens-aluno-avulsa-2-trimestre-2025-licao-da-escola-sabatina" 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="text-xs flex items-center text-[#8a63a8] hover:text-[#a37fb9] transition-colors"
-                      >
-                        <BookOpen className="h-3 w-3 mr-1" />
-                        Obter lição física na CPB
-                      </a>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="p-6">
-                    <div className="space-y-4">
-                      <h3 className="font-medium flex items-center text-[#8a63a8]">
-                        <Sparkles className="h-4 w-4 mr-2" />
-                        Semanas disponíveis:
-                      </h3>
-                      <div className="grid grid-cols-1 gap-3">
-                        {semanasCompletas.map((semana, index) => (
-                          <Link 
-                            to={`/estudos/${semana.id}/licao`}
-                            key={semana.id}
-                            className="flex items-center justify-between p-3.5 bg-gradient-to-r from-[#a37fb9]/5 to-[#a37fb9]/10 hover:from-[#a37fb9]/10 hover:to-[#a37fb9]/20 rounded-md transition-all duration-300 group/link border border-transparent hover:border-[#a37fb9]/20 shadow-sm"
-                            style={{ animationDelay: `${index * 100}ms` }}
+                        <div className="pt-2">
+                          <a 
+                            href="https://loja-dev.cpb.com.br/produto/5868/comtexto-biblico-jovens-aluno-avulsa-2-trimestre-2025-licao-da-escola-sabatina" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-xs flex items-center text-[#a37fb9] hover:underline"
                           >
-                            <span className="font-medium text-sm group-hover/link:text-[#8a63a8] transition-colors">
-                              Semana {semana.numero}: {semana.titulo}
-                            </span>
-                            <ChevronRight className="h-4 w-4 text-[#a37fb9] group-hover/link:translate-x-1 transition-transform" />
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              );
-            })}
+                            <BookOpen className="h-3 w-3 mr-1" />
+                            Obter lição física na CPB
+                          </a>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                );
+              })}
+            </div>
+            
+            {trimestres.filter(t => t.semanas.some(s => s.completa)).length === 0 && (
+              <div className="mt-12">
+                <Alert className="max-w-lg mx-auto bg-white dark:bg-neutral-800 border-[#a37fb9]/20">
+                  <AlertTitle className="font-medium text-[#a37fb9]">Nenhum estudo disponível</AlertTitle>
+                  <AlertDescription className="text-neutral-600 dark:text-neutral-400">
+                    Não há estudos disponíveis no momento. Por favor, volte mais tarde para novidades.
+                  </AlertDescription>
+                </Alert>
+              </div>
+            )}
           </div>
-          
-          {trimestres.filter(t => t.semanas.some(s => s.completa)).length === 0 && (
-            <Alert className="bg-white/80 backdrop-blur-sm shadow-md border-[#a37fb9]/20 max-w-2xl mx-auto">
-              <AlertTitle className="font-semibold text-[#a37fb9]">Nenhum estudo disponível</AlertTitle>
-              <AlertDescription className="mt-2">
-                Não há estudos disponíveis no momento. Por favor, volte mais tarde para novidades.
-              </AlertDescription>
-            </Alert>
-          )}
-        </div>
-      </div>
+        </section>
+      </main>
       <Footer />
     </>
   );
