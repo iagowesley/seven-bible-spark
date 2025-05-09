@@ -57,6 +57,39 @@ export type Database = {
         }
         Relationships: []
       }
+      quiz_ranking: {
+        Row: {
+          id: string
+          user_id: string
+          user_name: string
+          semana_id: string
+          pontuacao: number
+          acertos: number
+          total_perguntas: number
+          data_realizacao: string
+        }
+        Insert: {
+          id?: string
+          user_id: string
+          user_name: string
+          semana_id: string
+          pontuacao: number
+          acertos: number
+          total_perguntas: number
+          data_realizacao?: string
+        }
+        Update: {
+          id?: string
+          user_id?: string
+          user_name?: string
+          semana_id?: string
+          pontuacao?: number
+          acertos?: number
+          total_perguntas?: number
+          data_realizacao?: string
+        }
+        Relationships: []
+      }
       user_progress: {
         Row: {
           completed: boolean

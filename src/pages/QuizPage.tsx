@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
-import { ArrowLeft, CheckCircle, XCircle, ArrowRight } from "lucide-react";
+import { ArrowLeft, CheckCircle, XCircle, ArrowRight, Trophy, AlertTriangle, Info, User, Calendar } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
@@ -12,6 +12,27 @@ import { listarLicoesPorSemana } from "@/models/licaoService";
 import { toast } from "@/hooks/use-toast";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogHeader, 
+  DialogTitle, 
+  DialogDescription,
+  DialogFooter,
+  DialogClose
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+
+import {
+  hasUserCompletedQuiz,
+  saveQuizScore,
+  getQuizTopRanking,
+  isUserInTopRanking,
+  getUserRankingPosition,
+  QuizRanking
+} from "@/models/quizRanking";
+
+import Ranking from "@/components/ui/ranking";
 
 // Tipo das perguntas do quiz
 interface QuizQuestion {
@@ -39,6 +60,56 @@ const QuizPage: React.FC = () => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [userAnswers, setUserAnswers] = useState<UserAnswer[]>([]);
   const [quizCompleted, setQuizCompleted] = useState(false);
+  
+  // Estados para o sistema de ranking
+  const [showWarningDialog, setShowWarningDialog] = useState(true);
+  const [userName, setUserName] = useState("");
+  const [userNameSubmitted, setUserNameSubmitted] = useState(false);
+  const [showRanking, setShowRanking] = useState(false);
+  const [topRanking, setTopRanking] = useState<any[]>([]);
+  const [userRanking, setUserRanking] = useState<number | null>(null);
+  const [isInTopRanking, setIsInTopRanking] = useState(false);
+  const [userId, setUserId] = useState<string>("");
+  
+  // Verificar se o usuário já completou o quiz
+  useEffect(() => {
+    const checkQuizCompletion = async () => {
+      if (!semanaId) return;
+      
+      // Gerar um ID de usuário exclusivo e armazenar localmente se não existir
+      let storedUserId = localStorage.getItem('quiz_user_id');
+      if (!storedUserId) {
+        storedUserId = `user_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+        localStorage.setItem('quiz_user_id', storedUserId);
+      }
+      setUserId(storedUserId);
+      
+      try {
+        const hasCompleted = await hasUserCompletedQuiz(storedUserId, semanaId);
+        
+        if (hasCompleted) {
+          setError("Você já respondeu a este quiz anteriormente. Cada usuário pode responder o quiz apenas uma vez.");
+          
+          // Verificar se o usuário está no top 10
+          const isInTop = await isUserInTopRanking(storedUserId, semanaId);
+          setIsInTopRanking(isInTop);
+          
+          // Buscar a posição do usuário
+          const position = await getUserRankingPosition(storedUserId, semanaId);
+          setUserRanking(position);
+          
+          // Carregar o ranking
+          const ranking = await getQuizTopRanking(semanaId);
+          setTopRanking(ranking);
+          setShowRanking(true);
+        }
+      } catch (err) {
+        console.error("Erro ao verificar conclusão do quiz:", err);
+      }
+    };
+    
+    checkQuizCompletion();
+  }, [semanaId]);
   
   useEffect(() => {
     const carregarDados = async () => {
@@ -352,7 +423,39 @@ const QuizPage: React.FC = () => {
     return <div dangerouslySetInnerHTML={{ __html: processedText }} />;
   };
   
-  // Corrigir a função handleAnswerSelect para processar a resposta corretamente
+  const handleSubmitUserName = () => {
+    if (!userName.trim()) {
+      toast({
+        title: "Nome obrigatório",
+        description: "Por favor, informe seu nome para continuar.",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    setUserNameSubmitted(true);
+    setShowWarningDialog(false);
+    
+    // Salvar o nome do usuário no localStorage
+    localStorage.setItem('quiz_user_name', userName);
+    
+    toast({
+      title: "Boa sorte!",
+      description: "Lembre-se que você só poderá responder este quiz uma vez. Faça seu melhor!",
+    });
+  };
+  
+  const loadRanking = async () => {
+    if (!semanaId) return;
+    
+    try {
+      const ranking = await getQuizTopRanking(semanaId);
+      setTopRanking(ranking);
+    } catch (err) {
+      console.error("Erro ao carregar ranking:", err);
+    }
+  };
+  
   const handleAnswerSelect = (optionIndex: number) => {
     // Evitar alteração após verificar a resposta
     if (userAnswers[currentQuestionIndex].isCorrect !== null) return;
@@ -367,7 +470,6 @@ const QuizPage: React.FC = () => {
     setUserAnswers(updatedAnswers);
   };
   
-  // Atualizar a função handleNextQuestion para verificar a resposta corretamente
   const handleNextQuestion = () => {
     // Verificar se há uma resposta selecionada
     if (userAnswers[currentQuestionIndex].selectedOption === null) {
@@ -408,7 +510,6 @@ const QuizPage: React.FC = () => {
     }
   };
   
-  // Melhorar a função de cálculo da pontuação
   const calculateScore = () => {
     const correctAnswers = userAnswers.filter(answer => answer.isCorrect).length;
     return {
@@ -418,21 +519,62 @@ const QuizPage: React.FC = () => {
   };
   
   const handleRestartQuiz = () => {
-    // Resetar o estado do quiz
-    const resetUserAnswers = questions.map(q => ({
-      questionId: q.id,
-      selectedOption: null,
-      isCorrect: null
-    }));
-    
-    setUserAnswers(resetUserAnswers);
-    setCurrentQuestionIndex(0);
-    setQuizCompleted(false);
+    // Impedir reinício já que o quiz só pode ser respondido uma vez
+    toast({
+      title: "Operação não permitida",
+      description: "Você só pode responder o quiz uma vez. Seu resultado já foi registrado.",
+      variant: "destructive",
+    });
   };
   
-  const handleFinishQuiz = () => {
-    // Navegar de volta para a página de estudos
-    navigate("/estudos");
+  const handleFinishQuiz = async () => {
+    if (quizCompleted && !showRanking) {
+      // Salvar a pontuação no ranking
+      try {
+        const score = calculateScore();
+        const correctAnswers = userAnswers.filter(answer => answer.isCorrect).length;
+        
+        // Usar o nome armazenado ou um valor padrão
+        const storedName = localStorage.getItem('quiz_user_name') || userName || "Anônimo";
+        
+        const result = await saveQuizScore(
+          userId,
+          storedName,
+          semanaId,
+          score.percentage,
+          correctAnswers,
+          questions.length
+        );
+        
+        if (result.success) {
+          // Buscar a posição do usuário no ranking
+          if (result.ranking) {
+            setUserRanking(result.ranking);
+            setIsInTopRanking(result.ranking <= 10);
+          }
+          
+          // Carregar o ranking
+          await loadRanking();
+          setShowRanking(true);
+        } else {
+          toast({
+            title: "Erro ao salvar pontuação",
+            description: result.error || "Ocorreu um erro ao salvar sua pontuação.",
+            variant: "destructive",
+          });
+        }
+      } catch (err) {
+        console.error("Erro ao finalizar quiz:", err);
+        toast({
+          title: "Erro ao finalizar quiz",
+          description: "Ocorreu um erro ao processar seu resultado.",
+          variant: "destructive",
+        });
+      }
+    } else if (showRanking) {
+      // Navegar de volta para a página de estudos
+      navigate("/estudos");
+    }
   };
   
   const voltar = () => {
@@ -465,24 +607,34 @@ const QuizPage: React.FC = () => {
           
           <Card className="mb-8">
             <CardHeader>
-              <CardTitle className="text-center text-xl text-red-600">Não foi possível carregar o quiz</CardTitle>
+              <CardTitle className="text-center text-xl text-red-600">Quiz não disponível</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="text-center mb-6">
                 <Alert variant="destructive" className="mb-6">
+                  <AlertTitle>Atenção</AlertTitle>
                   <AlertDescription className="text-base">{error}</AlertDescription>
                 </Alert>
                 
-                <p className="text-lg mt-6">
-                  Sugerimos que você volte para a lição e tente novamente mais tarde, ou entre em contato com o administrador se o problema persistir.
-                </p>
+                {showRanking && (
+                  <div className="mt-8">
+                    <Ranking 
+                      rankings={topRanking}
+                      currentUserId={userId}
+                      userRanking={userRanking}
+                      isInTopRanking={isInTopRanking}
+                    />
+                  </div>
+                )}
+                
+                <Button 
+                  onClick={voltar} 
+                  className="mt-6"
+                >
+                  Voltar para a lição
+                </Button>
               </div>
             </CardContent>
-            <CardFooter className="flex justify-center">
-              <Button onClick={voltar}>
-                Voltar para a lição
-              </Button>
-            </CardFooter>
           </Card>
         </div>
         <Footer />
@@ -504,69 +656,166 @@ const QuizPage: React.FC = () => {
               <CardTitle className="text-center text-2xl">Resultados do Quiz: {semanaTitle}</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col items-center">
-              <div className="mb-6">
-                <div className="text-center mb-4">
-                  <span className="text-4xl font-bold">{score.percentage}%</span>
-                  <p className="text-muted-foreground">Pontuação</p>
+              {showRanking ? (
+                <div className="w-full max-w-2xl mx-auto">
+                  <Ranking 
+                    rankings={topRanking}
+                    currentUserId={userId}
+                    userRanking={userRanking}
+                    isInTopRanking={isInTopRanking}
+                    title="Seu resultado no ranking"
+                    description="Veja como você se posicionou em relação aos demais participantes"
+                  />
                 </div>
-                <Progress value={score.percentage} className="w-64 h-2" />
-              </div>
-              
-              <div className="text-center mb-8">
-                <p className="text-lg">
-                  Você acertou <span className="font-bold">{correctAnswers}</span> de <span className="font-bold">{questions.length}</span> perguntas
-                </p>
-              </div>
-              
-              <div className="space-y-6 w-full max-w-xl">
-                {questions.map((question, index) => {
-                  const userAnswer = userAnswers[index];
-                  const isCorrect = userAnswer.isCorrect;
-                  
-                  return (
-                    <div key={question.id} className="border rounded-lg p-4">
-                      <div className="flex items-start gap-2 mb-2">
-                        {isCorrect ? (
-                          <CheckCircle className="text-green-500 h-5 w-5 mt-1 shrink-0" />
-                        ) : (
-                          <XCircle className="text-red-500 h-5 w-5 mt-1 shrink-0" />
-                        )}
-                        <div>
-                          <p className="font-medium">{index + 1}. {processText(question.question)}</p>
-                          <p className="text-sm text-muted-foreground">
-                            Dia: {question.day.charAt(0).toUpperCase() + question.day.slice(1)}
-                          </p>
-                        </div>
-                      </div>
-                      
-                      <div className="ml-7 mt-2">
-                        <p className="text-sm">
-                          <span className="font-medium">Sua resposta:</span>{" "}
-                          {userAnswer.selectedOption !== null 
-                            ? question.options[userAnswer.selectedOption] 
-                            : "Sem resposta"}
-                        </p>
-                        
-                        {!isCorrect && (
-                          <p className="text-sm text-green-600 mt-1">
-                            <span className="font-medium">Resposta correta:</span>{" "}
-                            {question.options[question.correctAnswer]}
-                          </p>
-                        )}
-                      </div>
+              ) : (
+                <>
+                  <div className="mb-6">
+                    <div className="text-center mb-4">
+                      <span className="text-4xl font-bold">{score.percentage}%</span>
+                      <p className="text-muted-foreground">Pontuação</p>
                     </div>
-                  );
-                })}
-              </div>
+                    <Progress value={score.percentage} className="w-64 h-2" />
+                  </div>
+                  
+                  <div className="text-center mb-8">
+                    <p className="text-lg">
+                      Você acertou <span className="font-bold">{correctAnswers}</span> de <span className="font-bold">{questions.length}</span> perguntas
+                    </p>
+                  </div>
+                  
+                  <div className="space-y-6 w-full max-w-xl">
+                    {questions.map((question, index) => {
+                      const userAnswer = userAnswers[index];
+                      const isCorrect = userAnswer.isCorrect;
+                      
+                      return (
+                        <div key={question.id} className="border rounded-lg p-4">
+                          <div className="flex items-start gap-2 mb-2">
+                            {isCorrect ? (
+                              <CheckCircle className="text-green-500 h-5 w-5 mt-1 shrink-0" />
+                            ) : (
+                              <XCircle className="text-red-500 h-5 w-5 mt-1 shrink-0" />
+                            )}
+                            <div>
+                              <p className="font-medium">{index + 1}. {processText(question.question)}</p>
+                              <p className="text-sm text-muted-foreground">
+                                Dia: {question.day.charAt(0).toUpperCase() + question.day.slice(1)}
+                              </p>
+                            </div>
+                          </div>
+                          
+                          <div className="ml-7 mt-2">
+                            <p className="text-sm">
+                              <span className="font-medium">Sua resposta:</span>{" "}
+                              {userAnswer.selectedOption !== null 
+                                ? question.options[userAnswer.selectedOption] 
+                                : "Sem resposta"}
+                            </p>
+                            
+                            {!isCorrect && (
+                              <p className="text-sm text-green-600 mt-1">
+                                <span className="font-medium">Resposta correta:</span>{" "}
+                                {question.options[question.correctAnswer]}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </>
+              )}
             </CardContent>
             <CardFooter className="flex justify-center gap-4">
-              <Button variant="outline" onClick={handleRestartQuiz}>
-                Tentar Novamente
-              </Button>
-              <Button onClick={handleFinishQuiz}>
-                Concluir
-              </Button>
+              {showRanking ? (
+                <Button onClick={handleFinishQuiz}>
+                  Voltar para Estudos
+                </Button>
+              ) : (
+                <>
+                  <Button 
+                    variant="outline" 
+                    onClick={handleRestartQuiz}
+                    className="hidden" // Escondido pois o quiz só pode ser feito uma vez
+                  >
+                    Tentar Novamente
+                  </Button>
+                  <Button onClick={handleFinishQuiz}>
+                    Ver Ranking
+                  </Button>
+                </>
+              )}
             </CardFooter>
+          </Card>
+        </div>
+        <Footer />
+      </>
+    );
+  }
+  
+  // Dialog de aviso
+  if (showWarningDialog && !error) {
+    return (
+      <>
+        <Navbar />
+        <div className="container mx-auto py-10 px-4 max-w-6xl">
+          <Button variant="ghost" onClick={voltar} className="mb-6">
+            <ArrowLeft className="mr-2 h-4 w-4" />
+            Voltar para Estudos
+          </Button>
+          
+          <div className="mb-6">
+            <h1 className="text-3xl font-bold mb-2">{semanaTitle}</h1>
+            <p className="text-muted-foreground">
+              Teste seus conhecimentos sobre as lições dessa semana.
+            </p>
+          </div>
+          
+          <Card className="border-yellow-200 dark:border-yellow-800 shadow-md">
+            <CardHeader className="bg-yellow-50 dark:bg-yellow-900/20 border-b border-yellow-100 dark:border-yellow-800/30">
+              <CardTitle className="flex items-center text-yellow-800 dark:text-yellow-300">
+                <AlertTriangle className="h-5 w-5 mr-2 text-yellow-600" />
+                Atenção! Você só pode responder uma vez
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="pt-6">
+              <div className="mb-6 space-y-4">
+                <p className="text-gray-700 dark:text-gray-300">
+                  Este quiz só pode ser respondido <strong>uma única vez</strong>. Sua pontuação será salva e você poderá ver sua posição no ranking.
+                </p>
+                <p className="text-gray-700 dark:text-gray-300">
+                  Os 10 melhores resultados aparecerão no ranking. Estude bem antes de começar!
+                </p>
+                  
+                <Alert className="bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800/30 text-blue-800 dark:text-blue-300">
+                  <Info className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                  <AlertDescription className="text-sm">
+                    Dica: Revise todas as lições da semana antes de iniciar o quiz para obter a melhor pontuação possível.
+                  </AlertDescription>
+                </Alert>
+              </div>
+              
+              <div className="mt-6">
+                <label className="block text-sm font-medium mb-2">
+                  Digite seu nome para o ranking:
+                </label>
+                <div className="flex gap-3">
+                  <Input 
+                    value={userName}
+                    onChange={(e) => setUserName(e.target.value)}
+                    placeholder="Seu nome completo"
+                    className="flex-1"
+                    autoFocus
+                  />
+                  <Button 
+                    onClick={handleSubmitUserName}
+                    className="bg-primary hover:bg-primary/90"
+                  >
+                    Começar Quiz
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
           </Card>
         </div>
         <Footer />
@@ -633,8 +882,8 @@ const QuizPage: React.FC = () => {
                     <h2 className="text-3xl font-bold mb-2">{calculateScore().percentage}%</h2>
                     <p className="text-muted-foreground">
                       Você acertou {calculateScore().correctCount} de {questions.length} questões
-              </p>
-            </div>
+                    </p>
+                  </div>
                   
                   <div className="space-y-6">
                     <h3 className="text-xl font-semibold border-b pb-2">Resumo das respostas:</h3>
@@ -693,13 +942,13 @@ const QuizPage: React.FC = () => {
                   <div className="text-lg font-medium">
                     {processText(questions[currentQuestionIndex].question)}
                   </div>
-          </CardHeader>
+                </CardHeader>
                 <CardContent className="p-6">
-            <RadioGroup 
+                  <RadioGroup 
                     value={userAnswers[currentQuestionIndex].selectedOption !== null ? 
                       userAnswers[currentQuestionIndex].selectedOption.toString() : undefined}
-              className="space-y-3"
-            >
+                    className="space-y-3"
+                  >
                     {questions[currentQuestionIndex].options.map((option, optionIndex) => (
                       <div
                         key={optionIndex}
@@ -735,9 +984,9 @@ const QuizPage: React.FC = () => {
                           userAnswers[currentQuestionIndex].selectedOption === optionIndex && (
                             <XCircle className="h-5 w-5 text-destructive flex-shrink-0" />
                           )}
-                </div>
-              ))}
-            </RadioGroup>
+                      </div>
+                    ))}
+                  </RadioGroup>
                   
                   {userAnswers[currentQuestionIndex].isCorrect !== null && (
                     <div className={`mt-4 p-3 rounded-md ${
@@ -759,21 +1008,21 @@ const QuizPage: React.FC = () => {
                       </p>
                     </div>
                   )}
-          </CardContent>
+                </CardContent>
                 <CardFooter className="flex justify-between p-6">
-            <Button 
+                  <Button 
                     variant="ghost"
-              onClick={handlePreviousQuestion}
-              disabled={currentQuestionIndex === 0}
+                    onClick={handlePreviousQuestion}
+                    disabled={currentQuestionIndex === 0}
                     className="w-24"
-            >
+                  >
                     <ArrowLeft className="mr-2 h-4 w-4" />
-              Anterior
-            </Button>
+                    Anterior
+                  </Button>
                   
-            <Button 
+                  <Button 
                     variant="modern"
-              onClick={handleNextQuestion}
+                    onClick={handleNextQuestion}
                     className="w-24 bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary text-white"
                   >
                     {userAnswers[currentQuestionIndex].isCorrect !== null
@@ -785,9 +1034,9 @@ const QuizPage: React.FC = () => {
                     {userAnswers[currentQuestionIndex].isCorrect !== null && 
                      currentQuestionIndex < questions.length - 1 && 
                      <ArrowRight className="ml-2 h-4 w-4" />}
-            </Button>
-          </CardFooter>
-        </Card>
+                  </Button>
+                </CardFooter>
+              </Card>
             )}
           </>
         )}

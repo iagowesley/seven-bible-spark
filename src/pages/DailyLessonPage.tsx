@@ -24,6 +24,11 @@ import Footer from "@/components/layout/Footer";
 import { getUserProgress, updateUserProgress } from "@/models/userProgress";
 import { verificarConexaoSupabase } from "@/integrations/supabase/client";
 import { listarComentarios, adicionarComentario, curtirComentario } from "@/models/comentariosService";
+import { verificarQuizRespondido, salvarQuizResultado } from "@/models/quizService";
+import QuizAvisoUnico from "@/components/quiz/QuizAvisoUnico";
+import QuizResultado from "@/components/quiz/QuizResultado";
+import QuizRanking from "@/components/quiz/QuizRanking";
+import QuizRankingPage from "@/pages/QuizRankingPage";
 
 // Importando a biblioteca AOS para animações de scroll
 import AOS from 'aos';
