@@ -71,6 +71,11 @@ const QuizPage: React.FC = () => {
   const [isInTopRanking, setIsInTopRanking] = useState(false);
   const [userId, setUserId] = useState<string>("");
   
+  // Adicionar estas linhas no início do componente, logo após as declarações useState
+  const [quizStartTime, setQuizStartTime] = useState<number | null>(null);
+  const [quizEndTime, setQuizEndTime] = useState<number | null>(null);
+  const [quizDuration, setQuizDuration] = useState<number | null>(null);
+  
   // Verificar se o usuário já completou o quiz
   useEffect(() => {
     const checkQuizCompletion = async () => {
@@ -426,23 +431,27 @@ const QuizPage: React.FC = () => {
   const handleSubmitUserName = () => {
     if (!userName.trim()) {
       toast({
-        title: "Nome obrigatório",
-        description: "Por favor, informe seu nome para continuar.",
+        title: "Instagram obrigatório",
+        description: "Por favor, digite seu @Instagram para continuar",
         variant: "destructive",
       });
       return;
     }
     
-    setUserNameSubmitted(true);
-    setShowWarningDialog(false);
+    // Validar que começa com @
+    let instagramUsername = userName.trim();
+    if (!instagramUsername.startsWith('@')) {
+      instagramUsername = '@' + instagramUsername;
+      setUserName(instagramUsername);
+    }
     
     // Salvar o nome do usuário no localStorage
-    localStorage.setItem('quiz_user_name', userName);
+    localStorage.setItem('quiz_user_name', instagramUsername);
     
-    toast({
-      title: "Boa sorte!",
-      description: "Lembre-se que você só poderá responder este quiz uma vez. Faça seu melhor!",
-    });
+    // Iniciar o quiz e registrar o tempo inicial
+    setUserNameSubmitted(true);
+    setShowWarningDialog(false);
+    setQuizStartTime(Date.now());
   };
   
   const loadRanking = async () => {
@@ -495,8 +504,17 @@ const QuizPage: React.FC = () => {
     
     setUserAnswers(updatedAnswers);
     
-    // Se for a última questão, concluir o quiz
+    // Se for a última questão, concluir o quiz e registrar o tempo final
     if (currentQuestionIndex === questions.length - 1) {
+      const endTime = Date.now();
+      setQuizEndTime(endTime);
+      
+      // Calcular a duração do quiz em segundos
+      if (quizStartTime) {
+        const durationInSeconds = Math.floor((endTime - quizStartTime) / 1000);
+        setQuizDuration(durationInSeconds);
+      }
+      
       setQuizCompleted(true);
     } else {
       // Avançar para a próxima questão
@@ -543,7 +561,8 @@ const QuizPage: React.FC = () => {
           semanaId,
           score.percentage,
           correctAnswers,
-          questions.length
+          questions.length,
+          quizDuration // Passar a duração do quiz em segundos
         );
         
         if (result.success) {
@@ -797,13 +816,13 @@ const QuizPage: React.FC = () => {
               
               <div className="mt-6">
                 <label className="block text-sm font-medium mb-2">
-                  Digite seu nome para o ranking:
+                  Digite seu @Instagram para o ranking:
                 </label>
                 <div className="flex gap-3">
                   <Input 
                     value={userName}
                     onChange={(e) => setUserName(e.target.value)}
-                    placeholder="Seu nome completo"
+                    placeholder="@seunome"
                     className="flex-1"
                     autoFocus
                   />

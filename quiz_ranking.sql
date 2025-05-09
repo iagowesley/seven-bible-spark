@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS public.quiz_ranking (
   pontuacao INTEGER NOT NULL,
   acertos INTEGER NOT NULL,
   total_perguntas INTEGER NOT NULL,
+  tempo_realizacao INTEGER DEFAULT NULL,
   data_realizacao TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   
   -- Garante que cada usuário só responde uma vez por semana
@@ -40,4 +41,5 @@ COMMENT ON COLUMN public.quiz_ranking.semana_id IS 'ID da semana/lição relacio
 COMMENT ON COLUMN public.quiz_ranking.pontuacao IS 'Pontuação obtida pelo usuário (0-100%)';
 COMMENT ON COLUMN public.quiz_ranking.acertos IS 'Número de questões que o usuário acertou';
 COMMENT ON COLUMN public.quiz_ranking.total_perguntas IS 'Número total de perguntas no quiz';
+COMMENT ON COLUMN public.quiz_ranking.tempo_realizacao IS 'Tempo em segundos que o usuário levou para realizar o quiz';
 COMMENT ON COLUMN public.quiz_ranking.data_realizacao IS 'Data e hora em que o quiz foi respondido'; 

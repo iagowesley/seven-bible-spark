@@ -57,12 +57,13 @@ const Ranking: React.FC<RankingProps> = ({
         
         <div className="overflow-hidden rounded-lg border shadow-sm bg-white dark:bg-gray-800">
           <div className="bg-primary/10 p-3">
-            <div className="grid grid-cols-12 gap-2 font-semibold text-sm">
+            <div className="grid grid-cols-12 gap-1 font-semibold text-sm">
               <div className="col-span-1 text-center">#</div>
-              <div className="col-span-5">Nome</div>
-              <div className="col-span-2 text-center">Acertos</div>
-              <div className="col-span-2 text-center">Total</div>
-              <div className="col-span-2 text-center">Pontos</div>
+              <div className="col-span-4 sm:col-span-5">Instagram</div>
+              <div className="col-span-2 text-center hidden sm:block">Acertos</div>
+              <div className="col-span-2 text-center hidden sm:block">Total</div>
+              <div className="col-span-3 sm:col-span-2 text-center">Pontos</div>
+              <div className="col-span-4 sm:hidden text-center">Acertos</div>
             </div>
           </div>
           
@@ -75,7 +76,7 @@ const Ranking: React.FC<RankingProps> = ({
               rankings.map((rank, index) => (
                 <div 
                   key={rank.id} 
-                  className={`grid grid-cols-12 gap-2 p-3 text-sm ${
+                  className={`grid grid-cols-12 gap-1 p-3 text-sm ${
                     rank.user_id === currentUserId 
                       ? 'bg-primary/5 font-medium' 
                       : index === 0 ? 'bg-yellow-50/50 dark:bg-yellow-900/10' : ''
@@ -92,21 +93,29 @@ const Ranking: React.FC<RankingProps> = ({
                       <span className="font-bold">{index + 1}</span>
                     )}
                   </div>
-                  <div className="col-span-5 truncate flex items-center">
+                  <div className="col-span-4 sm:col-span-5 truncate flex items-center">
                     {rank.user_id === currentUserId ? (
                       <span className="font-medium">{rank.user_name}</span>
                     ) : (
                       rank.user_name
                     )}
                   </div>
-                  <div className="col-span-2 text-center">
+                  <div className="col-span-2 text-center hidden sm:block">
                     {rank.acertos}
                   </div>
-                  <div className="col-span-2 text-center">
+                  <div className="col-span-2 text-center hidden sm:block">
                     {rank.total_perguntas}
                   </div>
-                  <div className="col-span-2 text-center font-semibold">
+                  <div className="col-span-3 sm:col-span-2 text-center font-semibold">
                     {rank.pontuacao}%
+                    {rank.tempo_realizacao !== null && (
+                      <div className="text-xs text-gray-500 dark:text-gray-400 font-normal">
+                        {formatTime(rank.tempo_realizacao)}
+                      </div>
+                    )}
+                  </div>
+                  <div className="col-span-4 sm:hidden text-center text-xs">
+                    {rank.acertos}/{rank.total_perguntas}
                   </div>
                 </div>
               ))
@@ -116,6 +125,13 @@ const Ranking: React.FC<RankingProps> = ({
       </CardContent>
     </Card>
   );
+};
+
+// Função para formatar o tempo em minutos e segundos
+const formatTime = (seconds: number): string => {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  return `${minutes}m ${remainingSeconds}s`;
 };
 
 export default Ranking; 

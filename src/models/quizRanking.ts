@@ -9,6 +9,7 @@ export interface QuizRanking {
   pontuacao: number;
   acertos: number;
   total_perguntas: number;
+  tempo_realizacao: number | null;
   data_realizacao: string;
 }
 
@@ -19,7 +20,8 @@ export const saveQuizScore = async (
   semanaId: string,
   pontuacao: number,
   acertos: number,
-  totalPerguntas: number
+  totalPerguntas: number,
+  tempoRealizacao: number | null = null
 ): Promise<{ success: boolean; ranking?: number; error?: string }> => {
   try {
     // Verificar se o usuário já respondeu a este quiz
@@ -55,6 +57,7 @@ export const saveQuizScore = async (
         pontuacao,
         acertos,
         total_perguntas: totalPerguntas,
+        tempo_realizacao: tempoRealizacao,
       });
 
     if (insertError) {
@@ -71,7 +74,7 @@ export const saveQuizScore = async (
       .select('*')
       .eq('semana_id', semanaId)
       .order('pontuacao', { ascending: false })
-      .order('data_realizacao', { ascending: true });
+      .order('tempo_realizacao', { ascending: true });
 
     if (rankError) {
       console.error("Erro ao buscar rankings:", rankError);
@@ -101,7 +104,7 @@ export const getQuizTopRanking = async (semanaId: string): Promise<QuizRanking[]
       .from('quiz_ranking')
       .select('*')
       .order('pontuacao', { ascending: false })
-      .order('data_realizacao', { ascending: true })
+      .order('tempo_realizacao', { ascending: true })
       .limit(10);
     
     // Se for especificado um semanaId, filtra por ele
@@ -168,7 +171,7 @@ export const getUserRankingPosition = async (userId: string, semanaId: string): 
       .select('*')
       .eq('semana_id', semanaId)
       .order('pontuacao', { ascending: false })
-      .order('data_realizacao', { ascending: true });
+      .order('tempo_realizacao', { ascending: true });
 
     if (error || !rankings) {
       console.error("Erro ao obter rankings:", error);
