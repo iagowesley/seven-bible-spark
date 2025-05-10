@@ -59,13 +59,13 @@ const obterDataDoDia = (diaValor: string): string => {
   
   // Datas fixas para a semana (maio de 2025)
   const datasSemana: Record<string, string> = {
-    "sabado": "03/05/2025",
-    "domingo": "04/05/2025",
-    "segunda": "05/05/2025",
-    "terca": "06/05/2025",
-    "quarta": "07/05/2025",
-    "quinta": "08/05/2025",
-    "sexta": "09/05/2025"
+    "sabado": "10/05/2025",
+    "domingo": "11/05/2025",
+    "segunda": "12/05/2025",
+    "terca": "13/05/2025",
+    "quarta": "14/05/2025",
+    "quinta": "15/05/2025",
+    "sexta": "16/05/2025"
   };
   
   // Retorna a data fixa para o dia correspondente

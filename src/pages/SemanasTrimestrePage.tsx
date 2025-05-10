@@ -76,6 +76,40 @@ const SemanasTrimestrePage: React.FC = () => {
     }
   };
   
+  // Função para obter as datas da semana baseado no número da semana
+  const getDatasSemana = (numeroSemana: number): string => {
+    switch (numeroSemana) {
+      case 1:
+        return "Apr 05 - Apr 11";
+      case 2:
+        return "Apr 12 - Apr 18";
+      case 3:
+        return "Apr 19 - Apr 25";
+      case 4:
+        return "Apr 26 - May 02";
+      case 5:
+        return "May 03 - May 09";
+      case 6:
+        return "May 03 - May 09";
+      case 7:
+        return "May 10 - May 16";
+      case 8:
+        return "May 17 - May 23";
+      case 9:
+        return "May 24 - May 30";
+      case 10:
+        return "May 31 - Jun 06";
+      case 11:
+        return "Jun 07 - Jun 13";
+      case 12:
+        return "Jun 14 - Jun 20";
+      case 13:
+        return "Jun 21 - Jun 27";
+      default:
+        return "May 03 - May 09"; // Data padrão se nenhuma corresponder
+    }
+  };
+  
   if (loading) {
     return (
       <>
@@ -169,7 +203,7 @@ const SemanasTrimestrePage: React.FC = () => {
                         <div className="flex-grow">
                           <div className="bg-neutral-50 dark:bg-neutral-900 p-4">
                             <h3 className="text-xl text-[#2c62af] font-bold mb-1">{semana.titulo}</h3>
-                            <p className="text-sm text-neutral-500">May 03 - May 09</p>
+                            <p className="text-sm text-neutral-500">{getDatasSemana(semana.numero)}</p>
                           </div>
                         </div>
                       </div>

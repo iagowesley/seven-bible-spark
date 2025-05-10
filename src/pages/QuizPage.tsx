@@ -76,6 +76,18 @@ const QuizPage: React.FC = () => {
   const [quizEndTime, setQuizEndTime] = useState<number | null>(null);
   const [quizDuration, setQuizDuration] = useState<number | null>(null);
   
+  // Função para extrair informações relevantes de uma lição (movida para o escopo do componente)
+  const extrairInformacoes = (licao: any) => {
+    const textoCompleto = [licao.texto1 || "", licao.texto2 || "", licao.resumo || ""].join(" ");
+    const palavrasChave = licao.hashtags ? licao.hashtags.split(' ') : [];
+    return {
+      titulo: licao.titulo_dia || "",
+      subtitulo: licao.subtitulo_dia || "",
+      texto: textoCompleto,
+      hashtags: palavrasChave
+    };
+  };
+  
   // Verificar se o usuário já completou o quiz
   useEffect(() => {
     const checkQuizCompletion = async () => {
@@ -134,6 +146,11 @@ const QuizPage: React.FC = () => {
         
         setSemanaTitle(semanaData.titulo);
         
+        // Desativar o quiz para todas as semanas temporariamente
+        setError("Quiz temporariamente indisponível. Estamos trabalhando em novos conteúdos para melhorar sua experiência!");
+        return;
+        
+        // O código abaixo não será executado enquanto o quiz estiver desativado
         // Buscar lições para gerar perguntas do quiz
         const licoes = await listarLicoesPorSemana(semanaId);
         
@@ -203,95 +220,86 @@ const QuizPage: React.FC = () => {
       return acc;
     }, {} as Record<string, any[]>);
     
-    // Tenta extrair informações relevantes de cada lição
-    const extrairInformacoes = (licao: any) => {
-      const textoCompleto = [licao.texto1 || "", licao.texto2 || "", licao.resumo || ""].join(" ");
-      const palavrasChave = licao.hashtags ? licao.hashtags.split(' ') : [];
-      return {
-        titulo: licao.titulo_dia || "",
-        subtitulo: licao.subtitulo_dia || "",
-        texto: textoCompleto,
-        hashtags: palavrasChave
-      };
-    };
+    // Dias da semana para processamento
+    const diasSemana = ["domingo", "segunda", "terca", "quarta", "quinta", "sexta"];
     
-    // Perguntas pré-definidas por dia (2 por dia)
-    // Estas perguntas serão usadas como fallback caso não seja possível gerar perguntas dinâmicas
-    const questionsByDay: QuizQuestion[] = [
+    // Usar conjunto fixo de perguntas específicas para todas as semanas
+    const perguntasFixas: QuizQuestion[] = [
       // Domingo
       {
         id: 1,
         day: "domingo",
-        question: "Na lição de domingo, qual foi o elemento específico na vida do Pastor Robinson que ele identificou como responsável pelo sucesso espiritual de sua família?",
+        question: "Qual era o título principal da lição de domingo?",
         options: [
-          "Frequentar a igreja regularmente",
-          "Participar de retiros espirituais",
-          "Manter um altar familiar de oração diária",
-          "Realizar estudos bíblicos semanais"
+          // A primeira opção será substituída pelo título real da lição
+          "[Título da lição de domingo]",
+          "Oração no Monte",
+          "Compromisso para a Vida",
+          "Adoração Verdadeira"
         ],
-        correctAnswer: 2 // Índice da resposta correta (0-based)
+        correctAnswer: 0
       },
       {
         id: 2,
         day: "domingo",
-        question: "Qual é a principal lição que podemos aprender com a história do Pastor Robinson?",
+        question: "Segundo a lição de domingo, qual destes é o principal objetivo do altar espiritual?",
         options: [
-          "A importância de se tornar pastor",
-          "A necessidade de restaurar o altar de comunhão com Deus",
-          "O valor de ter muitos filhos",
-          "A importância de viver isolado do mundo"
+          "Comunhão diária com Deus",
+          "Demonstração pública de fé",
+          "Obtenção de bênçãos materiais",
+          "Cumprir uma obrigação religiosa"
         ],
-        correctAnswer: 1
+        correctAnswer: 0
       },
       
       // Segunda
       {
         id: 3,
         day: "segunda",
-        question: "Na lição de segunda-feira, qual foi o principal tema abordado?",
+        question: "Na lição de segunda-feira, qual personagem bíblico foi apresentado como exemplo de restaurador do altar?",
         options: [
-          "Como evangelizar outras pessoas",
-          "A importância da oração individual",
-          "Como superar tentações",
-          "A restauração do altar quebrado"
+          "Elias no Monte Carmelo",
+          "Abraão no Monte Moriá",
+          "Josué após a travessia do Jordão",
+          "Samuel em Mispa"
         ],
-        correctAnswer: 3
+        correctAnswer: 0
       },
       {
         id: 4,
         day: "segunda",
-        question: "Qual profeta foi usado como exemplo na lição de segunda-feira?",
+        question: "De acordo com a lição de segunda-feira, o que Elias fez antes de pedir o fogo do céu?",
         options: [
-          "Isaías",
-          "Jeremias",
-          "Elias",
-          "Daniel"
+          "Restaurou o altar quebrado",
+          "Ofereceu sacrifícios caros",
+          "Realizou um jejum de 40 dias",
+          "Convocou todo o povo para orar"
         ],
-        correctAnswer: 2
+        correctAnswer: 0
       },
       
       // Terça
       {
         id: 5,
         day: "terca",
-        question: "Na lição de terça-feira, o que foi identificado como essencial para a vida espiritual?",
+        question: "Segundo a lição de terça-feira, qual é o maior obstáculo para manter um altar espiritual ativo hoje?",
         options: [
-          "Ler a Bíblia apenas nos fins de semana",
-          "Ter momentos regulares de comunhão com Deus",
-          "Fazer parte de um pequeno grupo",
-          "Participar de projetos missionários"
+          "A rotina acelerada e as distrações tecnológicas",
+          "A falta de interesse em assuntos espirituais",
+          "O materialismo e o consumismo excessivos",
+          "A ausência de disciplina pessoal"
         ],
-        correctAnswer: 1
+        correctAnswer: 0
       },
       {
         id: 6,
         day: "terca",
-        question: "Qual aspecto da vida moderna foi destacado como um desafio para a manutenção do altar espiritual?",
+        question: "Conforme a lição de terça-feira, qual deve ser a frequência ideal para momentos de devoção pessoal?",
         options: [
-          "Excesso de informação e distrações tecnológicas",
-          "Dificuldades financeiras",
-          "Problemas de saúde",
-          "Conflitos familiares"
+          "Diária",
+          "Semanal",
+          "Mensal",
+          "Quando sentir necessidade"
         ],
         correctAnswer: 0
       },
@@ -300,109 +308,104 @@ const QuizPage: React.FC = () => {
       {
         id: 7,
         day: "quarta",
-        question: "De acordo com a lição de quarta-feira, qual é o papel da família na vida espiritual?",
+        question: "De acordo com a lição de quarta-feira, qual é o papel da família na manutenção do altar espiritual?",
         options: [
-          "É um obstáculo à espiritualidade individual",
-          "É irrelevante para o crescimento espiritual",
-          "É um centro de formação espiritual e testemunho",
-          "É importante apenas para casais com filhos"
+          "Ser o primeiro círculo de influência espiritual e prática da fé",
+          "Complementar o ensino dado pela igreja nos finais de semana",
+          "Terceirizar a educação espiritual para escolas confessionais",
+          "Organizar eventos religiosos em datas comemorativas"
         ],
-        correctAnswer: 2
+        correctAnswer: 0
       },
       {
         id: 8,
         day: "quarta",
-        question: "Qual prática familiar foi incentivada na lição de quarta-feira?",
+        question: "Qual prática familiar foi especificamente recomendada na lição de quarta-feira?",
         options: [
-          "Assistir programas religiosos juntos",
           "Culto familiar diário",
-          "Participar apenas do culto de sábado",
-          "Leitura individual da Bíblia"
+          "Leitura individual da Bíblia",
+          "Participação exclusiva nos cultos de sábado",
+          "Memorização semanal de versículos"
         ],
-        correctAnswer: 1
+        correctAnswer: 0
       },
       
       // Quinta
       {
         id: 9,
         day: "quinta",
-        question: "Na lição de quinta-feira, qual foi o principal tópico discutido?",
+        question: "Na lição de quinta-feira, qual local bíblico foi citado como cenário da restauração do altar por Elias?",
         options: [
-          "Os desafios da vida moderna",
-          "A importância da igreja",
-          "A influência da mídia na vida espiritual",
-          "Como restaurar o altar quebrado no Monte Carmelo"
+          "Monte Carmelo, durante o confronto com os profetas de Baal",
+          "Samaria, na presença do rei Acabe",
+          "Vale do Jordão, depois da seca de três anos e meio",
+          "Sarepta, na casa da viúva"
         ],
-        correctAnswer: 3
+        correctAnswer: 0
       },
       {
         id: 10,
         day: "quinta",
-        question: "Qual foi a atitude de Elias que devemos imitar segundo a lição de quinta-feira?",
+        question: "Conforme a lição de quinta-feira, quantas vezes Elias derramou água sobre o sacrifício?",
         options: [
-          "Fugir para o deserto em momentos difíceis",
-          "Confrontar agressivamente os falsos profetas",
-          "Restaurar o altar quebrado antes de pedir fogo do céu",
-          "Depender totalmente de milagres"
+          "Três vezes",
+          "Uma vez",
+          "Sete vezes",
+          "Nenhuma vez"
         ],
-        correctAnswer: 2
+        correctAnswer: 0
       },
       
       // Sexta
       {
         id: 11,
         day: "sexta",
-        question: "De acordo com a lição de sexta-feira, qual é o resultado de manter um altar espiritual ativo?",
+        question: "De acordo com a lição de sexta-feira, qual foi o resultado imediato da oração de Elias no Monte Carmelo?",
         options: [
-          "Prosperidade financeira garantida",
-          "Transformação espiritual e fortalecimento da fé",
-          "Ausência de problemas na vida",
-          "Reconhecimento da comunidade religiosa"
+          "Fogo do Senhor desceu e consumiu o holocausto, a lenha, as pedras e a água",
+          "Começou a chover, encerrando a seca de três anos e meio",
+          "O povo clamou: 'O Senhor é Deus! O Senhor é Deus!'",
+          "Os profetas de Baal foram capturados no ribeiro de Quisom"
         ],
-        correctAnswer: 1
+        correctAnswer: 0
       },
       {
         id: 12,
         day: "sexta",
-        question: "Qual compromisso a lição de sexta-feira nos convidou a assumir?",
+        question: "Segundo a conclusão da lição de sexta-feira, o que devemos fazer para restaurar nosso altar pessoal?",
         options: [
+          "Estabelecer um tempo diário específico para oração e estudo da Bíblia",
           "Participar de mais atividades na igreja",
-          "Evangelizar mais pessoas",
-          "Contribuir financeiramente com projetos religiosos",
-          "Restaurar e manter o altar de adoração pessoal e familiar"
+          "Realizar projetos de evangelismo",
+          "Fazer doações para causas religiosas"
         ],
-        correctAnswer: 3
+        correctAnswer: 0
       }
     ];
     
-    // Para cada dia, verificar se há lições disponíveis e adicionar as perguntas correspondentes
-    let finalQuestions: QuizQuestion[] = [];
-    
-    // Dias da semana
-    const diasSemana = ["domingo", "segunda", "terca", "quarta", "quinta", "sexta"];
-    
+    // Preencher a primeira opção com o título real das lições onde aplicável
     diasSemana.forEach(dia => {
       if (licoesPorDia[dia] && licoesPorDia[dia].length > 0) {
-        // Adicionar perguntas predefinidas para este dia
-        const perguntasDoDia = questionsByDay.filter(q => q.day === dia);
+        const licao = licoesPorDia[dia][0];
         
-        if (perguntasDoDia.length > 0) {
-          finalQuestions = finalQuestions.concat(perguntasDoDia);
+        // Para a primeira pergunta de cada dia (sobre o título)
+        const perguntaTitulo = perguntasFixas.find(p => p.day === dia && p.id % 2 === 1);
+        if (perguntaTitulo && licao.titulo_dia) {
+          perguntaTitulo.options[0] = licao.titulo_dia;
         }
       }
     });
-      
-    // Retornar as perguntas finais, garantindo que há pelo menos 5 e no máximo 12
-    const maxQuestions = 12;
-    const questionsToReturn = finalQuestions.slice(0, maxQuestions);
     
-    console.log(`Gerou ${questionsToReturn.length} perguntas para o quiz`);
+    // Filtrar apenas as perguntas para os dias que temos lições
+    const perguntasFiltradas = perguntasFixas.filter(pergunta => {
+      return licoesPorDia[pergunta.day] && licoesPorDia[pergunta.day].length > 0;
+    });
     
     // Garantir que todas as perguntas tenham os campos esperados e que os índices estejam corretos
-    return questionsToReturn.map((q, idx) => ({
+    return perguntasFiltradas.map((q, idx) => ({
       ...q,
       id: idx + 1,
-      correctAnswer: q.correctAnswer // Garantir que o índice está correto (0-based)
+      correctAnswer: q.correctAnswer
     }));
   };
   
@@ -1063,53 +1066,6 @@ const QuizPage: React.FC = () => {
       <Footer />
     </>
   );
-};
-
-// Função para gerar opções para uma pergunta com base no contexto
-const gerarOpcoesPergunta = (pergunta: string, infos: any) => {
-  // Palavras que indicam que a resposta deve ser afirmativa
-  const palavrasPositivas = ["devemos", "precisamos", "importante", "essencial", "fundamental", "necessário"];
-  
-  // Palavras que indicam que a resposta deve ser negativa
-  const palavrasNegativas = ["proibido", "evitar", "nunca", "jamais", "problema", "dificuldade"];
-  
-  // Verificar se a pergunta contém palavras positivas ou negativas
-  const temPalavraPositiva = palavrasPositivas.some(palavra => pergunta.toLowerCase().includes(palavra));
-  const temPalavraNegativa = palavrasNegativas.some(palavra => pergunta.toLowerCase().includes(palavra));
-  
-  // Opções padrão
-  let options = [
-    "Sim, é fundamental para nossa vida espiritual",
-    "Não, isso é uma prática opcional",
-    "Depende do contexto e da situação de cada pessoa",
-    "É parcialmente verdadeiro, mas com ressalvas"
-  ];
-  
-  let correctIndex = 0; // Por padrão, a primeira opção é a correta
-  
-  // Se a pergunta menciona hashtags ou palavras-chave, usar algumas delas
-  if (infos.hashtags && infos.hashtags.length > 0) {
-    // Use hashtags para personalizar as opções
-    if (infos.hashtags.length >= 3) {
-      options = [
-        `Sim, relacionado a #${infos.hashtags[0]}`,
-        `Não, contraria o princípio de #${infos.hashtags[1]}`,
-        `Depende do contexto de #${infos.hashtags[2]}`,
-        "Nenhuma das opções anteriores"
-      ];
-    }
-  }
-  
-  // Ajustar a resposta correta com base nas palavras-chave da pergunta
-  if (temPalavraPositiva && !temPalavraNegativa) {
-    correctIndex = 0; // Opção "sim" é a correta
-  } else if (temPalavraNegativa && !temPalavraPositiva) {
-    correctIndex = 1; // Opção "não" é a correta
-  } else {
-    correctIndex = 2; // Opção "depende" é a correta em caso de ambiguidade
-  }
-  
-  return { options, correctIndex };
 };
 
 export default QuizPage; 
