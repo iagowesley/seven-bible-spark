@@ -13,6 +13,7 @@ import Footer from "@/components/layout/Footer";
 import { toast } from "@/hooks/use-toast";
 
 import { obterSemana } from "@/models/semanaService";
+import { listarLicoesPorSemana } from "@/models/licaoService";
 import {
   hasUserCompletedQuiz,
   saveQuizScore
@@ -48,15 +49,32 @@ const QuizPage: React.FC = () => {
   // Estados para o sistema do quiz
   const [showWarningDialog, setShowWarningDialog] = useState(true);
   const [userName, setUserName] = useState("");
+  const [userNameSubmitted, setUserNameSubmitted] = useState(false);
   const [userId, setUserId] = useState<string>("");
+  
+  // Adicionar estas linhas no início do componente, logo após as declarações useState
   const [quizStartTime, setQuizStartTime] = useState<number | null>(null);
+  const [quizEndTime, setQuizEndTime] = useState<number | null>(null);
   const [quizDuration, setQuizDuration] = useState<number | null>(null);
+  
+  // Função para extrair informações relevantes de uma lição (movida para o escopo do componente)
+  const extrairInformacoes = (licao: any) => {
+    const textoCompleto = [licao.texto1 || "", licao.texto2 || "", licao.resumo || ""].join(" ");
+    const palavrasChave = licao.hashtags ? licao.hashtags.split(' ') : [];
+    return {
+      titulo: licao.titulo_dia || "",
+      subtitulo: licao.subtitulo_dia || "",
+      texto: textoCompleto,
+      hashtags: palavrasChave
+    };
+  };
   
   // Verificar se o usuário já completou o quiz
   useEffect(() => {
     const checkQuizCompletion = async () => {
       if (!semanaId) return;
       
+      // Gerar um ID de usuário exclusivo e armazenar localmente se não existir
       let storedUserId = localStorage.getItem('quiz_user_id');
       if (!storedUserId) {
         storedUserId = `user_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
@@ -66,6 +84,7 @@ const QuizPage: React.FC = () => {
       
       try {
         const hasCompleted = await hasUserCompletedQuiz(storedUserId, semanaId);
+        
         if (hasCompleted) {
           setError("Você já respondeu a este quiz anteriormente. Cada usuário pode responder o quiz apenas uma vez.");
         }
@@ -85,6 +104,7 @@ const QuizPage: React.FC = () => {
         setLoading(true);
         setError(null);
         
+        // Buscar detalhes da semana
         const semanaData = await obterSemana(semanaId);
         
         if (!semanaData) {
@@ -94,18 +114,14 @@ const QuizPage: React.FC = () => {
         
         setSemanaTitle(semanaData.titulo);
         
-        console.log('Dados da semana carregados:', { 
-          id: semanaId, 
-          numero: semanaData.numero, 
-          titulo: semanaData.titulo 
-        });
-        
         // Verificar se é a semana 11 para usar o quiz personalizado  
+        // Verifica pelo número da semana ou se contém "11" no título
         if (semanaData.numero === 11 || semanaData.titulo?.toLowerCase().includes("coração") || semanaData.titulo?.toLowerCase().includes("adoração")) {
-          console.log('Semana 11 detectada! Carregando quiz personalizado...');
           try {
+            // Importar e usar o quiz personalizado da semana 11
             const { quizSemana11 } = await import("@/data/quizSemana11");
             
+            // Converter para o formato esperado pelo sistema
             const quizQuestions = quizSemana11.map((q, index) => ({
               id: index + 1,
               day: q.day.toLowerCase(),
@@ -116,6 +132,7 @@ const QuizPage: React.FC = () => {
             
             setQuestions(quizQuestions);
             
+            // Inicializar as respostas do usuário
             const initialUserAnswers = quizQuestions.map(q => ({
               questionId: q.id,
               selectedOption: null,
@@ -130,6 +147,7 @@ const QuizPage: React.FC = () => {
           }
         }
         
+        // Desativar o quiz para outras semanas temporariamente
         setError("Quiz temporariamente indisponível. Estamos trabalhando em novos conteúdos para melhorar sua experiência!");
         return;
         
@@ -153,8 +171,13 @@ const QuizPage: React.FC = () => {
   const processText = (text: string): React.ReactNode => {
     if (!text) return "";
     
+    // Processar negrito
     let processed = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    
+    // Processar sublinhado
     processed = processed.replace(/__([^_]+)__/g, '<u>$1</u>');
+    
+    // Processar destaque (amarelo)
     processed = processed.replace(/==(.*?)==/g, '<mark>$1</mark>');
     
     return <span dangerouslySetInnerHTML={{ __html: processed }} />;
@@ -163,6 +186,9 @@ const QuizPage: React.FC = () => {
   const handleSubmitUserName = () => {
     if (userName.trim()) {
       localStorage.setItem('quiz_user_name', userName);
+      setUserNameSubmitted(true);
+      
+      // Iniciar o quiz e registrar o tempo inicial
       setShowWarningDialog(false);
       setQuizStartTime(Date.now());
     } else {
@@ -191,8 +217,11 @@ const QuizPage: React.FC = () => {
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
+      // Se for a última questão, concluir o quiz e registrar o tempo final
       const endTime = Date.now();
+      setQuizEndTime(endTime);
       
+      // Calcular a duração do quiz em segundos
       if (quizStartTime) {
         const durationInSeconds = Math.floor((endTime - quizStartTime) / 1000);
         setQuizDuration(durationInSeconds);
@@ -214,11 +243,23 @@ const QuizPage: React.FC = () => {
     return { correctAnswers, percentage };
   };
   
+  const handleRestartQuiz = () => {
+    // Impedir reinício já que o quiz só pode ser respondido uma vez
+    toast({
+      title: "Quiz já respondido",
+      description: "Você só pode responder o quiz uma vez. Seu resultado já foi registrado.",
+      variant: "destructive",
+    });
+  };
+  
   const handleFinishQuiz = async () => {
     if (quizCompleted) {
       try {
+        // Salvar a pontuação
         const score = calculateScore();
         const correctAnswers = userAnswers.filter(answer => answer.isCorrect).length;
+        
+        // Usar o nome armazenado ou um valor padrão
         const storedName = localStorage.getItem('quiz_user_name') || userName || "Anônimo";
         
         const result = await saveQuizScore(
@@ -228,15 +269,16 @@ const QuizPage: React.FC = () => {
           score.percentage,
           correctAnswers,
           questions.length,
-          quizDuration
+          quizDuration // Passar a duração do quiz em segundos
         );
         
         if (result.success) {
           toast({
             title: "Pontuação salva!",
-            description: `Parabéns! Você acertou ${correctAnswers} de ${questions.length} perguntas (${score.percentage}%).`,
+            description: "Seu resultado foi registrado com sucesso.",
             variant: "default",
           });
+          // Navegar de volta para a página de estudos
           navigate("/estudos");
         } else {
           toast({
@@ -254,6 +296,7 @@ const QuizPage: React.FC = () => {
         });
       }
     } else {
+      // Navegar de volta para a página de estudos
       navigate("/estudos");
     }
   };
@@ -297,7 +340,10 @@ const QuizPage: React.FC = () => {
                   <AlertDescription className="text-base">{error}</AlertDescription>
                 </Alert>
                 
-                <Button onClick={voltar} className="mt-6">
+                <Button 
+                  onClick={voltar} 
+                  className="mt-6"
+                >
                   Voltar para a lição
                 </Button>
               </div>
@@ -335,15 +381,6 @@ const QuizPage: React.FC = () => {
                 <p className="text-lg">
                   Você acertou <span className="font-bold">{correctAnswers}</span> de <span className="font-bold">{questions.length}</span> perguntas
                 </p>
-                {score.percentage >= 80 && (
-                  <p className="text-green-600 font-medium mt-2">🎉 Excelente resultado!</p>
-                )}
-                {score.percentage >= 60 && score.percentage < 80 && (
-                  <p className="text-yellow-600 font-medium mt-2">👍 Bom resultado!</p>
-                )}
-                {score.percentage < 60 && (
-                  <p className="text-blue-600 font-medium mt-2">📚 Continue estudando!</p>
-                )}
               </div>
               
               <div className="space-y-6 w-full max-w-xl">

@@ -24,11 +24,8 @@ import Footer from "@/components/layout/Footer";
 import { getUserProgress, updateUserProgress } from "@/models/userProgress";
 import { verificarConexaoSupabase } from "@/integrations/supabase/client";
 import { listarComentarios, adicionarComentario, curtirComentario } from "@/models/comentariosService";
-import { verificarQuizRespondido, salvarQuizResultado } from "@/models/quizService";
-import QuizAvisoUnico from "@/components/quiz/QuizAvisoUnico";
-import QuizResultado from "@/components/quiz/QuizResultado";
-import QuizRanking from "@/components/quiz/QuizRanking";
-import QuizRankingPage from "@/pages/QuizRankingPage";
+
+
 
 // Importando a biblioteca AOS para animações de scroll
 import AOS from 'aos';
@@ -57,15 +54,15 @@ const obterDataDoDia = (diaValor: string): string => {
     "sabado": 6
   };
   
-  // Datas fixas para a semana (maio de 2025)
+  // Datas fixas para a semana (junho de 2025)
   const datasSemana: Record<string, string> = {
-    "sabado": "10/05/2025",
-    "domingo": "11/05/2025",
-    "segunda": "12/05/2025",
-    "terca": "13/05/2025",
-    "quarta": "14/05/2025",
-    "quinta": "15/05/2025",
-    "sexta": "16/05/2025"
+    "sabado": "07/06/2025",
+    "domingo": "08/06/2025",
+    "segunda": "09/06/2025",
+    "terca": "10/06/2025",
+    "quarta": "11/06/2025",
+    "quinta": "12/06/2025",
+    "sexta": "13/06/2025"
   };
   
   // Retorna a data fixa para o dia correspondente
@@ -903,7 +900,7 @@ const DailyLessonPage: React.FC = () => {
                 setDesafioSemanal(gerarDesafioSemanal());
                 setDesafioModalOpen(true);
               }}
-              className="absolute -top-6 right-4 sm:right-12 md:right-16 w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-br from-[#a37fb9] to-[#8a63a8] shadow-xl flex flex-col items-center justify-center hover:scale-110 transition-all duration-300 z-10 animate-[pulse-beat_8s_infinite]"
+              className="absolute -top-6 right-4 sm:right-12 md:right-16 w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-br from-[#a37fb9] to-[#8a63a8] shadow-xl flex flex-col items-center justify-center hover:scale-110 transition-all duration-301 z-10 animate-[pulse-beat_1s_infinite]"
               style={{ color: 'white' }}
             >
               <Award className="h-10 w-10 sm:h-12 sm:w-12 mb-1 text-white drop-shadow-md" />

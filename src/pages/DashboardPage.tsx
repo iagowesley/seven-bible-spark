@@ -15,8 +15,7 @@ import { BookOpen, ArrowRight, CheckCircle, Trophy, Calendar, BookMarked, Award,
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
-import { getQuizTopRanking, QuizRanking } from "@/models/quizRanking";
-import Ranking from "@/components/ui/ranking";
+
 
 const COLORS = ['#a37fb9', '#8a63a8', '#734d93', '#5c377e', '#452269'];
 
@@ -26,9 +25,7 @@ const DashboardPage: React.FC = () => {
   const currentDate = new Date();
   const anonymousUserId = 'anonymous-user';
   const [weeklyProgress, setWeeklyProgress] = useState<any[]>([]);
-  const [quizRankings, setQuizRankings] = useState<QuizRanking[]>([]);
-  const [rankingLoading, setRankingLoading] = useState(true);
-  const [userIdForRanking, setUserIdForRanking] = useState<string>("");
+
 
   // Buscar dados de progresso
   const { data: progressData, isLoading: isProgressLoading } = useQuery({
@@ -138,31 +135,7 @@ const DashboardPage: React.FC = () => {
   
   const isLoading = isProgressLoading || isCompletedLoading || isPointsLoading || isStreakLoading;
 
-  // Carregar rankings na inicialização
-  useEffect(() => {
-    const loadRankings = async () => {
-      try {
-        setRankingLoading(true);
-        
-        // Carregar ID do usuário do localStorage
-        const storedUserId = localStorage.getItem('quiz_user_id');
-        if (storedUserId) {
-          setUserIdForRanking(storedUserId);
-        }
-        
-        // Aqui estamos carregando o ranking global (todos os quizzes)
-        // Na implementação real você pode querer filtrar por um semanaId específico
-        const topRankings = await getQuizTopRanking("");
-        setQuizRankings(topRankings);
-      } catch (error) {
-        console.error("Erro ao carregar ranking:", error);
-      } finally {
-        setRankingLoading(false);
-      }
-    };
-    
-    loadRankings();
-  }, []);
+
 
   return (
     <>
@@ -226,32 +199,7 @@ const DashboardPage: React.FC = () => {
                   </Card>
                 </div>
 
-                {/* Ranking dos Quizzes */}
-                <div className="md:col-span-5">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="text-[#8a63a8] flex items-center">
-                        <Trophy className="mr-2 h-5 w-5" />
-                        Ranking dos Quizzes
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      {rankingLoading ? (
-                        <div className="flex justify-center py-8">
-                          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#8a63a8]"></div>
-                        </div>
-                      ) : (
-                        <Ranking 
-                          rankings={quizRankings}
-                          currentUserId={userIdForRanking}
-                          showPositionMessage={false}
-                          description="Os 10 melhores resultados de todos os quizzes"
-                          className="border-none shadow-none"
-                        />
-                      )}
-                    </CardContent>
-                  </Card>
-                </div>
+
               </div>
             </>
           )}
