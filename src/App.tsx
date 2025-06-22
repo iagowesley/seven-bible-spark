@@ -13,8 +13,8 @@ import AboutPage from "./pages/AboutPage";
 // Loading component
 const LoadingFallback = () => (
   <div className="flex flex-col justify-center items-center min-h-screen text-center p-4">
-    <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-[#a37fb9] mb-4"></div>
-    <h2 className="text-xl font-medium text-[#a37fb9] mb-2">Carregando conteúdo...</h2>
+    <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-[#337945] mb-4"></div>
+    <h2 className="text-xl font-medium text-[#337945] mb-2">Carregando conteúdo...</h2>
     <p className="text-gray-500 max-w-md">
       Estamos buscando seus dados, isso deve levar apenas alguns segundos.
       Se o carregamento persistir, verifique sua conexão com a internet.
@@ -36,7 +36,7 @@ const ErrorBoundary = ({ children }: { children: React.ReactNode }) => {
         <div className="flex gap-4">
           <button 
             onClick={() => window.location.reload()} 
-            className="px-4 py-2 bg-[#a37fb9] text-white rounded hover:bg-[#8a63a8] transition-colors"
+            className="px-4 py-2 bg-[#337945] text-white rounded hover:bg-[#337945] transition-colors"
           >
             Atualizar página
           </button>
@@ -45,7 +45,7 @@ const ErrorBoundary = ({ children }: { children: React.ReactNode }) => {
               setHasError(false);
               window.location.href = '/';
             }} 
-            className="px-4 py-2 border border-[#a37fb9] text-[#a37fb9] rounded hover:bg-[#a37fb9]/10 transition-colors"
+            className="px-4 py-2 border border-[#337945] text-[#337945] rounded hover:bg-[#337945]/10 transition-colors"
           >
             Voltar para início
           </button>

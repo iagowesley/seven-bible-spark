@@ -791,8 +791,8 @@ const DailyLessonPage: React.FC = () => {
         <Navbar />
         <div className="container mx-auto py-12 px-4 max-w-5xl">
           <div className="flex flex-col justify-center items-center py-32">
-            <div className="animate-spin rounded-full h-14 w-14 border-b-2 border-[#a37fb9] mb-6"></div>
-            <p className="text-[#8a63a8] text-lg">Carregando lição...</p>
+            <div className="animate-spin rounded-full h-14 w-14 border-b-2 border-[#337945] mb-6"></div>
+            <p className="text-[#337945] text-lg">Carregando lição...</p>
           </div>
         </div>
         <Footer />
@@ -808,7 +808,7 @@ const DailyLessonPage: React.FC = () => {
           <Button 
             variant="ghost" 
             onClick={voltar} 
-            className="mb-8 hover:bg-[#a37fb9]/10 transition-colors"
+            className="mb-8 hover:bg-[#337945]/10 transition-colors"
           >
             <ChevronLeft className="mr-1 h-4 w-4" />
             Voltar
@@ -849,43 +849,43 @@ const DailyLessonPage: React.FC = () => {
         <Navbar />
         <div className="container mx-auto py-12 px-4 max-w-7xl relative">
           <div className="flex justify-between items-center mb-10">
-            <Button variant="ghost" onClick={voltar} className="text-xs sm:text-sm hover:bg-[#a37fb9]/10 transition-colors">
+            <Button variant="ghost" onClick={voltar} className="text-xs sm:text-sm hover:bg-[#337945]/10 transition-colors">
               <ChevronLeft className="mr-1 h-3 w-3 sm:h-4 sm:w-4" />
               Voltar
             </Button>
             
-            <div className="flex items-center gap-2 bg-[#a37fb9]/10 px-3 py-1.5 rounded-full">
-              <span className="text-xs sm:text-sm font-medium text-[#8a63a8]">{getDiaLabel(dia)}</span>
-              <Calendar className="h-3 w-3 sm:h-4 sm:w-4 text-[#a37fb9]" />
+            <div className="flex items-center gap-2 bg-[#337945]/10 px-3 py-1.5 rounded-full">
+              <span className="text-xs sm:text-sm font-medium text-[#337945]">{getDiaLabel(dia)}</span>
+              <Calendar className="h-3 w-3 sm:h-4 sm:w-4 text-[#337945]" />
             </div>
           </div>
 
           {/* Botão de navegação lateral direita - destaque para o próximo dia */}
           <button 
             onClick={() => navigate(`/estudos/${semanaId}/licao/${proximoDiaCadastrado}`)}
-            className="hidden md:flex fixed right-[calc((100%-1400px)/2-28px)] top-1/2 transform -translate-y-1/2 w-14 h-14 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl justify-center items-center hover:bg-[#f8f4ff] dark:hover:bg-gray-700 transition-all z-10"
+            className="hidden md:flex fixed right-[calc((100%-1400px)/2-28px)] top-1/2 transform -translate-y-1/2 w-14 h-14 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl justify-center items-center hover:bg-[#f0faf2] dark:hover:bg-gray-700 transition-all z-10"
             aria-label="Próxima lição"
           >
-            <ChevronRight className="h-7 w-7 text-[#a37fb9]" />
+            <ChevronRight className="h-7 w-7 text-[#337945]" />
           </button>
 
           {/* Botão de navegação lateral esquerda - para o dia anterior */}
           <button 
             onClick={navegarParaDiaAnterior}
-            className="hidden md:flex fixed left-[calc((100%-1400px)/2-28px)] top-1/2 transform -translate-y-1/2 w-14 h-14 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl justify-center items-center hover:bg-[#f8f4ff] dark:hover:bg-gray-700 transition-all z-10"
+            className="hidden md:flex fixed left-[calc((100%-1400px)/2-28px)] top-1/2 transform -translate-y-1/2 w-14 h-14 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl justify-center items-center hover:bg-[#f0faf2] dark:hover:bg-gray-700 transition-all z-10"
             aria-label="Lição anterior"
           >
-            <ChevronLeft className="h-7 w-7 text-[#a37fb9]" />
+            <ChevronLeft className="h-7 w-7 text-[#337945]" />
           </button>
 
           {/* Cabeçalho com título e texto bíblico chave */}
           <div className="mb-12" data-aos="fade-up">
-            <h1 className="text-3xl sm:text-4xl font-bold text-center mb-6 text-[#a37fb9] tracking-tight">{semana.titulo}</h1>
-            <div className="text-center bg-gradient-to-r from-[#f8f4ff] to-white dark:from-gray-800/60 dark:to-gray-900 py-6 px-8 rounded-2xl border border-[#a37fb9]/20 shadow-sm">
-              <h2 className="text-base font-medium text-[#8a63a8] mb-3">Texto bíblico chave</h2>
+            <h1 className="text-3xl sm:text-4xl font-bold text-center mb-6 text-[#337945] tracking-tight">{semana.titulo}</h1>
+            <div className="text-center bg-gradient-to-r from-[#f0faf2] to-white dark:from-gray-800/60 dark:to-gray-900 py-6 px-8 rounded-2xl border border-[#337945]/20 shadow-sm">
+              <h2 className="text-base font-medium text-[#337945] mb-3">Texto bíblico chave</h2>
               <button 
                 onClick={() => openBibleModal(semana.texto_biblico_chave || (licao?.texto_biblico_chave || ''))}
-                className="text-xl font-serif italic text-[#8a63a8] hover:text-[#a37fb9] hover:underline flex items-center justify-center mx-auto gap-2 transition-colors"
+                className="text-xl font-serif italic text-[#8fb775] hover:text-[#337945] hover:underline flex items-center justify-center mx-auto gap-2 transition-colors"
               >
                 {semana.texto_biblico_chave || (licao?.texto_biblico_chave || '')}
                 <BookOpen className="h-5 w-5" />
@@ -900,7 +900,7 @@ const DailyLessonPage: React.FC = () => {
                 setDesafioSemanal(gerarDesafioSemanal());
                 setDesafioModalOpen(true);
               }}
-              className="absolute -top-6 right-4 sm:right-12 md:right-16 w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-br from-[#a37fb9] to-[#8a63a8] shadow-xl flex flex-col items-center justify-center hover:scale-110 transition-all duration-301 z-10 animate-[pulse-beat_1s_infinite]"
+              className="absolute -top-6 right-4 sm:right-12 md:right-16 w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-gradient-to-br from-[#337945] to-[#8fb775] shadow-xl flex flex-col items-center justify-center hover:scale-110 transition-all duration-301 z-10 animate-[pulse-beat_15s_infinite]"
               style={{ color: 'white' }}
             >
               <Award className="h-10 w-10 sm:h-12 sm:w-12 mb-1 text-white drop-shadow-md" />
@@ -910,9 +910,9 @@ const DailyLessonPage: React.FC = () => {
             {/* Estilos para keyframes da animação */}
             <style>{`
               @keyframes pulse-beat {
-                0% { transform: scale(1); box-shadow: 0 10px 15px -3px rgba(163, 127, 185, 0.3), 0 4px 6px -4px rgba(163, 127, 185, 0.3); }
-                50% { transform: scale(1.1); box-shadow: 0 20px 25px -5px rgba(163, 127, 185, 0.4), 0 8px 10px -6px rgba(163, 127, 185, 0.4); }
-                100% { transform: scale(1); box-shadow: 0 10px 15px -3px rgba(163, 127, 185, 0.3), 0 4px 6px -4px rgba(163, 127, 185, 0.3); }
+                0% { transform: scale(1); box-shadow: 0 10px 15px -3px rgba(51, 121, 69, 0.3), 0 4px 6px -4px rgba(51, 121, 69, 0.3); }
+                50% { transform: scale(1.1); box-shadow: 0 20px 25px -5px rgba(51, 121, 69, 0.4), 0 8px 10px -6px rgba(51, 121, 69, 0.4); }
+                100% { transform: scale(1); box-shadow: 0 10px 15px -3px rgba(51, 121, 69, 0.3), 0 4px 6px -4px rgba(51, 121, 69, 0.3); }
               }
             `}</style>
             
@@ -931,11 +931,11 @@ const DailyLessonPage: React.FC = () => {
           {/* Área para anotações - estilo caderno */}
           <div className="my-10" data-aos="fade-up" data-aos-delay="300">
             <div className="mb-3">
-              <p className="text-base font-medium text-[#8a63a8]">A partir da tirinha, do texto-chave e do título, anote suas primeiras impressões:</p>
+              <p className="text-base font-medium text-[#337945]">A partir da tirinha, do texto-chave e do título, anote suas primeiras impressões:</p>
             </div>
             <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm p-6 transition-all hover:shadow-md">
               <textarea 
-                className="w-full min-h-[120px] bg-[linear-gradient(transparent,transparent_calc(1.5rem_-_1px),#e5e7eb_calc(1.5rem_-_1px),#e5e7eb_1.5rem,transparent_1.5rem)] bg-[size:100%_1.5rem] leading-[1.5rem] pt-0 border-0 outline-none resize-y focus:ring-1 focus:ring-[#a37fb9]" 
+                className="w-full min-h-[120px] bg-[linear-gradient(transparent,transparent_calc(1.5rem_-_1px),#e5e7eb_calc(1.5rem_-_1px),#e5e7eb_1.5rem,transparent_1.5rem)] bg-[size:100%_1.5rem] leading-[1.5rem] pt-0 border-0 outline-none resize-y focus:ring-1 focus:ring-[#337945]" 
                 style={{lineHeight: "1.5rem", backgroundAttachment: "local"}}
                 placeholder="Digite suas anotações aqui..."
               />
@@ -945,14 +945,14 @@ const DailyLessonPage: React.FC = () => {
           {/* Título do dia para o sábado, se existir */}
           {licao?.titulo_dia && (
             <div className="my-8 text-center" data-aos="fade-up" data-aos-delay="400">
-              <h2 className="text-2xl sm:text-3xl font-bold text-[#8a63a8]">{licao.titulo_dia}</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold text-[#337945]">{licao.titulo_dia}</h2>
             </div>
           )}
           
           {/* Resumo */}
-          <div className="my-10 bg-gradient-to-br from-[#f8f4ff] to-white dark:from-gray-800 dark:to-gray-900 p-8 rounded-2xl border border-[#a37fb9]/20 dark:border-purple-800/30 shadow-sm hover:shadow-md transition-all" data-aos="fade-up" data-aos-delay="500">
-            <h2 className="text-xl font-bold mb-6 text-[#8a63a8] dark:text-purple-300 flex items-center">
-              <span className="w-8 h-8 rounded-full bg-[#a37fb9] flex items-center justify-center text-white mr-3 shadow-sm">R</span>
+          <div className="my-10 bg-gradient-to-br from-[#f0faf2] to-white dark:from-gray-800 dark:to-gray-900 p-8 rounded-2xl border border-[#337945]/20 dark:border-green-800/30 shadow-sm hover:shadow-md transition-all" data-aos="fade-up" data-aos-delay="500">
+            <h2 className="text-xl font-bold mb-6 text-[#337945] dark:text-green-300 flex items-center">
+              <span className="w-8 h-8 rounded-full bg-[#337945] flex items-center justify-center text-white mr-3 shadow-sm">R</span>
               Nosso resumo
             </h2>
             <div className="prose dark:prose-invert max-w-none dark:text-gray-200 leading-relaxed">
@@ -1051,7 +1051,7 @@ const DailyLessonPage: React.FC = () => {
             <Button 
               onClick={() => navigate(`/estudos/${semanaId}/licao/${proximoDiaCadastrado}`)}
               size="default"
-              className="bg-[#a37fb9] hover:bg-[#8a63a8] text-white text-base sm:text-lg py-6 px-8 rounded-lg shadow-lg animate-pulse w-full max-w-xs font-bold"
+              className="bg-[#337945] hover:bg-[#337945] text-white text-base sm:text-lg py-6 px-8 rounded-lg shadow-lg animate-pulse w-full max-w-xs font-bold"
             >
               Próxima: {getDiaLabel(proximoDiaCadastrado).split('(')[0]}
               <ChevronRight className="ml-2 h-5 w-5" />
@@ -1061,7 +1061,7 @@ const DailyLessonPage: React.FC = () => {
           {/* Seção de comentários */}
           <div className="mt-10 pt-8 border-t border-gray-200 dark:border-gray-700">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-bold text-[#a37fb9] flex items-center">
+              <h2 className="text-xl font-bold text-[#337945] flex items-center">
                 <MessageSquare className="h-5 w-5 mr-2" />
                 Comentários da Comunidade
               </h2>
@@ -1075,7 +1075,7 @@ const DailyLessonPage: React.FC = () => {
             <div className="space-y-6 mb-8">
               {carregandoComentarios ? (
                 <div className="flex justify-center py-8">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#a37fb9]"></div>
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#337945]"></div>
                 </div>
               ) : comentarios.length === 0 ? (
                 <div className="text-center py-8 text-gray-500">
@@ -1085,7 +1085,7 @@ const DailyLessonPage: React.FC = () => {
                 comentarios.map((comentario) => (
                   <div key={comentario.id} className="bg-gray-50 dark:bg-gray-800/60 p-4 rounded-lg">
                     <div className="flex items-center justify-between mb-2">
-                      <div className="font-medium text-[#8a63a8]">{comentario.nome}</div>
+                      <div className="font-medium text-[#337945]">{comentario.nome}</div>
                       <div className="text-xs text-gray-500">{new Date(comentario.data_criacao).toLocaleDateString('pt-BR')}</div>
                     </div>
                     <div className="text-xs text-gray-500 mb-2">
@@ -1099,16 +1099,16 @@ const DailyLessonPage: React.FC = () => {
                         onClick={() => toggleCurtida(comentario.id)}
                         className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs ${
                           comentario.curtido_pelo_usuario 
-                            ? 'bg-[#a37fb9]/20 text-[#a37fb9]' 
+                            ? 'bg-[#337945]/20 text-[#337945]' 
                             : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300'
-                        } hover:bg-[#a37fb9]/30 transition-colors`}
+                        } hover:bg-[#337945]/30 transition-colors`}
                       >
                         <svg 
                           xmlns="http://www.w3.org/2000/svg" 
                           width="14" 
                           height="14" 
                           viewBox="0 0 24 24" 
-                          fill={comentario.curtido_pelo_usuario ? "#a37fb9" : "none"} 
+                          fill={comentario.curtido_pelo_usuario ? "#337945" : "none"} 
                           stroke="currentColor" 
                           strokeWidth="2" 
                           strokeLinecap="round" 
@@ -1127,7 +1127,7 @@ const DailyLessonPage: React.FC = () => {
             {/* Formulário de novo comentário */}
             <Card>
               <CardContent className="pt-6">
-                <h3 className="text-lg font-medium mb-4 text-[#a37fb9]">Deixe seu comentário</h3>
+                <h3 className="text-lg font-medium mb-4 text-[#337945]">Deixe seu comentário</h3>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                   <div className="space-y-2">
@@ -1163,7 +1163,7 @@ const DailyLessonPage: React.FC = () => {
                   <Button 
                     onClick={enviarComentario}
                     disabled={enviandoComentario}
-                    className="bg-[#a37fb9] hover:bg-[#8a63a8] text-white"
+                    className="bg-[#337945] hover:bg-[#337945] text-white"
                   >
                     {enviandoComentario ? (
                       <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
@@ -1179,22 +1179,22 @@ const DailyLessonPage: React.FC = () => {
           
           {/* Modal do texto bíblico */}
           <Dialog open={bibleModalOpen} onOpenChange={setBibleModalOpen}>
-            <DialogContent className="sm:max-w-2xl max-h-[80vh] rounded-xl border-[#a37fb9]/20">
+            <DialogContent className="sm:max-w-2xl max-h-[80vh] rounded-xl border-[#337945]/20">
               <DialogHeader className="pb-2">
-                <DialogTitle className="text-center text-xl font-serif text-[#8a63a8] font-bold">
+                <DialogTitle className="text-center text-xl font-serif text-[#337945] font-bold">
                   {bibleText?.reference || "Texto Bíblico"}
                 </DialogTitle>
-                <p className="text-center text-sm text-[#8a63a8]/70 italic">
+                <p className="text-center text-sm text-[#337945]/70 italic">
                   {bibleText?.version || "Almeida Revista e Atualizada"}
                 </p>
               </DialogHeader>
               
-              <Separator className="my-2 bg-[#a37fb9]/10" />
+              <Separator className="my-2 bg-[#337945]/10" />
               
               <div className="py-4 overflow-y-auto max-h-[50vh] px-2">
                 {loadingBibleText ? (
                   <div className="flex justify-center items-center py-8">
-                    <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#a37fb9]"></div>
+                    <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#337945]"></div>
                   </div>
                 ) : (
                   <div className="prose prose-lg max-w-none">
@@ -1207,7 +1207,7 @@ const DailyLessonPage: React.FC = () => {
               
               <DialogFooter>
                 <DialogClose asChild>
-                  <Button className="bg-[#a37fb9] hover:bg-[#8a63a8] text-white">Fechar</Button>
+                  <Button className="bg-[#337945] hover:bg-[#337945] text-white">Fechar</Button>
                 </DialogClose>
               </DialogFooter>
             </DialogContent>
@@ -1215,13 +1215,13 @@ const DailyLessonPage: React.FC = () => {
           
           {/* Modal do Desafio Semanal */}
           <Dialog open={desafioModalOpen} onOpenChange={setDesafioModalOpen}>
-            <DialogContent className="sm:max-w-2xl w-[95%] max-h-[90vh] overflow-y-auto rounded-xl border-[#a37fb9]/20">
+            <DialogContent className="sm:max-w-2xl w-[95%] max-h-[90vh] overflow-y-auto rounded-xl border-[#337945]/20">
               <DialogHeader className="pb-3">
-                <DialogTitle className="text-center text-2xl text-[#a37fb9] flex items-center justify-center gap-2 font-bold">
+                <DialogTitle className="text-center text-2xl text-[#337945] flex items-center justify-center gap-2 font-bold">
                   <Award className="h-6 w-6" />
                   {desafioSemanal?.titulo || "Desafio da Semana"}
                 </DialogTitle>
-                <DialogDescription className="text-center mt-1 text-[#8a63a8]/80 text-base">
+                <DialogDescription className="text-center mt-1 text-[#337945]/80 text-base">
                   Coloque em prática o que você aprendeu!
                 </DialogDescription>
               </DialogHeader>
@@ -1232,15 +1232,15 @@ const DailyLessonPage: React.FC = () => {
                     {desafioSemanal?.descricao}
                   </p>
                   
-                  <div className="mt-6 bg-gradient-to-r from-[#f8f4ff] to-white dark:from-gray-800/60 dark:to-gray-900 p-5 sm:p-6 rounded-xl border border-[#a37fb9]/20 dark:border-[#a37fb9]/30 shadow-sm">
-                    <h3 className="text-lg sm:text-xl font-bold text-[#a37fb9] dark:text-[#a37fb9] mb-4 flex items-center">
-                      <span className="w-8 h-8 rounded-full bg-[#a37fb9] flex items-center justify-center text-white mr-3 shadow-sm text-sm">!</span>
+                  <div className="mt-6 bg-gradient-to-r from-[#f0faf2] to-white dark:from-gray-800/60 dark:to-gray-900 p-5 sm:p-6 rounded-xl border border-[#337945]/20 dark:border-[#337945]/30 shadow-sm">
+                    <h3 className="text-lg sm:text-xl font-bold text-[#337945] dark:text-[#337945] mb-4 flex items-center">
+                      <span className="w-8 h-8 rounded-full bg-[#337945] flex items-center justify-center text-white mr-3 shadow-sm text-sm">!</span>
                       Como realizar este desafio:
                     </h3>
                     <ul className="space-y-3">
                       {desafioSemanal?.dicas.map((dica, index) => (
                         <li key={index} className="flex items-start gap-3 text-sm sm:text-base">
-                          <span className="text-[#a37fb9] dark:text-[#a37fb9] flex-shrink-0 mt-0.5 text-xl">•</span>
+                          <span className="text-[#337945] dark:text-[#337945] flex-shrink-0 mt-0.5 text-xl">•</span>
                           <span className="leading-relaxed">{dica}</span>
                         </li>
                       ))}
@@ -1248,14 +1248,14 @@ const DailyLessonPage: React.FC = () => {
                   </div>
                   
                   <div className="mt-8 text-center">
-                    <p className="text-sm text-[#8a63a8] mb-3">
+                    <p className="text-sm text-[#337945] mb-3">
                       Compartilhe este desafio com seus amigos:
                     </p>
                     <div className="flex flex-wrap justify-center gap-2 sm:gap-3">
                       <Button 
                         variant="outline" 
                         size="sm" 
-                        className="gap-1.5 sm:gap-2 bg-[#a37fb9] hover:bg-[#8a63a8] text-white border-[#8a63a8] text-xs sm:text-sm py-2 px-3 sm:py-2.5 sm:px-4 h-auto shadow-sm hover:shadow transition-all" 
+                        className="gap-1.5 sm:gap-2 bg-[#337945] hover:bg-[#337945] text-white border-[#337945] text-xs sm:text-sm py-2 px-3 sm:py-2.5 sm:px-4 h-auto shadow-sm hover:shadow transition-all" 
                         onClick={compartilharWhatsApp}
                       >
                         <Share2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
@@ -1264,7 +1264,7 @@ const DailyLessonPage: React.FC = () => {
                       <Button 
                         variant="outline" 
                         size="sm" 
-                        className="gap-1.5 sm:gap-2 bg-[#a37fb9] hover:bg-[#8a63a8] text-white border-[#8a63a8] text-xs sm:text-sm py-2 px-3 sm:py-2.5 sm:px-4 h-auto shadow-sm hover:shadow transition-all" 
+                        className="gap-1.5 sm:gap-2 bg-[#337945] hover:bg-[#337945] text-white border-[#337945] text-xs sm:text-sm py-2 px-3 sm:py-2.5 sm:px-4 h-auto shadow-sm hover:shadow transition-all" 
                         onClick={compartilharFacebook}
                       >
                         <Share2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
@@ -1273,7 +1273,7 @@ const DailyLessonPage: React.FC = () => {
                       <Button 
                         variant="outline" 
                         size="sm" 
-                        className="gap-1.5 sm:gap-2 bg-[#a37fb9] hover:bg-[#8a63a8] text-white border-[#8a63a8] text-xs sm:text-sm py-2 px-3 sm:py-2.5 sm:px-4 h-auto shadow-sm hover:shadow transition-all" 
+                        className="gap-1.5 sm:gap-2 bg-[#337945] hover:bg-[#337945] text-white border-[#337945] text-xs sm:text-sm py-2 px-3 sm:py-2.5 sm:px-4 h-auto shadow-sm hover:shadow transition-all" 
                         onClick={compartilharTwitter}
                       >
                         <Share2 className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
@@ -1287,7 +1287,7 @@ const DailyLessonPage: React.FC = () => {
               <DialogFooter className="flex-col sm:flex-row gap-2 sm:gap-0 pt-2">
                 <Button 
                   onClick={() => setDesafioModalOpen(false)}
-                  className="bg-[#a37fb9] hover:bg-[#8a63a8] text-white w-full sm:w-auto shadow-sm hover:shadow transition-all py-2.5 px-6 h-auto text-base"
+                  className="bg-[#337945] hover:bg-[#337945] text-white w-full sm:w-auto shadow-sm hover:shadow transition-all py-2.5 px-6 h-auto text-base"
                 >
                   Aceitar Desafio
                 </Button>
@@ -1309,21 +1309,21 @@ const DailyLessonPage: React.FC = () => {
           <Button 
             variant="ghost" 
             onClick={navegarParaDiaAnterior} 
-            className="text-xs sm:text-sm hover:bg-[#a37fb9]/10 transition-colors"
+            className="text-xs sm:text-sm hover:bg-[#337945]/10 transition-colors"
           >
             <ChevronLeft className="mr-1 h-3 w-3 sm:h-4 sm:w-4" />
             <span className="whitespace-nowrap">Anterior</span>
           </Button>
           
-          <div className="flex items-center gap-2 bg-[#a37fb9]/10 px-3 py-1.5 rounded-full">
-            <span className="font-medium text-xs sm:text-sm text-[#8a63a8]">{getDiaLabel(dia)}</span>
-            <Calendar className="h-3 w-3 sm:h-4 sm:w-4 text-[#a37fb9]" />
+          <div className="flex items-center gap-2 bg-[#337945]/10 px-3 py-1.5 rounded-full">
+            <span className="font-medium text-xs sm:text-sm text-[#337945]">{getDiaLabel(dia)}</span>
+            <Calendar className="h-3 w-3 sm:h-4 sm:w-4 text-[#337945]" />
           </div>
           
           <Button 
             variant="ghost" 
             onClick={navegarParaProximoDia} 
-            className="text-xs sm:text-sm hover:bg-[#a37fb9]/10 transition-colors"
+            className="text-xs sm:text-sm hover:bg-[#337945]/10 transition-colors"
           >
             {dia === "sexta" ? (
               <>
@@ -1343,21 +1343,21 @@ const DailyLessonPage: React.FC = () => {
         <div className="hidden md:block">
           <button 
             onClick={navegarParaDiaAnterior}
-            className="fixed left-[calc((100%-1400px)/2-28px)] top-1/2 transform -translate-y-1/2 w-14 h-14 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl flex justify-center items-center hover:bg-[#f8f4ff] dark:hover:bg-gray-700 transition-all z-10"
+            className="fixed left-[calc((100%-1400px)/2-28px)] top-1/2 transform -translate-y-1/2 w-14 h-14 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl flex justify-center items-center hover:bg-[#f0faf2] dark:hover:bg-gray-700 transition-all z-10"
             aria-label="Lição anterior"
           >
-            <ChevronLeft className="h-7 w-7 text-[#a37fb9]" />
+            <ChevronLeft className="h-7 w-7 text-[#337945]" />
           </button>
           
           <button 
             onClick={navegarParaProximoDia}
-            className="fixed right-[calc((100%-1400px)/2-28px)] top-1/2 transform -translate-y-1/2 w-14 h-14 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl flex justify-center items-center hover:bg-[#f8f4ff] dark:hover:bg-gray-700 transition-all z-10"
+            className="fixed right-[calc((100%-1400px)/2-28px)] top-1/2 transform -translate-y-1/2 w-14 h-14 rounded-full bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl flex justify-center items-center hover:bg-[#f0faf2] dark:hover:bg-gray-700 transition-all z-10"
             aria-label={dia === "sexta" ? "Quiz" : "Próxima lição"}
           >
             {dia === "sexta" ? (
-              <CheckSquare className="h-7 w-7 text-[#a37fb9]" />
+              <CheckSquare className="h-7 w-7 text-[#337945]" />
             ) : (
-              <ChevronRight className="h-7 w-7 text-[#a37fb9]" />
+              <ChevronRight className="h-7 w-7 text-[#337945]" />
             )}
           </button>
         </div>
@@ -1365,20 +1365,20 @@ const DailyLessonPage: React.FC = () => {
         {/* Título e subtítulo do dia */}
         {licao.titulo_dia && (
           <div className="mb-8 text-center">
-            <h2 className="text-2xl sm:text-3xl font-bold text-[#8a63a8] mb-2">{licao.titulo_dia}</h2>
+            <h2 className="text-2xl sm:text-3xl font-bold text-[#337945] mb-2">{licao.titulo_dia}</h2>
             {licao.subtitulo_dia && (
-              <p className="text-lg text-[#8a63a8]/80 font-serif italic">{licao.subtitulo_dia}</p>
+              <p className="text-lg text-[#337945]/80 font-serif italic">{licao.subtitulo_dia}</p>
             )}
           </div>
         )}
         
         {/* Texto bíblico chave se houver */}
         {licao.texto_biblico_chave && (
-          <div className="mb-8 text-center bg-gradient-to-r from-[#f8f4ff] to-white dark:from-gray-800/60 dark:to-gray-900 py-5 px-6 rounded-xl border border-[#a37fb9]/20 shadow-sm">
-            <h2 className="text-sm font-medium text-[#8a63a8] mb-2">Texto bíblico chave</h2>
+          <div className="mb-8 text-center bg-gradient-to-r from-[#f0faf2] to-white dark:from-gray-800/60 dark:to-gray-900 py-5 px-6 rounded-xl border border-[#337945]/20 shadow-sm">
+            <h2 className="text-sm font-medium text-[#337945] mb-2">Texto bíblico chave</h2>
             <button 
               onClick={() => openBibleModal(licao.texto_biblico_chave)}
-              className="text-lg font-serif italic text-[#8a63a8] hover:text-[#a37fb9] hover:underline flex items-center justify-center mx-auto gap-2 transition-colors"
+              className="text-lg font-serif italic text-[#8fb775] hover:text-[#337945] hover:underline flex items-center justify-center mx-auto gap-2 transition-colors"
             >
               {licao.texto_biblico_chave}
               <BookOpen className="h-5 w-5" />
@@ -1387,7 +1387,7 @@ const DailyLessonPage: React.FC = () => {
         )}
         
         {/* Conteúdo da lição */}
-        <Card className="mb-8 shadow-sm dark:bg-gray-900 dark:border-gray-800 overflow-hidden rounded-xl border-[#a37fb9]/20">
+        <Card className="mb-8 shadow-sm dark:bg-gray-900 dark:border-gray-800 overflow-hidden rounded-xl border-[#337945]/20">
           {/* Barra de ferramentas flutuante */}
           <div className="sticky top-4 z-30 flex justify-end px-4 py-2">
             <div className="bg-white dark:bg-gray-800 rounded-full shadow-md p-1 flex gap-1">
@@ -1395,7 +1395,7 @@ const DailyLessonPage: React.FC = () => {
               <Button
                 variant="ghost"
                 size="icon"
-                className={`rounded-full h-9 w-9 ${isSpeaking ? 'bg-[#a37fb9]/20 text-[#a37fb9]' : ''}`}
+                className={`rounded-full h-9 w-9 ${isSpeaking ? 'bg-[#337945]/20 text-[#337945]' : ''}`}
                 onClick={toggleSpeech}
                 title={isSpeaking ? "Pausar leitura" : "Ler texto em voz alta"}
               >
@@ -1406,7 +1406,7 @@ const DailyLessonPage: React.FC = () => {
               <Button
                 variant="ghost"
                 size="icon"
-                className={`rounded-full h-9 w-9 ${highlighterActive ? 'bg-[#a37fb9]/20 text-[#a37fb9]' : ''}`}
+                className={`rounded-full h-9 w-9 ${highlighterActive ? 'bg-[#337945]/20 text-[#337945]' : ''}`}
                 onClick={toggleHighlighter}
                 title="Destacar texto"
               >
@@ -1450,9 +1450,9 @@ const DailyLessonPage: React.FC = () => {
 
               {/* Perguntas - apenas para dias diferentes de sábado */}
               {licao.perguntas && dia !== "sabado" && (
-                <div className="mt-8 p-6 bg-gradient-to-r from-[#f8f4ff] to-white dark:from-gray-800/60 dark:to-gray-900 rounded-xl border border-[#a37fb9]/20 dark:border-purple-800/30 shadow-sm" data-aos="fade-up" data-aos-delay="300">
-                  <h3 className="text-lg font-bold mb-4 text-[#8a63a8] dark:text-purple-300 flex items-center">
-                    <span className="w-7 h-7 rounded-full bg-[#a37fb9] flex items-center justify-center text-white mr-2 shadow-sm text-sm">?</span>
+                <div className="mt-8 p-6 bg-gradient-to-r from-[#f0faf2] to-white dark:from-gray-800/60 dark:to-gray-900 rounded-xl border border-[#337945]/20 dark:border-green-800/30 shadow-sm" data-aos="fade-up" data-aos-delay="300">
+              <h3 className="text-lg font-bold mb-4 text-[#337945] dark:text-green-300 flex items-center">
+                    <span className="w-7 h-7 rounded-full bg-[#337945] flex items-center justify-center text-white mr-2 shadow-sm text-sm">?</span>
                     Para refletir
                   </h3>
                   <p className="text-base whitespace-pre-line dark:text-gray-300 leading-relaxed">{licao.perguntas}</p>
@@ -1461,9 +1461,9 @@ const DailyLessonPage: React.FC = () => {
               
               {/* Resumo - movido para depois das perguntas */}
               {licao.resumo && (
-                <div className="mt-8 p-6 bg-[#f8f4ff] dark:bg-gray-800/50 rounded-xl border border-[#a37fb9]/10 dark:border-gray-700 shadow-sm" data-aos="fade-up" data-aos-delay="400">
-                  <h3 className="text-lg font-bold mb-4 text-[#8a63a8] dark:text-gray-200 flex items-center">
-                    <span className="w-7 h-7 rounded-full bg-[#a37fb9] flex items-center justify-center text-white mr-2 shadow-sm text-sm">R</span>
+                <div className="mt-8 p-6 bg-[#f0faf2] dark:bg-gray-800/50 rounded-xl border border-[#337945]/10 dark:border-gray-700 shadow-sm" data-aos="fade-up" data-aos-delay="400">
+                  <h3 className="text-lg font-bold mb-4 text-[#337945] dark:text-gray-200 flex items-center">
+                    <span className="w-7 h-7 rounded-full bg-[#337945] flex items-center justify-center text-white mr-2 shadow-sm text-sm">R</span>
                     Resumo
                   </h3>
                   <div className="prose dark:prose-invert max-w-none dark:text-gray-200 leading-relaxed">
@@ -1478,7 +1478,7 @@ const DailyLessonPage: React.FC = () => {
                   {licao.hashtags.split(' ').map((tag, i) => (
                     <span 
                       key={i} 
-                      className="px-3 py-1.5 bg-[#f8f4ff] dark:bg-gray-800/80 text-[#8a63a8] dark:text-purple-300 rounded-full text-xs font-medium hover:bg-[#a37fb9]/20 transition-colors"
+                      className="px-3 py-1.5 bg-[#f0faf2] dark:bg-gray-800/80 text-[#337945] dark:text-green-300 rounded-full text-xs font-medium hover:bg-[#337945]/20 transition-colors"
                     >
                       #{tag}
                     </span>
@@ -1499,7 +1499,7 @@ const DailyLessonPage: React.FC = () => {
           <Button 
             onClick={navegarParaDiaAnterior}
             variant="outline"
-            className="text-xs sm:text-sm border-[#a37fb9]/30 text-[#8a63a8] hover:bg-[#f8f4ff] transition-colors"
+            className="text-xs sm:text-sm border-[#337945]/30 text-[#337945] hover:bg-[#f0faf2] transition-colors"
           >
             <ChevronLeft className="mr-1 h-3 w-3 sm:h-4 sm:w-4" />
             Anterior
@@ -1507,7 +1507,7 @@ const DailyLessonPage: React.FC = () => {
           
           <Button 
             onClick={navegarParaProximoDia}
-            className="bg-[#a37fb9] hover:bg-[#8a63a8] text-white text-xs sm:text-sm shadow-sm hover:shadow transition-all"
+            className="bg-[#337945] hover:bg-[#337945] text-white text-xs sm:text-sm shadow-sm hover:shadow transition-all"
           >
             {dia === "sexta" ? (
               <>
@@ -1526,12 +1526,12 @@ const DailyLessonPage: React.FC = () => {
         {/* Seção de comentários - também para dias normais */}
         <div className="mt-16 pt-8 border-t border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-xl font-bold text-[#a37fb9] flex items-center">
+            <h2 className="text-xl font-bold text-[#337945] flex items-center">
               <MessageSquare className="h-5 w-5 mr-2" />
               Comentários da Comunidade
             </h2>
             
-            <div className="text-sm text-gray-500 bg-[#f8f4ff] dark:bg-gray-800 px-3 py-1 rounded-full">
+            <div className="text-sm text-gray-500 bg-[#f0faf2] dark:bg-gray-800 px-3 py-1 rounded-full">
               {comentarios.length} {comentarios.length === 1 ? 'comentário' : 'comentários'}
             </div>
           </div>
@@ -1540,17 +1540,17 @@ const DailyLessonPage: React.FC = () => {
           <div className="space-y-6 mb-8">
             {carregandoComentarios ? (
               <div className="flex justify-center py-8">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#a37fb9]"></div>
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#337945]"></div>
               </div>
             ) : comentarios.length === 0 ? (
-              <div className="text-center py-16 text-gray-500 bg-[#f8f4ff]/50 dark:bg-gray-800/20 rounded-xl border border-dashed border-[#a37fb9]/20">
-                <p className="text-[#8a63a8]">Seja o primeiro a comentar sobre esta lição!</p>
+              <div className="text-center py-16 text-gray-500 bg-[#f0faf2]/50 dark:bg-gray-800/20 rounded-xl border border-dashed border-[#337945]/20">
+                <p className="text-[#337945]">Seja o primeiro a comentar sobre esta lição!</p>
               </div>
             ) : (
               comentarios.map((comentario) => (
-                <div key={comentario.id} className="bg-[#f8f4ff]/50 dark:bg-gray-800/40 p-6 rounded-xl border border-[#a37fb9]/10 hover:shadow-sm transition-all">
+                <div key={comentario.id} className="bg-[#f0faf2]/50 dark:bg-gray-800/40 p-6 rounded-xl border border-[#337945]/10 hover:shadow-sm transition-all">
                   <div className="flex items-center justify-between mb-3">
-                    <div className="font-medium text-[#8a63a8] text-lg">{comentario.nome}</div>
+                    <div className="font-medium text-[#337945] text-lg">{comentario.nome}</div>
                     <div className="text-xs text-gray-500 bg-white dark:bg-gray-800 px-2 py-1 rounded-full">
                       {new Date(comentario.data_criacao).toLocaleDateString('pt-BR')}
                     </div>
@@ -1566,16 +1566,16 @@ const DailyLessonPage: React.FC = () => {
                       onClick={() => toggleCurtida(comentario.id)}
                       className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs ${
                         comentario.curtido_pelo_usuario 
-                          ? 'bg-[#a37fb9]/20 text-[#a37fb9]' 
+                          ? 'bg-[#337945]/20 text-[#337945]' 
                           : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300'
-                      } hover:bg-[#a37fb9]/30 transition-colors shadow-sm`}
+                      } hover:bg-[#337945]/30 transition-colors shadow-sm`}
                     >
                       <svg 
                         xmlns="http://www.w3.org/2000/svg" 
                         width="14" 
                         height="14" 
                         viewBox="0 0 24 24" 
-                        fill={comentario.curtido_pelo_usuario ? "#a37fb9" : "none"} 
+                        fill={comentario.curtido_pelo_usuario ? "#337945" : "none"} 
                         stroke="currentColor" 
                         strokeWidth="2" 
                         strokeLinecap="round" 
@@ -1592,40 +1592,40 @@ const DailyLessonPage: React.FC = () => {
           </div>
           
           {/* Formulário de novo comentário */}
-          <Card className="border-[#a37fb9]/20 shadow-sm rounded-xl overflow-hidden">
+          <Card className="border-[#337945]/20 shadow-sm rounded-xl overflow-hidden">
             <CardContent className="pt-6 px-8">
-              <h3 className="text-lg font-bold mb-6 text-[#a37fb9] flex items-center">
+              <h3 className="text-lg font-bold mb-6 text-[#337945] flex items-center">
                 <Send className="h-4 w-4 mr-2" />
                 Deixe seu comentário
               </h3>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-[#8a63a8]">Seu nome</label>
+                  <label className="text-sm font-medium text-[#337945]">Seu nome</label>
                   <Input 
                     placeholder="Digite seu nome" 
                     value={novoComentario.nome}
                     onChange={(e) => setNovoComentario({...novoComentario, nome: e.target.value})}
-                    className="border-[#a37fb9]/20 focus:border-[#a37fb9] focus:ring-[#a37fb9]/20"
+                    className="border-[#337945]/20 focus:border-[#337945] focus:ring-[#337945]/20"
                   />
                 </div>
                 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-[#8a63a8]">De onde você é</label>
+                  <label className="text-sm font-medium text-[#337945]">De onde você é</label>
                   <Input 
                     placeholder="Ex: São Paulo/SP" 
                     value={novoComentario.localidade}
                     onChange={(e) => setNovoComentario({...novoComentario, localidade: e.target.value})}
-                    className="border-[#a37fb9]/20 focus:border-[#a37fb9] focus:ring-[#a37fb9]/20"
+                    className="border-[#337945]/20 focus:border-[#337945] focus:ring-[#337945]/20"
                   />
                 </div>
               </div>
               
               <div className="space-y-2 mb-6">
-                <label className="text-sm font-medium text-[#8a63a8]">Seu comentário</label>
+                <label className="text-sm font-medium text-[#337945]">Seu comentário</label>
                 <Textarea 
                   placeholder="Compartilhe sua reflexão sobre esta lição..." 
-                  className="min-h-[120px] border-[#a37fb9]/20 focus:border-[#a37fb9] focus:ring-[#a37fb9]/20"
+                  className="min-h-[120px] border-[#337945]/20 focus:border-[#337945] focus:ring-[#337945]/20"
                   value={novoComentario.texto}
                   onChange={(e) => setNovoComentario({...novoComentario, texto: e.target.value})}
                 />
@@ -1635,7 +1635,7 @@ const DailyLessonPage: React.FC = () => {
                 <Button 
                   onClick={enviarComentario}
                   disabled={enviandoComentario}
-                  className="bg-[#a37fb9] hover:bg-[#8a63a8] text-white shadow-sm hover:shadow transition-all"
+                  className="bg-[#337945] hover:bg-[#337945] text-white shadow-sm hover:shadow transition-all"
                 >
                   {enviandoComentario ? (
                     <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>

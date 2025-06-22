@@ -41,12 +41,12 @@ const AboutPage = () => {
         <section className="w-full py-24 bg-white dark:bg-neutral-800">
           <div className="container mx-auto px-4 md:px-6 max-w-5xl">
             <div className="flex flex-col items-center text-center space-y-8">
-              <Badge className="bg-[#a37fb9] hover:bg-[#a37fb9]/90 text-white px-3 py-1 text-xs">
+              <Badge className="bg-[#337945] hover:bg-[#337945]/90 text-white px-3 py-1 text-xs">
                 Conheça nosso projeto
               </Badge>
               
               <h1 className="text-4xl md:text-5xl font-serif font-medium text-neutral-900 dark:text-white max-w-2xl leading-tight">
-                Lição Jovem 7: Estudo bíblico <span className="text-[#a37fb9]">interativo</span>
+                Lição Jovem 7: Estudo bíblico <span className="text-[#337945]">interativo</span>
               </h1>
               
               <p className="text-neutral-600 dark:text-neutral-300 max-w-xl text-lg font-light leading-relaxed">
@@ -54,11 +54,11 @@ const AboutPage = () => {
               </p>
               
               <div className="flex items-center justify-center gap-4 pt-6">
-                <Button asChild className="bg-[#a37fb9] hover:bg-[#a37fb9]/90 text-white">
+                <Button asChild className="bg-[#337945] hover:bg-[#337945]/90 text-white">
                   <Link to="/estudos">Começar a estudar</Link>
                 </Button>
                 
-                <Button asChild variant="outline" className="border-[#a37fb9] text-[#a37fb9]">
+                <Button asChild variant="outline" className="border-[#337945] text-[#337945]">
                   <a href="https://instagram.com/licaojovem7" target="_blank" rel="noopener noreferrer">
                     <Instagram className="h-4 w-4 mr-2" />
                     Instagram
@@ -74,22 +74,22 @@ const AboutPage = () => {
           <div className="container mx-auto px-4 md:px-6 max-w-5xl">
             <div className="flex flex-col gap-16">
               <div className="flex flex-col space-y-4 text-center items-center">
-                <p className="text-[#a37fb9] text-sm font-medium tracking-wide uppercase">Nossa missão</p>
+                <p className="text-[#337945] text-sm font-medium tracking-wide uppercase">Nossa missão</p>
                 <h2 className="text-3xl font-serif font-medium text-neutral-900 dark:text-white">
                   O que é a Lição Jovem 7?
                 </h2>
-                <Separator className="w-12 bg-[#a37fb9] h-0.5 mt-2" />
+                <Separator className="w-12 bg-[#337945] h-0.5 mt-2" />
               </div>
               
               <div className="grid md:grid-cols-2 gap-16 items-center">
                 <div className="space-y-8">
                   <div className="space-y-4">
                     <p className="text-neutral-700 dark:text-neutral-200 leading-relaxed">
-                      A <span className="font-medium text-[#a37fb9]">Lição Jovem 7</span> é um projeto dedicado a oferecer estudos diários 
+                      A <span className="font-medium text-[#337945]">Lição Jovem 7</span> é um projeto dedicado a oferecer estudos diários 
                       interativos para jovens adventistas do sétimo dia, tornando o estudo da lição da escola sabatina
                       mais acessível e aplicável ao dia a dia.
                     </p>
-                    <div className="flex items-center gap-2 text-sm text-[#a37fb9]">
+                    <div className="flex items-center gap-2 text-sm text-[#337945]">
                       <Heart className="h-4 w-4" /> <span>Criado por jovens para jovens</span>
                     </div>
                   </div>
@@ -107,20 +107,20 @@ const AboutPage = () => {
                       das lições em nossa página, criando uma comunidade ativa que estuda e reflete
                       juntos sobre os temas propostos.
                     </p>
-                    <div className="flex items-center gap-2 text-sm text-[#a37fb9]">
+                    <div className="flex items-center gap-2 text-sm text-[#337945]">
                       <Users className="h-4 w-4" /> <span>Comunidade em crescimento</span>
                     </div>
                   </div>
                 </div>
                 
                 <div className="relative">
-                  <div className="absolute -z-10 inset-0 bg-gradient-to-tr from-[#a37fb9]/10 to-transparent rounded-2xl transform rotate-3"></div>
+                  <div className="absolute -z-10 inset-0 bg-gradient-to-tr from-[#337945]/10 to-transparent rounded-2xl transform rotate-3"></div>
                   <img 
                     src="/cover.png" 
                     alt="Lição Jovem - Capa" 
                     className="rounded-xl shadow-md grayscale hover:grayscale-0 transition-all duration-500 object-cover w-full max-w-md mx-auto"
                   />
-                  <div className="absolute top-4 right-4 bg-white dark:bg-neutral-800 text-[#a37fb9] font-medium px-3 py-1 text-sm rounded-full shadow-sm">
+                  <div className="absolute top-4 right-4 bg-white dark:bg-neutral-800 text-[#337945] font-medium px-3 py-1 text-sm rounded-full shadow-sm">
                     2º Trimestre
                   </div>
                 </div>
@@ -134,41 +134,41 @@ const AboutPage = () => {
           <div className="container mx-auto px-4 md:px-6 max-w-5xl">
             <div className="flex flex-col gap-16">
               <div className="flex flex-col space-y-4 text-center items-center">
-                <p className="text-[#a37fb9] text-sm font-medium tracking-wide uppercase">Recursos</p>
+                <p className="text-[#337945] text-sm font-medium tracking-wide uppercase">Recursos</p>
                 <h2 className="text-3xl font-serif font-medium text-neutral-900 dark:text-white">
                   O que oferecemos
                 </h2>
-                <Separator className="w-12 bg-[#a37fb9] h-0.5 mt-2" />
+                <Separator className="w-12 bg-[#337945] h-0.5 mt-2" />
               </div>
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <Card className="bg-neutral-50 dark:bg-neutral-900 border-none shadow-sm hover:shadow transition-all p-6 flex flex-col items-center text-center">
-                  <div className="h-12 w-12 bg-[#a37fb9]/10 flex items-center justify-center rounded-full mb-6">
-                    <BookOpen className="h-6 w-6 text-[#a37fb9]" />
+                  <div className="h-12 w-12 bg-[#337945]/10 flex items-center justify-center rounded-full mb-6">
+                    <BookOpen className="h-6 w-6 text-[#337945]" />
                   </div>
                   <h3 className="font-medium text-lg mb-3 text-neutral-900 dark:text-white">Estudos Diários</h3>
                   <p className="text-neutral-600 dark:text-neutral-400 text-sm">Conteúdo relevante para cada dia da semana</p>
                 </Card>
                 
                 <Card className="bg-neutral-50 dark:bg-neutral-900 border-none shadow-sm hover:shadow transition-all p-6 flex flex-col items-center text-center">
-                  <div className="h-12 w-12 bg-[#a37fb9]/10 flex items-center justify-center rounded-full mb-6">
-                    <Award className="h-6 w-6 text-[#a37fb9]" />
+                  <div className="h-12 w-12 bg-[#337945]/10 flex items-center justify-center rounded-full mb-6">
+                    <Award className="h-6 w-6 text-[#337945]" />
                   </div>
                   <h3 className="font-medium text-lg mb-3 text-neutral-900 dark:text-white">Quizzes</h3>
                   <p className="text-neutral-600 dark:text-neutral-400 text-sm">Teste seus conhecimentos e fixe o conteúdo</p>
                 </Card>
                 
                 <Card className="bg-neutral-50 dark:bg-neutral-900 border-none shadow-sm hover:shadow transition-all p-6 flex flex-col items-center text-center">
-                  <div className="h-12 w-12 bg-[#a37fb9]/10 flex items-center justify-center rounded-full mb-6">
-                    <MessageSquare className="h-6 w-6 text-[#a37fb9]" />
+                  <div className="h-12 w-12 bg-[#337945]/10 flex items-center justify-center rounded-full mb-6">
+                    <MessageSquare className="h-6 w-6 text-[#337945]" />
                   </div>
                   <h3 className="font-medium text-lg mb-3 text-neutral-900 dark:text-white">Discussões</h3>
                   <p className="text-neutral-600 dark:text-neutral-400 text-sm">Compartilhe insights com outros jovens</p>
                 </Card>
                 
                 <Card className="bg-neutral-50 dark:bg-neutral-900 border-none shadow-sm hover:shadow transition-all p-6 flex flex-col items-center text-center">
-                  <div className="h-12 w-12 bg-[#a37fb9]/10 flex items-center justify-center rounded-full mb-6">
-                    <Calendar className="h-6 w-6 text-[#a37fb9]" />
+                  <div className="h-12 w-12 bg-[#337945]/10 flex items-center justify-center rounded-full mb-6">
+                    <Calendar className="h-6 w-6 text-[#337945]" />
                   </div>
                   <h3 className="font-medium text-lg mb-3 text-neutral-900 dark:text-white">Progresso</h3>
                   <p className="text-neutral-600 dark:text-neutral-400 text-sm">Acompanhe sua jornada de estudos</p>
@@ -177,19 +177,19 @@ const AboutPage = () => {
               
               <div className="flex flex-wrap justify-center gap-6 mt-8">
                 <div className="bg-neutral-50 dark:bg-neutral-900 p-4 rounded-lg text-center min-w-[140px]">
-                  <p className="text-2xl font-light text-[#a37fb9]">7</p>
+                  <p className="text-2xl font-light text-[#337945]">7</p>
                   <p className="text-sm text-neutral-600 dark:text-neutral-400">dias de estudo</p>
                 </div>
                 <div className="bg-neutral-50 dark:bg-neutral-900 p-4 rounded-lg text-center min-w-[140px]">
-                  <p className="text-2xl font-light text-[#a37fb9]">100+</p>
+                  <p className="text-2xl font-light text-[#337945]">100+</p>
                   <p className="text-sm text-neutral-600 dark:text-neutral-400">quizzes</p>
                 </div>
                 <div className="bg-neutral-50 dark:bg-neutral-900 p-4 rounded-lg text-center min-w-[140px]">
-                  <p className="text-2xl font-light text-[#a37fb9]">1000+</p>
+                  <p className="text-2xl font-light text-[#337945]">1000+</p>
                   <p className="text-sm text-neutral-600 dark:text-neutral-400">jovens engajados</p>
                 </div>
                 <div className="bg-neutral-50 dark:bg-neutral-900 p-4 rounded-lg text-center min-w-[140px]">
-                  <p className="text-2xl font-light text-[#a37fb9]">24/7</p>
+                  <p className="text-2xl font-light text-[#337945]">24/7</p>
                   <p className="text-sm text-neutral-600 dark:text-neutral-400">acesso</p>
                 </div>
               </div>
@@ -202,40 +202,40 @@ const AboutPage = () => {
           <div className="container mx-auto px-4 md:px-6 max-w-5xl">
             <div className="flex flex-col gap-16">
               <div className="flex flex-col space-y-4 text-center items-center">
-                <p className="text-[#a37fb9] text-sm font-medium tracking-wide uppercase">Trimestre atual</p>
+                <p className="text-[#337945] text-sm font-medium tracking-wide uppercase">Trimestre atual</p>
                 <h2 className="text-3xl font-serif font-medium text-neutral-900 dark:text-white">
-                  Adoração
+                  Êxodo - Um livro que mostra Deus em ação
                 </h2>
-                <Separator className="w-12 bg-[#a37fb9] h-0.5 mt-2" />
+                <Separator className="w-12 bg-[#337945] h-0.5 mt-2" />
                 <p className="text-neutral-600 dark:text-neutral-300 max-w-xl text-center">
-                  Uma profunda exploração do que significa adorar a Deus em espírito e verdade, mais do que um ritual semanal.
+                  Uma jornada através do livro de Êxodo, descobrindo como Deus age na história e nas vidas de Seu povo, desde a libertação do Egito até a construção do tabernáculo.
                 </p>
               </div>
               
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div className="p-6 border-l-2 border-[#a37fb9] bg-white dark:bg-neutral-800 shadow-sm">
-                  <h4 className="text-[#a37fb9] font-medium mb-2">O início do altar</h4>
+                <div className="p-6 border-l-2 border-[#337945] bg-white dark:bg-neutral-800 shadow-sm">
+                  <h4 className="text-[#337945] font-medium mb-2">O início do altar</h4>
                   <p className="text-sm text-neutral-600 dark:text-neutral-400">
                     Como a adoração começou no Éden e evoluiu ao longo da história bíblica.
                   </p>
                 </div>
                 
-                <div className="p-6 border-l-2 border-[#a37fb9] bg-white dark:bg-neutral-800 shadow-sm">
-                  <h4 className="text-[#a37fb9] font-medium mb-2">Adoração autêntica</h4>
+                <div className="p-6 border-l-2 border-[#337945] bg-white dark:bg-neutral-800 shadow-sm">
+                  <h4 className="text-[#337945] font-medium mb-2">Adoração autêntica</h4>
                   <p className="text-sm text-neutral-600 dark:text-neutral-400">
                     A diferença entre adoração verdadeira e meros rituais.
                   </p>
                 </div>
                 
-                <div className="p-6 border-l-2 border-[#a37fb9] bg-white dark:bg-neutral-800 shadow-sm">
-                  <h4 className="text-[#a37fb9] font-medium mb-2">Adoração na vida diária</h4>
+                <div className="p-6 border-l-2 border-[#337945] bg-white dark:bg-neutral-800 shadow-sm">
+                  <h4 className="text-[#337945] font-medium mb-2">Adoração na vida diária</h4>
                   <p className="text-sm text-neutral-600 dark:text-neutral-400">
                     Como viver uma vida de adoração em nossas escolhas diárias.
                   </p>
                 </div>
                 
-                <div className="p-6 border-l-2 border-[#a37fb9] bg-white dark:bg-neutral-800 shadow-sm">
-                  <h4 className="text-[#a37fb9] font-medium mb-2">Adoração na eternidade</h4>
+                <div className="p-6 border-l-2 border-[#337945] bg-white dark:bg-neutral-800 shadow-sm">
+                  <h4 className="text-[#337945] font-medium mb-2">Adoração na eternidade</h4>
                   <p className="text-sm text-neutral-600 dark:text-neutral-400">
                     Uma visão da adoração celestial e como nos preparamos para ela.
                   </p>
@@ -243,7 +243,7 @@ const AboutPage = () => {
               </div>
               
               <div className="flex justify-center">
-                <Button asChild className="bg-[#a37fb9] hover:bg-[#a37fb9]/90 text-white">
+                <Button asChild className="bg-[#337945] hover:bg-[#337945]/90 text-white">
                   <Link to="/estudos">
                     Começar a estudar
                     <ArrowRight className="ml-2 h-4 w-4" />
@@ -259,7 +259,7 @@ const AboutPage = () => {
           <div className="container mx-auto px-4 md:px-6 max-w-5xl">
             <div className="flex flex-col md:flex-row gap-12 items-center">
               <div className="md:w-1/2 space-y-6">
-                <Badge className="bg-[#a37fb9] hover:bg-[#a37fb9]/90 text-white">
+                <Badge className="bg-[#337945] hover:bg-[#337945]/90 text-white">
                   @licaojovem7
                 </Badge>
                 <h2 className="text-3xl font-serif font-medium text-neutral-900 dark:text-white">
@@ -269,7 +269,7 @@ const AboutPage = () => {
                   Diariamente compartilhamos resumos das lições, reflexões inspiradoras 
                   e conteúdos exclusivos para ajudar na sua jornada espiritual.
                 </p>
-                <Button asChild variant="outline" className="border-[#a37fb9] text-[#a37fb9]">
+                                  <Button asChild variant="outline" className="border-[#337945] text-[#337945]">
                   <a href="https://instagram.com/licaojovem7" target="_blank" rel="noopener noreferrer">
                     <Instagram className="h-4 w-4 mr-2" />
                     Seguir agora
@@ -297,7 +297,7 @@ const AboutPage = () => {
             <p className="text-neutral-600 dark:text-neutral-300 mb-8">
               Junte-se a milhares de jovens que estão aprofundando seu conhecimento bíblico diariamente.
             </p>
-            <Button asChild className="bg-[#a37fb9] hover:bg-[#a37fb9]/90 text-white">
+                          <Button asChild className="bg-[#337945] hover:bg-[#337945]/90 text-white">
               <Link to="/estudos">
                 Começar agora
                 <ArrowRight className="ml-2 h-4 w-4" />

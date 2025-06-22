@@ -71,7 +71,7 @@ const Navbar = () => {
       hoverIcon: <BookOpenCheck className="h-5 w-5 mr-2 text-white" />,
       label: "Estudos", 
       href: "/estudos",
-      color: "from-pink-500 to-purple-500" 
+      color: "from-green-500 to-emerald-600" 
     },
     { 
       icon: <LayoutDashboardIcon className="h-5 w-5 mr-2" />, 
@@ -100,7 +100,7 @@ const Navbar = () => {
       
       <nav className={`${navbarClass} sticky top-0 z-50 transition-all duration-300`}>
         {/* Decoração superior - linha gradiente animada */}
-        <div className="h-1 w-full bg-gradient-to-r from-[#a37fb9] via-blue-500 to-[#a37fb9] bg-[length:200%_auto] animate-gradient"></div>
+        <div className="h-1 w-full bg-gradient-to-r from-[#337945] via-emerald-500 to-[#337945] bg-[length:200%_auto] animate-gradient"></div>
         
         <div className="seven-container flex items-center justify-between py-4 relative">
           {/* Elementos decorativos de fundo removidos */}
@@ -122,9 +122,9 @@ const Navbar = () => {
                 className="flex items-center relative group overflow-hidden"
                 asChild
               >
-                <Link to={link.href} className="relative z-10 flex items-center text-[#a37fb9] dark:text-[#c4a6df] hover:text-white font-medium text-base transition-colors duration-300">
+                <Link to={link.href} className="relative z-10 flex items-center text-[#337945] dark:text-[#8fb775] hover:text-white font-medium text-base transition-colors duration-300">
                   {/* Fundo gradiente animado no hover */}
-                  <div className="absolute inset-0 bg-gradient-to-r opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10 rounded-md bg-[#a37fb9]"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10 rounded-md bg-[#337945]"></div>
                   {/* Ícone com transição */}
                   <span className="flex items-center justify-center overflow-hidden">
                     <span className="block group-hover:hidden transition-all duration-300">
@@ -211,7 +211,7 @@ const Navbar = () => {
                   >
                     <Button
                       variant="ghost"
-                      className="flex items-center justify-start text-[#a37fb9] hover:text-white hover:bg-[#a37fb9] font-medium text-base relative overflow-hidden group dark:text-[#c4a6df] rounded-md w-full my-1"
+                      className="flex items-center justify-start text-[#337945] hover:text-white hover:bg-[#337945] font-medium text-base relative overflow-hidden group dark:text-[#8fb775] rounded-md w-full my-1"
                       asChild
                     >
                       <Link 

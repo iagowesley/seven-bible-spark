@@ -27,13 +27,13 @@ const Feature: React.FC<FeatureProps> = ({ icon, title, description, delay }) =>
 const FeaturesSection = () => {
   const features = [
     {
-      icon: <BookOpen className="h-8 w-8 text-seven-blue" />,
+      icon: <BookOpen className="h-8 w-8 text-green-600" />,
       title: "Estudos Interativos",
       description: "Lições dinâmicas com questionários, vídeos e material complementar para aprofundar seu conhecimento.",
       delay: 100
     },
     {
-      icon: <Award className="h-8 w-8 text-seven-purple" />,
+      icon: <Award className="h-8 w-8 text-emerald-600" />,
       title: "Sistema de Gamificação",
       description: "Ganhe pontos, conquistas e participe de desafios semanais ao completar seus estudos.",
       delay: 200
@@ -45,13 +45,13 @@ const FeaturesSection = () => {
       delay: 300
     },
     {
-      icon: <Layout className="h-8 w-8 text-seven-blue" />,
+      icon: <Layout className="h-8 w-8 text-green-600" />,
       title: "Dashboard Personalizado",
       description: "Acompanhe seu progresso, acesse seu histórico de estudos e salve suas lições favoritas.",
       delay: 400
     },
     {
-      icon: <Download className="h-8 w-8 text-seven-purple" />,
+      icon: <Download className="h-8 w-8 text-emerald-600" />,
       title: "Modo Offline",
       description: "Baixe as lições para estudar sem conexão à internet, onde e quando quiser.",
       delay: 500

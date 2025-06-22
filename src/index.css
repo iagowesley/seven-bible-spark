@@ -155,7 +155,7 @@
   }
   
   .progress-fill {
-    @apply h-full bg-[#a37fb9] rounded-none transition-all duration-700 ease-out;
+    @apply h-full bg-[#337945] rounded-none transition-all duration-700 ease-out;
   }
 
   /* Navbar flutuante e fixa */
@@ -176,8 +176,8 @@
 
 /* Custom colors */
 :root {
-  --seven-blue: 231, 76%, 50%;
-  --seven-purple: 280, 39%, 61%;
+  --seven-blue: 137, 54%, 26%; /* Verde escuro */
+  --seven-purple: 137, 54%, 70%; /* Verde claro */
   --seven-gold: 45, 100%, 50%;
 }
 
@@ -212,7 +212,7 @@
 }
 
 .progress-fill {
-  @apply h-full bg-[#a37fb9] rounded-none;
+  @apply h-full bg-[#337945] rounded-none;
 }
 
 /* Redefinição de estilos para bordas quadradas */
@@ -264,7 +264,7 @@
 .prose blockquote {
   font-style: italic;
   color: #555;
-  border-left-color: #a37fb9;
+  border-left-color: #337945;
   padding-left: 1.5rem;
   font-family: 'Noto Serif', serif;
 }
@@ -428,7 +428,7 @@
   left: -15px;
   top: 0;
   transform: rotateY(-90deg) translateZ(10px);
-  background: linear-gradient(90deg, #a37fb9, #8a5a9b);
+  background: linear-gradient(90deg, #337945, #2d6537);
   border-left: 1px solid rgba(0, 0, 0, 0.1);
 }
 

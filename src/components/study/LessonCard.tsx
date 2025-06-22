@@ -83,8 +83,8 @@ const LessonCard: React.FC<LessonCardProps> = ({
       case "quarta": return "from-cyan-500 to-blue-500";
       case "quinta": return "from-blue-500 to-indigo-500";
       case "sexta": return "from-indigo-500 to-violet-500";
-      case "sabado": return "from-purple-500 to-pink-500";
-      default: return "from-seven-blue to-seven-purple";
+      case "sabado": return "from-green-500 to-emerald-500";
+      default: return "from-green-600 to-emerald-600";
     }
   };
 

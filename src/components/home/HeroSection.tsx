@@ -18,13 +18,13 @@ const HeroSection = () => {
         <div className="text-center max-w-3xl mx-auto">
           <div className="flex justify-center mb-6">
             <div 
-              className="w-20 h-20 rounded-circle bg-gradient-to-br from-seven-blue to-seven-purple flex items-center justify-center animate-pulse-slow"
+              className="w-20 h-20 rounded-circle bg-gradient-to-br from-green-600 to-emerald-600 flex items-center justify-center animate-pulse-slow"
             >
               <BookOpen className="h-10 w-10 text-white" />
             </div>
           </div>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight">
-            <span className="block bg-gradient-to-r from-seven-blue via-seven-purple to-seven-gold bg-clip-text text-transparent">
+            <span className="block bg-gradient-to-r from-green-600 via-emerald-600 to-seven-gold bg-clip-text text-transparent">
               Lição Jovem Seven
             </span>
           </h1>
@@ -34,7 +34,7 @@ const HeroSection = () => {
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
               size="lg" 
-              className="rounded-full text-lg px-8 py-6 bg-gradient-to-r from-seven-blue to-seven-purple hover:opacity-90 transition-opacity animate-fade-in"
+              className="rounded-full text-lg px-8 py-6 bg-gradient-to-r from-green-600 to-emerald-600 hover:opacity-90 transition-opacity animate-fade-in"
               asChild
             >
               <Link to="/estudos">Começar Estudos</Link>
@@ -60,8 +60,8 @@ const HeroSection = () => {
       </div>
       
       {/* Circles decorativos */}
-      <div className="absolute top-0 left-0 w-72 h-72 bg-seven-purple/10 rounded-full filter blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
-      <div className="absolute bottom-0 right-0 w-80 h-80 bg-seven-blue/10 rounded-full filter blur-3xl translate-x-1/3 translate-y-1/3"></div>
+      <div className="absolute top-0 left-0 w-72 h-72 bg-emerald-500/10 rounded-full filter blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+      <div className="absolute bottom-0 right-0 w-80 h-80 bg-green-600/10 rounded-full filter blur-3xl translate-x-1/3 translate-y-1/3"></div>
     </div>
   );
 };

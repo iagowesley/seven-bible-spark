@@ -57,9 +57,9 @@ const AdminLoginPage: React.FC = () => {
       <Card className="w-full max-w-md shadow-lg border-primary/10">
         <CardHeader className="space-y-1 text-center bg-gradient-to-b from-slate-50 to-white dark:from-slate-900 dark:to-slate-800 rounded-t-lg">
           <div className="flex justify-center mb-2">
-            <ShieldAlert className="h-10 w-10 text-[#a37fb9]" />
+            <ShieldAlert className="h-10 w-10 text-[#337945]" />
           </div>
-          <CardTitle className="text-2xl font-bold text-[#a37fb9]">
+          <CardTitle className="text-2xl font-bold text-[#337945]">
             Acesso Administrativo
           </CardTitle>
           <CardDescription className="text-muted-foreground">
@@ -107,7 +107,7 @@ const AdminLoginPage: React.FC = () => {
           <CardFooter>
             <Button
               type="submit"
-              className="w-full bg-gradient-to-r from-[#a37fb9] to-[#8a63a8] hover:from-[#8a63a8] hover:to-[#a37fb9]"
+              className="w-full bg-gradient-to-r from-[#337945] to-[#337945] hover:from-[#337945] hover:to-[#337945]"
               disabled={loading}
             >
               {loading ? (

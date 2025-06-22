@@ -256,10 +256,10 @@ const StudyDetailPage: React.FC = () => {
             {/* Lição do Sábado - Destacada */}
             {licoes.find(licao => licao.dia === "sabado") && (
               <div className="mb-8">
-                <h3 className="text-xl font-bold text-[#a37fb9] mb-4">Lição do Sábado</h3>
-                <Card className="border border-[#a37fb9]/30">
-                  <CardHeader className="border-b border-[#a37fb9]/20 pb-4">
-                    <CardTitle className="text-2xl text-[#a37fb9] text-center">
+                <h3 className="text-xl font-bold text-[#337945] mb-4">Lição do Sábado</h3>
+                <Card className="border border-[#337945]/30">
+                  <CardHeader className="border-b border-[#337945]/20 pb-4">
+                    <CardTitle className="text-2xl text-[#337945] text-center">
                       {semana.titulo}
                     </CardTitle>
                     <CardDescription className="text-center text-base">
@@ -271,7 +271,7 @@ const StudyDetailPage: React.FC = () => {
                     {/* Imagem da capa do sábado */}
                     {semana.img_sabado_url && (
                       <div className="flex items-center justify-center">
-                        <div className="relative w-full max-w-2xl h-[300px] overflow-hidden border border-[#a37fb9]/20">
+                        <div className="relative w-full max-w-2xl h-[300px] overflow-hidden border border-[#337945]/20">
                           <img 
                             src={semana.img_sabado_url} 
                             alt="Imagem da lição do sábado" 
@@ -284,7 +284,7 @@ const StudyDetailPage: React.FC = () => {
                     {/* Texto Bíblico Chave */}
                     <div className="flex flex-col items-center">
                       <h4 className="text-lg font-medium text-center mb-2">Texto bíblico chave</h4>
-                      <div className="bg-[#a37fb9]/10 p-6 border-l-4 border-[#a37fb9] max-w-2xl w-full">
+                      <div className="bg-[#337945]/10 p-6 border-l-4 border-[#337945] max-w-2xl w-full">
                         <p className="text-base italic text-center">
                           {licoes.find(l => l.dia === "sabado")?.texto_biblico_chave || 
                            licoes.find(l => l.dia === "sabado")?.texto1}

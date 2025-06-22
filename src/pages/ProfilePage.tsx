@@ -164,7 +164,7 @@ const ProfilePage = () => {
                     <div className="relative mb-3">
                       <Avatar className="h-20 w-20 sm:h-24 sm:w-24">
                         <AvatarImage src={avatarUrl || undefined} alt="Foto de perfil" />
-                        <AvatarFallback className="text-xl bg-gradient-to-r from-seven-purple to-seven-blue text-white">
+                        <AvatarFallback className="text-xl bg-gradient-to-r from-emerald-600 to-green-600 text-white">
                           {getInitials(profile?.full_name)}
                         </AvatarFallback>
                       </Avatar>

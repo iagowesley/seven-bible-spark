@@ -77,7 +77,7 @@ const StudiesPage: React.FC = () => {
       <>
         <Navbar />
         <div className="min-h-screen flex items-center justify-center bg-neutral-50 dark:bg-neutral-900">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#a37fb9]"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#337945]"></div>
         </div>
         <Footer />
       </>
@@ -108,12 +108,12 @@ const StudiesPage: React.FC = () => {
         <section className="w-full py-24 bg-white dark:bg-neutral-800">
           <div className="container mx-auto px-4 md:px-6 max-w-7xl">
             <div className="flex flex-col items-center text-center space-y-6">
-              <Badge className="bg-[#a37fb9] hover:bg-[#a37fb9]/90 text-white px-3 py-1 text-xs">
+              <Badge className="bg-[#337945] hover:bg-[#337945]/90 text-white px-3 py-1 text-xs">
                 Estudos Bíblicos
               </Badge>
               
               <h1 className="text-4xl md:text-5xl font-serif font-medium text-neutral-900 dark:text-white max-w-2xl leading-tight">
-                Lições <span className="text-[#a37fb9]">disponíveis</span>
+                Lições <span className="text-[#337945]">disponíveis</span>
               </h1>
               
               <p className="text-neutral-600 dark:text-neutral-300 max-w-xl text-lg font-light leading-relaxed">
@@ -121,15 +121,15 @@ const StudiesPage: React.FC = () => {
                 para aprofundar seu conhecimento espiritual.
               </p>
               
-              <Separator className="w-12 bg-[#a37fb9] h-0.5 mt-4" />
+              <Separator className="w-12 bg-[#337945] h-0.5 mt-4" />
               
               <div className="flex flex-wrap justify-center gap-4 pt-4">
                 <div className="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400">
-                  <Clock className="h-4 w-4 text-[#a37fb9]" />
+                  <Clock className="h-4 w-4 text-[#337945]" />
                   <span>7 dias de estudo por semana</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400">
-                  <BookOpen className="h-4 w-4 text-[#a37fb9]" />
+                  <BookOpen className="h-4 w-4 text-[#337945]" />
                   <span>Conteúdo inspirador</span>
                 </div>
               </div>
@@ -155,7 +155,7 @@ const StudiesPage: React.FC = () => {
                     <div className="book-card relative mx-auto">
                       {/* Badge do trimestre */}
                       <div className="mb-2 text-center">
-                        <Badge className="bg-[#a37fb9] shadow-md">
+                        <Badge className="bg-[#337945] shadow-md">
                           {trimestre.ano} - {trimestre.trimestre}º Trim
                         </Badge>
                       </div>
@@ -171,7 +171,7 @@ const StudiesPage: React.FC = () => {
                             />
                           ) : (
                             <div className="w-full h-full flex items-center justify-center bg-neutral-100 dark:bg-neutral-800">
-                              <BookMarked className="h-16 w-16 text-[#a37fb9]/60" />
+                              <BookMarked className="h-16 w-16 text-[#337945]/60" />
                             </div>
                           )}
                         </Link>
@@ -181,7 +181,7 @@ const StudiesPage: React.FC = () => {
                     {/* Conteúdo do trimestre */}
                     <Card className="mt-4 bg-white dark:bg-neutral-800 border-none shadow-sm">
                       <CardHeader className="pb-2">
-                        <CardTitle className="text-xl font-bold text-[#a37fb9] dark:text-[#a37fb9]">{trimestre.nome}</CardTitle>
+                        <CardTitle className="text-xl font-bold text-[#337945] dark:text-[#337945]">{trimestre.nome}</CardTitle>
                         <CardDescription className="text-neutral-600 dark:text-neutral-400 text-sm">
                           {getMesesDeTrimestre(trimestre.trimestre)}
                         </CardDescription>
@@ -195,7 +195,7 @@ const StudiesPage: React.FC = () => {
                             href="https://loja-dev.cpb.com.br/produto/5868/comtexto-biblico-jovens-aluno-avulsa-2-trimestre-2025-licao-da-escola-sabatina" 
                             target="_blank" 
                             rel="noopener noreferrer"
-                            className="text-xs flex items-center text-[#a37fb9] hover:underline"
+                            className="text-xs flex items-center text-[#337945] hover:underline"
                           >
                             <BookOpen className="h-3 w-3 mr-1" />
                             Obter lição física na CPB
@@ -210,8 +210,8 @@ const StudiesPage: React.FC = () => {
             
             {trimestres.filter(t => t.semanas.some(s => s.completa)).length === 0 && (
               <div className="mt-12">
-                <Alert className="max-w-lg mx-auto bg-white dark:bg-neutral-800 border-[#a37fb9]/20">
-                  <AlertTitle className="font-medium text-[#a37fb9]">Nenhum estudo disponível</AlertTitle>
+                <Alert className="max-w-lg mx-auto bg-white dark:bg-neutral-800 border-[#337945]/20">
+                  <AlertTitle className="font-medium text-[#337945]">Nenhum estudo disponível</AlertTitle>
                   <AlertDescription className="text-neutral-600 dark:text-neutral-400">
                     Não há estudos disponíveis no momento. Por favor, volte mais tarde para novidades.
                   </AlertDescription>

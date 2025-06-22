@@ -116,7 +116,7 @@ export default function ForgotPasswordPage() {
                 />
                 <Button 
                   type="submit" 
-                  className="w-full bg-[#a37fb9] hover:bg-[#8a6aa0]"
+                  className="w-full bg-[#337945] hover:bg-[#2d6537]"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? "Enviando..." : "Enviar link de recuperação"}
@@ -125,7 +125,7 @@ export default function ForgotPasswordPage() {
             </Form>
           ) : (
             <div className="text-center py-4">
-              <Mail className="mx-auto h-12 w-12 text-[#a37fb9] mb-4" />
+              <Mail className="mx-auto h-12 w-12 text-[#337945] mb-4" />
               <p className="text-sm text-gray-600 mb-4">
                 Enviamos um e-mail para você com instruções para redefinir sua senha. 
                 Por favor, verifique sua caixa de entrada e spam.
@@ -145,7 +145,7 @@ export default function ForgotPasswordPage() {
             <Button 
               variant="link" 
               onClick={() => navigate("/auth")}
-              className="text-[#a37fb9] hover:text-[#8a6aa0]"
+              className="text-[#337945] hover:text-[#2d6537]"
             >
               Voltar para login
             </Button>
