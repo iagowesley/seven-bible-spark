@@ -121,7 +121,7 @@ const AboutPage = () => {
                     className="rounded-xl shadow-md grayscale hover:grayscale-0 transition-all duration-500 object-cover w-full max-w-md mx-auto"
                   />
                   <div className="absolute top-4 right-4 bg-white dark:bg-neutral-800 text-[#337945] font-medium px-3 py-1 text-sm rounded-full shadow-sm">
-                    2º Trimestre
+                    3º Trimestre 2025
                   </div>
                 </div>
               </div>
@@ -214,30 +214,30 @@ const AboutPage = () => {
               
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div className="p-6 border-l-2 border-[#337945] bg-white dark:bg-neutral-800 shadow-sm">
-                  <h4 className="text-[#337945] font-medium mb-2">O início do altar</h4>
+                  <h4 className="text-[#337945] font-medium mb-2">A libertação do Egito</h4>
                   <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                    Como a adoração começou no Éden e evoluiu ao longo da história bíblica.
+                    Como Deus liberta Seu povo da escravidão através de milagres e poder divino.
                   </p>
                 </div>
                 
                 <div className="p-6 border-l-2 border-[#337945] bg-white dark:bg-neutral-800 shadow-sm">
-                  <h4 className="text-[#337945] font-medium mb-2">Adoração autêntica</h4>
+                  <h4 className="text-[#337945] font-medium mb-2">A jornada no deserto</h4>
                   <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                    A diferença entre adoração verdadeira e meros rituais.
+                    As lições aprendidas durante os 40 anos no deserto e a provisão divina.
                   </p>
                 </div>
                 
                 <div className="p-6 border-l-2 border-[#337945] bg-white dark:bg-neutral-800 shadow-sm">
-                  <h4 className="text-[#337945] font-medium mb-2">Adoração na vida diária</h4>
+                  <h4 className="text-[#337945] font-medium mb-2">A lei e os mandamentos</h4>
                   <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                    Como viver uma vida de adoração em nossas escolhas diárias.
+                    O recebimento da lei no Sinai e sua importância para o povo de Deus.
                   </p>
                 </div>
                 
                 <div className="p-6 border-l-2 border-[#337945] bg-white dark:bg-neutral-800 shadow-sm">
-                  <h4 className="text-[#337945] font-medium mb-2">Adoração na eternidade</h4>
+                  <h4 className="text-[#337945] font-medium mb-2">O tabernáculo</h4>
                   <p className="text-sm text-neutral-600 dark:text-neutral-400">
-                    Uma visão da adoração celestial e como nos preparamos para ela.
+                    A construção do santuário e seu significado na relação com Deus.
                   </p>
                 </div>
               </div>
