@@ -103,7 +103,7 @@ const QuizPage: React.FC = () => {
         // Verificar se é a semana 11 para usar o quiz personalizado  
         if (semanaData.numero === 11 || semanaData.titulo?.toLowerCase().includes("coração") || semanaData.titulo?.toLowerCase().includes("adoração")) {
           console.log('Semana 11 detectada! Carregando quiz personalizado...');
-          try {
+        try {
             const { quizSemana11 } = await import("@/data/quizSemana11");
             
             const quizQuestions = quizSemana11.map((q, index) => ({
@@ -113,15 +113,15 @@ const QuizPage: React.FC = () => {
               options: q.options,
               correctAnswer: q.correctAnswer
             }));
-            
-            setQuestions(quizQuestions);
-            
-            const initialUserAnswers = quizQuestions.map(q => ({
-              questionId: q.id,
-              selectedOption: null,
-              isCorrect: null
-            }));
-            setUserAnswers(initialUserAnswers);
+          
+          setQuestions(quizQuestions);
+          
+          const initialUserAnswers = quizQuestions.map(q => ({
+            questionId: q.id,
+            selectedOption: null,
+            isCorrect: null
+          }));
+          setUserAnswers(initialUserAnswers);
             return;
           } catch (err) {
             console.error("Erro ao carregar quiz da semana 11:", err);
@@ -156,7 +156,7 @@ const QuizPage: React.FC = () => {
     let processed = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
     processed = processed.replace(/__([^_]+)__/g, '<u>$1</u>');
     processed = processed.replace(/==(.*?)==/g, '<mark>$1</mark>');
-    
+      
     return <span dangerouslySetInnerHTML={{ __html: processed }} />;
   };
   
@@ -323,18 +323,18 @@ const QuizPage: React.FC = () => {
               <CardTitle className="text-center text-2xl">Resultados do Quiz: {semanaTitle}</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col items-center">
-              <div className="mb-6">
-                <div className="text-center mb-4">
-                  <span className="text-4xl font-bold">{score.percentage}%</span>
-                  <p className="text-muted-foreground">Pontuação</p>
-                </div>
-                <Progress value={score.percentage} className="w-64 h-2" />
-              </div>
-              
-              <div className="text-center mb-8">
-                <p className="text-lg">
-                  Você acertou <span className="font-bold">{correctAnswers}</span> de <span className="font-bold">{questions.length}</span> perguntas
-                </p>
+                  <div className="mb-6">
+                    <div className="text-center mb-4">
+                      <span className="text-4xl font-bold">{score.percentage}%</span>
+                      <p className="text-muted-foreground">Pontuação</p>
+                    </div>
+                    <Progress value={score.percentage} className="w-64 h-2" />
+                  </div>
+                  
+                  <div className="text-center mb-8">
+                    <p className="text-lg">
+                      Você acertou <span className="font-bold">{correctAnswers}</span> de <span className="font-bold">{questions.length}</span> perguntas
+                    </p>
                 {score.percentage >= 80 && (
                   <p className="text-green-600 font-medium mt-2">🎉 Excelente resultado!</p>
                 )}
@@ -344,53 +344,53 @@ const QuizPage: React.FC = () => {
                 {score.percentage < 60 && (
                   <p className="text-blue-600 font-medium mt-2">📚 Continue estudando!</p>
                 )}
-              </div>
-              
-              <div className="space-y-6 w-full max-w-xl">
-                {questions.map((question, index) => {
-                  const userAnswer = userAnswers[index];
-                  const isCorrect = userAnswer.isCorrect;
+                  </div>
                   
-                  return (
-                    <div key={question.id} className="border rounded-lg p-4">
-                      <div className="flex items-start gap-2 mb-2">
-                        {isCorrect ? (
-                          <CheckCircle className="text-green-500 h-5 w-5 mt-1 shrink-0" />
-                        ) : (
-                          <XCircle className="text-red-500 h-5 w-5 mt-1 shrink-0" />
-                        )}
-                        <div>
-                          <p className="font-medium">{index + 1}. {processText(question.question)}</p>
-                          <p className="text-sm text-muted-foreground">
-                            Dia: {question.day.charAt(0).toUpperCase() + question.day.slice(1)}
-                          </p>
-                        </div>
-                      </div>
+                  <div className="space-y-6 w-full max-w-xl">
+                    {questions.map((question, index) => {
+                      const userAnswer = userAnswers[index];
+                      const isCorrect = userAnswer.isCorrect;
                       
-                      <div className="ml-7 mt-2">
-                        <p className="text-sm">
-                          <span className="font-medium">Sua resposta:</span>{" "}
-                          {userAnswer.selectedOption !== null 
-                            ? question.options[userAnswer.selectedOption] 
-                            : "Sem resposta"}
-                        </p>
-                        
-                        {!isCorrect && (
-                          <p className="text-sm text-green-600 mt-1">
-                            <span className="font-medium">Resposta correta:</span>{" "}
-                            {question.options[question.correctAnswer]}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
+                      return (
+                        <div key={question.id} className="border rounded-lg p-4">
+                          <div className="flex items-start gap-2 mb-2">
+                            {isCorrect ? (
+                              <CheckCircle className="text-green-500 h-5 w-5 mt-1 shrink-0" />
+                            ) : (
+                              <XCircle className="text-red-500 h-5 w-5 mt-1 shrink-0" />
+                            )}
+                            <div>
+                              <p className="font-medium">{index + 1}. {processText(question.question)}</p>
+                              <p className="text-sm text-muted-foreground">
+                                Dia: {question.day.charAt(0).toUpperCase() + question.day.slice(1)}
+                              </p>
+                            </div>
+                          </div>
+                          
+                          <div className="ml-7 mt-2">
+                            <p className="text-sm">
+                              <span className="font-medium">Sua resposta:</span>{" "}
+                              {userAnswer.selectedOption !== null 
+                                ? question.options[userAnswer.selectedOption] 
+                                : "Sem resposta"}
+                            </p>
+                            
+                            {!isCorrect && (
+                              <p className="text-sm text-green-600 mt-1">
+                                <span className="font-medium">Resposta correta:</span>{" "}
+                                {question.options[question.correctAnswer]}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
             </CardContent>
             <CardFooter className="flex justify-center gap-4">
-              <Button onClick={handleFinishQuiz}>
+                <Button onClick={handleFinishQuiz}>
                 Finalizar Quiz
-              </Button>
+                  </Button>
             </CardFooter>
           </Card>
         </div>
@@ -424,18 +424,18 @@ const QuizPage: React.FC = () => {
                     <strong>Dica:</strong> Revise todas as lições da semana antes de iniciar o quiz para obter a melhor pontuação possível.
                   </AlertDescription>
                 </Alert>
-                
+              
                 <div className="max-w-md mx-auto space-y-4">
                   <div>
                     <Label htmlFor="userName">Digite seu @Instagram para o quiz:</Label>
-                    <Input
+                  <Input 
                       id="userName"
                       type="text"
-                      value={userName}
-                      onChange={(e) => setUserName(e.target.value)}
+                    value={userName}
+                    onChange={(e) => setUserName(e.target.value)}
                       placeholder="@seunome ou Nome Completo"
                       className="mt-1"
-                    />
+                  />
                   </div>
                   
                   <Button onClick={handleSubmitUserName} size="lg" className="w-full">
@@ -496,10 +496,10 @@ const QuizPage: React.FC = () => {
               <Badge variant="secondary">
                 {currentQuestion.day.charAt(0).toUpperCase() + currentQuestion.day.slice(1)}
               </Badge>
-            </div>
+        </div>
             <Progress value={((currentQuestionIndex + 1) / questions.length) * 100} className="mb-4" />
             <CardTitle className="text-xl">{processText(currentQuestion.question)}</CardTitle>
-          </CardHeader>
+                </CardHeader>
           
           <CardContent>
             <div className="space-y-3">
@@ -516,29 +516,29 @@ const QuizPage: React.FC = () => {
                   <span className="font-medium mr-2">{String.fromCharCode(65 + index)}.</span>
                   {processText(option)}
                 </button>
-              ))}
-            </div>
-          </CardContent>
+                    ))}
+                  </div>
+                </CardContent>
           
           <CardFooter className="flex justify-between">
-            <Button 
-              variant="outline" 
-              onClick={handlePreviousQuestion}
-              disabled={currentQuestionIndex === 0}
-            >
+                  <Button 
+                    variant="outline"
+                    onClick={handlePreviousQuestion}
+                    disabled={currentQuestionIndex === 0}
+                  >
               <ChevronLeft className="mr-2 h-4 w-4" />
-              Anterior
-            </Button>
-            
-            <Button 
-              onClick={handleNextQuestion}
+                    Anterior
+                  </Button>
+                  
+                  <Button 
+                    onClick={handleNextQuestion}
               disabled={currentAnswer?.selectedOption === null}
             >
               {currentQuestionIndex === questions.length - 1 ? 'Finalizar' : 'Próxima'}
               {currentQuestionIndex < questions.length - 1 && <ChevronRight className="ml-2 h-4 w-4" />}
-            </Button>
-          </CardFooter>
-        </Card>
+                  </Button>
+                </CardFooter>
+              </Card>
       </div>
       <Footer />
     </>
