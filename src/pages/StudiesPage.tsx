@@ -5,7 +5,7 @@ import { BookOpen, ChevronRight, AlertTriangle, Clock, BookMarked } from "lucide
 import { Link } from "react-router-dom";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { listarTrimestres, Trimestre } from "@/models/trimestreService";
-import { obterSemanasDeTrimestre } from "@/models/licaoService";
+import { obterSemanasDeTrimestre_ComAlgumaLicao } from "@/models/licaoService";
 import { Semana } from "@/models/semanaService";
 import { toast } from "@/hooks/use-toast";
 import Navbar from "@/components/layout/Navbar";
@@ -38,10 +38,10 @@ const StudiesPage: React.FC = () => {
       // Buscar todos os trimestres
       const trimestresList = await listarTrimestres();
       
-      // Para cada trimestre, buscar as semanas que têm lições completas
+      // Para cada trimestre, buscar as semanas que têm pelo menos uma lição
       const trimestresComSemanas = await Promise.all(
         trimestresList.map(async (trimestre) => {
-          const semanas = await obterSemanasDeTrimestre(trimestre.id);
+          const semanas = await obterSemanasDeTrimestre_ComAlgumaLicao(trimestre.id);
           // Adicionar a propriedade numero para as semanas que não têm
           const semanasComNumero = semanas.map(semana => ({
             ...semana,
@@ -142,11 +142,11 @@ const StudiesPage: React.FC = () => {
           <div className="container mx-auto px-4 md:px-6 max-w-7xl">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
               {trimestres.map((trimestre) => {
-                // Filtrar apenas semanas completas
-                const semanasCompletas = trimestre.semanas.filter((semana) => semana.completa);
+                // Filtrar apenas semanas que têm pelo menos uma lição
+                const semanasComLicoes = trimestre.semanas.filter((semana) => semana.completa);
                 
-                if (semanasCompletas.length === 0) {
-                  return null; // Não exibir trimestres sem semanas completas
+                if (semanasComLicoes.length === 0) {
+                  return null; // Não exibir trimestres sem semanas com lições
                 }
                 
                 return (

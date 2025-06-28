@@ -75,6 +75,43 @@ const SemanasTrimestrePage: React.FC = () => {
         return "";
     }
   };
+
+  // Função para obter o tema e descrição baseado no trimestre
+  const getTemaTrimestre = (nomeTrimsetre: string, numeroTrimestre: string) => {
+    // Verificar pelo nome do trimestre primeiro
+    if (nomeTrimsetre?.toLowerCase().includes('êxodo') || nomeTrimsetre?.toLowerCase().includes('exodo')) {
+      return {
+        titulo: "Êxodo",
+        descricao: "O livro de Êxodo revela o poder libertador de Deus e Sua fidelidade às promessas feitas ao Seu povo. Este trimestre nos convida a descobrir as lições de fé, obediência e esperança encontradas na jornada do povo de Israel rumo à Terra Prometida."
+      };
+    }
+    
+    if (nomeTrimsetre?.toLowerCase().includes('adoração') || nomeTrimsetre?.toLowerCase().includes('adoracao')) {
+      return {
+        titulo: "Adoração",
+        descricao: "A verdadeira adoração ocorre quando reconhecemos a grandeza de Deus e respondemos com todo o nosso ser. Este trimestre nos convida a explorar o significado profundo da adoração e como ela transforma nossa vida espiritual."
+      };
+    }
+
+    // Fallback baseado no número do trimestre se não conseguir identificar pelo nome
+    switch (numeroTrimestre) {
+      case "2":
+        return {
+          titulo: "Adoração",
+          descricao: "A verdadeira adoração ocorre quando reconhecemos a grandeza de Deus e respondemos com todo o nosso ser. Este trimestre nos convida a explorar o significado profundo da adoração e como ela transforma nossa vida espiritual."
+        };
+      case "3":
+        return {
+          titulo: "Êxodo",
+          descricao: "O livro de Êxodo revela o poder libertador de Deus e Sua fidelidade às promessas feitas ao Seu povo. Este trimestre nos convida a descobrir as lições de fé, obediência e esperança encontradas na jornada do povo de Israel rumo à Terra Prometida."
+        };
+      default:
+        return {
+          titulo: "Estudo Bíblico",
+          descricao: "Este trimestre nos convida a aprofundar nosso conhecimento das Escrituras e fortalecer nossa caminhada espiritual através do estudo da Palavra de Deus."
+        };
+    }
+  };
   
   // Função para obter as datas da semana baseado no número da semana
   const getDatasSemana = (numeroSemana: number): string => {
@@ -160,11 +197,17 @@ const SemanasTrimestrePage: React.FC = () => {
               
               <div className="mt-4 flex items-center justify-center">
                 <div className="bg-neutral-100 dark:bg-neutral-700 p-6 rounded-lg max-w-2xl">
-                  <h2 className="text-xl font-medium text-[#337945] mb-3">Adoração</h2>
-                  <p className="text-neutral-700 dark:text-neutral-300">
-                    A verdadeira adoração ocorre quando reconhecemos a grandeza de Deus e respondemos com todo o nosso ser. 
-                    Este trimestre nos convida a explorar o significado profundo da adoração e como ela transforma nossa vida espiritual.
-                  </p>
+                  {(() => {
+                    const tema = getTemaTrimestre(trimestre.nome, trimestre.trimestre);
+                    return (
+                      <>
+                        <h2 className="text-xl font-medium text-[#337945] mb-3">{tema.titulo}</h2>
+                        <p className="text-neutral-700 dark:text-neutral-300">
+                          {tema.descricao}
+                        </p>
+                      </>
+                    );
+                  })()}
                 </div>
               </div>
               

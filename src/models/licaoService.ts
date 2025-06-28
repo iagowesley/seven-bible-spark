@@ -163,6 +163,14 @@ export const verificarSemanaCompleta = async (semanaId: string): Promise<boolean
   );
 };
 
+// Verificar se uma semana tem pelo menos uma lição cadastrada
+export const verificarSemanaComAlgumaLicao = async (semanaId: string): Promise<boolean> => {
+  const licoes = await listarLicoesPorSemana(semanaId);
+  
+  // Verifica se há pelo menos uma lição cadastrada
+  return licoes.length > 0;
+};
+
 // Verificar se um trimestre tem semanas com lições cadastradas
 export const obterSemanasDeTrimestre = async (trimestreId: string): Promise<{ id: string, titulo: string, completa: boolean, numero: number }[]> => {
   const { data: semanas, error } = await supabase
@@ -189,6 +197,39 @@ export const obterSemanasDeTrimestre = async (trimestreId: string): Promise<{ id
         titulo: semana.titulo,
         numero: semana.numero,
         completa
+      };
+    })
+  );
+  
+  return resultado;
+};
+
+// Verificar se um trimestre tem semanas com pelo menos uma lição (versão mais flexível)
+export const obterSemanasDeTrimestre_ComAlgumaLicao = async (trimestreId: string): Promise<{ id: string, titulo: string, completa: boolean, numero: number }[]> => {
+  const { data: semanas, error } = await supabase
+    .from('semanas')
+    .select('*')
+    .eq('trimestre_id', trimestreId)
+    .order('numero');
+    
+  if (error) {
+    console.error('Erro ao listar semanas do trimestre:', error);
+    throw error;
+  }
+  
+  if (!semanas || semanas.length === 0) {
+    return [];
+  }
+  
+  // Para cada semana, verificar se tem pelo menos uma lição
+  const resultado = await Promise.all(
+    semanas.map(async (semana) => {
+      const temAlgumaLicao = await verificarSemanaComAlgumaLicao(semana.id);
+      return {
+        id: semana.id,
+        titulo: semana.titulo,
+        numero: semana.numero,
+        completa: temAlgumaLicao // Usando a nova lógica mais flexível
       };
     })
   );
