@@ -117,33 +117,33 @@ const SemanasTrimestrePage: React.FC = () => {
   const getDatasSemana = (numeroSemana: number): string => {
     switch (numeroSemana) {
       case 1:
-        return "Apr 05 - Apr 11";
+        return "28 Jun - 04 Jul";
       case 2:
-        return "Apr 12 - Apr 18";
+        return "05 Jul - 11 Jul";
       case 3:
-        return "Apr 19 - Apr 25";
+        return "12 Jul - 18 Jul";
       case 4:
-        return "Apr 26 - May 02";
+        return "19 Jul - 25 Jul";
       case 5:
-        return "May 03 - May 09";
+        return "26 Jul - 01 Ago";
       case 6:
-        return "May 03 - May 09";
+        return "02 Ago - 08 Ago";
       case 7:
-        return "May 10 - May 16";
+        return "09 Ago - 15 Ago";
       case 8:
-        return "May 17 - May 23";
+        return "16 Ago - 22 Ago";
       case 9:
-        return "May 24 - May 30";
+        return "23 Ago - 29 Ago";
       case 10:
-        return "May 31 - Jun 06";
+        return "30 Ago - 05 Set";
       case 11:
-        return "Jun 07 - Jun 13";
+        return "06 Set - 12 Set";
       case 12:
-        return "Jun 14 - Jun 20";
+        return "13 Set - 19 Set";
       case 13:
-        return "Jun 21 - Jun 27";
+        return "20 Set - 26 Set";
       default:
-        return "May 03 - May 09"; // Data padrão se nenhuma corresponder
+        return "28 Jun - 04 Jul"; // Data padrão se nenhuma corresponder
     }
   };
   

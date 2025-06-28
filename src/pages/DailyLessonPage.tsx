@@ -41,32 +41,38 @@ const diasSemana = [
   { valor: "sabado", label: "Sábado" },
 ];
 
-// Função para obter a data formatada para cada dia da semana
-const obterDataDoDia = (diaValor: string): string => {
-  // Mapear valores de dia para números (0 = domingo, 1 = segunda, etc.)
+// Função para obter a data formatada para cada dia da semana baseada no número da semana
+const obterDataDoDia = (diaValor: string, numeroSemana?: number): string => {
+  if (!numeroSemana) return "";
+  
+  // Mapear valores de dia para ordem na semana (sábado = 0, domingo = 1, etc.)
+  // Como o trimestre começa no sábado, ele é o dia 0 da semana
   const indicesDias: Record<string, number> = {
-    "domingo": 0,
-    "segunda": 1, 
-    "terca": 2,
-    "quarta": 3,
-    "quinta": 4,
-    "sexta": 5,
-    "sabado": 6
+    "sabado": 0,
+    "domingo": 1,
+    "segunda": 2, 
+    "terca": 3,
+    "quarta": 4,
+    "quinta": 5,
+    "sexta": 6
   };
   
-  // Datas fixas para a semana (junho de 2025)
-  const datasSemana: Record<string, string> = {
-    "sabado": "07/06/2025",
-    "domingo": "08/06/2025",
-    "segunda": "09/06/2025",
-    "terca": "10/06/2025",
-    "quarta": "11/06/2025",
-    "quinta": "12/06/2025",
-    "sexta": "13/06/2025"
-  };
+  // Data inicial do trimestre: 28 de junho de 2025 (sábado da semana 1)
+  const dataInicialTrimestre = new Date(2025, 5, 28); // Mês 5 = junho (0-indexado)
   
-  // Retorna a data fixa para o dia correspondente
-  return datasSemana[diaValor] || "";
+  // Calcular a diferença em dias desde o início do trimestre
+  const diasDesdeInicio = (numeroSemana - 1) * 7 + indicesDias[diaValor];
+  
+  // Calcular a data do dia específico
+  const dataCalculada = new Date(dataInicialTrimestre);
+  dataCalculada.setDate(dataInicialTrimestre.getDate() + diasDesdeInicio);
+  
+  // Formatar a data no formato DD/MM/YYYY
+  const dia = dataCalculada.getDate().toString().padStart(2, '0');
+  const mes = (dataCalculada.getMonth() + 1).toString().padStart(2, '0');
+  const ano = dataCalculada.getFullYear();
+  
+  return `${dia}/${mes}/${ano}`;
 };
 
 type SemanaDetalhes = {
@@ -75,6 +81,7 @@ type SemanaDetalhes = {
   texto_biblico_chave: string;
   resumo: string;
   img_sabado_url: string | null;
+  numero: number;
 };
 
 const DailyLessonPage: React.FC = () => {
@@ -484,6 +491,7 @@ const DailyLessonPage: React.FC = () => {
           texto_biblico_chave: semanaData.texto_biblico_chave,
           resumo: semanaData.resumo,
           img_sabado_url: semanaData.img_sabado_url,
+          numero: semanaData.numero,
         });
         
         // Buscar todas as lições da semana
@@ -531,7 +539,7 @@ const DailyLessonPage: React.FC = () => {
 
   const getDiaLabel = (valor: string): string => {
     const diaInfo = diasSemana.find((d) => d.valor === valor);
-    const dataFormatada = obterDataDoDia(valor);
+    const dataFormatada = obterDataDoDia(valor, semana?.numero);
     return diaInfo ? `${diaInfo.label}(${dataFormatada})` : valor;
   };
   
