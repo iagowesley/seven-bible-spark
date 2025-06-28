@@ -10,10 +10,10 @@ const Footer = () => {
       <div className="seven-container py-12 px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
           {/* Logo e Descrição */}
-          <div className="flex flex-col items-center md:items-start">
+          <div className="flex flex-col items-start">
             <Link to="/" className="mb-4">
               <img 
-                src="/LOGO_LIÇÃO_JOVEM-removebg-preview (1).png" 
+                src="/LOGO_LIÇÃO_JOVEM__11_-removebg-preview.png" 
                 alt="Lição Jovem" 
                 className="h-20"
               />
@@ -24,9 +24,9 @@ const Footer = () => {
           </div>
           
           {/* Links Úteis */}
-          <div className="flex flex-col items-center md:items-start">
+          <div className="flex flex-col items-start">
             <h3 className="text-lg font-normal mb-4 text-[#337945]">Links Úteis</h3>
-            <div className="flex flex-col space-y-2 items-center md:items-start">
+            <div className="flex flex-col space-y-2 items-start">
                               <Link to="/estudos" className="text-sm text-muted-foreground hover:text-[#337945] font-light">
                   Estudos
                 </Link>
@@ -38,7 +38,7 @@ const Footer = () => {
           </div>
           
           {/* Redes Sociais e Copyright */}
-          <div className="flex flex-col items-center md:items-end">
+          <div className="flex flex-col items-start md:items-end">
             <h3 className="text-lg font-normal mb-4 text-[#337945]">Nos Siga</h3>
             <a 
               href="https://instagram.com/licaojovem7" 

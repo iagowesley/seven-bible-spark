@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import { 
   LayoutDashboardIcon, 
   BookOpenIcon, 
-  MenuIcon,
-  XIcon,
   InfoIcon,
   SunIcon,
   MoonIcon,
@@ -90,24 +88,24 @@ const Navbar = () => {
   ];
 
   const navbarClass = isScrolled
-    ? "navbar-floating bg-white dark:bg-slate-900 border-b border-transparent shadow-lg backdrop-blur-sm"
-    : "bg-white dark:bg-slate-900 border-b border-border";
+    ? "navbar-floating bg-[#337945]/80 border-b border-transparent shadow-lg backdrop-blur-sm"
+    : "bg-[#337945] border-b border-border";
 
   return (
     <>
       {/* Espaço para compensar a navbar fixa */}
       {isScrolled && <div className="h-20"></div>}
       
-      <nav className={`${navbarClass} sticky top-0 z-50 transition-all duration-300`}>
+      <nav className={`${navbarClass} sticky top-0 z-50 transition-all duration-300 ease-in-out`}>
         {/* Decoração superior - linha gradiente animada */}
-        <div className="h-1 w-full bg-gradient-to-r from-[#337945] via-emerald-500 to-[#337945] bg-[length:200%_auto] animate-gradient"></div>
+        <div className={`h-1 w-full bg-gradient-to-r from-[#337945] via-emerald-500 to-[#337945] bg-[length:200%_auto] animate-gradient transition-opacity duration-300 ${isScrolled ? 'opacity-80' : 'opacity-100'}`}></div>
         
         <div className="seven-container flex items-center justify-between py-4 relative">
           {/* Elementos decorativos de fundo removidos */}
           
           <Link to="/" className="flex items-center relative z-10">
             <img 
-              src="/LOGO_LIÇÃO_JOVEM-removebg-preview (1).png" 
+              src="/LOGO_LIÇÃO_JOVEM__7_-removebg-preview.png" 
               alt="Lição Jovem" 
               className="h-16 relative z-10"
             />
@@ -122,9 +120,9 @@ const Navbar = () => {
                 className="flex items-center relative group overflow-hidden"
                 asChild
               >
-                <Link to={link.href} className="relative z-10 flex items-center text-[#337945] dark:text-[#8fb775] hover:text-white font-medium text-base transition-colors duration-300">
+                <Link to={link.href} className="relative z-10 flex items-center text-white hover:text-white font-medium text-base transition-colors duration-300">
                   {/* Fundo gradiente animado no hover */}
-                  <div className="absolute inset-0 bg-gradient-to-r opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10 rounded-md bg-[#337945]"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10 rounded-md bg-green-800"></div>
                   {/* Ícone com transição */}
                   <span className="flex items-center justify-center overflow-hidden">
                     <span className="block group-hover:hidden transition-all duration-300">
@@ -141,12 +139,12 @@ const Navbar = () => {
             
             {/* Toggle de tema */}
             <div className="flex items-center ml-4 relative z-10">
-              <div className="bg-gray-100 dark:bg-slate-800 p-1 rounded-full flex items-center transition-colors duration-300">
+              <div className="bg-white/20 p-1 rounded-full flex items-center transition-colors duration-300">
                 <button 
                   onClick={toggleTheme}
                   className="relative focus:outline-none"
                 >
-                  <div className="w-12 h-6 rounded-full p-1 flex items-center bg-gray-200 dark:bg-gray-700 transition-colors duration-300">
+                  <div className="w-12 h-6 rounded-full p-1 flex items-center bg-white/30 transition-colors duration-300">
                     <div className={`absolute left-0.5 bg-white dark:bg-gray-300 w-5 h-5 rounded-full shadow transform transition-transform duration-300 flex items-center justify-center ${isDark ? 'translate-x-6' : 'translate-x-0'}`}>
                       {isDark ? (
                         <MoonIcon size={14} className="text-indigo-700" />
@@ -165,7 +163,7 @@ const Navbar = () => {
             {/* Toggle de tema mobile */}
             <button 
               onClick={toggleTheme}
-              className="focus:outline-none p-1.5 rounded-full bg-gray-100 dark:bg-slate-800 relative z-10"
+              className="focus:outline-none p-1.5 rounded-full bg-white/20 hover:bg-green-800 transition-colors duration-300 relative z-10"
             >
               {isDark ? (
                 <MoonIcon size={18} className="text-indigo-700" />
@@ -178,14 +176,22 @@ const Navbar = () => {
             ref={menuButtonRef}
             variant="ghost" 
             size="icon"
-            className="relative z-10" 
+            className="relative z-10 text-white hover:bg-green-800" 
             onClick={toggleMenu}
           >
-            {isMenuOpen ? (
-              <XIcon className="h-6 w-6" />
-            ) : (
-              <MenuIcon className="h-6 w-6" />
-            )}
+            <div className="w-6 h-6 flex flex-col justify-center items-center relative">
+              <div className="w-full h-[2px] bg-white rounded-full transition-all duration-300 ease-in-out absolute"
+                   style={{
+                     transform: isMenuOpen ? 'rotate(45deg)' : 'rotate(0deg) translateY(-4px)',
+                   }}
+              />
+              <div className="w-1/2 h-[2px] bg-white rounded-full transition-all duration-300 ease-in-out absolute"
+                   style={{
+                     transform: isMenuOpen ? 'rotate(-45deg) scaleX(2)' : 'rotate(0deg) translateY(4px) translateX(6px)',
+                     transformOrigin: 'center',
+                   }}
+              />
+            </div>
           </Button>
           </div>
         </div>
@@ -195,7 +201,7 @@ const Navbar = () => {
         {isMenuOpen && (
             <motion.div 
               ref={menuRef}
-              className="md:hidden absolute right-4 top-[72px] w-64 bg-white dark:bg-slate-900 shadow-xl rounded-lg border border-gray-200 dark:border-gray-800 z-50 overflow-hidden"
+              className={`md:hidden absolute right-4 top-[72px] w-64 ${isScrolled ? 'bg-[#337945]/85' : 'bg-[#337945]'} shadow-xl rounded-lg border border-green-600 z-50 overflow-hidden backdrop-blur-sm`}
               initial={{ opacity: 0, scale: 0.9, y: -5, transformOrigin: "top right" }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: -5 }}
@@ -211,7 +217,7 @@ const Navbar = () => {
                   >
                     <Button
                       variant="ghost"
-                      className="flex items-center justify-start text-[#337945] hover:text-white hover:bg-[#337945] font-medium text-base relative overflow-hidden group dark:text-[#8fb775] rounded-md w-full my-1"
+                      className="flex items-center justify-start text-white hover:text-white hover:bg-green-800 font-medium text-base relative overflow-hidden group rounded-md w-full my-1"
                       asChild
                     >
                       <Link 

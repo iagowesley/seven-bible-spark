@@ -138,7 +138,7 @@ const StudiesPage: React.FC = () => {
         </section>
         
         {/* Lista de trimestres */}
-        <section className="py-20">
+        <section className="py-20 bg-[#337945]">
           <div className="container mx-auto px-4 md:px-6 max-w-7xl">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
               {trimestres.map((trimestre) => {
@@ -210,9 +210,9 @@ const StudiesPage: React.FC = () => {
             
             {trimestres.filter(t => t.semanas.some(s => s.completa)).length === 0 && (
               <div className="mt-12">
-                <Alert className="max-w-lg mx-auto bg-white dark:bg-neutral-800 border-[#337945]/20">
+                <Alert className="max-w-lg mx-auto bg-white border-white/20">
                   <AlertTitle className="font-medium text-[#337945]">Nenhum estudo disponível</AlertTitle>
-                  <AlertDescription className="text-neutral-600 dark:text-neutral-400">
+                  <AlertDescription className="text-neutral-600">
                     Não há estudos disponíveis no momento. Por favor, volte mais tarde para novidades.
                   </AlertDescription>
                 </Alert>

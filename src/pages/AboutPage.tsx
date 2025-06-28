@@ -70,44 +70,44 @@ const AboutPage = () => {
         </section>
         
         {/* Nossa missão - Clean layout */}
-        <section className="py-24 bg-neutral-50 dark:bg-neutral-900">
+        <section className="py-24 bg-[#337945]">
           <div className="container mx-auto px-4 md:px-6 max-w-5xl">
             <div className="flex flex-col gap-16">
               <div className="flex flex-col space-y-4 text-center items-center">
-                <p className="text-[#337945] text-sm font-medium tracking-wide uppercase">Nossa missão</p>
-                <h2 className="text-3xl font-serif font-medium text-neutral-900 dark:text-white">
+                <p className="text-white text-sm font-medium tracking-wide uppercase">Nossa missão</p>
+                <h2 className="text-3xl font-serif font-medium text-white">
                   O que é a Lição Jovem 7?
                 </h2>
-                <Separator className="w-12 bg-[#337945] h-0.5 mt-2" />
+                <Separator className="w-12 bg-white h-0.5 mt-2" />
               </div>
               
               <div className="grid md:grid-cols-2 gap-16 items-center">
                 <div className="space-y-8">
                   <div className="space-y-4">
-                    <p className="text-neutral-700 dark:text-neutral-200 leading-relaxed">
-                      A <span className="font-medium text-[#337945]">Lição Jovem 7</span> é um projeto dedicado a oferecer estudos diários 
+                    <p className="text-white leading-relaxed">
+                      A <span className="font-medium text-yellow-200">Lição Jovem 7</span> é um projeto dedicado a oferecer estudos diários 
                       interativos para jovens adventistas do sétimo dia, tornando o estudo da lição da escola sabatina
                       mais acessível e aplicável ao dia a dia.
                     </p>
-                    <div className="flex items-center gap-2 text-sm text-[#337945]">
+                    <div className="flex items-center gap-2 text-sm text-yellow-200">
                       <Heart className="h-4 w-4" /> <span>Criado por jovens para jovens</span>
                     </div>
                   </div>
                   
                   <div className="space-y-4">
-                    <p className="text-neutral-700 dark:text-neutral-200 leading-relaxed">
+                    <p className="text-white leading-relaxed">
                       Cada lição semanal é dividida em sete partes — uma para cada dia da semana — permitindo 
                       um estudo aprofundado e consistente que conecta os ensinamentos bíblicos com os desafios contemporâneos.
                     </p>
                   </div>
                   
                   <div className="space-y-4">
-                    <p className="text-neutral-700 dark:text-neutral-200 leading-relaxed">
+                    <p className="text-white leading-relaxed">
                       <span className="font-medium">Nossa presença no Instagram:</span> Compartilhamos diariamente resumos 
                       das lições em nossa página, criando uma comunidade ativa que estuda e reflete
                       juntos sobre os temas propostos.
                     </p>
-                    <div className="flex items-center gap-2 text-sm text-[#337945]">
+                    <div className="flex items-center gap-2 text-sm text-yellow-200">
                       <Users className="h-4 w-4" /> <span>Comunidade em crescimento</span>
                     </div>
                   </div>
@@ -120,7 +120,7 @@ const AboutPage = () => {
                     alt="Lição Jovem - Capa" 
                     className="rounded-xl shadow-md grayscale hover:grayscale-0 transition-all duration-500 object-cover w-full max-w-md mx-auto"
                   />
-                  <div className="absolute top-4 right-4 bg-white dark:bg-neutral-800 text-[#337945] font-medium px-3 py-1 text-sm rounded-full shadow-sm">
+                  <div className="absolute top-4 right-4 bg-white text-[#337945] font-medium px-3 py-1 text-sm rounded-full shadow-sm">
                     3º Trimestre 2025
                   </div>
                 </div>
@@ -198,45 +198,45 @@ const AboutPage = () => {
         </section>
         
         {/* Lição atual - Design clean */}
-        <section className="py-24 bg-neutral-50 dark:bg-neutral-900">
+        <section className="py-24 bg-[#337945]">
           <div className="container mx-auto px-4 md:px-6 max-w-5xl">
             <div className="flex flex-col gap-16">
               <div className="flex flex-col space-y-4 text-center items-center">
-                <p className="text-[#337945] text-sm font-medium tracking-wide uppercase">Trimestre atual</p>
-                <h2 className="text-3xl font-serif font-medium text-neutral-900 dark:text-white">
+                <p className="text-white text-sm font-medium tracking-wide uppercase">Trimestre atual</p>
+                <h2 className="text-3xl font-serif font-medium text-white">
                   Êxodo - Um livro que mostra Deus em ação
                 </h2>
-                <Separator className="w-12 bg-[#337945] h-0.5 mt-2" />
-                <p className="text-neutral-600 dark:text-neutral-300 max-w-xl text-center">
+                <Separator className="w-12 bg-white h-0.5 mt-2" />
+                <p className="text-white max-w-xl text-center">
                   Uma jornada através do livro de Êxodo, descobrindo como Deus age na história e nas vidas de Seu povo, desde a libertação do Egito até a construção do tabernáculo.
                 </p>
               </div>
               
               <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div className="p-6 border-l-2 border-[#337945] bg-white dark:bg-neutral-800 shadow-sm">
-                  <h4 className="text-[#337945] font-medium mb-2">A libertação do Egito</h4>
-                  <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                <div className="p-6 border-l-2 border-white bg-white/10 backdrop-blur-sm shadow-sm">
+                  <h4 className="text-white font-medium mb-2">A libertação do Egito</h4>
+                  <p className="text-sm text-white/80">
                     Como Deus liberta Seu povo da escravidão através de milagres e poder divino.
                   </p>
                 </div>
                 
-                <div className="p-6 border-l-2 border-[#337945] bg-white dark:bg-neutral-800 shadow-sm">
-                  <h4 className="text-[#337945] font-medium mb-2">A jornada no deserto</h4>
-                  <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                <div className="p-6 border-l-2 border-white bg-white/10 backdrop-blur-sm shadow-sm">
+                  <h4 className="text-white font-medium mb-2">A jornada no deserto</h4>
+                  <p className="text-sm text-white/80">
                     As lições aprendidas durante os 40 anos no deserto e a provisão divina.
                   </p>
                 </div>
                 
-                <div className="p-6 border-l-2 border-[#337945] bg-white dark:bg-neutral-800 shadow-sm">
-                  <h4 className="text-[#337945] font-medium mb-2">A lei e os mandamentos</h4>
-                  <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                <div className="p-6 border-l-2 border-white bg-white/10 backdrop-blur-sm shadow-sm">
+                  <h4 className="text-white font-medium mb-2">A lei e os mandamentos</h4>
+                  <p className="text-sm text-white/80">
                     O recebimento da lei no Sinai e sua importância para o povo de Deus.
                   </p>
                 </div>
                 
-                <div className="p-6 border-l-2 border-[#337945] bg-white dark:bg-neutral-800 shadow-sm">
-                  <h4 className="text-[#337945] font-medium mb-2">O tabernáculo</h4>
-                  <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                <div className="p-6 border-l-2 border-white bg-white/10 backdrop-blur-sm shadow-sm">
+                  <h4 className="text-white font-medium mb-2">O tabernáculo</h4>
+                  <p className="text-sm text-white/80">
                     A construção do santuário e seu significado na relação com Deus.
                   </p>
                 </div>
@@ -289,15 +289,15 @@ const AboutPage = () => {
         </section>
         
         {/* CTA discreto */}
-        <section className="py-16 bg-neutral-50 dark:bg-neutral-900">
+        <section className="py-16 bg-[#337945]">
           <div className="container mx-auto px-4 md:px-6 max-w-2xl text-center">
-            <h2 className="text-2xl font-serif font-medium text-neutral-900 dark:text-white mb-4">
+            <h2 className="text-2xl font-serif font-medium text-white mb-4">
               Pronto para começar sua jornada de estudos?
             </h2>
-            <p className="text-neutral-600 dark:text-neutral-300 mb-8">
+            <p className="text-white mb-8">
               Junte-se a milhares de jovens que estão aprofundando seu conhecimento bíblico diariamente.
             </p>
-                          <Button asChild className="bg-[#337945] hover:bg-[#337945]/90 text-white">
+                          <Button asChild className="bg-white hover:bg-gray-100 text-[#337945]">
               <Link to="/estudos">
                 Começar agora
                 <ArrowRight className="ml-2 h-4 w-4" />
