@@ -179,23 +179,23 @@ const StudiesPage: React.FC = () => {
                     </div>
                     
                     {/* Conteúdo do trimestre */}
-                    <Card className="mt-4 bg-white dark:bg-neutral-800 border-none shadow-sm">
+                    <Card className="mt-4 bg-transparent border-none shadow-none">
                       <CardHeader className="pb-2">
-                        <CardTitle className="text-xl font-bold text-[#337945] dark:text-[#337945]">{trimestre.nome}</CardTitle>
-                        <CardDescription className="text-neutral-600 dark:text-neutral-400 text-sm">
+                        <CardTitle className="text-xl font-bold text-white">{trimestre.nome}</CardTitle>
+                        <CardDescription className="text-white/80 text-sm">
                           {getMesesDeTrimestre(trimestre.trimestre)}
                         </CardDescription>
                       </CardHeader>
                       
                       <CardContent className="space-y-4">
-                        <Separator className="bg-neutral-200 dark:bg-neutral-700" />
+                        <Separator className="bg-white/20" />
                         
                         <div className="pt-2">
                           <a 
                             href="https://loja-dev.cpb.com.br/produto/5868/comtexto-biblico-jovens-aluno-avulsa-2-trimestre-2025-licao-da-escola-sabatina" 
                             target="_blank" 
                             rel="noopener noreferrer"
-                            className="text-xs flex items-center text-[#337945] hover:underline"
+                            className="text-xs flex items-center text-white hover:text-white/80 hover:underline"
                           >
                             <BookOpen className="h-3 w-3 mr-1" />
                             Obter lição física na CPB

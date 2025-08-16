@@ -141,7 +141,7 @@ const AboutPage = () => {
                 <Separator className="w-12 bg-[#337945] h-0.5 mt-2" />
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <Card className="bg-neutral-50 dark:bg-neutral-900 border-none shadow-sm hover:shadow transition-all p-6 flex flex-col items-center text-center">
                   <div className="h-12 w-12 bg-[#337945]/10 flex items-center justify-center rounded-full mb-6">
                     <BookOpen className="h-6 w-6 text-[#337945]" />
@@ -152,26 +152,10 @@ const AboutPage = () => {
                 
                 <Card className="bg-neutral-50 dark:bg-neutral-900 border-none shadow-sm hover:shadow transition-all p-6 flex flex-col items-center text-center">
                   <div className="h-12 w-12 bg-[#337945]/10 flex items-center justify-center rounded-full mb-6">
-                    <Award className="h-6 w-6 text-[#337945]" />
-                  </div>
-                  <h3 className="font-medium text-lg mb-3 text-neutral-900 dark:text-white">Quizzes</h3>
-                  <p className="text-neutral-600 dark:text-neutral-400 text-sm">Teste seus conhecimentos e fixe o conteúdo</p>
-                </Card>
-                
-                <Card className="bg-neutral-50 dark:bg-neutral-900 border-none shadow-sm hover:shadow transition-all p-6 flex flex-col items-center text-center">
-                  <div className="h-12 w-12 bg-[#337945]/10 flex items-center justify-center rounded-full mb-6">
                     <MessageSquare className="h-6 w-6 text-[#337945]" />
                   </div>
                   <h3 className="font-medium text-lg mb-3 text-neutral-900 dark:text-white">Discussões</h3>
                   <p className="text-neutral-600 dark:text-neutral-400 text-sm">Compartilhe insights com outros jovens</p>
-                </Card>
-                
-                <Card className="bg-neutral-50 dark:bg-neutral-900 border-none shadow-sm hover:shadow transition-all p-6 flex flex-col items-center text-center">
-                  <div className="h-12 w-12 bg-[#337945]/10 flex items-center justify-center rounded-full mb-6">
-                    <Calendar className="h-6 w-6 text-[#337945]" />
-                  </div>
-                  <h3 className="font-medium text-lg mb-3 text-neutral-900 dark:text-white">Progresso</h3>
-                  <p className="text-neutral-600 dark:text-neutral-400 text-sm">Acompanhe sua jornada de estudos</p>
                 </Card>
               </div>
               
@@ -179,10 +163,6 @@ const AboutPage = () => {
                 <div className="bg-neutral-50 dark:bg-neutral-900 p-4 rounded-lg text-center min-w-[140px]">
                   <p className="text-2xl font-light text-[#337945]">7</p>
                   <p className="text-sm text-neutral-600 dark:text-neutral-400">dias de estudo</p>
-                </div>
-                <div className="bg-neutral-50 dark:bg-neutral-900 p-4 rounded-lg text-center min-w-[140px]">
-                  <p className="text-2xl font-light text-[#337945]">100+</p>
-                  <p className="text-sm text-neutral-600 dark:text-neutral-400">quizzes</p>
                 </div>
                 <div className="bg-neutral-50 dark:bg-neutral-900 p-4 rounded-lg text-center min-w-[140px]">
                   <p className="text-2xl font-light text-[#337945]">1000+</p>

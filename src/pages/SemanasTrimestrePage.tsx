@@ -245,7 +245,7 @@ const SemanasTrimestrePage: React.FC = () => {
                         </div>
                         <div className="flex-grow">
                           <div className="bg-neutral-50 dark:bg-neutral-900 p-4">
-                            <h3 className="text-xl text-[#2c62af] font-bold mb-1">{semana.titulo}</h3>
+                            <h3 className="text-xl text-[#337945] font-bold mb-1">{semana.titulo}</h3>
                             <p className="text-sm text-neutral-500">{getDatasSemana(semana.numero)}</p>
                           </div>
                         </div>
