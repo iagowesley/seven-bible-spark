@@ -64,17 +64,22 @@ export default {
 				},
 				// Nossa paleta de cores personalizada
 				seven: {
-					blue: '#3B82F6',
-					purple: '#8B5CF6', 
+					blue: '#003366', // IASD Blue
+					purple: '#8B5CF6',
 					gold: '#F59E0B',
 					light: '#F3F4F6',
 					dark: '#1F2937'
+				},
+				iasd: {
+					blue: '#003366',
+					orange: '#ED904A',
+					green: '#0FA5A5'
 				}
 			},
 			borderRadius: {
-				lg: '0',
-				md: '0',
-				sm: '0',
+				lg: '15px',
+				md: '12px',
+				sm: '8px',
 				circle: '50%'
 			},
 			keyframes: {

@@ -17,14 +17,14 @@ const HeroSection = () => {
       <div className="seven-container relative z-10">
         <div className="text-center max-w-3xl mx-auto">
           <div className="flex justify-center mb-6">
-            <div 
-              className="w-20 h-20 rounded-circle bg-gradient-to-br from-green-600 to-emerald-600 flex items-center justify-center animate-pulse-slow"
+            <div
+              className="w-20 h-20 rounded-circle bg-gradient-to-br from-[#003366] to-blue-600 flex items-center justify-center animate-pulse-slow"
             >
               <BookOpen className="h-10 w-10 text-white" />
             </div>
           </div>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight">
-            <span className="block bg-gradient-to-r from-green-600 via-emerald-600 to-seven-gold bg-clip-text text-transparent">
+            <span className="block bg-gradient-to-r from-[#003366] via-blue-600 to-seven-gold bg-clip-text text-transparent">
               Lição Jovem Seven
             </span>
           </h1>
@@ -32,25 +32,25 @@ const HeroSection = () => {
             Uma nova forma de estudar a Bíblia: interativa, envolvente e adaptada para a geração atual.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-              size="lg" 
-              className="rounded-full text-lg px-8 py-6 bg-gradient-to-r from-green-600 to-emerald-600 hover:opacity-90 transition-opacity animate-fade-in"
+            <Button
+              size="lg"
+              className="rounded-[25px] text-lg px-8 py-5 bg-gradient-to-r from-[#003366] to-blue-600 hover:opacity-90 transition-opacity animate-fade-in text-white h-auto"
               asChild
             >
               <Link to="/estudos">Começar Estudos</Link>
             </Button>
-            <Button 
-              variant="outline" 
-              size="lg" 
-              className="rounded-full text-lg px-8 py-6 animate-fade-in"
+            <Button
+              variant="outline"
+              size="lg"
+              className="rounded-[25px] text-lg px-8 py-5 animate-fade-in h-auto"
               asChild
             >
               <Link to="/sobre">Saiba Mais</Link>
             </Button>
           </div>
-          
-          <button 
-            onClick={scrollToFeatures} 
+
+          <button
+            onClick={scrollToFeatures}
             className="mt-16 inline-flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors"
           >
             Descubra os recursos
@@ -58,10 +58,10 @@ const HeroSection = () => {
           </button>
         </div>
       </div>
-      
+
       {/* Circles decorativos */}
-      <div className="absolute top-0 left-0 w-72 h-72 bg-emerald-500/10 rounded-full filter blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
-      <div className="absolute bottom-0 right-0 w-80 h-80 bg-green-600/10 rounded-full filter blur-3xl translate-x-1/3 translate-y-1/3"></div>
+      <div className="absolute top-0 left-0 w-72 h-72 bg-blue-500/10 rounded-full filter blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+      <div className="absolute bottom-0 right-0 w-80 h-80 bg-[#003366]/10 rounded-full filter blur-3xl translate-x-1/3 translate-y-1/3"></div>
     </div>
   );
 };

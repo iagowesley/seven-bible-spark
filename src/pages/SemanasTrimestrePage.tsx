@@ -26,7 +26,7 @@ const SemanasTrimestrePage: React.FC = () => {
   const [semanas, setSemanas] = useState<Semana[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
+
   useEffect(() => {
     const carregarDados = async () => {
       if (!trimestreId) {
@@ -34,14 +34,14 @@ const SemanasTrimestrePage: React.FC = () => {
         setLoading(false);
         return;
       }
-      
+
       try {
         setLoading(true);
-        
+
         // Carregar dados do trimestre
         const trimestreData = await obterTrimestre(trimestreId);
         setTrimestre(trimestreData);
-        
+
         // Carregar semanas do trimestre
         const semanasData = await listarSemanasPorTrimestre(trimestreId);
         setSemanas(semanasData);
@@ -57,10 +57,10 @@ const SemanasTrimestrePage: React.FC = () => {
         setLoading(false);
       }
     };
-    
+
     carregarDados();
   }, [trimestreId]);
-  
+
   const getMesesDeTrimestre = (trimestre: string): string => {
     switch (trimestre) {
       case "1":
@@ -85,7 +85,7 @@ const SemanasTrimestrePage: React.FC = () => {
         descricao: "O livro de Êxodo revela o poder libertador de Deus e Sua fidelidade às promessas feitas ao Seu povo. Este trimestre nos convida a descobrir as lições de fé, obediência e esperança encontradas na jornada do povo de Israel rumo à Terra Prometida."
       };
     }
-    
+
     if (nomeTrimsetre?.toLowerCase().includes('adoração') || nomeTrimsetre?.toLowerCase().includes('adoracao')) {
       return {
         titulo: "Adoração",
@@ -112,7 +112,7 @@ const SemanasTrimestrePage: React.FC = () => {
         };
     }
   };
-  
+
   // Função para obter as datas da semana baseado no número da semana
   const getDatasSemana = (numeroSemana: number): string => {
     switch (numeroSemana) {
@@ -146,19 +146,19 @@ const SemanasTrimestrePage: React.FC = () => {
         return "28 Jun - 04 Jul"; // Data padrão se nenhuma corresponder
     }
   };
-  
+
   if (loading) {
     return (
       <>
         <Navbar />
         <div className="min-h-screen flex items-center justify-center bg-neutral-50 dark:bg-neutral-900">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#337945]"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#003366]"></div>
         </div>
         <Footer />
       </>
     );
   }
-  
+
   if (error || !trimestre) {
     return (
       <>
@@ -174,35 +174,35 @@ const SemanasTrimestrePage: React.FC = () => {
       </>
     );
   }
-  
+
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-neutral-50 dark:bg-neutral-900">
+      <main className="min-h-screen">
         {/* Cabeçalho */}
-        <section className="w-full py-24 bg-white dark:bg-neutral-800">
+        <section className="w-full h-screen flex items-center justify-center bg-gradient-to-b from-white to-neutral-50 dark:from-neutral-800 dark:to-neutral-900">
           <div className="container mx-auto px-4 md:px-6 max-w-7xl">
-            <div className="flex flex-col items-center text-center space-y-6">
-              <Badge className="bg-[#337945] hover:bg-[#337945]/90 text-white px-3 py-1 text-xs">
+            <div className="flex flex-col items-center text-center space-y-8">
+              <Badge className="bg-[#003366] hover:bg-[#003366]/90 text-white px-5 py-2 text-sm rounded-full shadow-md">
                 {trimestre.ano} - {trimestre.trimestre}º Trimestre
               </Badge>
-              
-              <h1 className="text-4xl md:text-5xl font-serif font-medium text-neutral-900 dark:text-white max-w-2xl leading-tight">
-                <span className="text-[#337945]">{trimestre.nome}</span>
+
+              <h1 className="text-5xl md:text-6xl font-sans font-bold text-neutral-900 dark:text-white max-w-3xl leading-tight">
+                <span className="text-[#003366]">{trimestre.nome}</span>
               </h1>
-              
-              <p className="text-neutral-600 dark:text-neutral-300 max-w-xl text-lg font-light leading-relaxed">
+
+              <p className="text-neutral-600 dark:text-neutral-300 max-w-2xl text-xl font-light leading-relaxed">
                 {getMesesDeTrimestre(trimestre.trimestre)}
               </p>
-              
-              <div className="mt-4 flex items-center justify-center">
-                <div className="bg-neutral-100 dark:bg-neutral-700 p-6 rounded-lg max-w-2xl">
+
+              <div className="mt-4 flex items-center justify-center w-full">
+                <div className="bg-white dark:bg-neutral-800 p-12 rounded-[25px] max-w-3xl border border-neutral-200 dark:border-neutral-700 shadow-lg">
                   {(() => {
                     const tema = getTemaTrimestre(trimestre.nome, trimestre.trimestre);
                     return (
                       <>
-                        <h2 className="text-xl font-medium text-[#337945] mb-3">{tema.titulo}</h2>
-                        <p className="text-neutral-700 dark:text-neutral-300">
+                        <h2 className="text-2xl font-bold text-[#003366] mb-4">{tema.titulo}</h2>
+                        <p className="text-neutral-700 dark:text-neutral-300 leading-relaxed">
                           {tema.descricao}
                         </p>
                       </>
@@ -210,63 +210,48 @@ const SemanasTrimestrePage: React.FC = () => {
                   })()}
                 </div>
               </div>
-              
-              <Separator className="w-12 bg-[#337945] h-0.5 mt-4" />
-              
-              <div className="flex flex-wrap justify-center gap-4 pt-4">
-                <div className="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400">
-                  <BookOpen className="h-4 w-4 text-[#337945]" />
-                  <span>Autor: Pr. Fernando Dias</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400">
-                  <Clock className="h-4 w-4 text-[#337945]" />
-                  <span>7 dias de estudo por semana</span>
-                </div>
-              </div>
             </div>
           </div>
         </section>
-        
+
         {/* Lista de semanas */}
-        <section className="py-20">
-          <div className="container mx-auto px-4 md:px-6 max-w-7xl">
-            <h2 className="text-2xl font-bold text-neutral-900 dark:text-white mb-8 text-center">
+        <section className="pt-6 pb-20 bg-neutral-50 dark:bg-neutral-900">
+          <div className="container mx-auto px-4 md:px-6 max-w-5xl">
+            <h2 className="text-3xl font-bold text-neutral-900 dark:text-white mb-10 text-center">
               Semanas de Estudo
             </h2>
-            
-            <div className="space-y-4">
+
+            <div className="space-y-6">
               {semanas.length > 0 ? (
                 semanas.map((semana) => (
-                  <Card key={semana.id} className="overflow-hidden bg-white dark:bg-neutral-800 border-none shadow-md hover:shadow-lg transition-all">
+                  <Card key={semana.id} className="overflow-hidden bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 shadow-md hover:shadow-xl transition-all duration-300 rounded-[25px] hover:-translate-y-1">
                     <Link to={`/estudos/${semana.id}/licao/sabado`} className="block">
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0 w-16 h-16 flex items-center justify-center">
-                          <span className="text-5xl font-bold text-[#337945]">{semana.numero}</span>
-                        </div>
-                        <div className="flex-grow">
-                          <div className="bg-neutral-50 dark:bg-neutral-900 p-4">
-                            <h3 className="text-xl text-[#337945] font-bold mb-1">{semana.titulo}</h3>
-                            <p className="text-sm text-neutral-500">{getDatasSemana(semana.numero)}</p>
+                      <div className="p-10">
+                        <div className="flex items-start gap-6">
+                          <div className="flex-shrink-0 w-20 h-20 flex items-center justify-center bg-[#003366] rounded-[20px]">
+                            <span className="text-4xl font-bold text-white">{semana.numero}</span>
+                          </div>
+                          <div className="flex-grow">
+                            <div className="mb-3">
+                              <h3 className="text-2xl text-[#003366] font-bold mb-2">{semana.titulo}</h3>
+                              <p className="text-sm text-neutral-500 font-medium">{getDatasSemana(semana.numero)}</p>
+                            </div>
+                            <p className="text-neutral-700 dark:text-neutral-300 text-base line-clamp-2 mb-4">
+                              {semana.resumo}
+                            </p>
+                            <div className="flex items-center text-[#003366] text-base font-semibold">
+                              <span>Estudar agora</span>
+                              <ChevronRight className="h-5 w-5 ml-1" />
+                            </div>
                           </div>
                         </div>
                       </div>
-                      
-                      <CardContent className="pt-4">
-                        <p className="text-neutral-700 dark:text-neutral-300 text-sm line-clamp-2">
-                          {semana.resumo}
-                        </p>
-                        
-                        <div className="flex justify-end items-center mt-4 text-[#337945] text-sm font-medium">
-                          <span>Estudar agora</span>
-                          <ChevronRight className="h-4 w-4 ml-1" />
-                        </div>
-                      </CardContent>
                     </Link>
                   </Card>
                 ))
               ) : (
-                <Alert className="bg-white dark:bg-neutral-800">
-                  <AlertTitle>Nenhuma semana disponível</AlertTitle>
+                <Alert className="bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-[25px]">
+                  <AlertTitle className="text-[#003366]">Nenhuma semana disponível</AlertTitle>
                   <AlertDescription>
                     Não há semanas cadastradas para este trimestre ainda.
                   </AlertDescription>

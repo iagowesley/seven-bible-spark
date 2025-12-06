@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { 
-  LayoutDashboardIcon, 
-  BookOpenIcon, 
+import {
+  LayoutDashboardIcon,
+  BookOpenIcon,
+  BookOpen,
   InfoIcon,
   SunIcon,
   MoonIcon,
@@ -42,8 +43,8 @@ const Navbar = () => {
     // Fechar o menu ao clicar fora dele
     const handleClickOutside = (event: MouseEvent) => {
       if (
-        isMenuOpen && 
-        menuRef.current && 
+        isMenuOpen &&
+        menuRef.current &&
         !menuRef.current.contains(event.target as Node) &&
         menuButtonRef.current &&
         !menuButtonRef.current.contains(event.target as Node)
@@ -64,144 +65,94 @@ const Navbar = () => {
 
   // Links de navegação - agora disponíveis para todos
   const navLinks = [
-    { 
-      icon: <BookOpenIcon className="h-5 w-5 mr-2" />, 
-      hoverIcon: <BookOpenCheck className="h-5 w-5 mr-2 text-white" />,
-      label: "Estudos", 
+    {
+      label: "Estudos",
       href: "/estudos",
-      color: "from-green-500 to-emerald-600" 
+      color: "hover:text-blue-200"
     },
-    { 
-      icon: <LayoutDashboardIcon className="h-5 w-5 mr-2" />, 
-      hoverIcon: <LayoutDashboardIcon className="h-5 w-5 mr-2 text-white" />,
-      label: "Dashboard", 
-      href: "/dashboard",
-      color: "from-blue-500 to-cyan-500"
-    },
-    { 
-      icon: <InfoIcon className="h-5 w-5 mr-2" />, 
-      hoverIcon: <Lightbulb className="h-5 w-5 mr-2 text-white" />,
-      label: "Sobre", 
+    {
+      label: "Sobre",
       href: "/sobre",
-      color: "from-yellow-400 to-orange-500"
+      color: "hover:text-blue-200"
     }
   ];
 
   const navbarClass = isScrolled
-    ? "navbar-floating bg-[#337945]/80 border-b border-transparent shadow-lg backdrop-blur-sm"
-    : "bg-[#337945] border-b border-border";
+    ? "navbar-floating bg-[#003366]/90 shadow-md backdrop-blur-sm"
+    : "bg-[#003366] shadow-md";
 
   return (
     <>
       {/* Espaço para compensar a navbar fixa */}
       {isScrolled && <div className="h-20"></div>}
-      
-      <nav className={`${navbarClass} sticky top-0 z-50 transition-all duration-300 ease-in-out`}>
-        {/* Decoração superior - linha gradiente animada */}
-        <div className={`h-1 w-full bg-gradient-to-r from-[#337945] via-emerald-500 to-[#337945] bg-[length:200%_auto] animate-gradient transition-opacity duration-300 ${isScrolled ? 'opacity-80' : 'opacity-100'}`}></div>
-        
-        <div className="seven-container flex items-center justify-between py-4 relative">
+
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${navbarClass}`}
+      >
+        <div className="seven-container flex items-center justify-between py-6 relative">
           {/* Elementos decorativos de fundo removidos */}
-          
+
           <Link to="/" className="flex items-center relative z-10">
-            <img 
-              src="/LOGO_LIÇÃO_JOVEM__7_-removebg-preview.png" 
-              alt="Lição Jovem" 
+            <img
+              src="/LOGO_LIÇÃO_JOVEM__7_-removebg-preview.png"
+              alt="Lição Jovem"
               className="h-16 relative z-10"
             />
           </Link>
-          
+
           {/* Menu desktop */}
           <div className="hidden md:flex items-center space-x-4">
             {navLinks.map((link) => (
-              <Button 
-                key={link.href} 
-                variant="ghost" 
+              <Button
+                key={link.href}
+                variant="ghost"
                 className="flex items-center relative group overflow-hidden"
                 asChild
               >
-                <Link to={link.href} className="relative z-10 flex items-center text-white hover:text-white font-medium text-base transition-colors duration-300">
-                  {/* Fundo gradiente animado no hover */}
-                  <div className="absolute inset-0 bg-gradient-to-r opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10 rounded-md bg-green-800"></div>
-                  {/* Ícone com transição */}
-                  <span className="flex items-center justify-center overflow-hidden">
-                    <span className="block group-hover:hidden transition-all duration-300">
-                  {link.icon}
-                    </span>
-                    <span className="hidden group-hover:block transition-all duration-300">
-                      {link.hoverIcon}
-                    </span>
+                <Link
+                  to={link.href}
+                  className={`relative px-4 py-2 rounded-[15px] text-xl font-medium transition-all duration-300 group overflow-hidden flex items-center text-white/90 hover:text-white hover:bg-white/10`}
+                >
+                  <span className="relative z-10 flex items-center">
+                    {link.label}
                   </span>
-                  {link.label}
                 </Link>
               </Button>
             ))}
-            
-            {/* Toggle de tema */}
-            <div className="flex items-center ml-4 relative z-10">
-              <div className="bg-white/20 p-1 rounded-full flex items-center transition-colors duration-300">
-                <button 
-                  onClick={toggleTheme}
-                  className="relative focus:outline-none"
-                >
-                  <div className="w-12 h-6 rounded-full p-1 flex items-center bg-white/30 transition-colors duration-300">
-                    <div className={`absolute left-0.5 bg-white dark:bg-gray-300 w-5 h-5 rounded-full shadow transform transition-transform duration-300 flex items-center justify-center ${isDark ? 'translate-x-6' : 'translate-x-0'}`}>
-                      {isDark ? (
-                        <MoonIcon size={14} className="text-indigo-700" />
-                      ) : (
-                        <SunIcon size={14} className="text-yellow-500" />
-                      )}
-                    </div>
-                  </div>
-                </button>
-              </div>
-            </div>
           </div>
 
           {/* Botão de menu mobile */}
           <div className="md:hidden flex items-center space-x-3">
-            {/* Toggle de tema mobile */}
-            <button 
-              onClick={toggleTheme}
-              className="focus:outline-none p-1.5 rounded-full bg-white/20 hover:bg-green-800 transition-colors duration-300 relative z-10"
+            <Button
+              ref={menuButtonRef}
+              variant="ghost"
+              size="icon"
+              className="relative z-10 text-white hover:bg-white/10"
+              onClick={toggleMenu}
             >
-              {isDark ? (
-                <MoonIcon size={18} className="text-indigo-700" />
-              ) : (
-                <SunIcon size={18} className="text-yellow-500" />
-              )}
-            </button>
-            
-          <Button 
-            ref={menuButtonRef}
-            variant="ghost" 
-            size="icon"
-            className="relative z-10 text-white hover:bg-green-800" 
-            onClick={toggleMenu}
-          >
-            <div className="w-6 h-6 flex flex-col justify-center items-center relative">
-              <div className="w-full h-[2px] bg-white rounded-full transition-all duration-300 ease-in-out absolute"
-                   style={{
-                     transform: isMenuOpen ? 'rotate(45deg)' : 'rotate(0deg) translateY(-4px)',
-                   }}
-              />
-              <div className="w-1/2 h-[2px] bg-white rounded-full transition-all duration-300 ease-in-out absolute"
-                   style={{
-                     transform: isMenuOpen ? 'rotate(-45deg) scaleX(2)' : 'rotate(0deg) translateY(4px) translateX(6px)',
-                     transformOrigin: 'center',
-                   }}
-              />
-            </div>
-          </Button>
+              <div className="w-6 h-6 flex flex-col justify-center items-center relative">
+                <div className="w-full h-[2px] bg-white rounded-full transition-all duration-300 ease-in-out absolute"
+                  style={{
+                    transform: isMenuOpen ? 'rotate(45deg)' : 'rotate(0deg) translateY(-4px)',
+                  }}
+                />
+                <div className="w-1/2 h-[2px] bg-white rounded-full transition-all duration-300 ease-in-out absolute"
+                  style={{
+                    transform: isMenuOpen ? 'rotate(-45deg) scaleX(2)' : 'rotate(0deg) translateY(4px) translateX(6px)',
+                    transformOrigin: 'center',
+                  }}
+                />
+              </div>
+            </Button>
           </div>
         </div>
 
         {/* Menu mobile */}
         <AnimatePresence>
-        {isMenuOpen && (
-            <motion.div 
+          {isMenuOpen && (
+            <motion.div
               ref={menuRef}
-              className={`md:hidden absolute right-4 top-[72px] w-64 ${isScrolled ? 'bg-[#337945]/85' : 'bg-[#337945]'} shadow-xl rounded-lg border border-green-600 z-50 overflow-hidden backdrop-blur-sm`}
+              className={`md:hidden absolute right-4 top-[88px] w-64 ${isScrolled ? 'bg-[#003366]/90' : 'bg-[#003366]'} shadow-xl rounded-lg border border-blue-600 z-50 overflow-hidden backdrop-blur-sm`}
               initial={{ opacity: 0, scale: 0.9, y: -5, transformOrigin: "top right" }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: -5 }}
@@ -217,21 +168,15 @@ const Navbar = () => {
                   >
                     <Button
                       variant="ghost"
-                      className="flex items-center justify-start text-white hover:text-white hover:bg-green-800 font-medium text-base relative overflow-hidden group rounded-md w-full my-1"
+                      className="flex items-center justify-start text-white hover:text-white hover:bg-white/10 font-medium text-base relative overflow-hidden group rounded-md w-full my-1"
                       asChild
                     >
-                      <Link 
+                      <Link
                         to={link.href}
                         onClick={() => setIsMenuOpen(false)}
                         className="relative z-10 w-full px-4 py-2"
                       >
                         <span className="flex items-center">
-                          <span className="block group-hover:hidden">
-                            {link.icon}
-                          </span>
-                          <span className="hidden group-hover:block">
-                            {link.hoverIcon}
-                          </span>
                           {link.label}
                         </span>
                       </Link>
@@ -240,7 +185,7 @@ const Navbar = () => {
                 ))}
               </div>
             </motion.div>
-        )}
+          )}
         </AnimatePresence>
       </nav>
     </>
