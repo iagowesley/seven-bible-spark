@@ -226,6 +226,24 @@ const DailyLessonPage: React.FC = () => {
     utterance.rate = 1.0;
     utterance.pitch = 1.0;
 
+    // Tentar selecionar uma voz masculina em português
+    const voices = window.speechSynthesis.getVoices();
+    const maleVoicePt = voices.find(voice =>
+      voice.lang.startsWith('pt') &&
+      (voice.name.toLowerCase().includes('male') ||
+        voice.name.toLowerCase().includes('masculino') ||
+        voice.name.toLowerCase().includes('homem'))
+    );
+
+    // Se não encontrar voz masculina específica, usar qualquer voz em português
+    const anyPtVoice = voices.find(voice => voice.lang.startsWith('pt'));
+
+    if (maleVoicePt) {
+      utterance.voice = maleVoicePt;
+    } else if (anyPtVoice) {
+      utterance.voice = anyPtVoice;
+    }
+
     // Evento para quando terminar de falar
     utterance.onend = () => {
       setIsSpeaking(false);
@@ -712,7 +730,7 @@ const DailyLessonPage: React.FC = () => {
             Voltar
           </Button>
 
-          <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/30 rounded-[25px] p-6 shadow-sm">
+          <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/30 rounded-[15px] p-6 shadow-sm">
             <div className="flex items-start">
               <div className="bg-red-100 dark:bg-red-900/30 rounded-full p-2 mr-4">
                 <AlertCircle className="h-6 w-6 text-red-500 dark:text-red-300" />
@@ -779,7 +797,7 @@ const DailyLessonPage: React.FC = () => {
           {/* Cabeçalho com título e texto bíblico chave */}
           <div className="mb-12" data-aos="fade-up">
             <h1 className="text-3xl sm:text-4xl font-bold text-center mb-6 text-[#003366] tracking-tight">{semana.titulo}</h1>
-            <div className="text-center bg-gradient-to-r from-[#f0faf2] to-white dark:from-gray-800/60 dark:to-gray-900 py-6 px-8 rounded-[25px] border border-[#003366]/20 shadow-sm">
+            <div className="text-center bg-gradient-to-r from-[#f0faf2] to-white dark:from-gray-800/60 dark:to-gray-900 py-6 px-8 rounded-[15px] border border-[#003366]/20 shadow-sm">
               <h2 className="text-base font-medium text-[#003366] mb-3">Texto bíblico chave</h2>
               <button
                 onClick={() => openBibleModal(semana.texto_biblico_chave || (licao?.texto_biblico_chave || ''))}
@@ -797,7 +815,7 @@ const DailyLessonPage: React.FC = () => {
               <img
                 src={semana.img_sabado_url}
                 alt={semana.titulo}
-                className="w-full h-auto object-contain rounded-[25px] shadow-md hover:shadow-lg transition-shadow transform scale-110"
+                className="w-full h-auto object-contain rounded-[15px] shadow-md hover:shadow-lg transition-shadow transform scale-110"
               />
             </div>
           )}
@@ -809,7 +827,7 @@ const DailyLessonPage: React.FC = () => {
             <div className="mb-3">
               <p className="text-base font-medium text-[#003366]">A partir da tirinha, do texto-chave e do título, anote suas primeiras impressões:</p>
             </div>
-            <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-[25px] shadow-sm p-6 transition-all hover:shadow-md">
+            <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-[15px] shadow-sm p-6 transition-all hover:shadow-md">
               <textarea
                 className="w-full min-h-[120px] bg-[linear-gradient(transparent,transparent_calc(1.5rem_-_1px),#e5e7eb_calc(1.5rem_-_1px),#e5e7eb_1.5rem,transparent_1.5rem)] bg-[size:100%_1.5rem] leading-[1.5rem] pt-0 border-0 outline-none resize-y focus:ring-1 focus:ring-[#003366]"
                 style={{ lineHeight: "1.5rem", backgroundAttachment: "local" }}
@@ -830,7 +848,7 @@ const DailyLessonPage: React.FC = () => {
 
         {/* Resumo */}
         <div className="container mx-auto px-4 max-w-5xl">
-          <div className="my-10 bg-gradient-to-br from-[#f0faf2] to-white dark:from-gray-800 dark:to-gray-900 p-8 rounded-[25px] border border-[#003366]/20 dark:border-green-800/30 shadow-sm hover:shadow-md transition-all" data-aos="fade-up" data-aos-delay="500">
+          <div className="my-10 bg-gradient-to-br from-[#f0faf2] to-white dark:from-gray-800 dark:to-gray-900 p-8 rounded-[15px] border border-[#003366]/20 dark:border-green-800/30 shadow-sm hover:shadow-md transition-all" data-aos="fade-up" data-aos-delay="500">
             <h2 className="text-xl font-bold mb-6 text-[#003366] dark:text-green-300 flex items-center">
               <span className="w-8 h-8 rounded-full bg-[#003366] flex items-center justify-center text-white mr-3 shadow-sm">R</span>
               Nosso resumo
@@ -852,7 +870,7 @@ const DailyLessonPage: React.FC = () => {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className={`rounded-full h-9 w-9 ${isSpeaking ? 'bg-primary/20 text-primary' : ''}`}
+                    className={`rounded-full h-9 w-9 ${isSpeaking ? 'bg-[#003366]/20 text-[#003366]' : 'hover:bg-[#003366]/10'}`}
                     onClick={toggleSpeech}
                     title={isSpeaking ? "Pausar leitura" : "Ler texto em voz alta"}
                   >
@@ -863,7 +881,7 @@ const DailyLessonPage: React.FC = () => {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className={`rounded-full h-9 w-9 ${highlighterActive ? 'bg-primary/20 text-primary' : ''}`}
+                    className={`rounded-full h-9 w-9 ${highlighterActive ? 'bg-[#003366]/20 text-[#003366]' : 'hover:bg-[#003366]/10'}`}
                     onClick={toggleHighlighter}
                     title="Destacar texto"
                   >
@@ -937,7 +955,7 @@ const DailyLessonPage: React.FC = () => {
             <Button
               onClick={() => navigate(`/estudos/${semanaId}/licao/${proximoDiaCadastrado}`)}
               size="default"
-              className="bg-[#003366] hover:bg-[#003366] text-white text-base sm:text-lg py-6 px-8 rounded-[25px] shadow-lg animate-pulse w-full max-w-xs font-bold"
+              className="bg-[#003366] hover:bg-[#003366] text-white text-base sm:text-lg py-6 px-8 rounded-[15px] shadow-lg animate-pulse w-full max-w-xs font-bold"
             >
               Próxima: {getDiaLabel(proximoDiaCadastrado).split('(')[0]}
               <ChevronRight className="ml-2 h-5 w-5" />
@@ -981,7 +999,7 @@ const DailyLessonPage: React.FC = () => {
                 </div>
               ) : (
                 comentarios.map((comentario) => (
-                  <div key={comentario.id} className="bg-gray-50 dark:bg-gray-800/60 p-4 rounded-[25px]">
+                  <div key={comentario.id} className="bg-gray-50 dark:bg-gray-800/60 p-4 rounded-[15px]">
                     <div className="flex items-center justify-between mb-2">
                       <div className="font-medium text-[#003366]">{comentario.nome}</div>
                       <div className="text-xs text-gray-500">{new Date(comentario.data_criacao).toLocaleDateString('pt-BR')}</div>
@@ -1081,7 +1099,7 @@ const DailyLessonPage: React.FC = () => {
 
         {/* Modal do texto bíblico */}
         <Dialog open={bibleModalOpen} onOpenChange={setBibleModalOpen}>
-          <DialogContent className="sm:max-w-2xl max-h-[80vh] rounded-[25px] border-[#003366]/20">
+          <DialogContent className="sm:max-w-2xl max-h-[80vh] rounded-[15px] border-[#003366]/20">
             <DialogHeader className="pb-2">
               <DialogTitle className="text-center text-xl font-serif text-[#003366] font-bold">
                 {bibleText?.reference || "Texto Bíblico"}
@@ -1203,7 +1221,7 @@ const DailyLessonPage: React.FC = () => {
 
         {/* Texto bíblico chave se houver */}
         {licao.texto_biblico_chave && (
-          <div className="mb-8 text-center bg-gradient-to-r from-[#f0faf2] to-white dark:from-gray-800/60 dark:to-gray-900 py-5 px-6 rounded-[25px] border border-[#003366]/20 shadow-sm">
+          <div className="mb-8 text-center bg-gradient-to-r from-[#f0faf2] to-white dark:from-gray-800/60 dark:to-gray-900 py-5 px-6 rounded-[15px] border border-[#003366]/20 shadow-sm">
             <h2 className="text-sm font-medium text-[#003366] mb-2">Texto bíblico chave</h2>
             <button
               onClick={() => openBibleModal(licao.texto_biblico_chave)}
@@ -1216,7 +1234,7 @@ const DailyLessonPage: React.FC = () => {
         )}
 
         {/* Conteúdo da lição */}
-        <Card className="mb-8 shadow-sm dark:bg-gray-900 dark:border-gray-800 overflow-hidden rounded-[25px] border-[#003366]/20">
+        <Card className="mb-8 shadow-sm dark:bg-gray-900 dark:border-gray-800 overflow-hidden rounded-[15px] border-[#003366]/20">
           {/* Barra de ferramentas flutuante */}
           <div className="sticky top-4 z-30 flex justify-end px-4 py-2">
             <div className="bg-white dark:bg-gray-800 rounded-full shadow-md p-1 flex gap-1">
@@ -1224,7 +1242,7 @@ const DailyLessonPage: React.FC = () => {
               <Button
                 variant="ghost"
                 size="icon"
-                className={`rounded-full h-9 w-9 ${isSpeaking ? 'bg-[#003366]/20 text-[#003366]' : ''}`}
+                className={`rounded-full h-9 w-9 ${isSpeaking ? 'bg-[#003366]/20 text-[#003366]' : 'hover:bg-[#003366]/10'}`}
                 onClick={toggleSpeech}
                 title={isSpeaking ? "Pausar leitura" : "Ler texto em voz alta"}
               >
@@ -1235,7 +1253,7 @@ const DailyLessonPage: React.FC = () => {
               <Button
                 variant="ghost"
                 size="icon"
-                className={`rounded-full h-9 w-9 ${highlighterActive ? 'bg-[#003366]/20 text-[#003366]' : ''}`}
+                className={`rounded-full h-9 w-9 ${highlighterActive ? 'bg-[#003366]/20 text-[#003366]' : 'hover:bg-[#003366]/10'}`}
                 onClick={toggleHighlighter}
                 title="Destacar texto"
               >
@@ -1279,7 +1297,7 @@ const DailyLessonPage: React.FC = () => {
 
               {/* Perguntas - apenas para dias diferentes de sábado */}
               {licao.perguntas && dia !== "sabado" && (
-                <div className="mt-8 p-6 bg-gradient-to-r from-[#f0faf2] to-white dark:from-gray-800/60 dark:to-gray-900 rounded-[25px] border border-[#003366]/20 dark:border-green-800/30 shadow-sm" data-aos="fade-up" data-aos-delay="300">
+                <div className="mt-8 p-6 bg-gradient-to-r from-[#f0faf2] to-white dark:from-gray-800/60 dark:to-gray-900 rounded-[15px] border border-[#003366]/20 dark:border-green-800/30 shadow-sm" data-aos="fade-up" data-aos-delay="300">
                   <h3 className="text-lg font-bold mb-4 text-[#003366] dark:text-green-300 flex items-center">
                     <span className="w-7 h-7 rounded-full bg-[#003366] flex items-center justify-center text-white mr-2 shadow-sm text-sm">?</span>
                     Para refletir
@@ -1290,7 +1308,7 @@ const DailyLessonPage: React.FC = () => {
 
               {/* Resumo - movido para depois das perguntas */}
               {licao.resumo && (
-                <div className="mt-8 p-6 bg-[#f0faf2] dark:bg-gray-800/50 rounded-[25px] border border-[#003366]/10 dark:border-gray-700 shadow-sm" data-aos="fade-up" data-aos-delay="400">
+                <div className="mt-8 p-6 bg-[#f0faf2] dark:bg-gray-800/50 rounded-[15px] border border-[#003366]/10 dark:border-gray-700 shadow-sm" data-aos="fade-up" data-aos-delay="400">
                   <h3 className="text-lg font-bold mb-4 text-[#003366] dark:text-gray-200 flex items-center">
                     <span className="w-7 h-7 rounded-full bg-[#003366] flex items-center justify-center text-white mr-2 shadow-sm text-sm">R</span>
                     Resumo
@@ -1382,12 +1400,12 @@ const DailyLessonPage: React.FC = () => {
                 </div>
               </div>
             ) : comentarios.length === 0 ? (
-              <div className="text-center py-16 text-gray-500 bg-[#f0faf2]/50 dark:bg-gray-800/20 rounded-[25px] border border-dashed border-[#003366]/20">
+              <div className="text-center py-16 text-gray-500 bg-[#f0faf2]/50 dark:bg-gray-800/20 rounded-[15px] border border-dashed border-[#003366]/20">
                 <p className="text-[#003366]">Seja o primeiro a comentar sobre esta lição!</p>
               </div>
             ) : (
               comentarios.map((comentario) => (
-                <div key={comentario.id} className="bg-[#f0faf2]/50 dark:bg-gray-800/40 p-6 rounded-[25px] border border-[#003366]/10 hover:shadow-sm transition-all">
+                <div key={comentario.id} className="bg-[#f0faf2]/50 dark:bg-gray-800/40 p-6 rounded-[15px] border border-[#003366]/10 hover:shadow-sm transition-all">
                   <div className="flex items-center justify-between mb-3">
                     <div className="font-medium text-[#003366] text-lg">{comentario.nome}</div>
                     <div className="text-xs text-gray-500 bg-white dark:bg-gray-800 px-2 py-1 rounded-full">
@@ -1430,7 +1448,7 @@ const DailyLessonPage: React.FC = () => {
           </div>
 
           {/* Formulário de novo comentário */}
-          <Card className="border-[#003366]/20 shadow-sm rounded-[25px] overflow-hidden">
+          <Card className="border-[#003366]/20 shadow-sm rounded-[15px] overflow-hidden">
             <CardContent className="pt-6 px-8">
               <h3 className="text-lg font-bold mb-6 text-[#003366] flex items-center">
                 <Send className="h-4 w-4 mr-2" />
@@ -1554,31 +1572,7 @@ const CompleteButton: React.FC<{ lessonId: string }> = ({ lessonId }) => {
     }
   };
 
-  return (
-    <Button
-      onClick={toggleCompletion}
-      disabled={isLoading}
-      variant={isCompleted ? "outline" : "default"}
-      className={`flex items-center gap-2 transition-all px-6 py-2 h-auto ${isCompleted
-        ? "border-green-500 text-green-600 hover:bg-green-50 dark:hover:bg-green-900/10"
-        : "bg-green-600 hover:bg-green-700 text-white shadow-sm hover:shadow"
-        }`}
-    >
-      {isLoading ? (
-        <div className="relative w-4 h-4">
-          <div className="absolute top-0 left-0 w-full h-full animate-spin">
-            <div className="w-4 h-4 rounded-full border-2 border-transparent border-t-current border-r-current"></div>
-          </div>
-        </div>
-      ) : isCompleted ? (
-        <>
-          <CheckCircle className="h-5 w-5" /> Lição concluída
-        </>
-      ) : (
-        "Marcar como concluída"
-      )}
-    </Button>
-  );
+
 };
 
 export default DailyLessonPage; 

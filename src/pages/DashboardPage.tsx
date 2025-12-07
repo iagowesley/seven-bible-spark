@@ -17,7 +17,7 @@ import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 
 
-const COLORS = ['#337945', '#8fb775', '#2d6537', '#4a7c55', '#1e5a26'];
+const COLORS = ['#003366', '#5a9bd5', '#002b5c', '#1e5a8a', '#001f4d'];
 
 const DashboardPage: React.FC = () => {
   const [selectedYear] = useState<number>(new Date().getFullYear());
@@ -143,13 +143,13 @@ const DashboardPage: React.FC = () => {
       <div className="container mx-auto py-12 px-4 max-w-6xl min-h-[calc(100vh-80px)]">
         <div className="space-y-8">
           <div>
-            <h1 className="text-3xl font-bold text-[#337945]">Dashboard</h1>
+            <h1 className="text-3xl font-bold text-[#003366]">Dashboard</h1>
             <p className="text-muted-foreground mt-1">Acompanhe seu progresso e conquistas</p>
           </div>
 
           {isLoading ? (
             <div className="flex justify-center py-12">
-              <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#337945]"></div>
+              <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#003366]"></div>
             </div>
           ) : (
             <>
@@ -157,7 +157,7 @@ const DashboardPage: React.FC = () => {
               <div className="mb-6">
                 <Card className="bg-gradient-to-br from-white to-[#f0faf2] dark:from-gray-900 dark:to-gray-800 hover:shadow-md transition-shadow">
                   <CardHeader className="pb-2">
-                    <CardTitle className="text-base font-medium text-[#337945]">
+                    <CardTitle className="text-base font-medium text-[#003366]">
                       Lições Concluídas
                     </CardTitle>
                   </CardHeader>
@@ -176,7 +176,7 @@ const DashboardPage: React.FC = () => {
                 <div className="md:col-span-7">
                   <Card>
                     <CardHeader>
-                      <CardTitle className="text-[#337945] flex items-center">
+                      <CardTitle className="text-[#003366] flex items-center">
                         <CalendarRange className="mr-2 h-5 w-5" />
                         Progresso Semanal
                       </CardTitle>

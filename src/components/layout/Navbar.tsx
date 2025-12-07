@@ -111,7 +111,7 @@ const Navbar = () => {
               >
                 <Link
                   to={link.href}
-                  className={`relative px-4 py-2 rounded-[15px] text-xl font-medium transition-all duration-300 group overflow-hidden flex items-center text-white/90 hover:text-white hover:bg-white/10`}
+                  className={`relative px-4 py-2 rounded-[15px] text-base font-medium transition-all duration-300 group overflow-hidden flex items-center text-white/90 hover:text-white hover:bg-white/10`}
                 >
                   <span className="relative z-10 flex items-center">
                     {link.label}

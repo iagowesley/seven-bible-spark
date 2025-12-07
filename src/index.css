@@ -155,7 +155,7 @@
   }
   
   .progress-fill {
-    @apply h-full bg-[#337945] rounded-none transition-all duration-700 ease-out;
+    @apply h-full bg-[#003366] rounded-none transition-all duration-700 ease-out;
   }
 
   /* Navbar flutuante e fixa */
@@ -212,7 +212,7 @@
 }
 
 .progress-fill {
-  @apply h-full bg-[#337945] rounded-none;
+  @apply h-full bg-[#003366] rounded-none;
 }
 
 /* Redefinição de estilos para bordas quadradas */
@@ -264,7 +264,7 @@
 .prose blockquote {
   font-style: italic;
   color: #555;
-  border-left-color: #337945;
+  border-left-color: #003366;
   padding-left: 1.5rem;
   font-family: 'Noto Serif', serif;
 }
@@ -428,7 +428,7 @@
   left: -15px;
   top: 0;
   transform: rotateY(-90deg) translateZ(10px);
-  background: linear-gradient(90deg, #337945, #2d6537);
+  background: linear-gradient(90deg, #003366, #002b5c);
   border-left: 1px solid rgba(0, 0, 0, 0.1);
 }
 

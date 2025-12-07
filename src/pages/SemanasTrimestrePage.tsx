@@ -196,7 +196,7 @@ const SemanasTrimestrePage: React.FC = () => {
               </p>
 
               <div className="mt-4 flex items-center justify-center w-full">
-                <div className="bg-white dark:bg-neutral-800 p-12 rounded-[25px] max-w-3xl border border-neutral-200 dark:border-neutral-700 shadow-lg">
+                <div className="bg-white dark:bg-neutral-800 p-12 rounded-[15px] max-w-3xl border border-neutral-200 dark:border-neutral-700 shadow-lg">
                   {(() => {
                     const tema = getTemaTrimestre(trimestre.nome, trimestre.trimestre);
                     return (
@@ -224,7 +224,7 @@ const SemanasTrimestrePage: React.FC = () => {
             <div className="space-y-6">
               {semanas.length > 0 ? (
                 semanas.map((semana) => (
-                  <Card key={semana.id} className="overflow-hidden bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 shadow-md hover:shadow-xl transition-all duration-300 rounded-[25px] hover:-translate-y-1">
+                  <Card key={semana.id} className="overflow-hidden bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 shadow-md hover:shadow-xl transition-all duration-300 rounded-[15px] hover:-translate-y-1">
                     <Link to={`/estudos/${semana.id}/licao/sabado`} className="block">
                       <div className="p-10">
                         <div className="flex items-start gap-6">
@@ -250,7 +250,7 @@ const SemanasTrimestrePage: React.FC = () => {
                   </Card>
                 ))
               ) : (
-                <Alert className="bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-[25px]">
+                <Alert className="bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-[15px]">
                   <AlertTitle className="text-[#003366]">Nenhuma semana disponível</AlertTitle>
                   <AlertDescription>
                     Não há semanas cadastradas para este trimestre ainda.

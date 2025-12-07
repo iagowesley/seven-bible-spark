@@ -77,7 +77,7 @@ const StudiesPage: React.FC = () => {
       <>
         <Navbar />
         <div className="min-h-screen flex items-center justify-center bg-neutral-50 dark:bg-neutral-900">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#337945]"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#003366]"></div>
         </div>
         <Footer />
       </>
@@ -188,7 +188,7 @@ const StudiesPage: React.FC = () => {
             {trimestres.filter(t => t.semanas.some(s => s.completa)).length === 0 && (
               <div className="mt-12">
                 <Alert className="max-w-lg mx-auto bg-white border-white/20">
-                  <AlertTitle className="font-medium text-[#337945]">Nenhum estudo disponível</AlertTitle>
+                  <AlertTitle className="font-medium text-[#003366]">Nenhum estudo disponível</AlertTitle>
                   <AlertDescription className="text-neutral-600">
                     Não há estudos disponíveis no momento. Por favor, volte mais tarde para novidades.
                   </AlertDescription>

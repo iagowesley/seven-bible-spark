@@ -47,7 +47,7 @@ const AboutPage = () => {
 
           <div className="container mx-auto px-4 md:px-6 max-w-7xl relative z-10">
             <div className="flex flex-col items-center text-center space-y-8">
-              <Badge className="bg-white/10 hover:bg-white/20 text-white border-none px-4 py-2 text-sm backdrop-blur-sm rounded-full">
+              <Badge className="bg-blue/10 hover:bg-blue/20 text-white border-none px-4 py-2 text-sm backdrop-blur-sm">
                 Conheça nosso projeto
               </Badge>
 
@@ -61,11 +61,11 @@ const AboutPage = () => {
               </p>
 
               <div className="flex flex-col sm:flex-row items-center justify-center gap-6 pt-8">
-                <Button asChild className="bg-white text-[#003366] hover:bg-white/90 text-lg px-8 py-5 rounded-[25px] font-medium shadow-lg hover:shadow-xl transition-all duration-300 h-auto w-full sm:w-auto">
+                <Button asChild className="bg-white text-[#003366] hover:bg-white/90 text-lg px-8 py-5 rounded-[15px] font-medium shadow-lg hover:shadow-xl transition-all duration-300 h-auto w-full sm:w-auto">
                   <Link to="/estudos">Começar a estudar</Link>
                 </Button>
 
-                <Button asChild variant="outline" className="border-white/30 text-white hover:bg-white/10 text-lg px-8 py-5 rounded-[25px] backdrop-blur-sm h-auto w-full sm:w-auto">
+                <Button asChild variant="outline" className="border-white/30 text-white hover:bg-white/10 text-lg px-8 py-5 rounded-[15px] backdrop-blur-sm h-auto w-full sm:w-auto">
                   <a href="https://instagram.com/licaojovem7" target="_blank" rel="noopener noreferrer">
                     <Instagram className="h-5 w-5 mr-2" />
                     Instagram
@@ -116,7 +116,7 @@ const AboutPage = () => {
               </div>
 
               <div className="w-full lg:w-1/2 order-1 lg:order-2 flex justify-center">
-                <div className="relative w-full max-w-md">
+                <div className="relative w-full max-w-xs">
                   {/* Clean Image presentation - No borders */}
                   {/* Clean Image presentation - Blue border */}
                   <div className="relative group">
@@ -124,7 +124,7 @@ const AboutPage = () => {
                     <img
                       src="/licao-atual.png"
                       alt="Lição - Êxodo"
-                      className="w-full h-auto object-contain drop-shadow-2xl relative z-10 transform transition-transform duration-500 group-hover:scale-[1.02] rounded-[15px] border-2 border-blue-400"
+                      className="w-full h-auto object-contain drop-shadow-2xl relative z-10 transform transition-transform duration-500 group-hover:scale-[1.02] rounded-[15px] border-4 border-dashed border-blue-600"
                     />
                   </div>
                 </div>
@@ -168,18 +168,24 @@ const AboutPage = () => {
                 </div>
               </div>
 
-              <div className="flex flex-wrap justify-center gap-8 mt-4">
-                <div className="bg-white dark:bg-neutral-900 p-6 rounded-[10px] text-center min-w-[160px] shadow-md border border-gray-100 dark:border-gray-800">
-                  <p className="text-4xl font-bold text-[#003366] mb-1">7</p>
-                  <p className="text-sm font-medium text-gray-500 uppercase tracking-wide">dias de estudo</p>
-                </div>
-                <div className="bg-white dark:bg-neutral-900 p-6 rounded-[10px] text-center min-w-[160px] shadow-md border border-gray-100 dark:border-gray-800">
-                  <p className="text-4xl font-bold text-[#003366] mb-1">10k+</p>
-                  <p className="text-sm font-medium text-gray-500 uppercase tracking-wide">jovens engajados</p>
-                </div>
-                <div className="bg-white dark:bg-neutral-900 p-6 rounded-[10px] text-center min-w-[160px] shadow-md border border-gray-100 dark:border-gray-800">
-                  <p className="text-4xl font-bold text-[#003366] mb-1">24h</p>
-                  <p className="text-sm font-medium text-gray-500 uppercase tracking-wide">acesso livre</p>
+              <div className="flex justify-center mt-4">
+                <div className="bg-white dark:bg-neutral-900 p-8 rounded-[10px] shadow-md border border-gray-100 dark:border-gray-800 max-w-3xl w-full">
+                  <div className="flex flex-col sm:flex-row justify-around items-center gap-8">
+                    <div className="text-center">
+                      <p className="text-4xl font-bold text-[#003366] mb-1">7</p>
+                      <p className="text-sm font-medium text-gray-500 uppercase tracking-wide">dias de estudo</p>
+                    </div>
+                    <div className="hidden sm:block w-px h-16 bg-gray-200 dark:bg-gray-700"></div>
+                    <div className="text-center">
+                      <p className="text-4xl font-bold text-[#003366] mb-1">10k+</p>
+                      <p className="text-sm font-medium text-gray-500 uppercase tracking-wide">jovens engajados</p>
+                    </div>
+                    <div className="hidden sm:block w-px h-16 bg-gray-200 dark:bg-gray-700"></div>
+                    <div className="text-center">
+                      <p className="text-4xl font-bold text-[#003366] mb-1">24h</p>
+                      <p className="text-sm font-medium text-gray-500 uppercase tracking-wide">acesso livre</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -193,7 +199,7 @@ const AboutPage = () => {
               <div className="flex flex-col space-y-4 text-center items-center">
                 <p className="text-blue-200 text-sm font-bold tracking-widest uppercase">Trimestre atual</p>
                 <h2 className="text-4xl md:text-5xl font-bold text-white">
-                  Êxodo: Deus em Ação
+                  Êxodo: Deus em ação
                 </h2>
                 <div className="w-20 h-1.5 bg-blue-400 rounded-full"></div>
                 <p className="text-blue-100 max-w-2xl text-center text-lg font-light leading-relaxed">
@@ -244,7 +250,7 @@ const AboutPage = () => {
               </div>
 
               <div className="flex justify-center">
-                <Button asChild className="bg-blue-500 hover:bg-blue-600 text-white rounded-[25px] px-8 py-5 text-lg font-medium shadow-lg hover:shadow-blue-500/25 transition-all h-auto">
+                <Button asChild className="bg-blue-700 hover:bg-blue-600 text-white rounded-[15px] px-8 py-5 text-lg font-medium hover:shadow-blue-500/25 h-auto">
                   <Link to="/estudos">
                     Começar a estudar agora
                     <ArrowRight className="ml-2 h-5 w-5" />
@@ -270,7 +276,7 @@ const AboutPage = () => {
                   Diariamente compartilhamos resumos das lições, reflexões inspiradoras
                   e conteúdos exclusivos para ajudar na sua jornada espiritual.
                 </p>
-                <Button asChild className="bg-[#003366] hover:bg-blue-800 text-white rounded-[25px] px-8 py-5 text-lg shadow-lg hover:shadow-blue-900/20 transition-all border-none h-auto">
+                <Button asChild className="bg-[#003366] hover:bg-blue-800 text-white rounded-[15px] px-8 py-5 text-lg shadow-lg hover:shadow-blue-900/20 transition-all border-none h-auto">
                   <a href="https://instagram.com/licaojovem7" target="_blank" rel="noopener noreferrer">
                     <Instagram className="h-5 w-5 mr-2" />
                     Seguir agora
@@ -306,7 +312,7 @@ const AboutPage = () => {
               Junte-se a milhares de jovens que estão transformando sua vida espiritual através do estudo diário e consistente da Palavra.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild className="bg-white text-[#003366] hover:bg-gray-100 rounded-[25px] px-8 py-5 text-lg font-bold shadow-xl hover:shadow-2xl transition-all h-auto">
+              <Button asChild className="bg-white text-[#003366] hover:bg-gray-100 rounded-[15px] px-8 py-5 text-lg font-bold shadow-xl hover:shadow-2xl transition-all h-auto">
                 <Link to="/estudos">
                   Começar agora
                   <ArrowRight className="ml-2 h-5 w-5" />

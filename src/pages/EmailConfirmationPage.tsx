@@ -60,12 +60,12 @@ const EmailConfirmationPage = () => {
   }, [searchParams, navigate]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#337945] to-[#1e5a26] p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#003366] to-[#001f4d] p-4">
       <Card className="w-full max-w-md bg-white shadow-xl">
         <CardHeader className="text-center pb-2">
           <div className="mx-auto w-16 h-16 flex items-center justify-center mb-4 rounded-full bg-[#f5f0fa]">
             {status === "loading" && (
-              <div className="h-8 w-8 animate-spin rounded-full border-4 border-[#337945] border-t-transparent"></div>
+              <div className="h-8 w-8 animate-spin rounded-full border-4 border-[#003366] border-t-transparent"></div>
             )}
             {status === "success" && <CheckCircle className="h-10 w-10 text-green-500" />}
             {status === "error" && <AlertCircle className="h-10 w-10 text-red-500" />}
@@ -86,7 +86,7 @@ const EmailConfirmationPage = () => {
           {status === "success" && (
             <Button 
               onClick={() => navigate("/estudos")} 
-              className="w-full bg-[#337945] hover:bg-[#2d6537] text-white"
+              className="w-full bg-[#003366] hover:bg-[#002b5c] text-white"
             >
               Ir para os Estudos
             </Button>
@@ -96,7 +96,7 @@ const EmailConfirmationPage = () => {
             <div className="flex flex-col space-y-2">
               <Button
                 onClick={() => navigate("/auth")}
-                className="w-full bg-[#337945] hover:bg-[#2d6537] text-white"
+                className="w-full bg-[#003366] hover:bg-[#002b5c] text-white"
               >
                 Voltar para o Login
               </Button>

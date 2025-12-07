@@ -13,8 +13,8 @@ import AboutPage from "./pages/AboutPage";
 // Loading component
 const LoadingFallback = () => (
   <div className="flex flex-col justify-center items-center min-h-screen text-center p-4">
-    <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-[#337945] mb-4"></div>
-    <h2 className="text-xl font-medium text-[#337945] mb-2">Carregando conteúdo...</h2>
+    <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-[#003366] mb-4"></div>
+    <h2 className="text-xl font-medium text-[#003366] mb-2">Carregando conteúdo...</h2>
     <p className="text-gray-500 max-w-md">
       Estamos buscando seus dados, isso deve levar apenas alguns segundos.
       Se o carregamento persistir, verifique sua conexão com a internet.
@@ -34,18 +34,18 @@ const ErrorBoundary = ({ children }: { children: React.ReactNode }) => {
           Tivemos um problema ao carregar a página. Tente atualizar ou voltar para a página inicial.
         </p>
         <div className="flex gap-4">
-          <button 
-            onClick={() => window.location.reload()} 
-            className="px-4 py-2 bg-[#337945] text-white rounded hover:bg-[#337945] transition-colors"
+          <button
+            onClick={() => window.location.reload()}
+            className="px-4 py-2 bg-[#003366] text-white rounded hover:bg-[#003366] transition-colors"
           >
             Atualizar página
           </button>
-          <button 
+          <button
             onClick={() => {
               setHasError(false);
               window.location.href = '/';
-            }} 
-            className="px-4 py-2 border border-[#337945] text-[#337945] rounded hover:bg-[#337945]/10 transition-colors"
+            }}
+            className="px-4 py-2 border border-[#003366] text-[#003366] rounded hover:bg-[#003366]/10 transition-colors"
           >
             Voltar para início
           </button>
@@ -103,14 +103,14 @@ const App = () => (
                 <Route path="/" element={<Navigate to="/sobre" replace />} />
                 <Route path="/sobre" element={<AboutPage />} />
                 <Route path="/estudos" element={<StudiesPage />} />
-                
+
                 {/* Nova rota para página de semanas do trimestre */}
                 <Route path="/trimestre/:trimestreId/semanas" element={
                   <Suspense fallback={<LoadingFallback />}>
                     <SemanasTrimestrePage />
                   </Suspense>
                 } />
-                
+
                 {/* Rotas de estudos */}
                 <Route path="/estudos/:id" element={
                   <Suspense fallback={<LoadingFallback />}>
@@ -118,9 +118,9 @@ const App = () => (
                   </Suspense>
                 } />
                 {/* Redirecionar para o sábado quando acessar diretamente uma semana */}
-                <Route 
-                  path="/estudos/:semanaId/licao" 
-                  element={<Navigate to="sabado" replace />} 
+                <Route
+                  path="/estudos/:semanaId/licao"
+                  element={<Navigate to="sabado" replace />}
                 />
                 {/* Página de lição diária */}
                 <Route path="/estudos/:semanaId/licao/:dia" element={
@@ -134,20 +134,20 @@ const App = () => (
                     <QuizPage />
                   </Suspense>
                 } />
-                
+
                 <Route path="/dashboard" element={
                   <Suspense fallback={<LoadingFallback />}>
                     <DashboardPage />
                   </Suspense>
                 } />
-                
+
                 {/* Página de login de administração */}
                 <Route path="/admin/login" element={
                   <Suspense fallback={<LoadingFallback />}>
                     <AdminLoginPage />
                   </Suspense>
                 } />
-                
+
                 {/* Rotas Administrativas Protegidas */}
                 <Route path="/admin" element={
                   <RequireAdmin>
@@ -177,7 +177,7 @@ const App = () => (
                     </Suspense>
                   </RequireAdmin>
                 } />
-                
+
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </ErrorBoundary>

@@ -52,15 +52,15 @@ const ProgressCard: React.FC<ProgressCardProps> = ({
   };
   
   return (
-    <Card className="modern-card border-t-4 border-t-[#337945] overflow-hidden relative">
+    <Card className="modern-card border-t-4 border-t-[#003366] overflow-hidden relative">
       {/* Elementos decorativos */}
-      <div className="absolute top-0 right-0 w-32 h-32 bg-[#337945]/5 rounded-full -z-10 translate-x-1/2 -translate-y-1/2 blur-xl"></div>
-      <div className="absolute bottom-0 left-0 w-24 h-24 bg-[#337945]/5 rounded-full -z-10 -translate-x-1/3 translate-y-1/3 blur-lg"></div>
+      <div className="absolute top-0 right-0 w-32 h-32 bg-[#003366]/5 rounded-full -z-10 translate-x-1/2 -translate-y-1/2 blur-xl"></div>
+      <div className="absolute bottom-0 left-0 w-24 h-24 bg-[#003366]/5 rounded-full -z-10 -translate-x-1/3 translate-y-1/3 blur-lg"></div>
       
       <CardHeader className="border-b border-muted/30 pb-3">
         <div className="flex items-center justify-between">
           <CardTitle className="text-xl font-normal tracking-wide flex items-center gap-2">
-            <Trophy className="h-5 w-5 text-[#337945]" />
+            <Trophy className="h-5 w-5 text-[#003366]" />
             Seu Progresso
           </CardTitle>
           {calculaProgressoGeral() >= 50 && (
@@ -95,7 +95,7 @@ const ProgressCard: React.FC<ProgressCardProps> = ({
                   <div 
                     className={`w-8 h-8 md:w-10 md:h-10 flex items-center justify-center mb-1 rounded-full transition-all ${
                       completedDayIds.includes(day.id) 
-                        ? 'bg-gradient-to-br from-[#337945] to-[#8fb775] text-white shadow-sm' 
+                        ? 'bg-gradient-to-br from-[#003366] to-[#5a9bd5] text-white shadow-sm' 
                         : 'bg-muted/50 text-muted-foreground hover:bg-muted'
                     }`}
                   >
@@ -113,7 +113,7 @@ const ProgressCard: React.FC<ProgressCardProps> = ({
           
           {/* Mensagem motivacional */}
           {calculaProgressoGeral() < 100 && (
-            <div className="text-sm text-muted-foreground bg-[#337945]/5 p-3 rounded-md border border-[#337945]/20">
+            <div className="text-sm text-muted-foreground bg-[#003366]/5 p-3 rounded-md border border-[#003366]/20">
               {calculaProgressoGeral() === 0 ? (
                 "Você ainda não começou. Inicie seu estudo!"
               ) : calculaProgressoGeral() < 50 ? (
