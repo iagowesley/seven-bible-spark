@@ -152,7 +152,7 @@ const Navbar = () => {
           {isMenuOpen && (
             <motion.div
               ref={menuRef}
-              className={`md:hidden absolute right-4 top-[88px] w-64 ${isScrolled ? 'bg-[#003366]/90' : 'bg-[#003366]'} shadow-xl rounded-lg border border-blue-600 z-50 overflow-hidden backdrop-blur-sm`}
+              className={`md:hidden absolute right-4 top-[88px] w-64 ${isScrolled ? 'bg-[#003366]/90' : 'bg-[#003366]'} shadow-xl rounded-[15px] border border-blue-600 z-50 overflow-hidden backdrop-blur-sm`}
               initial={{ opacity: 0, scale: 0.9, y: -5, transformOrigin: "top right" }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: -5 }}
@@ -168,7 +168,7 @@ const Navbar = () => {
                   >
                     <Button
                       variant="ghost"
-                      className="flex items-center justify-start text-white hover:text-white hover:bg-white/10 font-medium text-base relative overflow-hidden group rounded-md w-full my-1"
+                      className="flex items-center justify-start text-white hover:text-white hover:bg-white/10 font-medium text-base relative overflow-hidden group rounded-[15px] w-full my-1"
                       asChild
                     >
                       <Link
